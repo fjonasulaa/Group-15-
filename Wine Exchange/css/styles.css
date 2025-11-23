@@ -1,0 +1,172 @@
+/* variables */
+
+:root {
+  --font-main: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --background-colour: #fdfdfd;
+  --text-colour: #333;
+  --primary-colour: #6b0f1a;
+  --radius: 15px;
+  --shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--background-colour);
+  margin: 0;
+  line-height: 1.5;
+  color: var(--text-colour);
+}
+
+main {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.center-title {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+h1 {
+  font-size: 3rem;
+  color: var(--primary-colour);
+  margin-bottom: 1rem;
+}
+
+/* header CSS */
+
+.header {
+  height: 100vh;
+  background: url("../images/header.jpg") no-repeat center center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  color: white;
+  position: relative;
+}
+
+.header-content {
+  text-align: left;
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+.header-content h2 {
+  font-size: 4.5rem;
+  font-weight: 800;
+}
+
+/* frames CSS */
+
+.frame {
+  background: white;
+  padding: 15px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 0.5rem 0 2rem;
+}
+
+.frame:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* welcome CSS */
+
+.welcome {
+  display: grid;
+  grid-template-columns: 0.8fr 1fr;
+  align-items: center;
+  gap: 2rem;
+  padding: 3rem 1rem;
+}
+
+.welcome img {
+  width: 100%;
+  border-radius: var(--radius);
+}
+
+.welcome-text p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  max-width: 450px;
+}
+
+/* about CSS */
+
+.about {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.about-block {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.about-image {
+  flex: 1 1 40%;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.about-text {
+  flex: 1 1 50%;
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+/* Reviews */
+
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px 40px;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-pic {
+  max-width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.rating {
+  max-width: 90px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* FAQ */
+
+.faq {
+  margin-top: 2rem;
+}
+
+.faq-item {
+  margin-bottom: 1rem;
+}
