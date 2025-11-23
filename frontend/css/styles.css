@@ -39,7 +39,7 @@ h1 {
 
 .header {
   height: 100vh;
-  background: url("../images/header.jpg") no-repeat center center;
+  background: url("../../images/header.jpg") no-repeat center center;
   background-size: cover;
   display: flex;
   align-items: center;
