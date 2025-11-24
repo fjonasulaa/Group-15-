@@ -24,17 +24,18 @@ main {
   margin: auto;
 }
 
-.center-title {
-  grid-column: 1 / -1;
-  text-align: center;
-}
-
-h1 {
+main h1 {
   font-size: 3rem;
   color: var(--primary-colour);
   margin-bottom: 1rem;
   font-weight: 800;
 }
+
+.center-title {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
 
 /* header CSS */
 
@@ -59,14 +60,15 @@ h1 {
   color: white;
 }
 
-.header-content h2 {
-  font-size: 4.5rem;
-  font-weight: 800;
-  line-height: 1.1;
+.header-content p {
+  margin: 0;   
 }
 
-.header-content p {
-  line-height: 1.2;
+.header-content h1 {
+  font-size: 4.5rem;
+  font-weight: 800;
+  margin: 1rem 0;
+  line-height: 1.1;
 }
 
 /* frames CSS */
