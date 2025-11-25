@@ -24,16 +24,18 @@ main {
   margin: auto;
 }
 
+main h1 {
+  font-size: 3rem;
+  color: var(--primary-colour);
+  margin-bottom: 1rem;
+  font-weight: 800;
+}
+
 .center-title {
   grid-column: 1 / -1;
   text-align: center;
 }
 
-h1 {
-  font-size: 3rem;
-  color: var(--primary-colour);
-  margin-bottom: 1rem;
-}
 
 /* header CSS */
 
@@ -58,9 +60,15 @@ h1 {
   color: white;
 }
 
-.header-content h2 {
+.header-content p {
+  margin: 0;   
+}
+
+.header-content h1 {
   font-size: 4.5rem;
   font-weight: 800;
+  margin: 1rem 0;
+  line-height: 1.1;
 }
 
 /* frames CSS */
@@ -138,7 +146,7 @@ h1 {
 
 .reviews {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Flexible thirds */
   gap: 20px;
   padding: 20px 40px;
 }
@@ -165,6 +173,7 @@ h1 {
 
 .faq {
   margin-top: 2rem;
+  padding: 20px 40px;
 }
 
 .faq-item {
