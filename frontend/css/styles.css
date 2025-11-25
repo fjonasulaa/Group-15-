@@ -5,9 +5,18 @@
   --background-colour: #fdfdfd;
   --text-colour: #333;
   --primary-colour: #6b0f1a;
+  --frame-colour: #ffffff;
+  --frame-text-colour: #333;
   --radius: 15px;
   --shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+:root.darkmode {
+  --background-colour: #252525;
+  --text-colour: #fff;
+  --primary-colour: #ff4d00;
+  --frame-colour: #424242;
 }
 
 body {
@@ -36,6 +45,53 @@ main h1 {
   text-align: center;
 }
 
+/* Navbar */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  background: var(--background-colour);
+  padding: 10px 25px;
+  border-bottom: 1px solid var(--frame-colour);
+  gap: 20px;
+  overflow: hidden;
+  position: fixed; 
+  top: 0; 
+  z-index: 1000; 
+  width: 100%;
+}
+
+.navbar img {
+  height: 75px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 25px;
+  margin-left: 30px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: var(--text-colour);
+  font-size: 14px;
+  white-space: nowrap; 
+}
+
+.navbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-right: 50px
+}
+
+.navbar input {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 180px;
+}
 
 /* header CSS */
 
@@ -74,12 +130,17 @@ main h1 {
 /* frames CSS */
 
 .frame {
-  background: white;
+  background: var(--frame-colour);
   padding: 15px;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin: 0.5rem 0 2rem;
+}
+
+.frame p {
+  color: var(--text-colour);
+  margin: 0;
 }
 
 .frame:hover {

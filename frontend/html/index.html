@@ -9,7 +9,25 @@
   </head>
 
   <body>
-    <!-- hader -->
+        <!-- menu -->
+      
+        <div class="navbar">
+          <img src="../../images/icon.png" alt="Wine Exchange Logo">
+          <div class="navbar-links">
+              <a href="index.html">Home</a>
+              <a href="about.html">About Us</a>
+              <a href="wines.html">Wines</a>
+              <a href="basket.html">Basket</a>
+          </div>
+    
+          <div class="navbar-right">
+              <input type="text" placeholder="Search">
+              <a href="login.html">Login</a>
+              <a href="signup.html">Sign up</a>
+          </div>
+      </div>
+
+    <!-- header -->
 
     <section class="header">
       <div class="header-content">
@@ -223,7 +241,16 @@
     <!-- footer -->
 
     <footer>
+      <button id="dark-mode">Click Me</button>
       <p>this is the footer i guess</p>
     </footer>
   </body>
 </html>
+
+<script>
+  const button = document.getElementById("dark-mode");
+
+  button.addEventListener("click", () => {
+  document.documentElement.classList.toggle("darkmode");
+});
+</script>
