@@ -246,16 +246,16 @@ main h1 {
 /* Footer */
 
 .dark-mode-button {
-  width: 32px;          /* smaller size */
+  width: 32px; 
   height: 32px;
-  padding: 0;           /* remove extra space */
-  border: none;         /* no border */
-  background: transparent; /* invisible background */
+  padding: 0;
+  border: none; 
+  background: transparent; 
   cursor: pointer;
 }
 
 .dark-mode-button img {
-  width: 100%;          /* scale image to fit button */
-  height: auto;         /* keep aspect ratio */
-  display: block;       /* remove inline spacing */
+  width: 100%; 
+  height: auto;
+  display: block; 
 }
