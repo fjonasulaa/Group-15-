@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -95,7 +94,9 @@
         
     </div>
 
-    
+    <?php
+        echo"List basket contents here";
+    ?>
     <div class="btn-container" style="padding: 25px;">
         <a href="checkout.html" class="btn">Place Order</a>
     </div>

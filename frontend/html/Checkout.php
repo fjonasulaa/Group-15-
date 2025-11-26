@@ -112,6 +112,13 @@
 </style>
 </head>
 <body>
+<?php
+    include '\database\db_connect.php';
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        echo'Connection Success';
+    }
+?>
 
 
 <div class="navbar">
@@ -132,41 +139,34 @@
 
 <div class="checkout-container">
     <h1>Checkout</h1>
-    <h2>Delivery Information</h2>
-
+    <form action="Checkout.php" method="post">
     <label>Full Name</label>
-    <input type="text" placeholder="John Smith">
+    <input type="text" placeholder="John Smith" id="name" name="name">
 
     <label>Address</label>
-    <input type="text" placeholder="123 Main Street">
+    <input type="text" placeholder="123 Main Street" id="address" name = "address">
 
     <div class="row">
         <div class="column">
             <label>City</label>
-            <input type="text" placeholder="London">
+            <input type="text" placeholder="London" id="city" name="city">
         </div>
         <div class="column">
             <label>Postcode</label>
-            <input type="text" placeholder="SW1A 1AA">
+            <input type="text" placeholder="SW1A 1AA" id="postcode" name="postcode">
         </div>
     </div>
 
     <div class="row">
         <div class="column">
             <label>Email Address</label>
-            <input type="email" placeholder="email@example.com">
+            <input type="email" placeholder="email@example.com" id="email" name="email">
         </div>
         <div class="column">
             <label>Phone Number</label>
-            <input type="text" placeholder="07123 456789">
+            <input type="text" placeholder="07123 456789" id="phone" name="phone">
         </div>
     </div>
-
-    <label>Shipping Method</label>
-    <select>
-        <option>Standard (3–5 days) — Free</option>
-        <option>Next day — £4.99</option>
-    </select>
 
     <title>Dynamic Timestamp</title>
     <style>
@@ -197,7 +197,8 @@
         updateTimestamp(); 
     </script>
 
-    <a href="#" class="place-order">Place Order</a>
+    <button id="submit" name="submit" type="submit" class="place-order">Place Order</button>
+    </form>
 </div>
 
 </body>
