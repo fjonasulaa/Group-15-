@@ -139,7 +139,7 @@
 
 <div class="checkout-container">
     <h1>Checkout</h1>
-    <form action="Checkout.php" method="post">
+    <form action="shipping.php" method="post">
     <label>Full Name</label>
     <input type="text" placeholder="John Smith" id="name" name="name">
 

@@ -97,10 +97,13 @@
     <?php
         echo"List basket contents here";
     ?>
-    <div class="btn-container" style="padding: 25px;">
-        <a href="checkout.html" class="btn">Place Order</a>
-    </div>
     
+    <div class="btn-container" style="padding: 25px;">
+        <a href="checkout.php" class="btn">Checkout as Guest</a>
+    </div>
+    <div class="btn-container" style="padding: 25px;">
+        <a href="shipping.php" class="btn">Place Order</a>
+    </div>
 
 </body>
 </html>
