@@ -1,9 +1,12 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Checkout</title>
+<title>Guest Checkout</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -113,7 +116,7 @@
 </head>
 <body>
 <?php
-    include '\database\db_connect.php';
+    include '..\..\database\db_connect.php';
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo'Connection Success';
@@ -139,18 +142,17 @@
 
 <div class="checkout-container">
     <h1>Checkout</h1>
-    <form action="shipping.php" method="post">
-    <label>Full Name</label>
-    <input type="text" placeholder="John Smith" id="name" name="name">
+    <form action="redirect.php?page=Checkout" method="post">
+    <label>First Name</label>
+    <input type="text" placeholder="John" id="fname" name="fname">
+
+    <label>Last Name</label>
+    <input type="text" placeholder="Smith" id="lname" name="lname">
 
     <label>Address</label>
     <input type="text" placeholder="123 Main Street" id="address" name = "address">
 
     <div class="row">
-        <div class="column">
-            <label>City</label>
-            <input type="text" placeholder="London" id="city" name="city">
-        </div>
         <div class="column">
             <label>Postcode</label>
             <input type="text" placeholder="SW1A 1AA" id="postcode" name="postcode">

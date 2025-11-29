@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -98,11 +101,12 @@
         echo"List basket contents here";
     ?>
     
+    <!--If logged in, hide Guest Checkout. Else, hide Place Order.-->
     <div class="btn-container" style="padding: 25px;">
-        <a href="checkout.php" class="btn">Checkout as Guest</a>
+        <a href="Checkout.php" class="btn">Checkout as Guest</a>
     </div>
     <div class="btn-container" style="padding: 25px;">
-        <a href="shipping.php" class="btn">Place Order</a>
+        <a href="redirect.php?page=shipping" class="btn">Place Order</a>
     </div>
 
 </body>

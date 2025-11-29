@@ -1,3 +1,31 @@
+<?php
+    session_start();
+    include '..\..\database\db_connect.php';
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        include '..\..\database\db_connect.php';
+
+        $order = trim($_SESSION['currentOrder']);
+        $dtype = trim($_POST['dtype']);
+        $status=trim("Processing");
+
+        $stmt = $conn->prepare("INSERT INTO shipping (orderId, deliveryType, shippingStatus)
+        VALUES (?, ?, ?)");
+        $stmt->bind_param("iss", $order, $dtype, $status);
+        // Run the query
+        if ($stmt->execute()) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " .$stmt->error;
+        }
+
+        // Close the connection
+        $stmt->close();
+        $conn->close();
+
+    }
+
+?>
 <head>
     <style>
         .form-container {
@@ -20,16 +48,16 @@
 <!--Form for cash payment-->
 <div id="cash" class="form-container">
     Cash Payment. You will pay the courier £<?php echo "amount"; ?>.
-    <form method="post" action="confirm.html">
+    <form method="post" action="confirm.php">
         <label>Do you agree to this?</label>
         <input type="checkbox" name="confirm" required><br><br>
-        <button type="submit">Proceed</button>
+        <button type="submit" name="cash">Proceed</button>
     </form>
 </div>
 <!--Form for card payment-->
 <div id="card" class="form-container">
     Card Payment. You will pay us £<?php echo "amount"; ?>.
-    <form method="post" action="confirm.html">
+    <form method="post" action="confirm.php">
         <label>Cardholder's Name</label>
         <input type="text" name="cardname" required><br>
         <label>Card Number</label>
@@ -42,7 +70,7 @@
         <input type="number" name="cvv" maxlength="4" required><br>
         <label>Do you agree to this?</label>
         <input type="checkbox" name="confirm" required><br><br>
-        <button type="submit">Proceed</button>
+        <button type="submit" name="card">Proceed</button>
     </form>
 </div>
 

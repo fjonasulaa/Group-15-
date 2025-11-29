@@ -1,5 +1,5 @@
 CREATE TABLE customer (
-  customerID INT NOT NULL PRIMARY KEY,
+  customerID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   firstName VARCHAR(100) NOT NULL,
   surname VARCHAR(100) NOT NULL,
   dateOfBirth DATE,
@@ -23,15 +23,15 @@ CREATE TABLE wines (
 );
 
 CREATE TABLE orders (
-  orderId INT NOT NULL PRIMARY KEY,
+  orderId INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   customerId INT NOT NULL,
-  orderDate DATE NOT NULL,
+  orderDate DATE NOT NULL DEFAULT CURRENT_DATE,
   totalAmount DECIMAL(7,2) NOT NULL,
   FOREIGN KEY (customerId) REFERENCES customer(customerID)
 );
 
 CREATE TABLE orderswines (
-  ordersWinesId INT NOT NULL PRIMARY KEY,
+  ordersWinesId INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   orderId INT NOT NULL,
   wineId INT NOT NULL,
   quantity INT NOT NULL,
@@ -40,12 +40,12 @@ CREATE TABLE orderswines (
 );
 
 CREATE TABLE payment (
-  paymentId INT NOT NULL PRIMARY KEY,
+  paymentId INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   orderId INT NOT NULL,
   method VARCHAR(100) NOT NULL,
   amount DECIMAL(7,2) NOT NULL,
   paymentStatus VARCHAR(100) NOT NULL,
-  transactionTimestamp TIMESTAMP NOT NULL,
+  transactionTimestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (orderId) REFERENCES orders(orderId)
 );
 
@@ -60,7 +60,7 @@ CREATE TABLE reviews (
 );
 
 CREATE TABLE shipping (
-  shippingId INT NOT NULL PRIMARY KEY,
+  shippingId INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   orderId INT NOT NULL,
   deliveryType VARCHAR(100) NOT NULL,
   carrier VARCHAR(100),
