@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>White Wines | Wine Exchange</title>
+    <link rel="stylesheet" type="text/css" href="../css/style1.css"/>
+</head>
+<body>
+    <div class="cards_cycle">
+        <div class="wines_list">
+            <div class="wine">
+                <img src="../images/whiteWinesBG.jpg">
+                <div class="information">
+                    <div class="wine_type">RED WINE</div>
+                    <div class="name">MARCHESI ANTINORI TIGNANELLO</div>
+                    <div class="price">Price: £155</div>
+                    <div class="description">Tignanello is a renowned Super Tuscan from Marchesi Antinori, made primarily from Sangiovese with a touch of Cabernet Sauvignon and Cabernet Franc. It’s celebrated for its ripe red and dark fruit flavors, balanced acidity, polished tannins, and gentle notes of spice and oak. Often considered a benchmark of modern Italian winemaking, it combines elegance, depth, and excellent aging potential.</div>
+                    <div class="buttons">
+                        <button class="button">SEE MORE INFO</button>
+                        <button class="button">ADD TO BASKET</button>
+                    </div>
+                </div>
+            </div>
+            <div class="wine">
+                <img src="../images/whiteWinesBG.jpg">
+                <div class="information">
+                    <div class="wine_type">RED WINE</div>
+                    <div class="name">OPUS ONE</div>
+                    <div class="price">Price: £375</div>
+                    <div class="description">Opus One is a prestigious Napa Valley Bordeaux-style blend created by Robert Mondavi and Baron Philippe de Rothschild. Known for its polished structure and layered flavors of dark fruit, cedar, and fine oak, it offers a smooth yet powerful profile with excellent balance. It’s regarded as one of California’s benchmark luxury wines, combining Old World elegance with New World richness.</div>
+                    <div class="buttons">
+                        <button class="button">SEE MORE INFO</button>
+                        <button class="button">ADD TO BASKET</button>
+                    </div>
+                </div>
+            </div>
+            <div class="wine">
+                <img src="../images/whiteWinesBG.jpg">
+                <div class="information">
+                    <div class="wine_type">RED WINE</div>
+                    <div class="name">PENFOLDS GRANGE</div>
+                    <div class="price">Price: £550</div>
+                    <div class="description">Penfolds Grange is Australia’s most iconic wine, primarily made from Shiraz with a small amount of Cabernet. It’s celebrated for its intense concentration, ripe dark fruit, and distinctive notes of spice, chocolate, and oak, supported by a bold, long-lived structure. Grange stands as a symbol of Australian winemaking excellence with exceptional aging potential.</div>
+                    <div class="buttons">
+                        <button class="button">SEE MORE INFO</button>
+                        <button class="button">ADD TO BASKET</button>
+                    </div>
+                </div>
+            </div>
+            <div class="wine">
+                <img src="../images/whiteWinesBG.jpg">
+                <div class="information">
+                    <div class="wine_type">RED WINE</div>
+                    <div class="name">CHÂTEAU MARGAUX</div>
+                    <div class="description">Château Margaux is one of Bordeaux’s most renowned First Growth estates, producing Cabernet-dominant wines noted for their aromatics and purity. Typically showing elegant layers of blackcurrant, floral notes and refined tannins, it combines power with delicacy. Considered a benchmark of classic Bordeaux, it ages gracefully for decades.</div>
+                    <div class="price">Price: £620</div>
+                    <div class="buttons">
+                        <button class="button">SEE MORE INFO</button>
+                        <button class="button">ADD TO BASKET</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cover">
+            <div class="wine">
+                <img src="../images/opus.jpg">
+                <div class="information">
+                    <div class="name">Opus One</div>
+                    <div class="description">Prestigious napa valley wine</div>
+                </div>
+            </div>
+            <div class="wine">
+                <img src="../images/grange.jpg">
+                <div class="information">
+                    <div class="name">Penfolds Grange</div>
+                    <div class="description">Australia’s most iconic wine</div>
+                </div>
+            </div>
+            <div class="wine">
+                <img src="../images/margaux.jpg">
+                <div class="information">
+                    <div class="name">Château Margaux</div>
+                    <div class="description">Renowned bordeaux wine</div>
+                </div>
+            </div>
+            <div class="wine">
+                <img src="../images/tignanello.jpg">
+                <div class="information">
+                    <div class="name">Marchesi Antinori</div>
+                    <div class="description">Famous super tuscan red wine</div>
+                </div>
+            </div>
+        </div>
+        <div class="arrow">
+            <button id= 'next' class="next">></button>
+        </div>
+    </div>
+
+    <script>
+        let nextDom = document.querySelector('#next');
+        let cycleDom = document.querySelector('.cards_cycle');
+        let wineListDom = document.querySelector('.cards_cycle .wines_list');
+        let coverDom = document.querySelector('.cards_cycle .cover');
+
+        nextDom.onclick = function() {
+            showSlider('next');
+        }
+
+        let timeRunning = 3000;
+        let runTimeOut;
+
+        function showSlider(type) {
+
+            let wineSlider = document.querySelectorAll('.cards_cycle .wines_list .wine');
+            let wineCover = document.querySelectorAll('.cards_cycle .cover .wine');
+
+            if (type == 'next') {
+                wineListDom.appendChild(wineSlider[0]);  
+                coverDom.appendChild(wineCover[0]);      
+                coverDom.classList.add('next');
+            }
+
+            clearTimeout(runTimeOut);
+            runTimeOut = setTimeout(() => {
+                coverDom.classList.remove('next');
+            }, timeRunning);
+        }
+
+    </script>
+
+</body>
+
+

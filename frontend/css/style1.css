@@ -1,0 +1,182 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Opens San', sans-serif;
+}
+.cards_cycle {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+.cards_cycle .wines_list .wine {
+    position: absolute;
+    inset: 0 0 0 0;
+}
+.cards_cycle .wines_list .wine img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cards_cycle .wines_list .wine .information {
+    position: absolute;
+    top: 20%;
+    width: 900px;
+    left: 50%;
+    transform: translateX(-60%);
+    padding-right: 30%;
+    box-sizing: border-box;
+    color: white;
+}
+
+.cards_cycle .wines_list .wine .wine_type,
+.cards_cycle .wines_list .wine .name {
+    font-weight: bold;
+    font-size: 3em;
+    line-height: 1.3em;
+}
+
+.cards_cycle .wines_list .wine .name {
+    color: #800032;
+    
+}
+
+.cards_cycle .wines_list .wine .description {
+    text-shadow: 0 5px 10px rgba(255, 255, 255, 0.6);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+    padding-bottom: 10px;
+}
+
+.cards_cycle .wines_list .wine .price {
+    font-weight: bold;
+    font-size: 1.5em;
+    padding-bottom: 10px;
+}
+
+.cards_cycle .wines_list .wine .buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 130px);
+    grid-template-rows: 40px;
+    gap: 5px;
+}
+
+.cards_cycle .wines_list .wine .buttons .button {
+    border: none;
+    background-color: white;
+    font-weight: bold;
+}
+
+.cards_cycle .wines_list .wine .buttons .button:nth-child(2){
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.cover {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    z-index: 100;
+    display: flex;
+    gap:20px
+}
+
+.cover .wine {
+    width: 130px;
+    height: 200px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.cover .wine img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.cover .wine .information {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    font-size: 0.8em;
+    color: white;
+    text-shadow: 0 5px 10px rgb(0, 0, 0);
+}
+
+.cover .wine .information .name {
+    font-weight: bold;
+}
+
+.arrow {
+    padding-top: 10px;
+    position: absolute;
+    top: 80%;
+    right: 52%;
+    width: 300px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.arrow button {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(238, 238, 238, 0.358);
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    transition: .5s;
+    border-radius: 50%;
+    font-family: monospace;
+    z-index: 500;
+}
+
+   .arrow button:hover {
+    background-color: #eee;
+    color: #555;
+}
+
+.cards_cycle .wines_list .wine:nth-child(1) {
+    z-index: 1;
+}
+
+.cards_cycle .wines_list .wine:nth-child(1) .wine_type,
+.cards_cycle .wines_list .wine:nth-child(1) .name,
+.cards_cycle .wines_list .wine:nth-child(1) .description,
+.cards_cycle .wines_list .wine:nth-child(1) .price,
+.cards_cycle .wines_list .wine:nth-child(1) .buttons {
+    transform: translateY(50px);
+    filter: blur(20px);
+    opacity: 0;
+    animation: contentAppears 0.5s 1s linear forwards;
+}
+
+@keyframes contentAppears {
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+    }
+}
+.cards_cycle .wines_list .wine:nth-child(1) .wine_type {
+    animation-delay: 1.0s;
+}
+.cards_cycle .wines_list .wine:nth-child(1) .name {
+    animation-delay: 1.2s;
+}
+.cards_cycle .wines_list .wine:nth-child(1) .description {
+    animation-delay: 1.6s;
+}
+.cards_cycle .wines_list .wine:nth-child(1) .price {
+    animation-delay: 1.4s;
+}
+.cards_cycle .wines_list .wine:nth-child(1) .buttons {
+    animation-delay: 1.8s;
+}
+
+
