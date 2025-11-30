@@ -244,13 +244,13 @@
         <img src="../../images/darkmode.png" alt="Dark Mode" />
       </button>
     </footer>
+
+    <script>
+      const button = document.getElementById("dark-mode");
+    
+      button.addEventListener("click", () => {
+      document.documentElement.classList.toggle("darkmode");
+    });
+    </script>
   </body>
 </html>
-
-<script>
-  const button = document.getElementById("dark-mode");
-
-  button.addEventListener("click", () => {
-  document.documentElement.classList.toggle("darkmode");
-});
-</script>
