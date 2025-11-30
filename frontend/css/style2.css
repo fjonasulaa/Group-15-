@@ -4,6 +4,52 @@
     margin: 0;
     font-family: 'Opens San', sans-serif;
 }
+.navbar {
+  display: flex;
+  align-items: center;
+  background: var(--background-colour);
+  padding: 10px 25px;
+  border-bottom: 1px solid var(--navbar-border-colour);
+  gap: 20px;
+  overflow: hidden;
+  position: fixed; 
+  top: 0; 
+  z-index: 1000; 
+  width: 100%;
+}
+
+.navbar img {
+  height: 75px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 25px;
+  margin-left: 30px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: var(--text-colour);
+  font-size: 14px;
+  white-space: nowrap; 
+}
+
+.navbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-right: 50px
+}
+
+.navbar input {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 180px;
+}
+
 body {
     padding-top: 0.2rem;
     line-height: 1.5;

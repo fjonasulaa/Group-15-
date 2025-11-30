@@ -21,43 +21,49 @@
 
     
     .navbar {
-        display: flex;
-        align-items: center;
-        background: white;
-        padding: 10px 25px;
-        border-bottom: 1px solid #ccc;
-        gap: 20px;
+    display: flex;
+    align-items: center;
+    background: var(--background-colour);
+    padding: 10px 25px;
+    border-bottom: 1px solid var(--navbar-border-colour);
+    gap: 20px;
+    overflow: hidden;
+    position: fixed; 
+    top: 0; 
+    z-index: 1000; 
+    width: 100%;
     }
 
     .navbar img {
-        height: 75px;
+    height: 75px;
     }
 
     .navbar-links {
-        display: flex;
-        gap: 25px;
-        margin-left: 30px;
+    display: flex;
+    gap: 25px;
+    margin-left: 30px;
     }
 
     .navbar a {
-        text-decoration: none;
-        color: black;
-        font-size: 14px;
-        white-space: nowrap; 
+    text-decoration: none;
+    color: var(--text-colour);
+    font-size: 14px;
+    white-space: nowrap; 
     }
 
     .navbar-right {
-        margin-left: auto;
-        display: flex;
-        align-items: center;
-        gap: 15px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-right: 50px
     }
 
     .navbar input {
-        padding: 6px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        width: 180px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 180px;
     }
     
     .grid {
@@ -110,24 +116,25 @@
 <body>
     
     <div class="navbar">
-        <img src="../../images/logo.jpg" alt="Wine Exchange Logo">
-        <div class="navbar-links">
-            <a href="home.html">Home</a>
-            <a href="wines.html">Wines</a>
-            <a href="basket.html">Basket</a>
-        </div>
-
-        <div class="navbar-right">
-            <input type="text" placeholder="Search">
-            <a href="login.html">Login</a>
-            <a href="signup.html">Sign up</a>
-        </div>
+          <img src="../../images/icon.png" alt="Wine Exchange Logo">
+          <div class="navbar-links">
+              <a href="index.html">Home</a>
+              <a href="about.html">About Us</a>
+              <a href="wines.html">Wines</a>
+              <a href="basket.html">Basket</a>
+          </div>
+    
+          <div class="navbar-right">
+              <input type="text" placeholder="Search">
+              <a href="login.html">Login</a>
+              <a href="signup.html">Sign up</a>
+          </div>
     </div>
     <h1>Our Wine Collection</h1>
 
     <div class="grid">
 
-        <a href="wine1.html" class="card">
+        <a href="redWines.html" class="card">
             <img src="../../images/red_wine.jpe" alt="Red Wine">
             <div class="text">
                 <h3>Red Wine</h3>
@@ -135,7 +142,7 @@
             </div>
         </a>
 
-        <a href="wine2.html" class="card">
+        <a href="whiteWines.html" class="card">
             <img src="../../images/white_wine.jpg" alt="White Wine">
             <div class="text">
                 <h3>White Wine</h3>
@@ -143,7 +150,7 @@
             </div>
         </a>
 
-        <a href="wine3.html" class="card">
+        <a href="roséWines.html" class="card">
             <img src="../../images/rose_wine.jpg" alt="Rosé Wine">
             <div class="text">
                 <h3>Rosé Wine</h3>
@@ -151,7 +158,7 @@
             </div>
         </a>
         
-        <a href="wine4.html" class="card">
+        <a href="dessertWine.html" class="card">
             <img src="../../images/dessert_wine.jpg" alt="Dessert Wine">
             <div class="text">
                 <h3>Dessert Wine</h3>
@@ -159,7 +166,7 @@
             </div>
         </a>
 
-        <a href="wine5.html" class="card">
+        <a href="sparklingWines.html" class="card">
             <img src="../../images/sparkling_wine.jpg" alt="Sparkling Wine">
             <div class="text">
                 <h3>Sparkling Wine</h3>
@@ -167,7 +174,7 @@
             </div>
         </a>
 
-        <a href="wine6.html" class="card">
+        <a href="fortifiedWine.html" class="card">
             <img src="../../images/Fortfied_wine.jpg" alt="Fortified Wine">
             <div class="text">
                 <h3>Fortfied Wine</h3>
