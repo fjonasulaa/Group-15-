@@ -215,10 +215,10 @@
     animation-delay: 1.2s;
 }
 .cards_cycle .wines_list .wine:nth-child(1) .description {
-    animation-delay: 1.6s;
+    animation-delay: 1.4s;
 }
 .cards_cycle .wines_list .wine:nth-child(1) .price {
-    animation-delay: 1.4s;
+    animation-delay: 1.6s;
 }
 .cards_cycle .wines_list .wine:nth-child(1) .buttons {
     animation-delay: 1.8s;
