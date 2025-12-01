@@ -252,6 +252,7 @@ main h1 {
   border: none; 
   background: transparent; 
   cursor: pointer;
+  margin-left: 25px;
 }
 
 .dark-mode-button img {
