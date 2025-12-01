@@ -6,129 +6,45 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Guest Checkout</title>
+<title>Checkout</title>
+
+<link rel="stylesheet" href="../css/styles.css">
+
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        background: #f7f7f7;
-    }
+/* your existing styles (kept) */
+.checkout-container {
+  background: var(--frame-colour);
+  width: 70%;
+  margin: 140px auto 40px; 
+  padding: 40px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.checkout-container h1 { font-size: 2.2rem; color: var(--primary-colour); margin-bottom: 1.5rem; text-align: center; font-weight:700; }
+label { font-weight:600; display:block; margin-bottom:6px; color:var(--text-colour); }
+input, select { width:100%; padding:12px; font-size:1rem; margin-bottom:18px; border:1px solid #ccc; border-radius:var(--radius); background:var(--background-colour); color:var(--text-colour); }
+.row { display:flex; gap:20px; }
+.column { flex:1; }
+.place-order { margin-top:25px; background:var(--primary-colour); color:white; padding:14px 22px; border-radius:var(--radius); text-decoration:none; font-size:1.1rem; display:inline-block; text-align:center; }
+.place-order:hover { opacity:0.85; }
 
-    
-    .navbar {
-        display: flex;
-        align-items: center;
-        background: white;
-        padding: 10px 25px;
-        border-bottom: 1px solid #ccc;
-        gap: 20px;
-    }
+/* validation visuals */
+.invalid { border-color: #b00020 !important; box-shadow: 0 0 0 3px rgba(176,0,32,0.06); }
+.error-inline { color:#b00020; font-size:0.9rem; margin-top:6px; display:none; }
 
-    .navbar img {
-        height: 75px;
-    }
-
-    .navbar-links {
-        display: flex;
-        gap: 25px;
-        margin-left: 30px;
-    }
-
-    .navbar a {
-        text-decoration: none;
-        color: black;
-        font-size: 14px;
-    }
-
-    .navbar-right {
-        margin-left: auto;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .navbar input {
-        padding: 6px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        width: 180px;
-    }
-
-    
-    .checkout-container {
-        background: white;
-        width: 70%;
-        margin: 40px auto;
-        padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.08);
-    }
-
-    h1 {
-        font-size: 28px;
-        margin-bottom: 20px;
-    }
-
-    h2 {
-        font-size: 20px;
-        margin-top: 20px;
-        margin-bottom: 15px;
-    }
-
-    label {
-        font-weight: bold;
-        display: block;
-        margin-bottom: 6px;
-    }
-
-    input, select {
-        width: 100%;
-        padding: 12px;
-        font-size: 15px;
-        margin-bottom: 18px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-    }
-
-    
-    .row {
-        display: flex;
-        gap: 20px;
-    }
-
-    .row .column {
-        flex: 1;
-    }
-
-    
-    .place-order {
-        margin-top: 25px;
-        background: black;
-        color: white;
-        padding: 14px 22px;
-        border-radius: 20px;
-        text-decoration: none;
-        font-size: 16px;
-        display: inline-block;
-    }
-
+/* card area hidden by default */
+#card-details { display:none; margin-top:20px; }
 </style>
 </head>
 <body>
-<?php
-    include '..\..\database\db_connect.php';
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        echo'Connection Success';
-    }
-?>
-
-
+<!-- NAVBAR -->
 <div class="navbar">
-    <img src="C:\Users\rajak\OneDrive\Documents\Wine Exchange\Image (1).jpg" alt="Wine Exchange Logo">
+    <img src="../../images/icon.png" alt="Wine Exchange Logo">
     <div class="navbar-links">
-        <a href="#">Home</a>
-        <a href="#">Wines</a>
+        <a href="index.html">Home</a>
+         <a href="aboutUs">About Us</a>
+        <a href="wines.html">Wines</a>
         <a href="basket.html">Basket</a>
     </div>
 
@@ -139,69 +55,295 @@
     </div>
 </div>
 
+<?php
+    include '..\..\database\db_connect.php';
 
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        echo'Connection Success';
+    }
+?>
+<!-- CHECKOUT -->
+<form id="checkoutForm" novalidate method="post" action="redirect.php?page=Checkout">
 <div class="checkout-container">
-    <h1>Checkout</h1>
-    <form action="redirect.php?page=Checkout" method="post">
-    <label>First Name</label>
-    <input type="text" placeholder="John" id="fname" name="fname">
+    <h1> Checkout</h1>
 
-    <label>Last Name</label>
-    <input type="text" placeholder="Smith" id="lname" name="lname">
+    <label for="fname">First Name</label>
+    <input id="fname" name="fname" type="text" placeholder="John">
+    <div id="err-fname" class="error-inline">First name is required.</div>
 
-    <label>Address</label>
-    <input type="text" placeholder="123 Main Street" id="address" name = "address">
+    <label for="lname">Last Name</label>
+    <input id="lname" name="lname" type="text" placeholder="Smith">
+    <div id="err-lname" class="error-inline">Last name is required.</div>
+
+    <label for="address">Address</label>
+    <input id="address" name="address" type="text" placeholder="123 Main Street">
+    <div id="err-address" class="error-inline">Address is required.</div>
 
     <div class="row">
         <div class="column">
-            <label>Postcode</label>
-            <input type="text" placeholder="SW1A 1AA" id="postcode" name="postcode">
+            <label for="city">City</label>
+            <input id="city" name="city" type="text" placeholder="London">
+            <div id="err-city" class="error-inline">City is required.</div>
+        </div>
+        <div class="column">
+            <label for="postcode">Postcode</label>
+            <input id="postcode" name="postcode" type="text" placeholder="SW1A 1AA">
+            <div id="err-postcode" class="error-inline">Enter a valid UK postcode (e.g. SW1A 1AA).</div>
         </div>
     </div>
 
     <div class="row">
         <div class="column">
-            <label>Email Address</label>
-            <input type="email" placeholder="email@example.com" id="email" name="email">
+            <label for="email">Email Address</label>
+            <input id="email" name="email" type="email" placeholder="email@example.com">
+            <div id="err-email" class="error-inline">Enter a valid email address.</div>
         </div>
         <div class="column">
-            <label>Phone Number</label>
-            <input type="text" placeholder="07123 456789" id="phone" name="phone">
+            <label for="phone">Phone Number</label>
+            <input id="phone" name="phone" type="text" placeholder="07123 456789">
+            <div id="err-phone" class="error-inline">Enter a valid UK phone number (07... or +447...).</div>
         </div>
     </div>
 
-    <title>Dynamic Timestamp</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        #timestamp { font-weight: bold; color: darkblue; }
-    </style>
-</head>
-<body>
+    <label for="shipping">Shipping Method</label>
+    <select id="shipping" name="shipping">
+        <option value="standard">Standard (3–5 days) — Free</option>
+        <option value="nextday">Next day — £4.99</option>
+    </select>
+
+    <label for="payment-method">Payment Method</label>
+    <select id="payment-method" name="payment-method">
+        <option value="applepay">Apple Pay</option>
+        <option value="card">Credit/Debit card</option>
+    </select>
+
+    <!-- Hidden card fields (now with ids) -->
+    <div id="card-details">
+        <label for="card-name">Card Holder Name</label>
+        <input id="card-name" type="text" placeholder="John Smith">
+        <div id="err-card-name" class="error-inline">Cardholder name is required.</div>
+
+        <label for="card-number">Card Number</label>
+        <input id="card-number" type="text" placeholder="1234 5678 9012 3456" maxlength="23" inputmode="numeric">
+        <div id="err-card-number" class="error-inline">Enter a valid Visa or Mastercard number.</div>
+
+        <div class="row">
+            <div class="column">
+                <label for="card-expiry">Expiry Date (MM/YY)</label>
+                <input id="card-expiry" type="text" placeholder="MM/YY" maxlength="5">
+                <div id="err-card-expiry" class="error-inline">Enter a valid expiry date in the future (MM/YY).</div>
+            </div>
+            <div class="column">
+                <label for="card-cvv">Security Code (CVV)</label>
+                <input id="card-cvv" type="text" placeholder="123" maxlength="4" inputmode="numeric">
+                <div id="err-card-cvv" class="error-inline">Enter a 3-digit CVV.</div>
+            </div>
+        </div>
+    </div>
+
     <p>Current time: <span id="timestamp"></span></p>
 
-    <script>
-        function updateTimestamp() {
-            const now = new Date();
-            
-            const formatted = now.getFullYear() + "-" +
-                String(now.getMonth() + 1).padStart(2, '0') + "-" +
-                String(now.getDate()).padStart(2, '0') + " " +
-                String(now.getHours()).padStart(2, '0') + ":" +
-                String(now.getMinutes()).padStart(2, '0') + ":" +
-                String(now.getSeconds()).padStart(2, '0');
-            
-            document.getElementById("timestamp").textContent = formatted;
+    <button type="submit">Confirm</button>
+    <!--<a href="#" id="confirmBtn" class="place-order">Confirm</a>-->
+</div>
+</form>
+
+<footer>
+    <button id="dark-mode" class="dark-mode-button" >
+      <img src="../../images/darkmode.png" alt="Dark Mode" />
+    </button>
+</footer>
+
+<script>
+/* ------------------- helpers ------------------- */
+function showInlineError(inputEl, errId) {
+    inputEl.classList.add('invalid');
+    const err = document.getElementById(errId);
+    if (err) err.style.display = 'block';
+}
+function clearInlineError(inputEl, errId) {
+    inputEl.classList.remove('invalid');
+    const err = document.getElementById(errId);
+    if (err) err.style.display = 'none';
+}
+function isValidUKPostcode(p) {
+    if (!p) return false;
+    const cleaned = p.trim().toUpperCase().replace(/\s+/,' ');
+    const re = /^([A-Z]{1,2}\d{1,2}[A-Z]?)\s*(\d[A-Z]{2})$/i;
+    return re.test(cleaned);
+}
+function isValidUKPhone(p) {
+    if (!p) return false;
+    const cleaned = p.replace(/\s+/g,'');
+    const re = /^(?:0?7\d{9}|\+447\d{9}|00447\d{9})$/;
+    return re.test(cleaned);
+}
+function isValidEmail(e) {
+    if (!e) return false;
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(e);
+}
+function luhnCheck(numStr) {
+    const digits = numStr.replace(/\D/g,'');
+    let sum = 0, flip = false;
+    for (let i = digits.length - 1; i >= 0; i--) {
+        let d = parseInt(digits[i],10);
+        if (flip) {
+            d = d * 2;
+            if (d > 9) d -= 9;
+        }
+        sum += d;
+        flip = !flip;
+    }
+    return (sum % 10) === 0;
+}
+function isVisaOrMastercard(num) {
+    const digits = num.replace(/\D/g,'');
+    if (!/^\d+$/.test(digits)) return false;
+    if (/^4\d{15}$/.test(digits)) return true; // Visa
+    if (/^(5[1-5]\d{14}|22[2-9]\d{12}|2[3-6]\d{13}|27[01]\d{12}|2720\d{12})$/.test(digits)) return true; // Mastercard
+    return false;
+}
+function isValidExpiry(mmYY) {
+    if (!mmYY) return false;
+    const m = mmYY.trim();
+    const re = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/;
+    const match = m.match(re);
+    if (!match) return false;
+    const month = parseInt(match[1],10);
+    const year = parseInt(match[2],10) + 2000;
+    // expiry is end of the month
+    const expiry = new Date(year, month, 1); // first of next month
+    const now = new Date();
+    // set to start of current month to compare month granularity
+    return expiry > now;
+}
+
+/* ------------------- DOM wiring ------------------- */
+const paymentSelect = document.getElementById('payment-method');
+const cardDetails = document.getElementById('card-details');
+
+paymentSelect.addEventListener('change', () => {
+    if (paymentSelect.value === 'card') {
+        cardDetails.style.display = 'block';
+    } else {
+        cardDetails.style.display = 'none';
+        // clear card errors
+        ['card-name','card-number','card-expiry','card-cvv'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) clearInlineError(el, 'err-' + id.replace('card-','card-'));
+        });
+    }
+});
+
+/* timestamp */
+function updateTimestamp() {
+    const now = new Date();
+    const formatted = now.getFullYear() + "-" +
+        String(now.getMonth() + 1).padStart(2, '0') + "-" +
+        String(now.getDate()).padStart(2, '0') + " " +
+        String(now.getHours()).padStart(2, '0') + ":" +
+        String(now.getMinutes()).padStart(2, '0') + ":" +
+        String(now.getSeconds()).padStart(2, '0');
+    document.getElementById("timestamp").textContent = formatted;
+}
+setInterval(updateTimestamp,1000);
+updateTimestamp();
+
+/* removes validation error as user types to correct it */
+[['fname','err-fname'],['lname','err-lname'], ['address','err-address'], ['city','err-city'],
+ ['postcode','err-postcode'], ['email','err-email'], ['phone','err-phone'],
+ ['card-name','err-card-name'], ['card-number','err-card-number'],
+ ['card-expiry','err-card-expiry'], ['card-cvv','err-card-cvv']].forEach(([id,err])=>{
+    const el=document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', ()=> clearInlineError(el, err));
+});
+
+/* ------------------- main validation on Confirm ------------------- */
+document.getElementById('confirmBtn').addEventListener('click', function(e){
+    e.preventDefault();
+
+    // gather fields
+    const fullname = document.getElementById('fullname');
+    const address = document.getElementById('address');
+    const city = document.getElementById('city');
+    const postcode = document.getElementById('postcode');
+    const email = document.getElementById('email');
+    const phone = document.getElementById('phone');
+
+    // clear previous
+    [fullname,address,city,postcode,email,phone].forEach(el => {
+        clearInlineError(el, 'err-' + el.id);
+    });
+
+    let valid = true;
+
+    if (!fullname.value.trim()) { showInlineError(fullname,'err-fullname'); valid = false; }
+    if (!address.value.trim())  { showInlineError(address,'err-address'); valid = false; }
+    if (!city.value.trim())     { showInlineError(city,'err-city'); valid = false; }
+
+    if (!isValidUKPostcode(postcode.value)) {
+        showInlineError(postcode,'err-postcode'); valid = false;
+    }
+
+    if (!isValidEmail(email.value)) {
+        showInlineError(email,'err-email'); valid = false;
+    }
+
+    if (!isValidUKPhone(phone.value)) {
+        showInlineError(phone,'err-phone'); valid = false;
+    }
+
+    // payment-specific
+    if (paymentSelect.value === 'card') {
+        const cardName = document.getElementById('card-name');
+        const cardNumber = document.getElementById('card-number');
+        const cardExpiry = document.getElementById('card-expiry');
+        const cardCVV = document.getElementById('card-cvv');
+
+        // clear card errors
+        [cardName,cardNumber,cardExpiry,cardCVV].forEach(el=>{
+            clearInlineError(el, 'err-' + el.id.replace(/-/g,'-'));
+        });
+
+        if (!cardName.value.trim()) {
+            showInlineError(cardName,'err-card-name'); valid = false;
         }
 
-        
-        setInterval(updateTimestamp, 1000);
-        
-        updateTimestamp(); 
-    </script>
+        const numStr = cardNumber.value.replace(/\s+/g,'');
+        if (!/^\d{15,16}$/.test(numStr) || !luhnCheck(numStr) || !isVisaOrMastercard(numStr)) {
+            showInlineError(cardNumber,'err-card-number'); valid = false;
+        }
 
-    <button id="submit" name="submit" type="submit" class="place-order">Place Order</button>
-    </form>
-</div>
+        if (!isValidExpiry(cardExpiry.value)) {
+            showInlineError(cardExpiry,'err-card-expiry'); valid = false;
+        }
+
+        const cvvClean = cardCVV.value.replace(/\D/g,'');
+        if (!/^\d{3}$/.test(cvvClean)) {
+            showInlineError(cardCVV,'err-card-cvv'); valid = false;
+        }
+    }
+
+    if (!valid) {
+        // scroll to first error for convenience
+        const first = document.querySelector('.invalid');
+        if (first) first.scrollIntoView({behavior:'smooth', block:'center'});
+        alert('Please fix the highlighted fields before confirming.');
+        return;
+    }
+
+    // All validations passed
+    
+    alert('Order confirmed');
+    
+});
+
+/* dark mode toggle */
+const dm = document.getElementById('dark-mode');
+if (dm) dm.addEventListener('click', ()=> document.documentElement.classList.toggle('darkmode'));
+</script>
 
 </body>
 </html>

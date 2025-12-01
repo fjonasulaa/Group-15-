@@ -6,9 +6,9 @@ if (isset($_GET['page'])) {
     $page = $_GET['page'];
     //Create a new Order
     function newOrder($user){
-        include '..\..\database\db_connect.php';
         //Determine totalAmount later.
         $totalAmount = 20.05;
+        include '..\..\database\db_connect.php';
         $stmt = $conn->prepare("INSERT INTO orders (customerId, totalAmount)
             VALUES (?, ?)");
         $stmt->bind_param("sd", $user, $totalAmount);
@@ -19,21 +19,12 @@ if (isset($_GET['page'])) {
         }
         
         $_SESSION['currentOrder'] = $conn->insert_id; // Set current order to the newly created order
-
-        // Close the connection
-        $stmt->close();
-        $conn->close();
     }
     //Place items into OrderWine.
     function newBasket($order){
         echo'I will place items from Basket into OrderWine.';
     }
     switch ($page) {
-        case 'shipping':
-            newOrder($_SESSION['currentUser']);
-            newBasket($_SESSION['currentOrder']);
-            header("Location: shipping.php");
-            break;
         case 'Checkout':
             //Create a new guest customer in Customers table and set current user to that customer.
         include '..\..\database\db_connect.php';
@@ -60,20 +51,48 @@ if (isset($_GET['page'])) {
             }
             $_SESSION['currentUser'] = $conn->insert_id; // Set current user to the newly created guest customer
 
+            newOrder($_SESSION['currentUser']);
+            newBasket($_SESSION['currentOrder']);
+            $order = trim($_SESSION['currentOrder']);
+            $dtype = trim($_POST['shipping']);
+            $status=trim("Processing");
+
+            $stmt = $conn->prepare("INSERT INTO shipping (orderId, deliveryType, shippingStatus)
+            VALUES (?, ?, ?)");
+            $stmt->bind_param("iss", $order, $dtype, $status);
+            // Run the query
+            if ($stmt->execute()) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " .$stmt->error;
+            }
+
+            $order = trim($_SESSION['currentOrder']);
+            $method = trim($_POST['payment-method']);
+            $amount = 20.05; //Determine totalAmount later.
+            $status=trim("Processing");
+
+            $stmt = $conn->prepare("INSERT INTO payment (orderId, Method, amount, paymentStatus)
+            VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("isss", $order, $method, $amount, $status);
+            // Run the query
+            if ($stmt->execute()) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " .$stmt->error;
+            }
+
             // Close the connection
             $stmt->close();
             $conn->close();
-
-            newOrder($_SESSION['currentUser']);
-            newBasket($_SESSION['currentOrder']);
         }else{
             echo'I will not do anything. User\'s info is already in Customers. If Basket is empty redirect to Basket.php.';
         }
 
-            header("Location: shipping.php");
+            header("Location: confirm.php");
             break;
         default:
-            header("Location: index.php");
+            header("Location: index.html");
             break;
     }
     exit;
