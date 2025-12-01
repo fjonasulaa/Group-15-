@@ -1,135 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Wines Collection</title>
-<style>
-   
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0; 
-        background: #f8f8f8; 
-    }
-    
-    h1 {
-        text-align: center;
-        color: #6A0D24; 
-        margin-top: 30px; 
-        margin-bottom: 30px;
-    }
-
-    
-    .navbar {
-    display: flex;
-    align-items: center;
-    background: var(--background-colour);
-    padding: 10px 25px;
-    border-bottom: 1px solid var(--navbar-border-colour);
-    gap: 20px;
-    overflow: hidden;
-    position: fixed; 
-    top: 0; 
-    z-index: 1000; 
-    width: 100%;
-    }
-
-    .navbar img {
-    height: 75px;
-    }
-
-    .navbar-links {
-    display: flex;
-    gap: 25px;
-    margin-left: 30px;
-    }
-
-    .navbar a {
-    text-decoration: none;
-    color: var(--text-colour);
-    font-size: 14px;
-    white-space: nowrap; 
-    }
-
-    .navbar-right {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-right: 50px
-    }
-
-    .navbar input {
-    padding: 6px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 180px;
-    }
-    
-    .grid {
-        display: grid;
-        
-        grid-template-columns: repeat(3, minmax(0, 300px)); 
-        gap: 20px;
-        width: fit-content; 
-        margin: 0 auto;
-    }
-
-    .card {
-        background: #F3EDE2;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        transition: transform 0.2s;
-        text-decoration: none;
-        color: black;
-    }
-
-    .card:hover {
-        transform: scale(1.03);
-    }
-
-    .card img {
-        width: 100%;
-        height: 200px;
-        object-fit: contain;
-        object-position: center;
-    }
-
-    .card .text {
-        padding: 15px;
-    }
-
-    .card .text h3 {
-        margin: 0;
-        color:#6A0D24;
-    }
-
-    .card .text p {
-        font-size: 14px;
-        margin-top: 8px;
-    }
-  
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rosé Wines - Wine Exchange</title>
+    <link rel="icon" type="image/x-icon" href="../../images/icon.png">
+    <link rel="stylesheet" href="../css/styles.css" />
 </head>
 
 <body>
-    
     <div class="navbar">
-          <img src="../../images/icon.png" alt="Wine Exchange Logo">
-          <div class="navbar-links">
-              <a href="index.html">Home</a>
-              <a href="about.html">About Us</a>
-              <a href="wines.html">Wines</a>
-              <a href="basket.html">Basket</a>
-          </div>
+        <img src="../../images/icon.png" alt="Wine Exchange Logo">
+        <div class="navbar-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">Basket</a>
+          <a href="wines.html">Wines</a>
+          <a href="basket.html">Basket</a>
+        </div>
     
-          <div class="navbar-right">
-              <input type="text" placeholder="Search">
-              <a href="login.html">Login</a>
-              <a href="signup.html">Sign up</a>
-          </div>
-    </div>
+        <div class="navbar-right">
+          <input type="text" placeholder="Search">
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign up</a>
+          <button id="dark-mode" class="dark-mode-button">
+            <img src="../../images/darkmode.png" alt="Dark Mode" />
+          </button>
+        </div>
+      </div>
+
     <h1>Our Wine Collection</h1>
 
     <div class="grid">
@@ -157,12 +56,13 @@
                 <p>Light-bodied and elegant, featuring delicate summer berry flavours and a lovely, dry finish.</p>
             </div>
         </a>
-        
+
         <a href="dessertWines.html" class="card">
             <img src="../../images/dessert_wine.jpg" alt="Dessert Wine">
             <div class="text">
                 <h3>Dessert Wine</h3>
-                <p>Sweet and luxurious, a concentrated blend of honeyed fruit and floral aromas for a perfect ending.</p>
+                <p>Sweet and luxurious, a concentrated blend of honeyed fruit and floral aromas for a perfect ending.
+                </p>
             </div>
         </a>
 
@@ -183,5 +83,23 @@
         </a>
     </div>
 
+    <script>
+        const button = document.getElementById("dark-mode");
+
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
+        }
+
+        button.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
+
+            if (document.documentElement.classList.contains("darkmode")) {
+                localStorage.setItem("dark_mode", "on");
+            } else {
+                localStorage.setItem("dark_mode", "off");
+            }
+        });
+    </script>
 </body>
+
 </html>

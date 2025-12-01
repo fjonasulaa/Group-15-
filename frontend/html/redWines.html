@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Red Wines | Wine Exchange</title>
-    <link rel="stylesheet" type="text/css" href="../css/style1.css"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Red Wines - Wine Exchange</title>
+    <link rel="icon" type="image/x-icon" href="../../images/icon.png">
+    <link rel="stylesheet" href="../css/styles.css" />
 </head>
+
 <body>
     <div class="navbar">
-          <img src="../../images/icon.png" alt="Wine Exchange Logo">
-          <div class="navbar-links">
-              <a href="index.html">Home</a>
-              <a href="about.html">About Us</a>
-              <a href="wines.html">Wines</a>
-              <a href="basket.html">Basket</a>
-          </div>
+        <img src="../../images/icon.png" alt="Wine Exchange Logo">
+        <div class="navbar-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="wines.html">Wines</a>
+          <a href="basket.html">Basket</a>
+        </div>
     
-          <div class="navbar-right">
-              <input type="text" placeholder="Search">
-              <a href="login.html">Login</a>
-              <a href="signup.html">Sign up</a>
-          </div>
-    </div>
+        <div class="navbar-right">
+          <input type="text" placeholder="Search">
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign up</a>
+          <button id="dark-mode" class="dark-mode-button">
+            <img src="../../images/darkmode.png" alt="Dark Mode" />
+          </button>
+        </div>
+      </div>
+
     <div class="cards_cycle">
         <div class="wines_list">
             <div class="wine">
@@ -29,7 +36,11 @@
                 <div class="information">
                     <div class="wine_type">RED WINE</div>
                     <div class="name">MARCHESI ANTINORI TIGNANELLO</div>
-                    <div class="description">Tignanello is a renowned Super Tuscan from Marchesi Antinori, made primarily from Sangiovese with a touch of Cabernet Sauvignon and Cabernet Franc. It’s celebrated for its ripe red and dark fruit flavors, balanced acidity, polished tannins, and gentle notes of spice and oak. Often considered a benchmark of modern Italian winemaking, it combines elegance, depth, and excellent aging potential.</div>
+                    <div class="description">Tignanello is a renowned Super Tuscan from Marchesi Antinori, made
+                        primarily from Sangiovese with a touch of Cabernet Sauvignon and Cabernet Franc. It’s celebrated
+                        for its ripe red and dark fruit flavors, balanced acidity, polished tannins, and gentle notes of
+                        spice and oak. Often considered a benchmark of modern Italian winemaking, it combines elegance,
+                        depth, and excellent aging potential.</div>
                     <div class="price">Price: £155</div>
                     <div class="buttons">
                         <button class="button">SEE MORE INFO</button>
@@ -43,7 +54,11 @@
                     <div class="wine_type">RED WINE</div>
                     <div class="name">OPUS ONE</div>
                     <div class="price">Price: £375</div>
-                    <div class="description">Opus One is a prestigious Napa Valley Bordeaux-style blend created by Robert Mondavi and Baron Philippe de Rothschild. Known for its polished structure and layered flavors of dark fruit, cedar, and fine oak, it offers a smooth yet powerful profile with excellent balance. It’s regarded as one of California’s benchmark luxury wines, combining Old World elegance with New World richness.</div>
+                    <div class="description">Opus One is a prestigious Napa Valley Bordeaux-style blend created by
+                        Robert Mondavi and Baron Philippe de Rothschild. Known for its polished structure and layered
+                        flavors of dark fruit, cedar, and fine oak, it offers a smooth yet powerful profile with
+                        excellent balance. It’s regarded as one of California’s benchmark luxury wines, combining Old
+                        World elegance with New World richness.</div>
                     <div class="price">Price: £375</div>
                     <div class="buttons">
                         <button class="button">SEE MORE INFO</button>
@@ -56,7 +71,11 @@
                 <div class="information">
                     <div class="wine_type">RED WINE</div>
                     <div class="name">PENFOLDS GRANGE</div>
-                    <div class="description">Penfolds Grange is Australia’s most iconic wine, primarily made from Shiraz with a small amount of Cabernet. It’s celebrated for its intense concentration, ripe dark fruit, and distinctive notes of spice, chocolate, and oak, supported by a bold, long-lived structure. Grange stands as a symbol of Australian winemaking excellence with exceptional aging potential.</div>
+                    <div class="description">Penfolds Grange is Australia’s most iconic wine, primarily made from Shiraz
+                        with a small amount of Cabernet. It’s celebrated for its intense concentration, ripe dark fruit,
+                        and distinctive notes of spice, chocolate, and oak, supported by a bold, long-lived structure.
+                        Grange stands as a symbol of Australian winemaking excellence with exceptional aging potential.
+                    </div>
                     <div class="price">Price: £550</div>
                     <div class="buttons">
                         <button class="button">SEE MORE INFO</button>
@@ -69,7 +88,10 @@
                 <div class="information">
                     <div class="wine_type">RED WINE</div>
                     <div class="name">CHÂTEAU MARGAUX</div>
-                    <div class="description">Château Margaux is one of Bordeaux’s most renowned First Growth estates, producing Cabernet-dominant wines noted for their aromatics and purity. Typically showing elegant layers of blackcurrant, floral notes and refined tannins, it combines power with delicacy. Considered a benchmark of classic Bordeaux, it ages gracefully for decades.</div>
+                    <div class="description">Château Margaux is one of Bordeaux’s most renowned First Growth estates,
+                        producing Cabernet-dominant wines noted for their aromatics and purity. Typically showing
+                        elegant layers of blackcurrant, floral notes and refined tannins, it combines power with
+                        delicacy. Considered a benchmark of classic Bordeaux, it ages gracefully for decades.</div>
                     <div class="price">Price: £620</div>
                     <div class="buttons">
                         <button class="button">SEE MORE INFO</button>
@@ -109,7 +131,7 @@
             </div>
         </div>
         <div class="arrow">
-            <button id= 'next' class="next">></button>
+            <button id='next' class="next">></button>
         </div>
     </div>
 
@@ -119,7 +141,7 @@
         let wineListDom = document.querySelector('.cards_cycle .wines_list');
         let coverDom = document.querySelector('.cards_cycle .cover');
 
-        nextDom.onclick = function() {
+        nextDom.onclick = function () {
             showSlider('next');
         }
 
@@ -132,8 +154,8 @@
             let wineCover = document.querySelectorAll('.cards_cycle .cover .wine');
 
             if (type == 'next') {
-                wineListDom.appendChild(wineSlider[0]);  
-                coverDom.appendChild(wineCover[0]);      
+                wineListDom.appendChild(wineSlider[0]);
+                coverDom.appendChild(wineCover[0]);
                 coverDom.classList.add('next');
             }
 
@@ -143,8 +165,21 @@
             }, timeRunning);
         }
 
+        const button = document.getElementById("dark-mode");
+
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
+        }
+
+        button.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
+
+            if (document.documentElement.classList.contains("darkmode")) {
+                localStorage.setItem("dark_mode", "on");
+            } else {
+                localStorage.setItem("dark_mode", "off");
+            }
+        });
     </script>
 
 </body>
-
-
