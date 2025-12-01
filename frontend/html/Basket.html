@@ -125,10 +125,21 @@
 </footer>
 
 <script>
-// Dark mode toggle
-document.getElementById("dark-mode").addEventListener("click", () => {
-    document.documentElement.classList.toggle("darkmode");
-});
+    const button = document.getElementById("dark-mode");
+
+    if (localStorage.getItem("dark_mode") === "on") {
+      document.documentElement.classList.add("darkmode");
+    }
+
+    button.addEventListener("click", () => {
+      document.documentElement.classList.toggle("darkmode");
+
+      if (document.documentElement.classList.contains("darkmode")) {
+        localStorage.setItem("dark_mode", "on");
+      } else {
+        localStorage.setItem("dark_mode", "off");
+      }
+    });
 
 // Quantity buttons functionality
 const rows = document.querySelectorAll('.basket-row');
@@ -171,3 +182,4 @@ rows.forEach(row => {
 
 </body>
 </html>
+
