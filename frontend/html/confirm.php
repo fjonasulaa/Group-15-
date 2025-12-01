@@ -143,9 +143,21 @@ input, select { width:100%; padding:12px; font-size:1rem; margin-bottom:18px; bo
 
 
 <script>
-/* dark mode toggle */
-const dm = document.getElementById('dark-mode');
-if (dm) dm.addEventListener('click', ()=> document.documentElement.classList.toggle('darkmode'));
-</script>
+    const button = document.getElementById("dark-mode");
+
+    if (localStorage.getItem("dark_mode") === "on") {
+      document.documentElement.classList.add("darkmode");
+    }
+
+    button.addEventListener("click", () => {
+      document.documentElement.classList.toggle("darkmode");
+
+      if (document.documentElement.classList.contains("darkmode")) {
+        localStorage.setItem("dark_mode", "on");
+      } else {
+        localStorage.setItem("dark_mode", "off");
+      }
+    });
+  </script>
 
 </html>
