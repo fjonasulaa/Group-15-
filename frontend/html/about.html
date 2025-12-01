@@ -32,7 +32,24 @@
   </div>
 
 
+  <script>
+    const button = document.getElementById("dark-mode");
 
+    if (localStorage.getItem("dark_mode") === "on") {
+      document.documentElement.classList.add("darkmode");
+    }
 
-  </body>
+    button.addEventListener("click", () => {
+      document.documentElement.classList.toggle("darkmode");
+
+      if (document.documentElement.classList.contains("darkmode")) {
+        localStorage.setItem("dark_mode", "on");
+      } else {
+        localStorage.setItem("dark_mode", "off");
+      }
+    });
+  </script>
+
+</body>
+
 </html>
