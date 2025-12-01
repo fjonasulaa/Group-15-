@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Info | Wine Exchange</title>
-    <link rel="stylesheet" type="text/css" href="../css/style2.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Info - Wine Exchange</title>
+    <link rel="icon" type="image/x-icon" href="../../images/icon.png">
+    <link rel="stylesheet" href="../css/styles.css" />
 </head>
+
 <body>
+    <div class="navbar">
+        <img src="../../images/icon.png" alt="Wine Exchange Logo">
+        <div class="navbar-links">
+            <a href="index.html">Home</a>
+            <a href="wines.html">Wines</a>
+            <a href="basket.html">Basket</a>
+        </div>
+
+        <div class="navbar-right">
+            <input type="text" placeholder="Search">
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+            <button id="dark-mode" class="dark-mode-button">
+                <img src="../../images/darkmode.png" alt="Dark Mode" />
+            </button>
+        </div>
+    </div>
+
     <div class="wrap_cards">
         <div class="card">
             <div class="images">
@@ -22,82 +42,106 @@
                 <div class="select_image">
                     <div class="item">
                         <a href="#" data-id="1">
-                            <img src="../images/tignanello1.jpg" alt="tignanello">
+                            <img class="wine-image" src="../images/tignanello1.jpg" alt="tignanello">
                         </a>
                     </div>
                     <div class="item">
                         <a href="#" data-id="2">
-                            <img src="../images/tignanello2.jpg" alt="tignanello">
+                            <img class="wine-image" src="../images/tignanello2.jpg" alt="tignanello">
                         </a>
                     </div>
                     <div class="item">
                         <a href="#" data-id="3">
-                            <img src="../images/tignanello3.jpg" alt="tignanello">
+                            <img class="wine-image" src="../images/tignanello3.jpg" alt="tignanello">
                         </a>
                     </div>
                     <div class="item">
                         <a href="#" data-id="4">
-                            <img src="../images/tignanello4.jpg" alt="tignanello">
+                            <img class="wine-image" src="../images/tignanello4.jpg" alt="tignanello">
                         </a>
                     </div>
                 </div>
             </div>
             <div class="content">
-                    <h2 class="title">Marchesi Antinori Tignanello</h2>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <span>5.0</span>
-                    </div>
-                    <div class="price">
-                        <p class = "price"> Price: <span>£155.00</span></p>
-                    </div>
-                    <div class="purchase">
-                        <input type="number" min="0" value="1">
-                        <button type="button" class="button">
-                            Add to Basket <i class="fas fa-shopping-cart"></i>
-                        </button>
-                    </div>
-                    <div class="details"> 
-                        <h2>History and other information: </h2>
-                        <p>Tignanello was first produced by the Antinori family in the early 1970s and is widely credited as one of the founding wines of the Super Tuscan movement. Tignanello combines Sangiovese with Cabernet varieties and is aged in barriques rather than large casks.</p>
-                        <p>Today Tignanello is a flagship IGT Toscana wine made from a selection of Sangiovese plus Cabernet Sauvignon and Cabernet Franc. It’s known for ripe red-fruit character, bright acidity, firm structure and polished tannins. It’s consistently treated as a premium wine and vintages are sold by specialist merchants and fine wine shops worldwide.</p>
-                    </div>
-                    <div class="container">
-                        <div class="image_container">
-                            <article class="image_article">
-                                <img src="../images/ingredientsBG.jpg" alt="ingredientsBG" class="image_card">
-                                <div class="hover_data">
-                                    <span class="ingredients">grapes (sangiovese, cabernet sauvignon, cabernet franc), aqua / water, ethanol, sulfur dioxide, sodium metabisulfite, glycerol, tartaric acid, esters, polyphenols, yeast nutrients, bentonite, activated carbon, pectic enzyme</span>
-                                </div>
-                            </article>
-                        </div>
+                <h2 class="title">Marchesi Antinori Tignanello</h2>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <span>5.0</span>
+                </div>
+                <div class="price">
+                    <p class="price"> Price: <span>£155.00</span></p>
+                </div>
+                <div class="purchase">
+                    <input type="number" min="0" value="1">
+                    <button type="button" class="button">
+                        Add to Basket <i class="fas fa-shopping-cart"></i>
+                    </button>
+                </div>
+                <div class="details">
+                    <h2>History and other information: </h2>
+                    <p>Tignanello was first produced by the Antinori family in the early 1970s and is widely credited as
+                        one of the founding wines of the Super Tuscan movement. Tignanello combines Sangiovese with
+                        Cabernet varieties and is aged in barriques rather than large casks.</p>
+                    <p>Today Tignanello is a flagship IGT Toscana wine made from a selection of Sangiovese plus Cabernet
+                        Sauvignon and Cabernet Franc. It’s known for ripe red-fruit character, bright acidity, firm
+                        structure and polished tannins. It’s consistently treated as a premium wine and vintages are
+                        sold by specialist merchants and fine wine shops worldwide.</p>
+                </div>
+                <div class="container">
+                    <div class="image_container">
+                        <article class="image_article">
+                            <img src="../images/ingredientsBG.jpg" alt="ingredientsBG" class="image_card">
+                            <div class="hover_data">
+                                <span class="ingredients">grapes (sangiovese, cabernet sauvignon, cabernet franc), aqua
+                                    / water, ethanol, sulfur dioxide, sodium metabisulfite, glycerol, tartaric acid,
+                                    esters, polyphenols, yeast nutrients, bentonite, activated carbon, pectic
+                                    enzyme</span>
+                            </div>
+                        </article>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
+
     <script>
-    const images = document.querySelectorAll('.select_image a');
-    const imageButtons = [...images];
-    let imageId = 1;
+        const images = document.querySelectorAll('.select_image a');
+        const imageButtons = [...images];
+        let imageId = 1;
 
-    imageButtons.forEach((imageItem) => {
-        imageItem.addEventListener('click', (event) => {
-            event.preventDefault();
-            imageId = imageItem.dataset.id;
-            slideImage();
+        imageButtons.forEach((imageItem) => {
+            imageItem.addEventListener('click', (event) => {
+                event.preventDefault();
+                imageId = imageItem.dataset.id;
+                slideImage();
+            });
         });
-    });
 
-    function slideImage() {
-        const displayWidth = document.querySelector('.image_showcase img:first-child').clientWidth;
+        function slideImage() {
+            const displayWidth = document.querySelector('.image_showcase img:first-child').clientWidth;
 
-        document.querySelector('.image_showcase').style.transform =
-            `translateX(${-(imageId - 1) * displayWidth}px)`;
-    }
+            document.querySelector('.image_showcase').style.transform =
+                `translateX(${-(imageId - 1) * displayWidth}px)`;
+        }
+
+        const button = document.getElementById("dark-mode");
+
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
+        }
+
+        button.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
+
+            if (document.documentElement.classList.contains("darkmode")) {
+                localStorage.setItem("dark_mode", "on");
+            } else {
+                localStorage.setItem("dark_mode", "off");
+            }
+        });
     </script>
 </body>
-
