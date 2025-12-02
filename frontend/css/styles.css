@@ -99,7 +99,7 @@ main h1 {
 .navbar-right {
   margin-left: auto;
   display: flex;
-  align-items: center;   /* ensures vertical centering */
+  align-items: center;  
   gap: 15px;
   margin-right: 50px;
 }
@@ -109,10 +109,10 @@ main h1 {
   border: 1px solid var(--border-colour);
   border-radius: 6px;
   width: 180px;
-  height: 32px;          /* matches link/button height */
+  height: 32px;        
   font-size: 14px;
   line-height: 1.5;
-  margin: 0;             /* removes default spacing */
+  margin: 0;     
   box-sizing: border-box;
 }
 
@@ -469,7 +469,7 @@ main h1 {
   margin-bottom: 0.25rem;
 }
 
-.image-article:hover .hover_data {
+.image-article:hover .hover-data {
   animation: show-data 1s forwards;
   opacity: 1;
   transition: opacity 0.3s;
@@ -512,7 +512,7 @@ main h1 {
   color: var(--white);
 }
 
-.cards-cycle .wines-list .wine .wine_type,
+.cards-cycle .wines-list .wine .wine-type,
 .cards-cycle .wines-list .wine .name {
   font-weight: bold;
   font-size: 3em;
@@ -856,7 +856,7 @@ select {
 
 /* ANIMATIONS */
 
-.cards-cycle .wines-list .wine:nth-child(1) .wine_type,
+.cards-cycle .wines-list .wine:nth-child(1) .wine-type,
 .cards-cycle .wines-list .wine:nth-child(1) .name,
 .cards-cycle .wines-list .wine:nth-child(1) .description,
 .cards-cycle .wines-list .wine:nth-child(1) .price,
@@ -875,7 +875,7 @@ select {
   }
 }
 
-.cards-cycle .wines-list .wine:nth-child(1) .wine_type {
+.cards-cycle .wines-list .wine:nth-child(1) .wine-type {
   animation-delay: 1s;
 }
 
@@ -915,7 +915,7 @@ select {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 1.5rem;
   }
-  .wrap_cards {
+  .wrap-cards {
     height: 100vh;
     display: flex;
     justify-content: center;

@@ -2,18 +2,11 @@
 <html lang="en">
 
 <head>
-<<<<<<< HEAD
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fortified Wines | Wine Exchange</title>
-    <link rel="stylesheet" type="text/css" href="../css/style1.css"/>
-=======
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fortified Wines - Wine Exchange</title>
+    <title>White Wine - Wine Exchange</title>
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
->>>>>>> fab9d6dc367213b5d730f455ffe21d7cb1df17e2
 </head>
 
 <body>
@@ -35,14 +28,13 @@
           </button>
         </div>
       </div>
-    
 
-    <div class="cards_cycle">
-        <div class="wines_list">
+    <div class="cards-cycle">
+        <div class="wines-list">
             <div class="wine">
-                <img src="../images/fortifiedWinesBG.jpg">
+                <img src="../images/whiteWinesBG.jpg">
                 <div class="information">
-                    <div class="wine_type">FORTIFIED WINE</div>
+                    <div class="wine-type">WHITE WINE</div>
                     <div class="name">SOAVE CLASSICO</div>
                     <div class="description">Soave Classico is a fresh, elegant Italian white wine from the historic
                         hillside zone of Veneto, made mainly from Garganega grapes and known for its bright acidity,
@@ -57,9 +49,9 @@
                 </div>
             </div>
             <div class="wine">
-                <img src="../images/fortifiedWinesBG.jpg">
+                <img src="../images/whiteWinesBG.jpg">
                 <div class="information">
-                    <div class="wine_type">FORTIFIED WINE</div>
+                    <div class="wine-type">WHITE WINE</div>
                     <div class="name">SAUVIGON BLANC</div>
                     <div class="description">Sauvignon Blanc is a vibrant, aromatic white wine celebrated for its zesty
                         acidity, crisp texture, and expressive notes of citrus, herbs, and tropical fruit. Often grown
@@ -74,9 +66,9 @@
                 </div>
             </div>
             <div class="wine">
-                <img src="../images/fortifiedWinesBG.jpg">
+                <img src="../images/whiteWinesBG.jpg">
                 <div class="information">
-                    <div class="wine_type">FORTIFIED WINE</div>
+                    <div class="wine-type">WHITE WINE</div>
                     <div class="name">PINOT GRIGIO</div>
                     <div class="description">Pinot Grigio is a light, clean, and refreshing white wine known for its
                         bright acidity and subtle flavors of lemon, green apple, and pear, often with a faint floral or
@@ -91,9 +83,9 @@
                 </div>
             </div>
             <div class="wine">
-                <img src="../images/fortifiedWinesBG.jpg">
+                <img src="../images/whiteWinesBG.jpg">
                 <div class="information">
-                    <div class="wine_type">FORTIFIED WINE</div>
+                    <div class="wine-type">WHITE WINE</div>
                     <div class="name">CHABLIS PREMIER</div>
                     <div class="description">Chablis Premier is an elegant Burgundian Chardonnay distinguished by its
                         purity, tension, and hallmark minerality derived from the region’s limestone-rich Kimmeridgian
@@ -108,7 +100,7 @@
                 </div>
             </div>
             <style>
-                .cards_cycle .wines_list .wine .name {
+                .cards-cycle .wines-list .wine .name {
                     color: #EAD3A5;
                 }
             </style>
@@ -150,9 +142,9 @@
 
     <script>
         let nextDom = document.querySelector('#next');
-        let cycleDom = document.querySelector('.cards_cycle');
-        let wineListDom = document.querySelector('.cards_cycle .wines_list');
-        let coverDom = document.querySelector('.cards_cycle .cover');
+        let cycleDom = document.querySelector('.cards-cycle');
+        let wineListDom = document.querySelector('.cards-cycle .wines-list');
+        let coverDom = document.querySelector('.cards-cycle .cover');
 
         nextDom.onclick = function () {
             showSlider('next');
@@ -163,8 +155,8 @@
 
         function showSlider(type) {
 
-            let wineSlider = document.querySelectorAll('.cards_cycle .wines_list .wine');
-            let wineCover = document.querySelectorAll('.cards_cycle .cover .wine');
+            let wineSlider = document.querySelectorAll('.cards-cycle .wines-list .wine');
+            let wineCover = document.querySelectorAll('.cards-cycle .cover .wine');
 
             if (type === 'next') {
                 wineListDom.appendChild(wineSlider[0]);
@@ -178,16 +170,21 @@
             }, timeRunning)
         }
 
-        // DARK MODE
-        const darkButton = document.getElementById("dark-mode");
+        const button = document.getElementById("dark-mode");
+
         if (localStorage.getItem("dark_mode") === "on") {
             document.documentElement.classList.add("darkmode");
         }
 
-        darkButton.addEventListener("click", () => {
+        button.addEventListener("click", () => {
             document.documentElement.classList.toggle("darkmode");
-            localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-        });
 
+            if (document.documentElement.classList.contains("darkmode")) {
+                localStorage.setItem("dark_mode", "on");
+            } else {
+                localStorage.setItem("dark_mode", "off");
+            }
+        });
     </script>
+
 </body>

@@ -29,12 +29,12 @@
         </div>
       </div>
 
-    <div class="cards_cycle">
-        <div class="wines_list">
+    <div class="cards-cycle">
+        <div class="wines-list">
             <div class="wine">
                 <img src="../images/whiteWinesBG.jpg">
                 <div class="information">
-                    <div class="wine_type">WHITE WINE</div>
+                    <div class="wine-type">WHITE WINE</div>
                     <div class="name">SOAVE CLASSICO</div>
                     <div class="description">Soave Classico is a fresh, elegant Italian white wine from the historic
                         hillside zone of Veneto, made mainly from Garganega grapes and known for its bright acidity,
@@ -51,7 +51,7 @@
             <div class="wine">
                 <img src="../images/whiteWinesBG.jpg">
                 <div class="information">
-                    <div class="wine_type">WHITE WINE</div>
+                    <div class="wine-type">WHITE WINE</div>
                     <div class="name">SAUVIGON BLANC</div>
                     <div class="description">Sauvignon Blanc is a vibrant, aromatic white wine celebrated for its zesty
                         acidity, crisp texture, and expressive notes of citrus, herbs, and tropical fruit. Often grown
@@ -68,7 +68,7 @@
             <div class="wine">
                 <img src="../images/whiteWinesBG.jpg">
                 <div class="information">
-                    <div class="wine_type">WHITE WINE</div>
+                    <div class="wine-type">WHITE WINE</div>
                     <div class="name">PINOT GRIGIO</div>
                     <div class="description">Pinot Grigio is a light, clean, and refreshing white wine known for its
                         bright acidity and subtle flavors of lemon, green apple, and pear, often with a faint floral or
@@ -85,7 +85,7 @@
             <div class="wine">
                 <img src="../images/whiteWinesBG.jpg">
                 <div class="information">
-                    <div class="wine_type">WHITE WINE</div>
+                    <div class="wine-type">WHITE WINE</div>
                     <div class="name">CHABLIS PREMIER</div>
                     <div class="description">Chablis Premier is an elegant Burgundian Chardonnay distinguished by its
                         purity, tension, and hallmark minerality derived from the region’s limestone-rich Kimmeridgian
@@ -100,7 +100,7 @@
                 </div>
             </div>
             <style>
-                .cards_cycle .wines_list .wine .name {
+                .cards-cycle .wines-list .wine .name {
                     color: #EAD3A5;
                 }
             </style>
@@ -142,9 +142,9 @@
 
     <script>
         let nextDom = document.querySelector('#next');
-        let cycleDom = document.querySelector('.cards_cycle');
-        let wineListDom = document.querySelector('.cards_cycle .wines_list');
-        let coverDom = document.querySelector('.cards_cycle .cover');
+        let cycleDom = document.querySelector('.cards-cycle');
+        let wineListDom = document.querySelector('.cards-cycle .wines-list');
+        let coverDom = document.querySelector('.cards-cycle .cover');
 
         nextDom.onclick = function () {
             showSlider('next');
@@ -155,8 +155,8 @@
 
         function showSlider(type) {
 
-            let wineSlider = document.querySelectorAll('.cards_cycle .wines_list .wine');
-            let wineCover = document.querySelectorAll('.cards_cycle .cover .wine');
+            let wineSlider = document.querySelectorAll('.cards-cycle .wines-list .wine');
+            let wineCover = document.querySelectorAll('.cards-cycle .cover .wine');
 
             if (type === 'next') {
                 wineListDom.appendChild(wineSlider[0]);
