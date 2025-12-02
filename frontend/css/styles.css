@@ -54,6 +54,8 @@ main h1 {
 .center-title {
   grid-column: 1 / -1;
   text-align: center;
+  font-size: 3rem;
+  color: var(--primary-colour);
 }
 
 .separator {
@@ -97,16 +99,31 @@ main h1 {
 .navbar-right {
   margin-left: auto;
   display: flex;
-  align-items: center;
+  align-items: center;   /* ensures vertical centering */
   gap: 15px;
   margin-right: 50px;
 }
 
-.navbar input {
+.navbar-right input {
+  padding: 6px 10px;
+  border: 1px solid var(--border-colour);
+  border-radius: 6px;
+  width: 180px;
+  height: 32px;          /* matches link/button height */
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;             /* removes default spacing */
+  box-sizing: border-box;
+}
+
+.navbar-right input {
   padding: 6px;
   border: 1px solid var(--border-colour);
   border-radius: 6px;
   width: 180px;
+  height: 32px;          /* match link height */
+  line-height: 1.5;      /* consistent text alignment */
+  vertical-align: middle; /* align with text */
 }
 
 /* header CSS */
@@ -714,11 +731,15 @@ select {
   margin: 120px auto 0 auto;
 }
 
+.basket-wrapper span {
+  color: var(--primary-colour);
+}
+
 .basket-header {
   display: grid;
   grid-template-columns: 1fr 160px 100px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--border-colour);
   font-weight: bold;
   letter-spacing: 1px;
   color: var(--dark-grey);
@@ -729,11 +750,7 @@ select {
   grid-template-columns: 160px 1fr 160px 100px;
   padding: 25px 0;
   align-items: center;
-  border-bottom: 1px solid #eee;
-}
-
-.basket div {
-  color: var(--text-colour);
+  border-bottom: 1px solid var(--border-colour);
 }
 
 .basket-row img {
@@ -745,30 +762,34 @@ select {
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 5px;
+  color: var(--text-colour);
 }
 
 .basket-info-sub {
   color: var(--dark-grey);
   font-size: 0.9rem;
   margin-bottom: 4px;
+  color: var(--text-colour);
 }
 
 .qty-control {
   display: flex;
   align-items: center;
   gap: 15px;
+  color: var(--text-colour);
 }
 
 .qty-btn {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1px solid #aaa;
+  border: 1px solid var(--border-colour);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.3rem;
   cursor: pointer;
+  color: var(--text-colour);
 }
 
 .remove-link {
@@ -777,11 +798,13 @@ select {
   font-size: 0.9rem;
   margin-top: 8px;
   display: inline-block;
+  color: var(--text-colour);
 }
 
 .basket-total-price {
   font-size: 1.2rem;
   font-weight: bold;
+  color: var(--text-colour);
 }
 
 /* WINE INFO */
