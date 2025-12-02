@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basket - Wine Exchange</title>
+    <link rel="icon" type="image/x-icon" href="../../images/icon.png">
+    <link rel="stylesheet" href="../css/styles.css" />
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <img src="../../images/icon.png" alt="Wine Exchange Logo">
+        <div class="navbar-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="wines.html">Wines</a>
+            <a href="basket.html">Basket</a>
+        </div>
+
+        <div class="navbar-right">
+            <input type="text" placeholder="Search">
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+            <button id="dark-mode" class="dark-mode-button">
+                <img src="../../images/darkmode.png" alt="Dark Mode" />
+            </button>
+        </div>
+    </div>
+
+
+    <!-- BASKET CONTENT -->
+    <div class="basket-wrapper">
+        <h1 class="center-title">YOUR BASKET</h1>
+
+        <div class="basket-header">
+            <span>PRODUCT</span>
+            <span style="text-align:center;">QUANTITY</span>
+            <span style="text-align:right;">TOTAL</span>
+        </div>
+
+        <!-- EXAMPLE -->
+        <div class="basket-row">
+            <img src="../../images/image(3).jpg" alt="Product Image">
+
+            <div>
+                <div class="basket-info-title">Marchesi Antinori Tignanello</div>
+                <div class="basket-info-sub">13.5% / 75cl</div>
+                <div class="basket-info-sub">Italian Red Wine</div>
+                <a href="#" class="remove-link">Remove Item</a>
+            </div>
+
+            <div class="qty-control" style="justify-content:center;">
+                <div class="qty-btn">-</div>
+                <span>1</span>
+                <div class="qty-btn">+</div>
+            </div>
+
+            <div class="basket-total-price" style="text-align:right;">£150.00</div>
+        </div>
+
+
+
+    </div>
+
+    <!-- PLACE ORDER BUTTON -->
+    <div style="margin-top: 50px; text-align: left; padding-left: 20px;">
+        <a href="checkout.html" class="place-order">Place Order</a>
+    </div>
+
+    <script>
+        // Quantity buttons functionality
+        const rows = document.querySelectorAll('.basket-row');
+
+        rows.forEach(row => {
+            const qtyBtns = row.querySelectorAll('.qty-btn');
+            const qtyDisplay = row.querySelector('.qty-control span');
+            const priceElement = row.querySelector('.basket-total-price');
+
+            let qty = parseInt(qtyDisplay.textContent);
+            const basePrice = 150.00; // static example
+
+            qtyBtns[0].addEventListener('click', () => {
+                if (qty > 1) {
+                    qty--;
+                    qtyDisplay.textContent = qty;
+                    priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
+                }
+            });
+
+            qtyBtns[1].addEventListener('click', () => {
+                qty++;
+                qtyDisplay.textContent = qty;
+                priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
+            });
+        });
+
+        document.querySelectorAll('.remove-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const row = link.closest('.basket-row');
+                row.remove();
+            });
+        });
+
+        // DARK MODE
+        const darkButton = document.getElementById("dark-mode");
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
+        }
+
+        darkButton.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
+            localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
+        });
+    </script>
+
+</body>
+
+</html>

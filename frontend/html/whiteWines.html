@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>White Wine - Wine Exchange</title>
+    <link rel="icon" type="image/x-icon" href="../../images/icon.png">
+    <link rel="stylesheet" href="../css/styles.css" />
+</head>
+
+<body>
+    <div class="navbar">
+        <img src="../../images/icon.png" alt="Wine Exchange Logo">
+        <div class="navbar-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="wines.html">Wines</a>
+          <a href="basket.html">Basket</a>
+        </div>
+    
+        <div class="navbar-right">
+          <input type="text" placeholder="Search">
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign up</a>
+          <button id="dark-mode" class="dark-mode-button">
+            <img src="../../images/darkmode.png" alt="Dark Mode" />
+          </button>
+        </div>
+      </div>
+
+    <div class="cards_cycle">
+        <div class="wines_list">
+            <div class="wine">
+                <img src="../images/whiteWinesBG.jpg">
+                <div class="information">
+                    <div class="wine_type">WHITE WINE</div>
+                    <div class="name">SOAVE CLASSICO</div>
+                    <div class="description">Soave Classico is a fresh, elegant Italian white wine from the historic
+                        hillside zone of Veneto, made mainly from Garganega grapes and known for its bright acidity,
+                        subtle citrus and stone-fruit notes, and a signature hint of almond on the finish. Its volcanic
+                        hillside soils add a clean mineral edge that enhances its clarity and finesse, making it a
+                        versatile and thoroughly food-friendly wine.</div>
+                    <div class="price">Price: £37</div>
+                    <div class="buttons">
+                        <button class="button">SEE MORE INFO</button>
+                        <button class="button">ADD TO BASKET</button>
+                    </div>
+                </div>
+            </div>
+            <div class="wine">
+                <img src="../images/whiteWinesBG.jpg">
+                <div class="information">
+                    <div class="wine_type">WHITE WINE</div>
+                    <div class="name">SAUVIGON BLANC</div>
+                    <div class="description">Sauvignon Blanc is a vibrant, aromatic white wine celebrated for its zesty
+                        acidity, crisp texture, and expressive notes of citrus, herbs, and tropical fruit. Often grown
+                        in cool-climate regions like the Loire Valley, New Zealand, and coastal California, it shows a
+                        lively, refreshing character with occasional hints of minerality, making it exceptionally
+                        food-friendly and versatile.</div>
+                    <div class="price">Price: £51</div>
+                    <div class="buttons">
+                        <button class="button">SEE MORE INFO</button>
+                        <button class="button">ADD TO BASKET</button>
+                    </div>
+                </div>
+            </div>
+            <div class="wine">
+                <img src="../images/whiteWinesBG.jpg">
+                <div class="information">
+                    <div class="wine_type">WHITE WINE</div>
+                    <div class="name">PINOT GRIGIO</div>
+                    <div class="description">Pinot Grigio is a light, clean, and refreshing white wine known for its
+                        bright acidity and subtle flavors of lemon, green apple, and pear, often with a faint floral or
+                        mineral touch. Popular in northern Italy and widely produced around the world, it offers an
+                        easy-drinking, crisp profile that pairs beautifully with seafood, salads, and simple, delicate
+                        dishes.</div>
+                    <div class="price">Price: £35</div>
+                    <div class="buttons">
+                        <button class="button">SEE MORE INFO</button>
+                        <button class="button">ADD TO BASKET</button>
+                    </div>
+                </div>
+            </div>
+            <div class="wine">
+                <img src="../images/whiteWinesBG.jpg">
+                <div class="information">
+                    <div class="wine_type">WHITE WINE</div>
+                    <div class="name">CHABLIS PREMIER</div>
+                    <div class="description">Chablis Premier is an elegant Burgundian Chardonnay distinguished by its
+                        purity, tension, and hallmark minerality derived from the region’s limestone-rich Kimmeridgian
+                        soils. Known for its refined citrus, green apple, and flinty notes, it balances freshness with
+                        subtle complexity, offering a precise style that showcases the classic character of high-quality
+                        Chablis.</div>
+                    <div class="price">Price: £62</div>
+                    <div class="buttons">
+                        <button class="button">SEE MORE INFO</button>
+                        <button class="button">ADD TO BASKET</button>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .cards_cycle .wines_list .wine .name {
+                    color: #EAD3A5;
+                }
+            </style>
+        </div>
+        <div class="cover">
+            <div class="wine">
+                <img src="../images/blanc.jpg">
+                <div class="information">
+                    <div class="name">Sauvignon Blanc</div>
+                    <div class="description">Herbaceous white with freshness</div>
+                </div>
+            </div>
+            <div class="wine">
+                <img src="../images/Grigio.avif">
+                <div class="information">
+                    <div class="name">Pinot Grigio</div>
+                    <div class="description">Refreshing italian-style white wine</div>
+                </div>
+            </div>
+            <div class="wine">
+                <img src="../images/Chablis.jpg">
+                <div class="information">
+                    <div class="name">Chablis Premier</div>
+                    <div class="description">Chardonnay from Burgundy</div>
+                </div>
+            </div>
+            <div class="wine">
+                <img src="../images/Classico.jpg">
+                <div class="information">
+                    <div class="name">Soave Classico</div>
+                    <div class="description">Italian white from volcanic hills</div>
+                </div>
+            </div>
+        </div>
+        <div class="arrow">
+            <button id='next' class="next">></button>
+        </div>
+    </div>
+
+    <script>
+        let nextDom = document.querySelector('#next');
+        let cycleDom = document.querySelector('.cards_cycle');
+        let wineListDom = document.querySelector('.cards_cycle .wines_list');
+        let coverDom = document.querySelector('.cards_cycle .cover');
+
+        nextDom.onclick = function () {
+            showSlider('next');
+        }
+
+        let timeRunning = 3000;
+        let runTimeOut;
+
+        function showSlider(type) {
+
+            let wineSlider = document.querySelectorAll('.cards_cycle .wines_list .wine');
+            let wineCover = document.querySelectorAll('.cards_cycle .cover .wine');
+
+            if (type === 'next') {
+                wineListDom.appendChild(wineSlider[0]);
+                coverDom.appendChild(wineCover[0]);
+                coverDom.classList.add('next');
+            }
+
+            clearTimeout(runTimeOut);
+            runTimeOut = setTimeout(() => {
+                coverDom.classList.remove('next');
+            }, timeRunning)
+        }
+
+        const button = document.getElementById("dark-mode");
+
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
+        }
+
+        button.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
+
+            if (document.documentElement.classList.contains("darkmode")) {
+                localStorage.setItem("dark_mode", "on");
+            } else {
+                localStorage.setItem("dark_mode", "off");
+            }
+        });
+    </script>
+
+</body>

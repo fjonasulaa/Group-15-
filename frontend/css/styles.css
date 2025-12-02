@@ -1,4 +1,6 @@
-/* variables */
+/* ===========================
+   HOME PAGE STYLES
+   =========================== */
 
 :root {
   --font-main: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -7,10 +9,15 @@
   --primary-colour: #6b0f1a;
   --frame-colour: #ffffff;
   --frame-text-colour: #333;
-  --navbar-border-colour: #e0e0e0;
+  --border-colour: #e0e0e0;
   --radius: 15px;
   --shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.12);
+  --dm-button-colour: #000;
+
+  --white: #ffffff;
+  --dark-grey: #555555;
+  --black: #000000;
 }
 
 :root.darkmode {
@@ -18,7 +25,9 @@
   --text-colour: #fff;
   --primary-colour: #ff4d00;
   --frame-colour: #424242;
-  --navbar-border-colour: #424242;
+  --frame-text-colour: #e0e0e0;
+  --border-colour: #424242;
+  --dm-button-colour: #fff;
 }
 
 body {
@@ -45,6 +54,13 @@ main h1 {
 .center-title {
   grid-column: 1 / -1;
   text-align: center;
+  font-size: 3rem;
+  color: var(--primary-colour);
+}
+
+.separator {
+  height: 100px;  /* adjust the vertical space */
+  width: 100%;   /* full width */
 }
 
 /* Navbar */
@@ -54,12 +70,12 @@ main h1 {
   align-items: center;
   background: var(--background-colour);
   padding: 10px 25px;
-  border-bottom: 1px solid var(--navbar-border-colour);
+  border-bottom: 1px solid var(--border-colour);
   gap: 20px;
   overflow: hidden;
-  position: fixed; 
-  top: 0; 
-  z-index: 1000; 
+  position: fixed;
+  top: 0;
+  z-index: 1000;
   width: 100%;
 }
 
@@ -77,22 +93,37 @@ main h1 {
   text-decoration: none;
   color: var(--text-colour);
   font-size: 14px;
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
 .navbar-right {
   margin-left: auto;
   display: flex;
-  align-items: center;
+  align-items: center;   /* ensures vertical centering */
   gap: 15px;
-  margin-right: 50px
+  margin-right: 50px;
 }
 
-.navbar input {
-  padding: 6px;
-  border: 1px solid #ccc;
+.navbar-right input {
+  padding: 6px 10px;
+  border: 1px solid var(--border-colour);
   border-radius: 6px;
   width: 180px;
+  height: 32px;          /* matches link/button height */
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;             /* removes default spacing */
+  box-sizing: border-box;
+}
+
+.navbar-right input {
+  padding: 6px;
+  border: 1px solid var(--border-colour);
+  border-radius: 6px;
+  width: 180px;
+  height: 32px;          /* match link height */
+  line-height: 1.5;      /* consistent text alignment */
+  vertical-align: middle; /* align with text */
 }
 
 /* header CSS */
@@ -105,7 +136,7 @@ main h1 {
   align-items: center;
   justify-content: flex-start;
   text-align: left;
-  color: white;
+  color: var(--white);
   position: relative;
 }
 
@@ -115,11 +146,11 @@ main h1 {
   top: 50%;
   left: 40%;
   transform: translate(-50%, -50%);
-  color: white;
+  color: var(--white);
 }
 
 .header-content p {
-  margin: 0;   
+  margin: 0;
 }
 
 .header-content h1 {
@@ -141,7 +172,7 @@ main h1 {
 }
 
 .frame p {
-  color: var(--text-colour);
+  color: var(--frame-text-colour);
   margin: 0;
 }
 
@@ -150,7 +181,7 @@ main h1 {
   box-shadow: var(--shadow-hover);
 }
 
-/* welcome CSS */
+/* welcome */
 
 .welcome {
   display: grid;
@@ -171,7 +202,7 @@ main h1 {
   max-width: 450px;
 }
 
-/* about CSS */
+/* about */
 
 .about {
   display: flex;
@@ -209,7 +240,10 @@ main h1 {
 
 .reviews {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Flexible thirds */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* Flexible thirds */
   gap: 20px;
   padding: 20px 40px;
 }
@@ -230,6 +264,7 @@ main h1 {
   max-width: 90px;
   margin: 0 auto;
   display: block;
+  color: #ffc107;
 }
 
 /* FAQ */
@@ -246,16 +281,652 @@ main h1 {
 /* Footer */
 
 .dark-mode-button {
-  width: 32px; 
+  width: 32px;
   height: 32px;
   padding: 0;
-  border: none; 
-  background: transparent; 
+  border: none;
+  background: transparent;
   cursor: pointer;
+  margin-left: 25px;
 }
 
 .dark-mode-button img {
-  width: 100%; 
+  width: 100%;
   height: auto;
-  display: block; 
+  display: block;
+  color: var(--dm-button-colour);
+}
+
+/* ===========================
+   WINE TYPE SELECTION
+   =========================== */
+
+.wrap-cards {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.wine-image {
+  width: 100%;
+  display: block;
+}
+
+.front-image {
+  overflow: hidden;
+  height: 520px;
+}
+
+.image-showcase {
+  display: flex;
+  width: 100%;
+  transition: all 0.5s ease;
+}
+
+.image-showcase img {
+  min-width: 100%;
+}
+
+.select-image {
+  display: flex;
+}
+
+.item {
+  margin: 0.4rem;
+}
+
+.item:nth-child(1),
+.item:nth-child(2),
+.item:nth-child(3) {
+  margin-right: 0;
+}
+
+.item:hover {
+  opacity: 0.8;
+}
+
+.content {
+  padding: 2rem 1rem;
+}
+
+.title {
+  font-size: 2.2rem;
+  text-transform: capitalize;
+  font-weight: 700;
+  position: relative;
+  color: var(--primary-colour);
+  margin: 1rem 0;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 80px;
+}
+
+.rating span {
+  font-weight: 600;
+  color: var(--dark-grey);
+}
+
+.price {
+  margin: 1rem 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.price span {
+  font-weight: 400;
+}
+
+.details h2 {
+  text-transform: capitalize;
+  color: var(--primary-colour);
+  padding-bottom: 0.6rem;
+}
+
+.details p {
+  font-size: 0.9rem;
+  padding: 0.3rem;
+  opacity: 0.8;
+}
+
+.details ul {
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.details ul li {
+  margin: 0;
+  list-style: none;
+  padding-left: 1.7rem;
+  margin: 0.4rem 0;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.details ul li span {
+  font-weight: 400;
+}
+
+.purchase input,
+.purchase .button {
+  border: 1.5px solid #ddd;
+  border-radius: 5px;
+
+  padding: 0.45rem 0.8rem;
+  outline: 0;
+  margin-right: 0.2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.purchase input {
+  width: 60px;
+}
+
+.purchase button {
+  cursor: pointer;
+  color: var(--white);
+}
+
+.purchase button {
+  background: #256eff;
+}
+
+.purchase button:hover {
+  opacity: 0.9;
+}
+
+.image-card {
+  margin-top: 1rem;
+  border-radius: 1.5rem;
+}
+
+.image-article {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-data {
+  width: 480px;
+  background-color: var(--white);
+  padding: 1.5rem 2rem;
+  box-shadow: var(--shadow-hover);
+  border-radius: 1rem;
+  position: absolute;
+  bottom: -9.5rem;
+
+  margin-inline: auto;
+  transition: opacity 1s 1s;
+}
+
+.ingredients {
+  display: block;
+  font-size: var(--small-font-size);
+  margin-bottom: 0.25rem;
+}
+
+.image-article:hover .hover_data {
+  animation: show-data 1s forwards;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.image-article:hover {
+  animation: remove-overflow 2s forwards;
+}
+
+/* ===========================
+   WINES CYCLE
+   =========================== */
+
+/* Cards */
+
+.cards-cycle {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+.cards-cycle .wines-list .wine {
+  position: absolute;
+  inset: 0 0 0 0;
+}
+.cards-cycle .wines-list .wine img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cards-cycle .wines-list .wine .information {
+  position: absolute;
+  top: 20%;
+  width: 900px;
+  left: 50%;
+  transform: translateX(-60%);
+  padding-right: 30%;
+  box-sizing: border-box;
+  color: var(--white);
+}
+
+.cards-cycle .wines-list .wine .wine_type,
+.cards-cycle .wines-list .wine .name {
+  font-weight: bold;
+  font-size: 3em;
+  line-height: 1.3em;
+}
+
+.cards-cycle .wines-list .wine .name {
+  color: var(--primary-colour);
+}
+
+.cards-cycle .wines-list .wine .description {
+  text-shadow: 0 5px 10px rgba(255, 255, 255, 0.6);
+  padding-bottom: 10px;
+}
+
+.cards-cycle .wines-list .wine .price {
+  font-weight: bold;
+  font-size: 1.5em;
+  padding-bottom: 10px;
+}
+
+.cards-cycle .wines-list .wine .buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 130px);
+  grid-template-rows: 40px;
+  gap: 5px;
+}
+
+.cards-cycle .wines-list .wine .buttons .button {
+  border: none;
+  background-color: var(--white);
+  font-weight: bold;
+}
+
+.cards-cycle .wines-list .wine .buttons .button:nth-child(2) {
+  background-color: transparent;
+  color: var(--white);
+  border: 1px solid var(--white);
+}
+
+/* Cover */
+
+.cover {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  z-index: 100;
+  display: flex;
+  gap: 20px;
+}
+
+.cover .wine {
+  width: 130px;
+  height: 200px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.cover .wine img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.cover .wine .information {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  font-size: 0.8em;
+  color: var(--white);
+  text-shadow: var(--shadow);
+}
+
+.cover .wine .information .name {
+  font-weight: bold;
+}
+
+.arrow {
+  padding-top: 10px;
+  position: absolute;
+  top: 80%;
+  right: 52%;
+  width: 300px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.arrow button {
+  width: 40px;
+  height: 40px;
+  background-color: var(--shadow);
+  border: none;
+  color: var(--white);
+  font-weight: bold;
+  font-size: large;
+  transition: 0.5s;
+  border-radius: 50%;
+  font-family: monospace;
+  z-index: 500;
+}
+
+.arrow button:hover {
+  background-color: #eee;
+  color: var(--dark-grey);
+}
+
+.cards-cycle .wines-list .wine:nth-child(1) {
+  z-index: 1;
+}
+
+/* ===========================
+   CHECKOUT
+   =========================== */
+
+.checkout-container {
+  background: var(--frame-colour);
+  width: 70%;
+  margin: 140px auto 40px;
+  padding: 40px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.checkout-container h1 {
+  font-size: 2.2rem;
+  color: var(--primary-colour);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-colour);
+}
+
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  margin-bottom: 18px;
+  border: 1px solid var(--border-colour);
+  border-radius: var(--radius);
+  background: var(--background-colour);
+  color: var(--text-colour);
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+.column {
+  flex: 1;
+}
+
+.place-order {
+  margin-top: 25px;
+  background: var(--primary-colour);
+  color: var(--white);
+  padding: 14px 22px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-size: 1.1rem;
+  display: inline-block;
+  text-align: center;
+}
+
+.place-order:hover {
+  opacity: 0.85;
+}
+
+/* validation visuals */
+.invalid {
+  border-color: #b00020 !important;
+  box-shadow: 0 0 0 3px rgba(176, 0, 32, 0.06);
+}
+
+.error-inline {
+  color: #b00020;
+  font-size: 0.9rem;
+  margin-top: 6px;
+  display: none;
+}
+
+/* card area hidden by default */
+#card-details {
+  display: none;
+  margin-top: 20px;
+}
+
+/* ===========================
+   BASKET
+   =========================== */
+
+.place-order {
+  margin-top: 25px;
+  background: var(--primary-colour);
+  color: var(--white);
+  padding: 14px 22px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-size: 1.1rem;
+  display: inline-block;
+  text-align: center;
+}
+
+.basket-wrapper {
+  width: 90%;
+  margin: 120px auto 0 auto;
+}
+
+.basket-wrapper span {
+  color: var(--primary-colour);
+}
+
+.basket-header {
+  display: grid;
+  grid-template-columns: 1fr 160px 100px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-colour);
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: var(--dark-grey);
+}
+
+.basket-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 160px 100px;
+  padding: 25px 0;
+  align-items: center;
+  border-bottom: 1px solid var(--border-colour);
+}
+
+.basket-row img {
+  width: 140px;
+  border-radius: 8px;
+}
+
+.basket-info-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--text-colour);
+}
+
+.basket-info-sub {
+  color: var(--dark-grey);
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  color: var(--text-colour);
+}
+
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: var(--text-colour);
+}
+
+.qty-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border-colour);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: var(--text-colour);
+}
+
+.remove-link {
+  color: var(--dark-grey);
+  text-decoration: underline;
+  font-size: 0.9rem;
+  margin-top: 8px;
+  display: inline-block;
+  color: var(--text-colour);
+}
+
+.basket-total-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--text-colour);
+}
+
+/* WINE INFO */
+
+.grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 300px));
+  gap: 20px;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--frame-colour);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s;
+  text-decoration: none;
+  color: var(--black);
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.card .text {
+  padding: 15px;
+}
+
+.card .text h3 {
+  margin: 0;
+  color: var(--primary-colour);
+}
+
+.card .text p {
+  font-size: 14px;
+  margin-top: 8px;
+  color: var(--frame-text-colour);
+}
+
+/* ANIMATIONS */
+
+.cards-cycle .wines-list .wine:nth-child(1) .wine_type,
+.cards-cycle .wines-list .wine:nth-child(1) .name,
+.cards-cycle .wines-list .wine:nth-child(1) .description,
+.cards-cycle .wines-list .wine:nth-child(1) .price,
+.cards-cycle .wines-list .wine:nth-child(1) .buttons {
+  transform: translateY(50px);
+  filter: blur(20px);
+  opacity: 0;
+  animation: contentAppears 0.5s 1s linear forwards;
+}
+
+@keyframes contentAppears {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+.cards-cycle .wines-list .wine:nth-child(1) .wine_type {
+  animation-delay: 1s;
+}
+
+.cards-cycle .wines-list .wine:nth-child(1) .name {
+  animation-delay: 1.2s;
+}
+
+.cards-cycle .wines-list .wine:nth-child(1) .description {
+  animation-delay: 1.4s;
+}
+
+.cards-cycle .wines-list .wine:nth-child(1) .price {
+  animation-delay: 1.6s;
+}
+
+.cards-cycle .wines-list .wine:nth-child(1) .buttons {
+  animation-delay: 1.8s;
+}
+
+@keyframes show-data {
+  50% {
+    transform: translateY(-10rem);
+  }
+  100% {
+    transform: translateY(-8.5rem);
+  }
+}
+@keyframes remove-overflow {
+  to {
+    overflow: initial;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .card {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1.5rem;
+  }
+  .wrap_cards {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .images {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .content {
+    padding-top: 0;
+  }
 }
