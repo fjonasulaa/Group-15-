@@ -807,7 +807,9 @@ select {
   color: var(--text-colour);
 }
 
-/* WINE INFO */
+/* ===========================
+   WINE INFO
+   =========================== */
 
 .grid {
   display: grid;
@@ -835,21 +837,20 @@ select {
 
 .card img {
   width: 100%;
-  height: 200px;
-  object-fit: contain;
-  object-position: center;
+  height: 220px;
+  object-fit: cover;
 }
 
 .card .text {
   padding: 15px;
 }
 
-.card .text h3 {
+.card h3 {
   margin: 0;
   color: var(--primary-colour);
 }
 
-.card .text p {
+.card p {
   font-size: 14px;
   margin-top: 8px;
   color: var(--frame-text-colour);
