@@ -1,6 +1,6 @@
 :root {
   --font-main: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --background-colour: #fdfdfdf8;
+  --background-colour: #fdfdfd;
   --text-colour: #333;
   --primary-colour: #6b0f1a;
   --frame-colour: #ffffff;
@@ -130,10 +130,14 @@ main h1 {
   vertical-align: middle; /* align with text */
 }
 
-.separator {
-  height: 150px; /* adjust the vertical space */
-  width: 100%; /* full width */
+body .wines {
+  padding-top: 5rem;
 }
+
+body .info {
+  padding-top: 6rem;
+}
+
 
 
 
@@ -370,6 +374,16 @@ main h1 {
   overflow: hidden;
 }
 
+.image-article:hover .hover-data {
+  animation: show-data 1s forwards;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.image-article:hover {
+  animation: remove-overflow 2s forwards;
+}
+
 .select-image {
   display: flex;
 }
@@ -416,7 +430,6 @@ main h1 {
 
 .rating span {
   font-weight: 600;
-  display: block;
   color: var(--frame-text-colour);
 }
 
@@ -462,7 +475,7 @@ main h1 {
 
 .purchase input,
 .purchase .button {
-  border: 1.5px solid #ddd;
+  border: 1.5px solid var(--border-colour);
   border-radius: 5px;
 
   padding: 0.45rem 0.8rem;
@@ -491,7 +504,7 @@ main h1 {
 
 .hover-data {
   width: 480px;
-  background-color: var(--white);
+  background-color: var(--frame-colour);
   padding: 1.5rem 2rem;
   box-shadow: var(--shadow-hover);
   border-radius: 1rem;
@@ -506,18 +519,8 @@ main h1 {
   display: block;
   font-size: var(--small-font-size);
   margin-bottom: 0.25rem;
+  color: var(--frame-text-colour);
 }
-
-.image-article:hover .hover-data {
-  animation: show-data 1s forwards;
-  opacity: 1;
-  transition: opacity 0.3s;
-}
-
-.image-article:hover {
-  animation: remove-overflow 2s forwards;
-}
-
 
 
 
@@ -904,6 +907,7 @@ select {
   display: flex;
   flex-direction: column;
 }
+
 .card:hover {
   transform: scale(1.03);
 }
@@ -911,7 +915,7 @@ select {
 .card img {
   width: 100%;
   height: 220px;
-  object-fit: cover;
+  object-fit:contain;
 }
 
 .card .text {
@@ -998,6 +1002,7 @@ select {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 1.5rem;
   }
+  
   .wrap-cards {
     height: 100vh;
     display: flex;
