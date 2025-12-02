@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basket - Wine Exchange</title>
+    <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
 </head>
 
+<<<<<<< HEAD
 <style>
 .place-order {
     margin-top: 25px;
@@ -64,112 +68,125 @@
 .basket-total-price { font-size: 1.2rem; font-weight: bold; }
 </style>
 
+=======
+>>>>>>> fab9d6dc367213b5d730f455ffe21d7cb1df17e2
 <body>
-
-<!-- NAVBAR -->
-<div class="navbar">
-    <img src="../../images/icon.png" alt="Wine Exchange Logo">
-    <div class="navbar-links">
-        <a href="home.html">Home</a>
-        <a href="wines.html">Wines</a>
-        <a href="basket.html">Basket</a>
-    </div>
-    <div class="navbar-right">
-        <input type="text" placeholder="Search">
-        <a href="login.html">Login</a>
-        <a href="signup.html">Sign up</a>
-    </div>
-</div>
-
-<!-- BASKET CONTENT -->
-<div class="basket-wrapper">
-    <h2>Your Basket</h2>
-
-    <div class="basket-header">
-        <span>PRODUCT</span>
-        <span style="text-align:center;">QUANTITY</span>
-        <span style="text-align:right;">TOTAL</span>
-    </div>
-
-    <!-- EXAMPLE -->
-    <div class="basket-row">
-        <img src="../../images/image(3).jpg" alt="Product Image">
-
-        <div>
-            <div class="basket-info-title">Marchesi Antinori Tignanello</div>
-            <div class="basket-info-sub">13.5% / 75cl</div>
-            <div class="basket-info-sub">Italian Red Wine</div>
-            <a href="#" class="remove-link">Remove Item</a>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <img src="../../images/icon.png" alt="Wine Exchange Logo">
+        <div class="navbar-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="wines.html">Wines</a>
+            <a href="basket.html">Basket</a>
         </div>
 
-        <div class="qty-control" style="justify-content:center;">
-            <div class="qty-btn">-</div>
-            <span>1</span>
-            <div class="qty-btn">+</div>
+        <div class="navbar-right">
+            <input type="text" placeholder="Search">
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+            <button id="dark-mode" class="dark-mode-button">
+                <img src="../../images/darkmode.png" alt="Dark Mode" />
+            </button>
         </div>
-
-        <div class="basket-total-price" style="text-align:right;">£150.00</div>
     </div>
 
-    
-    
-</div>
 
-<!-- PLACE ORDER BUTTON -->
-<div style="margin-top: 50px; text-align: left; padding-left: 20px;">
-    <a href="checkout.html" class="place-order">Place Order</a>
-</div>
+    <!-- BASKET CONTENT -->
+    <div class="basket-wrapper">
+        <h2>Your Basket</h2>
 
-<footer>
-    <button id="dark-mode" class="dark-mode-button">
-        <img src="../../images/darkmode.png" alt="Dark Mode" />
-    </button>
-</footer>
+        <div class="basket-header">
+            <span>PRODUCT</span>
+            <span style="text-align:center;">QUANTITY</span>
+            <span style="text-align:right;">TOTAL</span>
+        </div>
 
-<script>
-// Dark mode toggle
-document.getElementById("dark-mode").addEventListener("click", () => {
-    document.documentElement.classList.toggle("darkmode");
-});
+        <!-- EXAMPLE -->
+        <div class="basket-row">
+            <img src="../../images/image(3).jpg" alt="Product Image">
 
-// Quantity buttons functionality
-const rows = document.querySelectorAll('.basket-row');
+            <div>
+                <div class="basket-info-title">Marchesi Antinori Tignanello</div>
+                <div class="basket-info-sub">13.5% / 75cl</div>
+                <div class="basket-info-sub">Italian Red Wine</div>
+                <a href="#" class="remove-link">Remove Item</a>
+            </div>
 
-rows.forEach(row => {
-    const qtyBtns = row.querySelectorAll('.qty-btn');
-    const qtyDisplay = row.querySelector('.qty-control span');
-    const priceElement = row.querySelector('.basket-total-price');
+            <div class="qty-control" style="justify-content:center;">
+                <div class="qty-btn">-</div>
+                <span>1</span>
+                <div class="qty-btn">+</div>
+            </div>
 
-    let qty = parseInt(qtyDisplay.textContent);
-    const basePrice = 150.00; // static example
+            <div class="basket-total-price" style="text-align:right;">£150.00</div>
+        </div>
 
-    qtyBtns[0].addEventListener('click', () => {
-        if (qty > 1) {
-            qty--;
-            qtyDisplay.textContent = qty;
-            priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
+
+
+    </div>
+
+    <!-- PLACE ORDER BUTTON -->
+    <div style="margin-top: 50px; text-align: left; padding-left: 20px;">
+        <a href="checkout.html" class="place-order">Place Order</a>
+    </div>
+
+    <script>
+        const button = document.getElementById("dark-mode");
+
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
         }
-    });
 
-    qtyBtns[1].addEventListener('click', () => {
-        qty++;
-        qtyDisplay.textContent = qty;
-        priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
-    });
-});
+        button.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
+
+            if (document.documentElement.classList.contains("darkmode")) {
+                localStorage.setItem("dark_mode", "on");
+            } else {
+                localStorage.setItem("dark_mode", "off");
+            }
+        });
+
+        // Quantity buttons functionality
+        const rows = document.querySelectorAll('.basket-row');
+
+        rows.forEach(row => {
+            const qtyBtns = row.querySelectorAll('.qty-btn');
+            const qtyDisplay = row.querySelector('.qty-control span');
+            const priceElement = row.querySelector('.basket-total-price');
+
+            let qty = parseInt(qtyDisplay.textContent);
+            const basePrice = 150.00; // static example
+
+            qtyBtns[0].addEventListener('click', () => {
+                if (qty > 1) {
+                    qty--;
+                    qtyDisplay.textContent = qty;
+                    priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
+                }
+            });
+
+            qtyBtns[1].addEventListener('click', () => {
+                qty++;
+                qtyDisplay.textContent = qty;
+                priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
+            });
+        });
 
 
-</script>
-<script>
-    document.querySelectorAll('.remove-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
+    </script>
+    <script>
+        document.querySelectorAll('.remove-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
 
-        const row = link.closest('.basket-row');
-        row.remove();
-    });
-});
-</script>
+                const row = link.closest('.basket-row');
+                row.remove();
+            });
+        });
+    </script>
 
 </body>
+
 </html>
