@@ -59,7 +59,7 @@ main h1 {
 }
 
 .separator {
-  height: 100px;  /* adjust the vertical space */
+  height: 150px;  /* adjust the vertical space */
   width: 100%;   /* full width */
 }
 
@@ -260,7 +260,7 @@ main h1 {
   object-fit: cover;
 }
 
-.rating {
+.review-rating {
   max-width: 90px;
   margin: 0 auto;
   display: block;
@@ -368,7 +368,8 @@ main h1 {
 
 .rating span {
   font-weight: 600;
-  color: var(--dark-grey);
+  display: block;
+  color: #ffc107;
 }
 
 .price {
