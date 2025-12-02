@@ -38,9 +38,8 @@
    =========================== */
 
 body {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
   font-family: var(--font-main);
   background-color: var(--background-colour);
   line-height: 1.5;
@@ -125,16 +124,16 @@ main h1 {
   border: 1px solid var(--border-colour);
   border-radius: 6px;
   width: 180px;
-  height: 32px; /* match link height */
-  line-height: 1.5; /* consistent text alignment */
-  vertical-align: middle; /* align with text */
+  height: 32px;
+  line-height: 1.5; 
+  vertical-align: middle; 
 }
 
-body .wines {
+body.wines {
   padding-top: 5rem;
 }
 
-body .info {
+body.info {
   padding-top: 6rem;
 }
 
@@ -336,6 +335,12 @@ body .info {
    WINE INFO
    =========================== */
 
+.wrap-cards * {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
 .wrap-cards {
   max-width: 1100px;
   margin: 0 auto;
@@ -506,7 +511,7 @@ body .info {
   width: 480px;
   background-color: var(--frame-colour);
   padding: 1.5rem 2rem;
-  box-shadow: var(--shadow-hover);
+  box-shadow: var(--shadow);
   border-radius: 1rem;
   position: absolute;
   bottom: -9.5rem;
@@ -754,7 +759,7 @@ select {
 /* validation visuals */
 .invalid {
   border-color: #b00020 !important;
-  box-shadow: 0 0 0 3px rgba(176, 0, 32, 0.06);
+  box-shadow: var(--shadow);
 }
 
 .error-inline {
