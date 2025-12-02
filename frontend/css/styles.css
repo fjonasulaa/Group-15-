@@ -26,14 +26,23 @@
   --dm-button-colour: #fff;
 }
 
+
+
+
+
+
+
+
 /* ===========================
    MAIN STYLES
    =========================== */
 
 body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
   font-family: var(--font-main);
   background-color: var(--background-colour);
-  margin: 0;
   line-height: 1.5;
   color: var(--text-colour);
 }
@@ -126,45 +135,12 @@ main h1 {
   width: 100%; /* full width */
 }
 
-/* ===========================
-   CARD
-   =========================== */
 
-.card {
-  background: var(--frame-colour);
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  transition: transform 0.2s;
-  text-decoration: none;
-  color: var(--black);
-  display: flex;
-  flex-direction: column;
-}
-.card:hover {
-  transform: scale(1.03);
-}
 
-.card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-}
 
-.card .text {
-  padding: 15px;
-}
 
-.card h3 {
-  margin: 0;
-  color: var(--primary-colour);
-}
 
-.card p {
-  font-size: 14px;
-  margin-top: 8px;
-  color: var(--frame-text-colour);
-}
+
 
 /* ===========================
    HOME PAGE
@@ -287,7 +263,7 @@ main h1 {
   grid-template-columns: repeat(
     auto-fit,
     minmax(300px, 1fr)
-  ); /* Flexible thirds */
+  );
   gap: 20px;
   padding: 20px 40px;
 }
@@ -341,6 +317,17 @@ main h1 {
   color: var(--dm-button-colour);
 }
 
+
+
+
+
+
+
+
+
+
+
+
 /* ===========================
    WINE INFO
    =========================== */
@@ -358,11 +345,6 @@ main h1 {
   display: block;
 }
 
-.info-image {
-  width: 100%;
-  display: block;
-}
-
 .front-image {
   overflow: hidden;
   height: 520px;
@@ -376,6 +358,16 @@ main h1 {
 
 .image-showcase img {
   min-width: 100%;
+}
+
+.image-card {
+  margin-top: 1rem;
+  border-radius: 1.5rem;
+}
+
+.image-article {
+  position: relative;
+  overflow: hidden;
 }
 
 .select-image {
@@ -497,16 +489,6 @@ main h1 {
   opacity: 0.9;
 }
 
-.image-card {
-  margin-top: 1rem;
-  border-radius: 1.5rem;
-}
-
-.image-article {
-  position: relative;
-  overflow: hidden;
-}
-
 .hover-data {
   width: 480px;
   background-color: var(--white);
@@ -535,6 +517,16 @@ main h1 {
 .image-article:hover {
   animation: remove-overflow 2s forwards;
 }
+
+
+
+
+
+
+
+
+
+
 
 /* ===========================
    WINES CYCLE
@@ -683,6 +675,14 @@ main h1 {
   z-index: 1;
 }
 
+
+
+
+
+
+
+
+
 /* ===========================
    CHECKOUT
    =========================== */
@@ -766,6 +766,14 @@ select {
   display: none;
   margin-top: 20px;
 }
+
+
+
+
+
+
+
+
 
 /* ===========================
    BASKET
@@ -864,6 +872,14 @@ select {
   color: var(--text-colour);
 }
 
+
+
+
+
+
+
+
+
 /* ===========================
    WINE SELECTION
    =========================== */
@@ -876,6 +892,48 @@ select {
   width: fit-content;
   margin: 0 auto;
 }
+
+.card {
+  background: var(--frame-colour);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s;
+  text-decoration: none;
+  color: var(--black);
+  display: flex;
+  flex-direction: column;
+}
+.card:hover {
+  transform: scale(1.03);
+}
+
+.card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.card .text {
+  padding: 15px;
+}
+
+.card h3 {
+  margin: 0;
+  color: var(--primary-colour);
+}
+
+.card p {
+  font-size: 14px;
+  margin-top: 8px;
+  color: var(--frame-text-colour);
+}
+
+
+
+
+
+
 
 /* ===========================
    ANIMATIONS
@@ -935,7 +993,7 @@ select {
 }
 
 @media screen and (min-width: 992px) {
-  .card {
+  .info-card {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 1.5rem;
