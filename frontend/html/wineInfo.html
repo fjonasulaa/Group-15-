@@ -29,18 +29,18 @@
         </div>
       </div>
 
-    <div class="wrap_cards">
+    <div class="wrap-cards">
         <div class="card">
             <div class="images">
-                <div class="front_image">
-                    <div class="image_showcase">
+                <div class="front-image">
+                    <div class="image-showcase">
                         <img src="../images/tignanello1.jpg" alt="tignanello">
                         <img src="../images/tignanello2.jpg" alt="tignanello">
                         <img src="../images/tignanello3.jpg" alt="tignanello">
                         <img src="../images/tignanello4.jpg" alt="tignanello">
                     </div>
                 </div>
-                <div class="select_image">
+                <div class="select-image">
                     <div class="item">
                         <a href="#" data-id="1">
                             <img class="wine-image" src="../images/tignanello1.jpg" alt="tignanello">
@@ -93,10 +93,10 @@
                         sold by specialist merchants and fine wine shops worldwide.</p>
                 </div>
                 <div class="container">
-                    <div class="image_container">
-                        <article class="image_article">
-                            <img src="../images/ingredientsBG.jpg" alt="ingredientsBG" class="image_card">
-                            <div class="hover_data">
+                    <div class="image-container">
+                        <article class="image-article">
+                            <img src="../images/ingredientsBG.jpg" alt="ingredientsBG" class="image-card">
+                            <div class="hover-data">
                                 <span class="ingredients">grapes (sangiovese, cabernet sauvignon, cabernet franc), aqua
                                     / water, ethanol, sulfur dioxide, sodium metabisulfite, glycerol, tartaric acid,
                                     esters, polyphenols, yeast nutrients, bentonite, activated carbon, pectic
@@ -110,7 +110,7 @@
     </div>
 
     <script>
-        const images = document.querySelectorAll('.select_image a');
+        const images = document.querySelectorAll('.select-image a');
         const imageButtons = [...images];
         let imageId = 1;
 
@@ -123,9 +123,9 @@
         });
 
         function slideImage() {
-            const displayWidth = document.querySelector('.image_showcase img:first-child').clientWidth;
+            const displayWidth = document.querySelector('.image-showcase img:first-child').clientWidth;
 
-            document.querySelector('.image_showcase').style.transform =
+            document.querySelector('.image-showcase').style.transform =
                 `translateX(${-(imageId - 1) * displayWidth}px)`;
         }
 
