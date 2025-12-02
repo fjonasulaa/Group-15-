@@ -1,7 +1,3 @@
-/* ===========================
-   HOME PAGE STYLES
-   =========================== */
-
 :root {
   --font-main: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --background-colour: #fdfdfdf8;
@@ -30,6 +26,10 @@
   --dm-button-colour: #fff;
 }
 
+/* ===========================
+   MAIN STYLES
+   =========================== */
+
 body {
   font-family: var(--font-main);
   background-color: var(--background-colour);
@@ -56,11 +56,6 @@ main h1 {
   text-align: center;
   font-size: 3rem;
   color: var(--primary-colour);
-}
-
-.separator {
-  height: 150px;  /* adjust the vertical space */
-  width: 100%;   /* full width */
 }
 
 /* Navbar */
@@ -99,7 +94,7 @@ main h1 {
 .navbar-right {
   margin-left: auto;
   display: flex;
-  align-items: center;  
+  align-items: center;
   gap: 15px;
   margin-right: 50px;
 }
@@ -109,10 +104,10 @@ main h1 {
   border: 1px solid var(--border-colour);
   border-radius: 6px;
   width: 180px;
-  height: 32px;        
+  height: 32px;
   font-size: 14px;
   line-height: 1.5;
-  margin: 0;     
+  margin: 0;
   box-sizing: border-box;
 }
 
@@ -121,10 +116,59 @@ main h1 {
   border: 1px solid var(--border-colour);
   border-radius: 6px;
   width: 180px;
-  height: 32px;          /* match link height */
-  line-height: 1.5;      /* consistent text alignment */
+  height: 32px; /* match link height */
+  line-height: 1.5; /* consistent text alignment */
   vertical-align: middle; /* align with text */
 }
+
+.separator {
+  height: 150px; /* adjust the vertical space */
+  width: 100%; /* full width */
+}
+
+/* ===========================
+   CARD
+   =========================== */
+
+.card {
+  background: var(--frame-colour);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s;
+  text-decoration: none;
+  color: var(--black);
+  display: flex;
+  flex-direction: column;
+}
+.card:hover {
+  transform: scale(1.03);
+}
+
+.card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.card .text {
+  padding: 15px;
+}
+
+.card h3 {
+  margin: 0;
+  color: var(--primary-colour);
+}
+
+.card p {
+  font-size: 14px;
+  margin-top: 8px;
+  color: var(--frame-text-colour);
+}
+
+/* ===========================
+   HOME PAGE
+   =========================== */
 
 /* header CSS */
 
@@ -298,15 +342,23 @@ main h1 {
 }
 
 /* ===========================
-   WINE TYPE SELECTION
+   WINE INFO
    =========================== */
 
 .wrap-cards {
   max-width: 1100px;
   margin: 0 auto;
+  padding-top: 0.2rem;
+  line-height: 1.5;
+  box-sizing: border-box;
 }
 
-.wine-image {
+.wrap-cards img {
+  width: 100%;
+  display: block;
+}
+
+.info-image {
   width: 100%;
   display: block;
 }
@@ -366,10 +418,14 @@ main h1 {
   width: 80px;
 }
 
+.rating {
+  color: #FFC107;
+}
+
 .rating span {
   font-weight: 600;
   display: block;
-  color: #ffc107;
+  color: var(--frame-text-colour);
 }
 
 .price {
@@ -809,7 +865,7 @@ select {
 }
 
 /* ===========================
-   WINE INFO
+   WINE SELECTION
    =========================== */
 
 .grid {
@@ -821,43 +877,9 @@ select {
   margin: 0 auto;
 }
 
-.card {
-  background: var(--frame-colour);
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  transition: transform 0.2s;
-  text-decoration: none;
-  color: var(--black);
-  display: flex;
-  flex-direction: column;
-}
-.card:hover {
-  transform: scale(1.03);
-}
-
-.card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-}
-
-.card .text {
-  padding: 15px;
-}
-
-.card h3 {
-  margin: 0;
-  color: var(--primary-colour);
-}
-
-.card p {
-  font-size: 14px;
-  margin-top: 8px;
-  color: var(--frame-text-colour);
-}
-
-/* ANIMATIONS */
+/* ===========================
+   ANIMATIONS
+   =========================== */
 
 .wines-list .wine:nth-child(1) .wine-type,
 .wines-list .wine:nth-child(1) .name,
