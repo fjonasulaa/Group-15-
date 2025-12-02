@@ -33,7 +33,7 @@
 
     <!-- BASKET CONTENT -->
     <div class="basket-wrapper">
-        <h2>Your Basket</h2>
+        <h1 class="center-title">YOUR BASKET</h1>
 
         <div class="basket-header">
             <span>PRODUCT</span>
@@ -71,22 +71,6 @@
     </div>
 
     <script>
-        const button = document.getElementById("dark-mode");
-
-        if (localStorage.getItem("dark_mode") === "on") {
-            document.documentElement.classList.add("darkmode");
-        }
-
-        button.addEventListener("click", () => {
-            document.documentElement.classList.toggle("darkmode");
-
-            if (document.documentElement.classList.contains("darkmode")) {
-                localStorage.setItem("dark_mode", "on");
-            } else {
-                localStorage.setItem("dark_mode", "off");
-            }
-        });
-
         // Quantity buttons functionality
         const rows = document.querySelectorAll('.basket-row');
 
@@ -120,6 +104,17 @@
                 const row = link.closest('.basket-row');
                 row.remove();
             });
+        });
+
+        // DARK MODE
+        const darkButton = document.getElementById("dark-mode");
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
+        }
+
+        darkButton.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
+            localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
         });
     </script>
 

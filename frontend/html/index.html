@@ -10,8 +10,7 @@
 </head>
 
 <body>
-  <!-- menu -->
-
+  <!-- NAVBAR -->
   <div class="navbar">
     <img src="../../images/icon.png" alt="Wine Exchange Logo">
     <div class="navbar-links">
@@ -240,21 +239,17 @@
   </footer>
 
   <script>
-    const button = document.getElementById("dark-mode");
+        // DARK MODE
+        const darkButton = document.getElementById("dark-mode");
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
+        }
 
-    if (localStorage.getItem("dark_mode") === "on") {
-      document.documentElement.classList.add("darkmode");
-    }
+        darkButton.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
+            localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
+        });
 
-    button.addEventListener("click", () => {
-      document.documentElement.classList.toggle("darkmode");
-
-      if (document.documentElement.classList.contains("darkmode")) {
-        localStorage.setItem("dark_mode", "on");
-      } else {
-        localStorage.setItem("dark_mode", "off");
-      }
-    });
   </script>
 </body>
 

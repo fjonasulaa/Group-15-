@@ -9,11 +9,15 @@
   --primary-colour: #6b0f1a;
   --frame-colour: #ffffff;
   --frame-text-colour: #333;
-  --navbar-border-colour: #e0e0e0;
+  --border-colour: #e0e0e0;
   --radius: 15px;
   --shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.12);
-  --dm-button-colour: #000
+  --dm-button-colour: #000;
+
+  --white: #ffffff;
+  --dark-grey: #555555;
+  --black: #000000;
 }
 
 :root.darkmode {
@@ -21,7 +25,8 @@
   --text-colour: #fff;
   --primary-colour: #ff4d00;
   --frame-colour: #424242;
-  --navbar-border-colour: #424242;
+  --frame-text-colour: #e0e0e0;
+  --border-colour: #424242;
   --dm-button-colour: #fff;
 }
 
@@ -51,6 +56,11 @@ main h1 {
   text-align: center;
 }
 
+.separator {
+  height: 100px;  /* adjust the vertical space */
+  width: 100%;   /* full width */
+}
+
 /* Navbar */
 
 .navbar {
@@ -58,7 +68,7 @@ main h1 {
   align-items: center;
   background: var(--background-colour);
   padding: 10px 25px;
-  border-bottom: 1px solid var(--navbar-border-colour);
+  border-bottom: 1px solid var(--border-colour);
   gap: 20px;
   overflow: hidden;
   position: fixed;
@@ -94,7 +104,7 @@ main h1 {
 
 .navbar input {
   padding: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-colour);
   border-radius: 6px;
   width: 180px;
 }
@@ -109,7 +119,7 @@ main h1 {
   align-items: center;
   justify-content: flex-start;
   text-align: left;
-  color: white;
+  color: var(--white);
   position: relative;
 }
 
@@ -119,7 +129,7 @@ main h1 {
   top: 50%;
   left: 40%;
   transform: translate(-50%, -50%);
-  color: white;
+  color: var(--white);
 }
 
 .header-content p {
@@ -145,7 +155,7 @@ main h1 {
 }
 
 .frame p {
-  color: var(--text-colour);
+  color: var(--frame-text-colour);
   margin: 0;
 }
 
@@ -326,7 +336,7 @@ main h1 {
   text-transform: capitalize;
   font-weight: 700;
   position: relative;
-  color: #5f132a;
+  color: var(--primary-colour);
   margin: 1rem 0;
 }
 
@@ -341,7 +351,7 @@ main h1 {
 
 .rating span {
   font-weight: 600;
-  color: #252525;
+  color: var(--dark-grey);
 }
 
 .price {
@@ -356,7 +366,7 @@ main h1 {
 
 .details h2 {
   text-transform: capitalize;
-  color: #5f132a;
+  color: var(--primary-colour);
   padding-bottom: 0.6rem;
 }
 
@@ -402,7 +412,7 @@ main h1 {
 
 .purchase button {
   cursor: pointer;
-  color: #fff;
+  color: var(--white);
 }
 
 .purchase button {
@@ -425,9 +435,9 @@ main h1 {
 
 .hover-data {
   width: 480px;
-  background-color: white;
+  background-color: var(--white);
   padding: 1.5rem 2rem;
-  box-shadow: 0 8px 24px hsla(0, 0%, 0%, 0.15);
+  box-shadow: var(--shadow-hover);
   border-radius: 1rem;
   position: absolute;
   bottom: -9.5rem;
@@ -482,7 +492,7 @@ main h1 {
   transform: translateX(-60%);
   padding-right: 30%;
   box-sizing: border-box;
-  color: white;
+  color: var(--white);
 }
 
 .cards-cycle .wines-list .wine .wine_type,
@@ -493,13 +503,11 @@ main h1 {
 }
 
 .cards-cycle .wines-list .wine .name {
-  color: #800032;
+  color: var(--primary-colour);
 }
 
 .cards-cycle .wines-list .wine .description {
   text-shadow: 0 5px 10px rgba(255, 255, 255, 0.6);
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
   padding-bottom: 10px;
 }
 
@@ -518,14 +526,14 @@ main h1 {
 
 .cards-cycle .wines-list .wine .buttons .button {
   border: none;
-  background-color: white;
+  background-color: var(--white);
   font-weight: bold;
 }
 
 .cards-cycle .wines-list .wine .buttons .button:nth-child(2) {
   background-color: transparent;
-  color: white;
-  border: 1px solid white;
+  color: var(--white);
+  border: 1px solid var(--white);
 }
 
 /* Cover */
@@ -559,8 +567,8 @@ main h1 {
   left: 10px;
   right: 10px;
   font-size: 0.8em;
-  color: white;
-  text-shadow: 0 5px 10px rgb(0, 0, 0);
+  color: var(--white);
+  text-shadow: var(--shadow);
 }
 
 .cover .wine .information .name {
@@ -581,9 +589,9 @@ main h1 {
 .arrow button {
   width: 40px;
   height: 40px;
-  background-color: rgba(238, 238, 238, 0.358);
+  background-color: var(--shadow);
   border: none;
-  color: white;
+  color: var(--white);
   font-weight: bold;
   font-size: large;
   transition: 0.5s;
@@ -594,7 +602,7 @@ main h1 {
 
 .arrow button:hover {
   background-color: #eee;
-  color: #555;
+  color: var(--dark-grey);
 }
 
 .cards-cycle .wines-list .wine:nth-child(1) {
@@ -635,7 +643,7 @@ select {
   padding: 12px;
   font-size: 1rem;
   margin-bottom: 18px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-colour);
   border-radius: var(--radius);
   background: var(--background-colour);
   color: var(--text-colour);
@@ -653,7 +661,7 @@ select {
 .place-order {
   margin-top: 25px;
   background: var(--primary-colour);
-  color: white;
+  color: var(--white);
   padding: 14px 22px;
   border-radius: var(--radius);
   text-decoration: none;
@@ -692,7 +700,7 @@ select {
 .place-order {
   margin-top: 25px;
   background: var(--primary-colour);
-  color: white;
+  color: var(--white);
   padding: 14px 22px;
   border-radius: var(--radius);
   text-decoration: none;
@@ -704,7 +712,6 @@ select {
 .basket-wrapper {
   width: 90%;
   margin: 120px auto 0 auto;
-  font-family: Arial, sans-serif;
 }
 
 .basket-header {
@@ -714,7 +721,7 @@ select {
   border-bottom: 1px solid #ccc;
   font-weight: bold;
   letter-spacing: 1px;
-  color: #333;
+  color: var(--dark-grey);
 }
 
 .basket-row {
@@ -723,6 +730,10 @@ select {
   padding: 25px 0;
   align-items: center;
   border-bottom: 1px solid #eee;
+}
+
+.basket div {
+  color: var(--text-colour);
 }
 
 .basket-row img {
@@ -737,7 +748,7 @@ select {
 }
 
 .basket-info-sub {
-  color: #666;
+  color: var(--dark-grey);
   font-size: 0.9rem;
   margin-bottom: 4px;
 }
@@ -761,7 +772,7 @@ select {
 }
 
 .remove-link {
-  color: #444;
+  color: var(--dark-grey);
   text-decoration: underline;
   font-size: 0.9rem;
   margin-top: 8px;
@@ -785,13 +796,13 @@ select {
 }
 
 .card {
-  background: #F3EDE2;
+  background: var(--frame-colour);
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow);
   transition: transform 0.2s;
   text-decoration: none;
-  color: black;
+  color: var(--black);
 }
 
 .card:hover {
@@ -811,12 +822,13 @@ select {
 
 .card .text h3 {
   margin: 0;
-  color: #6A0D24;
+  color: var(--primary-colour);
 }
 
 .card .text p {
   font-size: 14px;
   margin-top: 8px;
+  color: var(--frame-text-colour);
 }
 
 /* ANIMATIONS */

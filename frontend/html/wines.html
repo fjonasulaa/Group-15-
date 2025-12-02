@@ -10,26 +10,28 @@
 </head>
 
 <body>
+    <!-- NAVBAR -->
     <div class="navbar">
         <img src="../../images/icon.png" alt="Wine Exchange Logo">
         <div class="navbar-links">
-          <a href="index.html">Home</a>
-          <a href="about.html">About Us</a>
-          <a href="wines.html">Wines</a>
-          <a href="basket.html">Basket</a>
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="wines.html">Wines</a>
+            <a href="basket.html">Basket</a>
         </div>
-    
-        <div class="navbar-right">
-          <input type="text" placeholder="Search">
-          <a href="login.html">Login</a>
-          <a href="signup.html">Sign up</a>
-          <button id="dark-mode" class="dark-mode-button">
-            <img src="../../images/darkmode.png" alt="Dark Mode" />
-          </button>
-        </div>
-      </div>
 
-    <h1>Our Wine Collection</h1>
+        <div class="navbar-right">
+            <input type="text" placeholder="Search">
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+            <button id="dark-mode" class="dark-mode-button">
+                <img src="../../images/darkmode.png" alt="Dark Mode" />
+            </button>
+        </div>
+    </div>
+
+    <div class = "separator"></div>
+    <h1 class="center-title">OUR WINE COLLECTION</h1>
 
     <div class="grid">
 
@@ -84,20 +86,15 @@
     </div>
 
     <script>
-        const button = document.getElementById("dark-mode");
-
+        // DARK MODE
+        const darkButton = document.getElementById("dark-mode");
         if (localStorage.getItem("dark_mode") === "on") {
             document.documentElement.classList.add("darkmode");
         }
 
-        button.addEventListener("click", () => {
+        darkButton.addEventListener("click", () => {
             document.documentElement.classList.toggle("darkmode");
-
-            if (document.documentElement.classList.contains("darkmode")) {
-                localStorage.setItem("dark_mode", "on");
-            } else {
-                localStorage.setItem("dark_mode", "off");
-            }
+            localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
         });
     </script>
 </body>

@@ -12,7 +12,7 @@
       padding-top: 120px;
     }
 
-    
+
     .feature-section {
       display: flex;
       align-items: center;
@@ -33,7 +33,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.4); 
+      background: rgba(0, 0, 0, 0.4);
       z-index: 1;
     }
 
@@ -55,7 +55,7 @@
 </head>
 
 <body>
-
+  <!-- NAVBAR -->
   <div class="navbar">
     <img src="../../images/icon.png" alt="Wine Exchange Logo">
     <div class="navbar-links">
@@ -69,8 +69,12 @@
       <input type="text" placeholder="Search">
       <a href="login.html">Login</a>
       <a href="signup.html">Sign up</a>
+      <button id="dark-mode" class="dark-mode-button">
+        <img src="../../images/darkmode.png" alt="Dark Mode" />
+      </button>
     </div>
   </div>
+
 
   <section class="about">
     <h1 class="center-title">ABOUT US</h1>
@@ -101,7 +105,7 @@
       </div>
     </div>
 
-    
+
     <section class="feature-section">
       <div class="feature-text">
         <h2>Our Wine Collection</h2>
@@ -123,21 +127,17 @@
   </footer>
 
   <script>
-    const button = document.getElementById("dark-mode");
+        // DARK MODE
+        const darkButton = document.getElementById("dark-mode");
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
+        }
 
-    if (localStorage.getItem("dark_mode") === "on") {
-      document.documentElement.classList.add("darkmode");
-    }
-
-    button.addEventListener("click", () => {
-      document.documentElement.classList.toggle("darkmode");
-
-      if (document.documentElement.classList.contains("darkmode")) {
-        localStorage.setItem("dark_mode", "on");
-      } else {
-        localStorage.setItem("dark_mode", "off");
-      }
-    });
+        darkButton.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
+            localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
+        });
   </script>
 </body>
+
 </html>
