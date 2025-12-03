@@ -90,7 +90,7 @@ input, select { width:100%; padding:12px; font-size:1rem; margin-bottom:18px; bo
     <div class="navbar-links">
         <a href="#">Home</a>
         <a href="#">Wines</a>
-        <a href="basket.html">Basket</a>
+        <a href="basket.php">Basket</a>
     </div>
 
     <div class="navbar-right">

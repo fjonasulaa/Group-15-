@@ -17,7 +17,7 @@
             <a href="index.html">Home</a>
             <a href="about.html">About Us</a>
             <a href="wines.html">Wines</a>
-            <a href="basket.html">Basket</a>
+            <a href="basket.php">Basket</a>
         </div>
 
         <div class="navbar-right">
@@ -36,9 +36,13 @@
         <div class="checkout-container">
             <h1> Checkout</h1>
 
-            <label for="fullname">Full Name</label>
-            <input id="fullname" type="text" placeholder="John Smith">
-            <div id="err-fullname" class="error-inline">Full name is required.</div>
+            <label for="fname">First Name</label>
+            <input id="fname" name="fname" type="text" placeholder="John">
+            <div id="err-fname" class="error-inline">First name is required.</div>
+
+            <label for="lname">Last Name</label>
+            <input id="lname" name="lname" type="text" placeholder="Smith">
+            <div id="err-lname" class="error-inline">Last name is required.</div>
 
             <label for="address">Address</label>
             <input id="address" type="text" placeholder="123 Main Street">
@@ -211,7 +215,7 @@
         updateTimestamp();
 
         /* removes validation error as user types to correct it */
-        [['fullname', 'err-fullname'], ['address', 'err-address'], ['city', 'err-city'],
+        [['fname', 'err-fname'], ['lname', 'err-lname'], ['address', 'err-address'], ['city', 'err-city'],
         ['postcode', 'err-postcode'], ['email', 'err-email'], ['phone', 'err-phone'],
         ['card-name', 'err-card-name'], ['card-number', 'err-card-number'],
         ['card-expiry', 'err-card-expiry'], ['card-cvv', 'err-card-cvv']].forEach(([id, err]) => {
@@ -239,7 +243,8 @@
 
             let valid = true;
 
-            if (!fullname.value.trim()) { showInlineError(fullname, 'err-fullname'); valid = false; }
+            if (!fname.value.trim()) { showInlineError(fname, 'err-fname'); valid = false; }
+            if (!lname.value.trim()) { showInlineError(lname, 'err-lname'); valid = false; }
             if (!address.value.trim()) { showInlineError(address, 'err-address'); valid = false; }
             if (!city.value.trim()) { showInlineError(city, 'err-city'); valid = false; }
 

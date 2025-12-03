@@ -1,5 +1,12 @@
 <?php
     session_start();
+    if (!isset($_SESSION['basket'])) {
+        $_SESSION['basket'] = [];
+        #Test values - [productID] => quantity
+        #$_SESSION['basket'][1] = 1;
+        #$_SESSION['basket'][2] = 3;
+        #$_SESSION['basket'][3] = 2;
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,7 +99,7 @@
         <span style="text-align:right;">TOTAL</span>
     </div>
 
-    <!-- EXAMPLE -->
+    <!-- EXAMPLE
     <div class="basket-row">
         <img src="../../images/image(3).jpg" alt="Product Image">
 
@@ -111,6 +118,30 @@
 
         <div class="basket-total-price" style="text-align:right;">£150.00</div>
     </div>
+     -->
+    <?php
+        foreach ($_SESSION['basket'] as $id => $qty) {
+        echo "
+            <div class='basket-row' data-product-id='$id'>
+                <img src='../../images/image($id).jpg' alt='Product Image'>
+
+                <div>
+                    <div class='basket-info-title'>Product $id</div>
+                    <div class='basket-info-sub'>Example details</div>
+                    <a href='#' class='remove-link'>Remove Item</a>
+                </div>
+
+                <div class='qty-control' style='justify-content:center;'>
+                    <div class='qty-btn'>-</div>
+                    <span>$qty</span>
+                    <div class='qty-btn'>+</div>
+                </div>
+
+                <div class='basket-total-price' style='text-align:right;'>£150.00</div>
+            </div>
+            ";
+        }
+    ?>
 
     
     
@@ -118,7 +149,7 @@
 
 <!-- PLACE ORDER BUTTON -->
 <div style="margin-top: 50px; text-align: left; padding-left: 20px;">
-    <a href="checkout.php" class="place-order">Place Order</a>
+    <a href="checkout.html" class="place-order">Place Order</a>
 </div>
 
 <footer>
@@ -136,7 +167,18 @@ document.getElementById("dark-mode").addEventListener("click", () => {
 // Quantity buttons functionality
 const rows = document.querySelectorAll('.basket-row');
 
+function updateServer(productId, newQuantity){
+        fetch("update.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `product_id=${productId}&quantity=${newQuantity}`
+        });
+
+}
 rows.forEach(row => {
+    const productId = row.getAttribute('data-product-id');
     const qtyBtns = row.querySelectorAll('.qty-btn');
     const qtyDisplay = row.querySelector('.qty-control span');
     const priceElement = row.querySelector('.basket-total-price');
@@ -144,11 +186,14 @@ rows.forEach(row => {
     let qty = parseInt(qtyDisplay.textContent);
     const basePrice = 150.00; // static example
 
+    
+
     qtyBtns[0].addEventListener('click', () => {
         if (qty > 1) {
             qty--;
             qtyDisplay.textContent = qty;
             priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
+            updateServer(productId, qty);
         }
     });
 
@@ -156,20 +201,17 @@ rows.forEach(row => {
         qty++;
         qtyDisplay.textContent = qty;
         priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
+        updateServer(productId,qty);
     });
-});
-
-
-</script>
-<script>
-    document.querySelectorAll('.remove-link').forEach(link => {
-    link.addEventListener('click', (e) => {
+    row.querySelector('.remove-link').addEventListener('click', e => {
         e.preventDefault();
-
-        const row = link.closest('.basket-row');
         row.remove();
+        updateServer(productId, 0);
     });
+
 });
+
+
 </script>
 
 </body>

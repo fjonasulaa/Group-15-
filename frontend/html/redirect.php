@@ -4,26 +4,6 @@
 session_start();
 if (isset($_GET['page'])) {
     $page = $_GET['page'];
-    //Create a new Order
-    function newOrder($user){
-        //Determine totalAmount later.
-        $totalAmount = 20.05;
-        include '..\..\database\db_connect.php';
-        $stmt = $conn->prepare("INSERT INTO orders (customerId, totalAmount)
-            VALUES (?, ?)");
-        $stmt->bind_param("sd", $user, $totalAmount);
-        if ($stmt->execute()) {
-            echo "New record created successfully";
-        } else {
-            echo "Error: " .$stmt->error;
-        }
-        
-        $_SESSION['currentOrder'] = $conn->insert_id; // Set current order to the newly created order
-    }
-    //Place items into OrderWine.
-    function newBasket($order){
-        echo'I will place items from Basket into OrderWine.';
-    }
     switch ($page) {
         case 'Checkout':
             //Create a new guest customer in Customers table and set current user to that customer.
@@ -31,7 +11,7 @@ if (isset($_GET['page'])) {
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             include '..\..\database\db_connect.php';
-
+            //Guest Checkout
             $fname = trim($_POST['fname']);
             $lname = trim($_POST['lname']);
             $address = trim($_POST['address']);
@@ -50,13 +30,41 @@ if (isset($_GET['page'])) {
                 echo "Error: " .$stmt->error;
             }
             $_SESSION['currentUser'] = $conn->insert_id; // Set current user to the newly created guest customer
+            //New Order
+            $totalAmount = 0.00;
 
-            newOrder($_SESSION['currentUser']);
-            newBasket($_SESSION['currentOrder']);
+            foreach ($_SESSION['basket'] as $wineId => $quantity) {
+                $stmt = $conn->prepare("SELECT price FROM wines WHERE wineId = ?");
+                $stmt->bind_param("i", $wineId);
+                $stmt->execute();
+                $stmt->bind_result($price);
+                $stmt->fetch();
+                $stmt->close();
+
+                $totalAmount += $price * $quantity;
+            }
+            include '..\..\database\db_connect.php';
+            $stmt = $conn->prepare("INSERT INTO orders (customerId, totalAmount)
+            VALUES (?, ?)");
+            $stmt->bind_param("sd", $_SESSION['currentUser'], $totalAmount);
+            if ($stmt->execute()) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " .$stmt->error;
+            }
+        
+            $_SESSION['currentOrder'] = $conn->insert_id; // Set current order to the newly created order
+            //Insert basket
+            $stmt = $conn->prepare("INSERT INTO orderswines (orderId, wineId, quantity) VALUES (?, ?, ?)");
+            foreach ($_SESSION['basket'] as $wineId => $quantity) {
+                $stmt->bind_param("iii", $_SESSION['currentOrder'], $wineId, $quantity);
+                $stmt->execute();
+            }
+            
+            //Shipping info
             $order = trim($_SESSION['currentOrder']);
             $dtype = trim($_POST['shipping']);
             $status=trim("Processing");
-
             $stmt = $conn->prepare("INSERT INTO shipping (orderId, deliveryType, shippingStatus)
             VALUES (?, ?, ?)");
             $stmt->bind_param("iss", $order, $dtype, $status);
@@ -66,7 +74,7 @@ if (isset($_GET['page'])) {
             } else {
                 echo "Error: " .$stmt->error;
             }
-
+            //Payment info
             $order = trim($_SESSION['currentOrder']);
             $method = trim($_POST['payment-method']);
             $amount = 20.05; //Determine totalAmount later.
@@ -85,6 +93,8 @@ if (isset($_GET['page'])) {
             // Close the connection
             $stmt->close();
             $conn->close();
+            //Empty basket
+            unset($_SESSION['basket']);
         }else{
             echo'I will not do anything. User\'s info is already in Customers. If Basket is empty redirect to Basket.php.';
         }
