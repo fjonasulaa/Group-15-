@@ -1,6 +1,6 @@
 :root {
   --font-main: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --background-colour: #fdfdfd;
+  --background-colour: #fdfdfdb3;
   --text-colour: #333;
   --primary-colour: #6b0f1a;
   --frame-colour: #ffffff;
@@ -650,7 +650,7 @@ body.info {
 }
 
 .arrow {
-  padding-top: 70px;
+  padding-top: 30px;
   position: absolute;
   top: 80%;
   right: 52%;
@@ -663,7 +663,7 @@ body.info {
 .arrow button {
   width: 40px;
   height: 40px;
-  background-color: var(--shadow);
+  background-color: rgba(0, 0, 0, 0.377);
   border: none;
   color: var(--white);
   font-weight: bold;
