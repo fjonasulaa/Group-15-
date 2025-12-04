@@ -1,48 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Confirm</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confirmation - Wine Exchange</title>
+  <link rel="icon" type="image/x-icon" href="../../images/icon.png">
+  <link rel="stylesheet" href="../css/styles.css" />
 
-<link rel="stylesheet" href="../css/styles.css">
-
-
-<style>
-
-.confirmed-container {
-  background: var(--frame-colour);
-  width: 70%;
-  margin: 140px auto 40px; 
-  padding: 40px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
+  <style>
+    .confirmed-container {
+      background: var(--frame-colour);
+      width: 70%;
+      margin: 140px auto 40px;
+      padding: 40px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
 
 
-label {
-    display: block;          
-    text-align: center;      
-    font-size: 18px;         
-    margin-top: 20px;        
-}
-.confirmed-container h1 { font-size: 2.2rem; color: var(--primary-colour); margin-bottom: 1.5rem; text-align: center; font-weight:700; }
-label { font-weight:600; display:block; margin-bottom:6px; color:var(--text-colour); }
-input, select { width:100%; padding:12px; font-size:1rem; margin-bottom:18px; border:1px solid #ccc; border-radius:var(--radius); background:var(--background-colour); color:var(--text-colour); }
-.row { display:flex; gap:20px; }
-.column { flex:1; }
-.place-order { margin-top:25px; background:var(--primary-colour); color:white; padding:14px 22px; border-radius:var(--radius); text-decoration:none; font-size:1.1rem; display:inline-block; text-align:center; }
-.place-order:hover { opacity:0.85; }    
-</style>
+    label {
+      display: block;
+      text-align: center;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    .confirmed-container h1 {
+      font-size: 2.2rem;
+      color: var(--primary-colour);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text-colour);
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      margin-bottom: 18px;
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
+      background: var(--background-colour);
+      color: var(--text-colour);
+    }
+
+    .row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .column {
+      flex: 1;
+    }
+
+    .place-order {
+      margin-top: 25px;
+      background: var(--primary-colour);
+      color: white;
+      padding: 14px 22px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-size: 1.1rem;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .place-order:hover {
+      opacity: 0.85;
+    }
+  </style>
 
 
 
 
-<!-- NAVBAR -->
-<div class="navbar">
+  <!-- NAVBAR -->
+  <div class="navbar">
     <img src="../../images/icon.png" alt="Wine Exchange Logo">
     <div class="navbar-links">
-        <a href="index.html">Home</a>
+      <a href="index.html">Home</a>
       <a href="about.html">About Us</a>
       <a href="wines.html">Wines</a>
       <a href="basket.php">Basket</a>
@@ -50,71 +94,72 @@ input, select { width:100%; padding:12px; font-size:1rem; margin-bottom:18px; bo
     </div>
 
     <div class="navbar-right">
-        <form method= "POST" action = "search.php">
-            <input type="text" name="search" placeholder="Search">
+      <form method="POST" action="search.php">
+        <input type="text" name="search" placeholder="Search">
 
-            <input type= "hidden" name= "submitted" value= "true"/>
-        </form>
-        <a href="log-in.php">Login</a>
-        <a href="signup.php">Sign up</a>
-      <button id="dark-mode" class="dark-mode-button" >
-      <img src="../../images/darkmode.png" alt="Dark Mode" />
-    </button>
+        <input type="hidden" name="submitted" value="true" />
+      </form>
+      <a href="log-in.php">Login</a>
+      <a href="signup.php">Sign up</a>
+      <button id="dark-mode" class="dark-mode-button">
+        <img src="../../images/darkmode.png" alt="Dark Mode" />
+      </button>
     </div>
-</div>
+  </div>
 
 
-<form id="Confirm" novalidate>
-<div class="confirmed-container">
-    <h1> Thank you for your order! </h1>
-    <label for="message">We will be in touch with you soon. Meanwhile, why don't you check out our other wines?</label>
+  <form id="Confirm" novalidate>
+    <div class="confirmed-container">
+      <h1> Thank you for your order! </h1>
+      <label for="message">We will be in touch with you soon. Meanwhile, why don't you check out our other
+        wines?</label>
 
-    
 
-    <div class="grid">
+
+      <div class="grid">
 
         <a href="redWines.html" class="card">
-            <img src="../../images/red_wine.jpe" alt="Red Wine">
-            <div class="text">
-                <h3>Red Wine</h3>
-                <p>A rich, velvety body with deep notes of black cherry and spice, perfect for any savoury dish.</p>
-            </div>
+          <img src="../../images/red_wine.jpe" alt="Red Wine">
+          <div class="text">
+            <h3>Red Wine</h3>
+            <p>A rich, velvety body with deep notes of black cherry and spice, perfect for any savoury dish.</p>
+          </div>
         </a>
 
         <a href="whiteWines.html" class="card">
-            <img src="../../images/white_wine.jpg" alt="White Wine">
-            <div class="text">
-                <h3>White Wine</h3>
-                <p>Crisp and bright, offering refreshing hints of citrus and green apple with a clean finish.</p>
-            </div>
+          <img src="../../images/white_wine.jpg" alt="White Wine">
+          <div class="text">
+            <h3>White Wine</h3>
+            <p>Crisp and bright, offering refreshing hints of citrus and green apple with a clean finish.</p>
+          </div>
         </a>
 
         <a href="roséWines.html" class="card">
-            <img src="../../images/rose_wine.jpg" alt="Rosé Wine">
-            <div class="text">
-                <h3>Rosé Wine</h3>
-                <p>Light-bodied and elegant, featuring delicate summer berry flavours and a lovely, dry finish.</p>
-            </div>
+          <img src="../../images/rose_wine.jpg" alt="Rosé Wine">
+          <div class="text">
+            <h3>Rosé Wine</h3>
+            <p>Light-bodied and elegant, featuring delicate summer berry flavours and a lovely, dry finish.</p>
+          </div>
         </a>
-</div>
+      </div>
 
 
-<script>
-    const button = document.getElementById("dark-mode");
+      <script>
+        const button = document.getElementById("dark-mode");
 
-    if (localStorage.getItem("dark_mode") === "on") {
-      document.documentElement.classList.add("darkmode");
-    }
+        if (localStorage.getItem("dark_mode") === "on") {
+          document.documentElement.classList.add("darkmode");
+        }
 
-    button.addEventListener("click", () => {
-      document.documentElement.classList.toggle("darkmode");
+        button.addEventListener("click", () => {
+          document.documentElement.classList.toggle("darkmode");
 
-      if (document.documentElement.classList.contains("darkmode")) {
-        localStorage.setItem("dark_mode", "on");
-      } else {
-        localStorage.setItem("dark_mode", "off");
-      }
-    });
-  </script>
+          if (document.documentElement.classList.contains("darkmode")) {
+            localStorage.setItem("dark_mode", "on");
+          } else {
+            localStorage.setItem("dark_mode", "off");
+          }
+        });
+      </script>
 
 </html>
