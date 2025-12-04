@@ -19,9 +19,14 @@ if ($result->num_rows == 0) {
 }
 
 $wine = $result->fetch_assoc();
+
+$mainImage = $wine['imageUrl'] 
+    ? "../../images/" . $wine['imageUrl'] 
+    : "../../images/placeholder.jpg";
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,7 +37,8 @@ $wine = $result->fetch_assoc();
 </head>
 
 <body class="info">
-   
+
+    <!-- NAVIGATION -->
     <div class="navbar">
         <img src="../../images/icon.png" alt="Wine Exchange Logo">
         <div class="navbar-links">
@@ -56,29 +62,13 @@ $wine = $result->fetch_assoc();
 
     <div class="wrap-cards">
         <div class="info-card">
+
+            <!-- SINGLE MAIN IMAGE -->
             <div class="images">
                 <div class="front-image">
-                    <div class="image-showcase">
-                        <?php
-                        
-                        for ($i = 1; $i <= 4; $i++) {
-                            $img = $wine['imageUrl'] ? $wine['imageUrl'] : '../../images/placeholder.jpg';
-                            echo "<img src=\"$img\" alt=\"{$wine['wineName']}\">";
-                        }
-                        ?>
-                    </div>
-                </div>
-                <div class="select-image">
-                    <?php
-                    for ($i = 1; $i <= 4; $i++) {
-                        $img = $wine['imageUrl'] ? $wine['imageUrl'] : '../../images/placeholder.jpg';
-                        echo "<div class=\"item\">
-                                <a href=\"#\" data-id=\"$i\">
-                                    <img src=\"$img\" alt=\"{$wine['wineName']}\">
-                                </a>
-                              </div>";
-                    }
-                    ?>
+                    <img src="<?php echo $mainImage; ?>" 
+                         alt="<?php echo htmlspecialchars($wine['wineName']); ?>" 
+                         style="width:100%; border-radius: 10px;">
                 </div>
             </div>
 
@@ -90,7 +80,7 @@ $wine = $result->fetch_assoc();
                 </div>
 
                 <div class="purchase">
-                    <input type="number" min="0" value="1">
+                    <input type="number" min="1" value="1">
                     <button type="button" class="button">
                         Add to Basket <i class="fas fa-shopping-cart"></i>
                     </button>
@@ -104,37 +94,33 @@ $wine = $result->fetch_assoc();
                 <div class="container">
                     <div class="image-container">
                         <article class="image-article">
-                            <img src="../../images/ingredientsBG.jpg" alt="ingredientsBG" class="image-card">
+                            <img src="../../images/ingredientsBG.jpg" 
+                                 alt="ingredientsBG" 
+                                 class="image-card">
                             <div class="hover-data">
                                 <span class="ingredients"><?php echo htmlspecialchars($wine['ingredients']); ?></span>
                             </div>
                         </article>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 
-<script>
-    const images = document.querySelectorAll('.select-image a');
-    let imageId = 1;
-    images.forEach(item => {
-        item.addEventListener('click', e => {
-            e.preventDefault();
-            imageId = item.dataset.id;
-            const displayWidth = document.querySelector('.image-showcase img:first-child').clientWidth;
-            document.querySelector('.image-showcase').style.transform = `translateX(${-(imageId-1)*displayWidth}px)`;
+    <script>
+        // DARK MODE
+        const darkButton = document.getElementById("dark-mode");
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
+        }
+        darkButton.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
+            localStorage.setItem(
+                "dark_mode", 
+                document.documentElement.classList.contains("darkmode") ? "on" : "off"
+            );
         });
-    });
-
-    const darkButton = document.getElementById("dark-mode");
-    if (localStorage.getItem("dark_mode") === "on") {
-        document.documentElement.classList.add("darkmode");
-    }
-    darkButton.addEventListener("click", () => {
-        document.documentElement.classList.toggle("darkmode");
-        localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-    });
-</script>
+    </script>
 </body>
 </html>
