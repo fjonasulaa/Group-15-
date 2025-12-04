@@ -743,6 +743,9 @@ select {
 }
 
 .place-order {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
   margin-top: 25px;
   background: var(--primary-colour);
   color: var(--white);
