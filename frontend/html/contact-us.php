@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wine Exchange - Contact Us</title>
+  <title>Wine Exchange | Contact Us</title>
 
   <!-- Link your CSS file -->
   <link rel="stylesheet" href="styles.css">
