@@ -2,13 +2,13 @@
     font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-.box_container {
+.box-container {
     display: flex;
     flex-wrap: wrap;
     gap: 25px;
 }
 
-.box_link {
+.box-link {
     text-decoration: none;
     color: inherit;
     width: 18%;  
@@ -32,6 +32,6 @@
 }
 
 
-.box_text {
+.box-text {
     text-align: left;
 }
