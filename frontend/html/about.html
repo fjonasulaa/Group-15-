@@ -66,10 +66,10 @@
     </div>
 
     <div class="navbar-right">
-      <form method= "POST" action = "search.php">
-            <input type="text" name="search" placeholder="Search">
+      <form method="POST" action="search.php">
+        <input type="text" name="search" placeholder="Search">
 
-            <input type= "hidden" name= "submitted" value= "true"/>
+        <input type="hidden" name="submitted" value="true" />
       </form>
       <a href="login.html">Login</a>
       <a href="signup.html">Sign up</a>
@@ -109,34 +109,31 @@
       </div>
     </div>
 
-
-    <section class="about-block frame">
-      <div class="about-image">
-        <img src="../../images/wine_collection.jpg" alt="Wine Collection image" />
-      </div>
-      <div class="about-text">
-        <h3>Our Wine Collection</h3>
+    <section class="feature-section">
+      <div class="feature-text">
+        <h2>Our Wine Collection</h2>
         <p>Our wines are carefully selected from the finest vineyards across the world, each with a unique story and
           character. From bold reds to crisp whites and sparkling delights, every bottle is chosen to delight your
           senses and elevate your dining experience. Discover wines crafted with passion, tradition, and a touch of
-          innovation in every sip.
-        </p>
+          innovation in every sip.</p>
       </div>
+      <div class="about-image">
+        <img src="../../images/wine_collection.jpg" alt="Who We Are image" />
     </section>
 
   </section>
-  
-  <script>
-        // DARK MODE
-        const darkButton = document.getElementById("dark-mode");
-        if (localStorage.getItem("dark_mode") === "on") {
-            document.documentElement.classList.add("darkmode");
-        }
 
-        darkButton.addEventListener("click", () => {
-            document.documentElement.classList.toggle("darkmode");
-            localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-        });
+  <script>
+    // DARK MODE
+    const darkButton = document.getElementById("dark-mode");
+    if (localStorage.getItem("dark_mode") === "on") {
+      document.documentElement.classList.add("darkmode");
+    }
+
+    darkButton.addEventListener("click", () => {
+      document.documentElement.classList.toggle("darkmode");
+      localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
+    });
   </script>
 </body>
 
