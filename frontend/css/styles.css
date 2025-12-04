@@ -24,6 +24,7 @@
   --frame-text-colour: #e0e0e0;
   --border-colour: #424242;
   --dm-button-colour: #fff;
+  --shadow: 0 6px 18px rgba(187, 180, 180, 0.08);
 }
 
 
@@ -80,6 +81,7 @@ main h1 {
   top: 0;
   z-index: 1000;
   width: 100%;
+  box-shadow: var(--shadow);
 }
 
 .navbar img {
@@ -135,6 +137,25 @@ body.wines {
 
 body.info {
   padding-top: 6rem;
+}
+
+/* Dark mode */
+
+.dark-mode-button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin-left: 25px;
+}
+
+.dark-mode-button img {
+  width: 100%;
+  height: auto;
+  display: block;
+  color: var(--dm-button-colour);
 }
 
 
@@ -299,25 +320,6 @@ body.info {
 
 .faq-item {
   margin-bottom: 1rem;
-}
-
-/* Footer */
-
-.dark-mode-button {
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  margin-left: 25px;
-}
-
-.dark-mode-button img {
-  width: 100%;
-  height: auto;
-  display: block;
-  color: var(--dm-button-colour);
 }
 
 
