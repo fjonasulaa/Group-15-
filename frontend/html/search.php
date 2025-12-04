@@ -24,13 +24,13 @@ if (isset($_POST['submitted'])) {
 
     if ($result->num_rows > 0) {
 
-        echo "<div class='box_container'>";
+        echo "<div class='box-container'>";
 
         while ($row = $result->fetch_assoc()) {
-            echo "<a class='box_link' href='wineinfo.php?id=" . $row['wineId'] . "'>";
+            echo "<a class='box-link' href='wineinfo.php?id=" . $row['wineId'] . "'>";
             echo "<div class='box'>";
             echo "<img src='" . htmlspecialchars($row['imageUrl']) . "' alt='" . htmlspecialchars($row['wineName']) . "'>";
-            echo "<div class='box_text'>";
+            echo "<div class='box-text'>";
             echo "<p><strong>" . htmlspecialchars($row['category']) . " Wine</strong></p>";
             echo "<p>" . htmlspecialchars($row['wineName']) . "</p>";
             echo "<p>£ " . htmlspecialchars($row['price']) . "</p>";
