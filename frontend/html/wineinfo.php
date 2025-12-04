@@ -21,7 +21,7 @@ if ($result->num_rows == 0) {
 $wine = $result->fetch_assoc();
 
 $mainImage = $wine['imageUrl'] 
-    ? "../../images/" . $wine['imageUrl'] 
+    ? "/Group-15-/images/" . $wine['imageUrl']
     : "../../images/placeholder.jpg";
 ?>
 <!DOCTYPE html>
@@ -45,8 +45,7 @@ $mainImage = $wine['imageUrl']
             <a href="index.html">Home</a>
             <a href="about.html">About Us</a>
             <a href="wines.html">Wines</a>
-            <a href="basket.html">Basket</a>
-            <a href="contact-us.php">Contact Us</a>
+            <a href="basket.php">Basket</a>
         </div>
 
         <div class="navbar-right">
@@ -55,8 +54,8 @@ $mainImage = $wine['imageUrl']
 
                 <input type= "hidden" name= "submitted" value= "true"/>
             </form>
-            <a href="log-in.php">Login</a>
-            <a href="signup.php">Sign up</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
             <button id="dark-mode" class="dark-mode-button">
                 <img src="../../images/darkmode.png" alt="Dark Mode" />
             </button>
@@ -99,7 +98,7 @@ $mainImage = $wine['imageUrl']
                 <div class="container">
                     <div class="image-container">
                         <article class="image-article">
-                            <img src="../../images/ingredientsBG.jpg" 
+                            <img src="/Group-15-/images/ingredientsBG.jpg" 
                                  alt="ingredientsBG" 
                                  class="image-card">
                             <div class="hover-data">
@@ -129,3 +128,4 @@ $mainImage = $wine['imageUrl']
     </script>
 </body>
 </html>
+
