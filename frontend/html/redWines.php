@@ -1,3 +1,22 @@
+<?php
+session_start();
+if (!isset($_SESSION['basket'])) {
+    $_SESSION['basket'] = [];
+}
+
+if (isset($_GET['add'])) {
+    $wineId = intval($_GET['add']);
+
+    if (!isset($_SESSION['basket'][$wineId])) {
+        $_SESSION['basket'][$wineId] = 1;
+    } else {
+        $_SESSION['basket'][$wineId]++;
+    }
+
+    header("Location: redWines.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,125 +36,109 @@
           <a href="about.html">About Us</a>
           <a href="wines.html">Wines</a>
           <a href="basket.php">Basket</a>
-          <a href="contact-us.php">Contact Us</a>
         </div>
-    
-        <div class="navbar-right">
-          <form method= "POST" action = "search.php">
-            <input type="text" name="search" placeholder="Search">
 
-            <input type= "hidden" name= "submitted" value= "true"/>
+        <div class="navbar-right">
+          <form method="POST" action="search.php">
+            <input type="text" name="search" placeholder="Search">
+            <input type="hidden" name="submitted" value="true"/>
           </form>
           
-          <a href="log-in.php">Login</a>
-          <a href="signup.php">Sign up</a>
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign up</a>
           <button id="dark-mode" class="dark-mode-button">
             <img src="../../images/darkmode.png" alt="Dark Mode" />
           </button>
         </div>
-      </div>
+    </div>
 
     <div class="cards-cycle">
         <div class="wines-list">
+
             <div class="wine">
                 <img src="../../images/redWinesBG.jpg">
                 <div class="information">
                     <div class="wine-type">RED WINE</div>
                     <div class="name">MARCHESI ANTINORI</div>
-                    <div class="description">Tignanello is a renowned Super Tuscan from Marchesi Antinori, made primarily from Sangiovese with a touch of Cabernet Sauvignon and Cabernet Franc. It’s celebrated for its ripe red and dark fruit flavors, balanced acidity, polished tannins, and gentle notes of spice and oak. Often considered a benchmark of modern Italian winemaking, it combines elegance, depth, and excellent aging potential.</div>
+                    <div class="description">Tignanello is a renowned Super Tuscan...</div>
                     <div class="price">Price: £155</div>
                     <div class="buttons">
-                        <a href="wineinfo.php?id=1">
-                        <button class="button">SEE MORE INFO</button>
-                        </a>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=1"><button class="button">SEE MORE INFO</button></a>
+                        <a href="redWines.php?add=1"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
+
             <div class="wine">
                 <img src="../../images/redWinesBG.jpg">
                 <div class="information">
                     <div class="wine-type">RED WINE</div>
                     <div class="name">OPUS ONE</div>
-                    <div class="description">Opus One is a prestigious Napa Valley Bordeaux-style blend created by Robert Mondavi and Baron Philippe de Rothschild. Known for its polished structure and layered flavors of dark fruit, cedar, and fine oak, it offers a smooth yet powerful profile with excellent balance. It’s regarded as one of California’s benchmark luxury wines, combining Old World elegance with New World richness.</div>
+                    <div class="description">Opus One is a prestigious Napa Valley wine...</div>
                     <div class="price">Price: £375</div>
                     <div class="buttons">
-                        <a href="wineinfo.php?id=2">
-                        <button class="button">SEE MORE INFO</button>
-                        </a>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=2"><button class="button">SEE MORE INFO</button></a>
+                        <a href="redWines.php?add=2"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
+
             <div class="wine">
                 <img src="../../images/redWinesBG.jpg">
                 <div class="information">
                     <div class="wine-type">RED WINE</div>
                     <div class="name">PENFOLDS GRANGE</div>
-                    <div class="description">Penfolds Grange is Australia’s most iconic wine, primarily made from Shiraz with a small amount of Cabernet. It’s celebrated for its intense concentration, ripe dark fruit, and distinctive notes of spice, chocolate, and oak, supported by a bold, long-lived structure. Grange stands as a symbol of Australian winemaking excellence with exceptional aging potential.</div>
+                    <div class="description">Penfolds Grange is Australia’s most iconic wine...</div>
                     <div class="price">Price: £550</div>
                     <div class="buttons">
-                        <a href="wineinfo.php?id=3">
-                        <button class="button">SEE MORE INFO</button>
-                        </a>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=3"><button class="button">SEE MORE INFO</button></a>
+                        <a href="redWines.php?add=3"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
+
             <div class="wine">
                 <img src="../../images/redWinesBG.jpg">
                 <div class="information">
                     <div class="wine-type">RED WINE</div>
                     <div class="name">CHÂTEAU MARGAUX</div>
-                    <div class="description">Château Margaux is one of Bordeaux’s most renowned First Growth estates, producing Cabernet-dominant wines noted for their aromatics, finesse, and purity. Typically showing elegant layers of blackcurrant, floral notes, refined tannins, and subtle cedar, it combines power with remarkable delicacy. Considered a benchmark of classic Bordeaux, it ages gracefully for decades.</div>
+                    <div class="description">Château Margaux is one of Bordeaux’s most renowned wines...</div>
                     <div class="price">Price: £980</div>
                     <div class="buttons">
-                        <a href="wineinfo.php?id=4">
-                        <button class="button">SEE MORE INFO</button>
-                        </a>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=4"><button class="button">SEE MORE INFO</button></a>
+                        <a href="redWines.php?add=4"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
         </div>
+
         <style>
-                .cards-cycle .wines-list .wine .name {
-                    color: #6B0F1A;
-                }
+            .cards-cycle .wines-list .wine .name {
+                color: #6B0F1A;
+            }
         </style>
+
+       
         <div class="cover">
             <div class="wine">
                 <img src="../../images/opus.jpg">
-                <div class="information">
-                    <div class="name">Opus One</div>
-                    <div class="description">Prestigious napa valley wine</div>
-                </div>
+                <div class="information"><div class="name">Opus One</div></div>
             </div>
             <div class="wine">
                 <img src="../../images/grange.jpg">
-                <div class="information">
-                    <div class="name">Penfolds Grange</div>
-                    <div class="description">Australia’s most iconic wine</div>
-                </div>
+                <div class="information"><div class="name">Penfolds Grange</div></div>
             </div>
             <div class="wine">
                 <img src="../../images/margaux.jpg">
-                <div class="information">
-                    <div class="name">Château Margaux</div>
-                    <div class="description">Renowned bordeaux wine</div>
-                </div>
+                <div class="information"><div class="name">Château Margaux</div></div>
             </div>
             <div class="wine">
                 <img src="../../images/tignanello.jpg">
-                <div class="information">
-                    <div class="name">Marchesi Antinori</div>
-                    <div class="description">Famous super tuscan red wine</div>
-                </div>
+                <div class="information"><div class="name">Marchesi Antinori</div></div>
             </div>
         </div>
-        <div class="arrow">
-            <button id='next' class="next">></button>
-        </div>
+
+        <div class="arrow"><button id='next' class="next">></button></div>
     </div>
 
     <script>
@@ -303,3 +306,4 @@
     © 2024 Wine Exchange. All rights reserved.
   </div>
 </footer>
+
