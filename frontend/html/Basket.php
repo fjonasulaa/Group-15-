@@ -6,7 +6,9 @@
         #$_SESSION['basket'][1] = 1;
         #$_SESSION['basket'][2] = 3;
         #$_SESSION['basket'][3] = 2;
+        #$_SESSION['uid'] = 6;
     }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,7 +82,7 @@
         <a href="index.html">Home</a>
         <a href="aboutUs.html">About us</a>
         <a href="wines.html">Wines</a>
-        <a href="basket.html">Basket</a>
+        <a href="basket.php">Basket</a>
     </div>
     <div class="navbar-right">
         <input type="text" placeholder="Search">
@@ -120,6 +122,8 @@
     </div>
      -->
     <?php
+    //Prints whole basket, else states that basket is empty.
+    if (!empty($_SESSION['basket'])) {
         foreach ($_SESSION['basket'] as $id => $qty) {
         echo "
             <div class='basket-row' data-product-id='$id'>
@@ -141,6 +145,9 @@
             </div>
             ";
         }
+    } else {
+        echo "<p>Your basket is empty.</p>";
+    }
     ?>
 
     
@@ -148,9 +155,11 @@
 </div>
 
 <!-- PLACE ORDER BUTTON -->
+ <?php if (!empty($_SESSION['basket'])): ?>
 <div style="margin-top: 50px; text-align: left; padding-left: 20px;">
-    <a href="checkout.html" class="place-order">Place Order</a>
+    <a href="checkout.php" class="place-order">Place Order</a>
 </div>
+<?php endif; ?>
 
 <footer>
     <button id="dark-mode" class="dark-mode-button">

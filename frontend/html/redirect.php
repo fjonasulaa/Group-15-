@@ -2,6 +2,10 @@
 #The purpose of this page is to place the items from the Basket into OrderWine.
 #If you just enter this link, you will be redirected to index.html.
 session_start();
+if (empty($_SESSION['basket'])) {
+        header("Location: index.html");
+        exit;
+    }
 if (isset($_GET['page'])) {
     $page = $_GET['page'];
     switch ($page) {
@@ -11,6 +15,9 @@ if (isset($_GET['page'])) {
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             include '..\..\database\db_connect.php';
+            if (isset($_SESSION['uid'])){
+                $_SESSION['currentUser'] = $_SESSION['uid'];
+            }else{
             //Guest Checkout
             $fname = trim($_POST['fname']);
             $lname = trim($_POST['lname']);
@@ -30,6 +37,7 @@ if (isset($_GET['page'])) {
                 echo "Error: " .$stmt->error;
             }
             $_SESSION['currentUser'] = $conn->insert_id; // Set current user to the newly created guest customer
+        }
             //New Order
             $totalAmount = 0.00;
 
@@ -42,6 +50,9 @@ if (isset($_GET['page'])) {
                 $stmt->close();
 
                 $totalAmount += $price * $quantity;
+            }
+            if ($_POST['shipping'] === 'nextday') {
+                $totalAmount += 4.99;
             }
             include '..\..\database\db_connect.php';
             $stmt = $conn->prepare("INSERT INTO orders (customerId, totalAmount)
@@ -95,6 +106,7 @@ if (isset($_GET['page'])) {
             $conn->close();
             //Empty basket
             unset($_SESSION['basket']);
+            unset($_SESSION['currentUser']);
         }else{
             echo'I will not do anything. User\'s info is already in Customers. If Basket is empty redirect to Basket.php.';
         }

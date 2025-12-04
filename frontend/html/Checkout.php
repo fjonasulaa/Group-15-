@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    //Prevents user from making an empty order by accessing checkout.php directly.
+    if (empty($_SESSION['basket'])) {
+        header("Location: index.html");
+        exit;
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,10 +40,11 @@
 
 
     <!-- CHECKOUT -->
-    <form id="checkoutForm" novalidate>
+    <form id="checkoutForm" method="POST" action="redirect.php?page=Checkout" novalidate>
         <div class="checkout-container">
-            <h1> Checkout</h1>
-
+            <h1>Checkout</h1>
+            <!--Only show if user isn't logged in.-->
+            <?php if (!isset($_SESSION['uid'])):?>
             <label for="fname">First Name</label>
             <input id="fname" name="fname" type="text" placeholder="John">
             <div id="err-fname" class="error-inline">First name is required.</div>
@@ -73,9 +82,10 @@
                     <div id="err-phone" class="error-inline">Enter a valid UK phone number (07... or +447...).</div>
                 </div>
             </div>
+            <?php endif; ?>
 
             <label for="shipping">Shipping Method</label>
-            <select id="shipping">
+            <select id="shipping" name="shipping">
                 <option value="standard">Standard (3–5 days) — Free</option>
                 <option value="nextday">Next day — £4.99</option>
             </select>
@@ -114,7 +124,7 @@
 
             <p>Current time: <span id="timestamp"></span></p>
 
-            <a href="#" id="confirmBtn" class="place-order">Confirm</a>
+            <input type="submit" value="Confirm" class="place-order">
         </div>
     </form>
 
