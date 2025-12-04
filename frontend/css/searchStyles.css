@@ -1,0 +1,116 @@
+
+:root {
+  --background-colour: #fdfdfdb3;
+  --text-colour: #333;
+  --border-colour: #e0e0e0;
+  --shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  --dm-button-colour: #000;
+}
+
+:root.darkmode {
+  --background-colour: #252525;
+  --text-colour: #fff;
+  --primary-colour: #ff4d00;
+  --border-colour: #424242;
+  --dm-button-colour: #fff;
+  --shadow: 0 6px 18px rgba(187, 180, 180, 0.08);
+}
+.navbar {
+  display: flex;
+  align-items: center;
+  background: var(--background-colour);
+  padding: 10px 25px;
+  border-bottom: 1px solid var(--border-colour);
+  gap: 20px;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  box-shadow: var(--shadow);
+}
+
+.navbar img {
+  height: 75px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 25px;
+  margin-left: 30px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: var(--text-colour);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.navbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-right: 50px;
+}
+
+.navbar-right input {
+  padding: 6px 10px;
+  border: 1px solid var(--border-colour);
+  border-radius: 6px;
+  width: 180px;
+  height: 32px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.navbar-right input {
+  padding: 6px;
+  border: 1px solid var(--border-colour);
+  border-radius: 6px;
+  width: 180px;
+  height: 32px;
+  line-height: 1.5; 
+  vertical-align: middle; 
+}
+
+* {
+    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.box_container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+.box_link {
+    text-decoration: none;
+    color: inherit;
+    width: 18%;  
+}
+
+.box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;   
+    align-items: center;
+    gap: 15px;
+}
+
+.box img {
+    padding-top: 20px;
+    width: 100%;
+    max-width: 140px;
+}
+
+
+.box_text {
+    text-align: left;
+}
