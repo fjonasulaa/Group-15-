@@ -91,7 +91,7 @@
             <input type= "hidden" name= "submitted" value= "true"/>
         </form>
         <a href="log-in.php">Login</a>
-        <a href="signup.html">Sign up</a>
+        <a href="signup.php">Sign up</a>
     </div>
 </div>
 
