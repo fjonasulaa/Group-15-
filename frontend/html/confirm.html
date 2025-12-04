@@ -94,7 +94,11 @@ input, select { width:100%; padding:12px; font-size:1rem; margin-bottom:18px; bo
     </div>
 
     <div class="navbar-right">
-        <input type="text" placeholder="Search">
+        <form method= "POST" action = "search.php">
+            <input type="text" name="search" placeholder="Search">
+
+            <input type= "hidden" name= "submitted" value= "true"/>
+        </form>
         <a href="#">Login</a>
         <a href="#">Sign up</a>
     </div>

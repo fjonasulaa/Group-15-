@@ -100,7 +100,11 @@
     </div>
 
     <div class="navbar-right">
-      <input type="text" placeholder="Search">
+      <form method= "POST" action = "search.php">
+            <input type="text" name="search" placeholder="Search">
+
+            <input type= "hidden" name= "submitted" value= "true"/>
+      </form>
       <a href="login.html">Login</a>
       <a href="signup.html">Sign up</a>
       <button id="dark-mode" class="dark-mode-button">
