@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Results | Wine Exchange</title>
+    <link rel="icon" type="image/x-icon" href="../../images/icon.png">
+    <link rel="stylesheet" href="../css/searchStyles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
 <?php
 if (isset($_POST['submitted'])) {
 
@@ -11,12 +23,23 @@ if (isset($_POST['submitted'])) {
     $result = $stat->get_result();
 
     if ($result->num_rows > 0) {
+
+        echo "<div class='box_container'>";
+
         while ($row = $result->fetch_assoc()) {
+            echo "<a class='box_link' href='wineinfo.php?id=" . $row['wineId'] . "'>";
             echo "<div class='box'>";
-            echo "<p><strong>" . $row['category'] . "</strong></p>\n";
-            echo "<p><a href='wineinfo.php?rid=" . $row['wineId'] . "'>" . $row['wineName'] . "</a> (" . $row['price'] . ")</p>";
+            echo "<img src='" . htmlspecialchars($row['imageUrl']) . "' alt='" . htmlspecialchars($row['wineName']) . "'>";
+            echo "<div class='box_text'>";
+            echo "<p><strong>" . htmlspecialchars($row['category']) . " Wine</strong></p>";
+            echo "<p>" . htmlspecialchars($row['wineName']) . "</p>";
+            echo "<p>£ " . htmlspecialchars($row['price']) . "</p>";
             echo "</div>";
+            echo "</div>";
+            echo "</a>";
         }
+        echo "</div>";
+
     } else {
         echo "<p>No wines found for '{$_POST['search']}'.</p>\n";
     }
