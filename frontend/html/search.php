@@ -1,29 +1,28 @@
 <?php
 if (isset($_POST['submitted'])) {
 
-    require_once('winedb.php');
+    require_once('db_connect.php');
 
-    $search = $_POST['search'];
+    $search = "%{$_POST['search']}%";
 
-    try {
-        $query = "SELECT * FROM wines WHERE wineName LIKE ? OR wineRegion LIKE ? OR category LIKE ?";
-        $stat = $db->prepare($query);
-        $stat->execute(array("%$search%", "%$search%", "%$search%"));
+    $stat = $conn->prepare("SELECT * FROM wines WHERE wineName LIKE ? OR wineRegion LIKE ? OR category LIKE ?");
+    $stat->bind_param("sss", $search, $search, $search);
+    $stat->execute();
+    $result = $stat->get_result();
 
-        if ($stat && $stat->rowCount() > 0) {
-            while ($row = $stat->fetch()) {
-                echo "<div class='box'>";
-                echo "<p><strong>" . $row['category'] . "</strong></p>\n";
-                echo "<p><a href='wineinfo.php?rid=" . $row['wineId'] . "'>" . $row['wineName'] . "</a> (" . $row['price'] . ")</p>";
-                echo "</div>";
-            }
-        } else {
-            echo "<p>No wines found for '$search'.</p>\n";
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<div class='box'>";
+            echo "<p><strong>" . $row['category'] . "</strong></p>\n";
+            echo "<p><a href='wineinfo.php?rid=" . $row['wineId'] . "'>" . $row['wineName'] . "</a> (" . $row['price'] . ")</p>";
+            echo "</div>";
         }
-    } catch (PDOexception $ex) {
-        echo "Sorry, a database error occurred! <br>";
-        echo "Error details: <em>" . $ex->getMessage() . "</em>";
+    } else {
+        echo "<p>No wines found for '{$_POST['search']}'.</p>\n";
     }
+
+    $stat->close();
+    $conn->close();
 }
 ?>
 
