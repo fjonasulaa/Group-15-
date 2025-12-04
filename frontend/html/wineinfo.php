@@ -46,7 +46,7 @@ $mainImage = $wine['imageUrl']
             <a href="about.html">About Us</a>
             <a href="wines.html">Wines</a>
             <a href="basket.html">Basket</a>
-            <a href="contact.php">Contact Us</a>
+            <a href="contact-us.php">Contact Us</a>
         </div>
 
         <div class="navbar-right">

@@ -83,7 +83,7 @@
         <a href="aboutUs.html">About us</a>
         <a href="wines.html">Wines</a>
         <a href="basket.php">Basket</a>
-        <a href="contact.php">Contact Us</a>
+        <a href="contact-us.php">Contact Us</a>
     </div>
     <div class="navbar-right">
         <form method= "POST" action = "search.php">
