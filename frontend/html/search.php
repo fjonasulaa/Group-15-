@@ -1,7 +1,7 @@
 <?php
 if (isset($_POST['submitted'])) {
 
-    require_once('db_connect.php');
+    require_once('..\..\database\db_connect.php');
 
     $search = "%{$_POST['search']}%";
 
