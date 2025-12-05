@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wine Exchange | Contact Us</title>
+  <title>Wine Exchange - Contact Us</title>
 
   <!-- Link your CSS file -->
   <link rel="stylesheet" href="styles.css">
@@ -64,14 +64,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <a href="about.html">About Us</a>
       <a href="wines.html">Wines</a>
       <a href="basket.html">Basket</a>
-      <a href="contact-us.php">Contact Us</a>
+      <a href="contact-us.php">Contact</a>
     </div>
 
     <div class="navbar-right">
-      <input type="text" placeholder="Search">
-      <a href="login.php">Login</a>
-      <a href="signup.php">Sign Up</a>
+      <form method= "POST" action = "search.php">
+            <input type="text" name="search" placeholder="Search">
 
+            <input type= "hidden" name= "submitted" value= "true"/>
+      </form>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign up</a>
       <button id="dark-mode" class="dark-mode-button">
         <img src="../../images/darkmode.png" alt="Dark Mode" />
       </button>
