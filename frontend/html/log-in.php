@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("classes/users.php");
+require_once("users.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $u = new Users();
@@ -106,3 +106,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </script>
 </body>
 </html>
+
