@@ -1,5 +1,6 @@
 <?php
-require_once("'../../database/db_connect.php'");
+session_start();
+include("'../../database/db_connect.php'");
 
 class Users {
 
@@ -42,4 +43,5 @@ class Users {
         return null;
     }
 }
+
 
