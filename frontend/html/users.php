@@ -9,7 +9,7 @@ class Users {
         global $conn;
 
         // Get customer by email
-        $st = $con->prepare("SELECT customerId, passwordHash FROM Customer WHERE email = ?");
+        $st = $conn->prepare("SELECT customerId, passwordHash FROM Customer WHERE email = ?");
         $st->bind_param("s", $email);
         $st->execute();
         $rs = $st->get_result();
@@ -44,6 +44,7 @@ class Users {
         return null;
     }
 }
+
 
 
 
