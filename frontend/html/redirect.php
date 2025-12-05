@@ -88,7 +88,7 @@ if (isset($_GET['page'])) {
             //Payment info
             $order = trim($_SESSION['currentOrder']);
             $method = trim($_POST['payment-method']);
-            $amount = 20.05; //Determine totalAmount later.
+            $amount = $totalAmount;
             $status=trim("Processing");
 
             $stmt = $conn->prepare("INSERT INTO payment (orderId, Method, amount, paymentStatus)
@@ -111,7 +111,7 @@ if (isset($_GET['page'])) {
             echo'I will not do anything. User\'s info is already in Customers. If Basket is empty redirect to Basket.php.';
         }
 
-            header("Location: confirm.php");
+            header("Location: confirm.html");
             break;
         default:
             header("Location: index.html");
