@@ -1,17 +1,15 @@
 <?php
-
+session_start();
 require_once("users.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $u = new Users();
 
-    // 👉 pass the RAW password (no sha1!)
     $customerId = $u->login($_POST["email"], $_POST["password"]);
 
     if ($customerId !== null) {
-        // login successful → store ID in session
+        // login success
         $_SESSION["customerId"] = $customerId;
-
         echo '<script>window.location="user-dashboard.php";</script>';
         exit;
     } else {
@@ -20,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </script>
 </body>
 </html>
+
 
 
 
