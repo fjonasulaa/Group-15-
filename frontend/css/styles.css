@@ -47,6 +47,10 @@ body {
   color: var(--text-colour);
 }
 
+button {
+  cursor: pointer;
+}
+
 main {
   width: 100%;
   max-width: 1200px;
@@ -322,7 +326,26 @@ body.info {
   margin-bottom: 1rem;
 }
 
+/* contact us */
 
+.send-message {
+  background: var(--primary-colour);
+  color: var(--white);
+  padding: 14px 22px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-size: 1.1rem;
+  display: inline-block;
+  border-color: var(--border-colour);
+  text-align: center;
+  width: 40%;
+margin-left: 30%;
+margin-right: 30%
+}
+
+.send-message:hover {
+  opacity: 0.85;
+}
 
 
 
@@ -722,7 +745,8 @@ label {
 }
 
 input,
-select {
+select,
+textarea {
   width: 100%;
   padding: 12px;
   font-size: 1rem;
