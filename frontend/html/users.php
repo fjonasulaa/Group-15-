@@ -6,7 +6,7 @@ include '..\..\database\db_connect.php';
 class Users {
 
     public function login(string $email, string $password): ?int {
-        global $con;
+        global $conn;
 
         // Get customer by email
         $st = $con->prepare("SELECT customerId, passwordHash FROM Customer WHERE email = ?");
@@ -30,7 +30,7 @@ class Users {
     }
 
     public function getCustomerIdByEmail(string $email): ?int {
-        global $con;
+        global $conn;
 
         $st = $con->prepare("SELECT customerId FROM Customer WHERE email = ?");
         $st->bind_param("s", $email);
@@ -44,6 +44,7 @@ class Users {
         return null;
     }
 }
+
 
 
 
