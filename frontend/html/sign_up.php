@@ -9,6 +9,8 @@ if (isset($_POST['signup'])) {
     $email = $_POST['email'];
     $pnumber = $_POST['pnumber'];
     $dob = $_POST['dob'];
+    $addressline = $_POST['addressline'];
+    $postcode = $_POST['postcode'];
 
     $birth = new DateTime($dob);
     $today = new DateTime();
@@ -30,13 +32,15 @@ if (isset($_POST['signup'])) {
         header("Location: signup.php");
         exit();
     } else {
-        $conn->query("INSERT INTO customer (firstName, surname, dateOfBirth, email, phoneNumber, passwordHash) VALUES ('$name', '$surname', '$dob', '$email', '$pnumber', '$passwordHash')");
+        $conn->query("INSERT INTO customer (firstName, surname, dateOfBirth, addressLine, postcode, email, phoneNumber, passwordHash) VALUES ('$name', '$surname', '$dob', '$addressline', '$postcode', '$email', '$pnumber', '$passwordHash')");
         $customerID = $conn->insert_id;
         $_SESSION["customerID"] = $customerID;
         $_SESSION["firstname"] = $name;
         $_SESSION["surname"] = $surname;
         $_SESSION["email"] = $email;
         $_SESSION["dob"] = $dob;
+        $_SESSION["address"] = $addressline;
+        $_SESSION["postcode"] = $postcode;
     }
 
     header("Location: account.php");

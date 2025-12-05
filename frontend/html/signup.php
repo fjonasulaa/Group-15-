@@ -223,6 +223,8 @@ function showError($errors) {
                 <input type="text" name="surname" placeholder="Surname" required>
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="tel" name="pnumber" placeholder="Phone Number">
+                <input type="text" name="addressline" placeholder="Address Line">
+                <input type="text" name="postcode" placeholder="Postcode">
                 <input type="date" name="dob" placeholder="Date of Birth">
                 <input type="password" name="password" placeholder="Password" required>
                 <button type="submit" name="signup">Sign up</button>

@@ -2,8 +2,6 @@
 
 session_start();
 
-
-
 if (!isset($_SESSION['customerID'])) {
   header("Location: index.html");
   exit();
@@ -208,8 +206,10 @@ if (!isset($_SESSION['customerID'])) {
             <h2>Account Information</h2>
             <p><Strong>Name:</Strong> <?= $_SESSION['firstname']; ?></p>
             <p><Strong>Surname:</Strong> <?= $_SESSION['surname']; ?></p>
+            <p><Strong>Address:</Strong> <?= $_SESSION['address']; ?></p>
+            <p><Strong>Postcode:</Strong> <?= $_SESSION['postcode']; ?></p>
             <p><Strong>Email:</Strong> <?= $_SESSION['email']; ?></p>
-            <p><Strong>Dare of Birth:</Strong> <?= $_SESSION['dob']; ?></p>
+            <p><Strong>Date of Birth:</Strong> <?= $_SESSION['dob']; ?></p>
         </div>
 
         <div class="orderstable">
