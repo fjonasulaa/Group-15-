@@ -31,9 +31,15 @@ if (isset($_POST['signup'])) {
         exit();
     } else {
         $conn->query("INSERT INTO customer (firstName, surname, dateOfBirth, email, phoneNumber, passwordHash) VALUES ('$name', '$surname', '$dob', '$email', '$pnumber', '$passwordHash')");
+        $customerID = $conn->insert_id;
+        $_SESSION["customerID"] = $customerID;
+        $_SESSION["firstname"] = $name;
+        $_SESSION["surname"] = $surname;
+        $_SESSION["email"] = $email;
+        $_SESSION["dob"] = $dob;
     }
 
-    header("Location: index.php");
+    header("Location: account.php");
     exit();
 }
 
