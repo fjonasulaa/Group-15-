@@ -7,6 +7,14 @@ if (!isset($_SESSION['customerID'])) {
   exit();
 }
 
+$cid = $_SESSION['customerID'];
+require_once("../../database/db_connect.php");
+
+$orders = $conn->query("SELECT * FROM orders WHERE customerId = $cid ORDER BY orderDate DESC");
+
+$userQuery = $conn->query("SELECT * FROM customer WHERE customerID = $cid");
+$user = $userQuery->fetch_assoc();
+
 ?>
 
 
@@ -204,12 +212,12 @@ if (!isset($_SESSION['customerID'])) {
         <h1>Welcome, <span><?= $_SESSION['firstname'];?></span></h1>
         <div class="accountinfo">
             <h2>Account Information</h2>
-            <p><Strong>Name:</Strong> <?= $_SESSION['firstname']; ?></p>
-            <p><Strong>Surname:</Strong> <?= $_SESSION['surname']; ?></p>
-            <p><Strong>Address:</Strong> <?= $_SESSION['address']; ?></p>
-            <p><Strong>Postcode:</Strong> <?= $_SESSION['postcode']; ?></p>
-            <p><Strong>Email:</Strong> <?= $_SESSION['email']; ?></p>
-            <p><Strong>Date of Birth:</Strong> <?= $_SESSION['dob']; ?></p>
+            <p><Strong>Name:</Strong> <?= $user['firstName']; ?></p>
+            <p><Strong>Surname:</Strong> <?= $user['surname']; ?></p>
+            <p><Strong>Address:</Strong> <?= $user['addressLine']; ?></p>
+            <p><Strong>Postcode:</Strong> <?= $user['postcode']; ?></p>
+            <p><Strong>Email:</Strong> <?= $user['email']; ?></p>
+            <p><Strong>Date of Birth:</Strong> <?= $user['dateOfBirth']; ?></p>
         </div>
 
         <div class="orderstable">
@@ -218,18 +226,15 @@ if (!isset($_SESSION['customerID'])) {
                 <tr>
                     <th>Order ID</th>
                     <th>Order Date</th>
-                    <th>Total £</th>
+                    <th>£ Total</th>
                 </tr>
-                <tr>
-                    <td>2424</td>
-                    <td>32/32/32</td>
-                    <td>23</td>
-                </tr>
-                <tr>
-                    <td>1231</td>
-                    <td>32/32/32</td>
-                    <td>13131</td>
-                </tr>
+                <?php while ($row = $orders->fetch_assoc()): ?>
+                  <tr>
+                    <td><?= $row['orderId']; ?></td>
+                    <td><?= $row['orderDate']; ?></td>
+                    <td><?= $row['totalAmount']; ?></td>
+                  </tr>
+                  <?php endwhile; ?>
             </table>
         </div>
         <button onclick="window.location.href='logout.php'">Logout</button>
