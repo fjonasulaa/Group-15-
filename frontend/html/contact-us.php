@@ -50,9 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <title>Contact Us - Wine Exchange</title>
   <link rel="icon" type="image/x-icon" href="../../images/icon.png">
   <link rel="stylesheet" href="../css/styles.css" />
-
-  <!-- Link your CSS file -->
-  <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body class="info">
@@ -129,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           id="message" 
           name="message" 
           rows="5"
-          style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;"
+          style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid var(--border-colour);"
           required><?php echo htmlspecialchars($message ?? ""); ?></textarea>
 
         <button type="submit" class="place-order" style="margin-top: 15px;">
