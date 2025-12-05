@@ -16,6 +16,12 @@
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
 </head>
+<style>
+    #checkout-btn {
+    margin-top: 2rem;
+    text-align: center;
+}
+</style>
 
 <body>
     <!-- NAVBAR -->
@@ -59,18 +65,18 @@
             <div id="err-lname" class="error-inline">Last name is required.</div>
 
             <label for="address">Address</label>
-            <input id="address" type="text" placeholder="123 Main Street">
+            <input id="address" name ="address" type="text" placeholder="123 Main Street">
             <div id="err-address" class="error-inline">Address is required.</div>
 
             <div class="row">
                 <div class="column">
                     <label for="city">City</label>
-                    <input id="city" type="text" placeholder="London">
+                    <input id="city" name="city" type="text" placeholder="London">
                     <div id="err-city" class="error-inline">City is required.</div>
                 </div>
                 <div class="column">
                     <label for="postcode">Postcode</label>
-                    <input id="postcode" type="text" placeholder="SW1A 1AA">
+                    <input id="postcode" name="postcode" type="text" placeholder="SW1A 1AA">
                     <div id="err-postcode" class="error-inline">Enter a valid UK postcode (e.g. SW1A 1AA).</div>
                 </div>
             </div>
@@ -78,12 +84,12 @@
             <div class="row">
                 <div class="column">
                     <label for="email">Email Address</label>
-                    <input id="email" type="email" placeholder="email@example.com">
+                    <input id="email" name="email" type="email" placeholder="email@example.com">
                     <div id="err-email" class="error-inline">Enter a valid email address.</div>
                 </div>
                 <div class="column">
                     <label for="phone">Phone Number</label>
-                    <input id="phone" type="text" placeholder="07123 456789">
+                    <input id="phone" name="phone" type="text" placeholder="07123 456789">
                     <div id="err-phone" class="error-inline">Enter a valid UK phone number (07... or +447...).</div>
                 </div>
             </div>
@@ -129,7 +135,7 @@
 
             <p>Current time: <span id="timestamp"></span></p>
 
-            <input type="submit" value="Confirm" class="place-order">
+            <?php echo('<input type="submit" value="Confirm">') ?>
         </div>
     </form>
 
@@ -330,6 +336,8 @@
             document.documentElement.classList.toggle("darkmode");
             localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
         });
+
+        //Code to remove checkout button until guest fills in details.
     </script>
 
 </body>
