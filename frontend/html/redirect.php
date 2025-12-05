@@ -15,8 +15,8 @@ if (isset($_GET['page'])) {
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             include '..\..\database\db_connect.php';
-            if (isset($_SESSION['uid'])){
-                $_SESSION['currentUser'] = $_SESSION['uid'];
+            if (isset($_SESSION['customerID'])){
+                $_SESSION['currentUser'] = $_SESSION['customerID'];
             }else{
             //Guest Checkout
             $fname = trim($_POST['fname']);

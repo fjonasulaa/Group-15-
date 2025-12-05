@@ -6,7 +6,7 @@
         #$_SESSION['basket'][1] = 1;
         #$_SESSION['basket'][2] = 3;
         #$_SESSION['basket'][3] = 2;
-        #$_SESSION['uid'] = 6;
+        #$_SESSION['customerID'] = 6;
     }
     
 ?>
