@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <a href="about.html">About Us</a>
       <a href="wines.html">Wines</a>
       <a href="basket.php">Basket</a>
-      <a href="contact-us.html">Contact</a>
+      <a href="contact-us.php">Contact</a>
     </div>
 
     <div class="navbar-right">
@@ -72,8 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <input type= "hidden" name= "submitted" value= "true"/>
       </form>
-      <a href="login.html">Login</a>
-      <a href="signup.html">Sign up</a>
+      <a href="log-in.php">Login</a>
+      <a href="signup.php">Sign up</a>
       <a href="account.php">Account</a>
       <button id="dark-mode" class="dark-mode-button">
         <img src="../../images/darkmode.png" alt="Dark Mode" />

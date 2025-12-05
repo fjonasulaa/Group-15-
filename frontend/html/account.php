@@ -191,7 +191,7 @@ $user = $userQuery->fetch_assoc();
       <a href="about.html">About Us</a>
       <a href="wines.html">Wines</a>
       <a href="basket.php">Basket</a>
-      <a href="contact-us.html">Contact Us</a>
+      <a href="contact-us.php">Contact Us</a>
     </div>
 
     <div class="navbar-right">
@@ -259,9 +259,9 @@ $user = $userQuery->fetch_assoc();
           <li><a href="index.html">Home</a></li>
           <li><a href="wines.html">Wines</a></li>
           <li><a href="about.html">About Us</a></li>
-          <li><a href="contact-us.html">Contact</a></li>
+          <li><a href="contact-us.php">Contact</a></li>
         </ul>
-        <a href="contact-us.html" class="footer-button">Contact Us</a>
+        <a href="contact-us.php" class="footer-button">Contact Us</a>
       </div>
 
       <div class="footer-section">

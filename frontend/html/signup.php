@@ -198,7 +198,7 @@ function showError($errors) {
       <a href="about.html">About Us</a>
       <a href="wines.html">Wines</a>
       <a href="basket.php">Basket</a>
-      <a href="contact-us.html">Contact Us</a>
+      <a href="contact-us.php">Contact Us</a>
     </div>
 
     <div class="navbar-right">
@@ -207,7 +207,7 @@ function showError($errors) {
 
             <input type= "hidden" name= "submitted" value= "true"/>
       </form>
-      <a href="login.php">Login</a>
+      <a href="log-in.php">Login</a>
       <a href="signup.php">Sign up</a>
       <a href="account.php">Account</a>
       <button id="dark-mode" class="dark-mode-button">
@@ -252,9 +252,9 @@ function showError($errors) {
           <li><a href="index.html">Home</a></li>
           <li><a href="wines.html">Wines</a></li>
           <li><a href="about.html">About Us</a></li>
-          <li><a href="contact-us.html">Contact</a></li>
+          <li><a href="contact-us.php">Contact</a></li>
         </ul>
-        <a href="contact-us.html" class="footer-button">Contact Us</a>
+        <a href="contact-us.php" class="footer-button">Contact Us</a>
       </div>
 
       <div class="footer-section">
