@@ -202,6 +202,7 @@ $user = $userQuery->fetch_assoc();
       </form>
       <a href="log-in.php">Login</a>
       <a href="signup.php">Sign up</a>
+      <a href="account.php">Account</a>
       <button id="dark-mode" class="dark-mode-button">
         <img src="../../images/darkmode.png" alt="Dark Mode" />
       </button>
@@ -258,9 +259,9 @@ $user = $userQuery->fetch_assoc();
           <li><a href="index.html">Home</a></li>
           <li><a href="wines.html">Wines</a></li>
           <li><a href="about.html">About Us</a></li>
-          <li><a href="contact.php">Contact</a></li>
+          <li><a href="contact-us.html">Contact</a></li>
         </ul>
-        <a href="contact.php" class="footer-button">Contact Us</a>
+        <a href="contact-us.html" class="footer-button">Contact Us</a>
       </div>
 
       <div class="footer-section">

@@ -74,6 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       </form>
       <a href="login.html">Login</a>
       <a href="signup.html">Sign up</a>
+      <a href="account.php">Account</a>
       <button id="dark-mode" class="dark-mode-button">
         <img src="../../images/darkmode.png" alt="Dark Mode" />
       </button>

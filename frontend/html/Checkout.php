@@ -43,6 +43,7 @@
             </form>
             <a href="log-in.php">Login</a>
             <a href="signup.php">Sign up</a>
+            <a href="account.php">Account</a>
             <button id="dark-mode" class="dark-mode-button">
                 <img src="../../images/darkmode.png" alt="Dark Mode" />
             </button>
