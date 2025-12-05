@@ -1,3 +1,23 @@
+<?php
+session_start();
+if (!isset($_SESSION['basket'])) {
+    $_SESSION['basket'] = [];
+}
+
+if (isset($_GET['add'])) {
+    $wineId = intval($_GET['add']);
+
+    if (!isset($_SESSION['basket'][$wineId])) {
+        $_SESSION['basket'][$wineId] = 1;
+    } else {
+        $_SESSION['basket'][$wineId]++;
+    }
+
+    header("Location: roséWines.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,14 +35,13 @@
           <a href="index.html">Home</a>
           <a href="about.html">About Us</a>
           <a href="wines.html">Wines</a>
-          <a href="basket.html">Basket</a>
-          <a href="contact-us.php">Contact Us</a>
+          <a href="basket.php">Basket</a>
         </div>
     
         <div class="navbar-right">
           <input type="text" placeholder="Search">
-          <a href="log-in.php">Login</a>
-          <a href="signup.php">Sign up</a>
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign up</a>
           <button id="dark-mode" class="dark-mode-button">
             <img src="../../images/darkmode.png" alt="Dark Mode" />
           </button>
@@ -39,8 +58,8 @@
                     <div class="description">Rock Angel Rosé is a stylish, premium rosé from Château d’Esclans in Provence, known for its fuller body, refined minerality, and delicate notes of peach, citrus, and soft red berries. Made with high-quality Grenache and Rolle, it offers more depth and structure than typical rosé, making it a favourite for those who enjoy a drier, more sophisticated style.</div>
                     <div class="price">Price: £35</div>
                     <div class="buttons">
-                        <button class="button">SEE MORE INFO</button>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=9"><button class="button">SEE MORE INFO</button></a>
+                        <a href="roséWines.php?add=9"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -52,8 +71,8 @@
                     <div class="description">Clos Mireille Rosé from Domaines Ott is an elegant, coastal Provençal rosé prized for its purity, finesse, and saline minerality influenced by its seaside vineyards. With subtle flavors of white peach, citrus blossom, and delicate red fruit, it demonstrates the luxurious, restrained style that has made Ott one of the most respected names in rosé.</div>
                     <div class="price">Price: £48</div>
                     <div class="buttons">
-                        <button class="button">SEE MORE INFO</button>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=10"><button class="button">SEE MORE INFO</button></a>
+                        <a href="roséWines.php?add=10"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -65,8 +84,8 @@
                     <div class="description">Whispering Angel Rosé is a globally famous Provence rosé known for its effortless drinkability and clean, crisp profile. Offering gentle notes of strawberry, peach, and citrus with a soft, dry finish, it delivers a polished and approachable style that helped redefine rosé as a modern premium wine category.</div>
                     <div class="price">Price: £99</div>
                     <div class="buttons">
-                        <button class="button">SEE MORE INFO</button>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=11"><button class="button">SEE MORE INFO</button></a>
+                        <a href="roséWines.php?add=11"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -78,8 +97,8 @@
                     <div class="description">Château Minuty Rosé represents classic high-quality Provence winemaking, admired for its bright acidity, fresh red-berry character, and elegant, aromatic style. Produced from hand-harvested Grenache, Cinsault, and Syrah, Minuty delivers a refined, refreshing rosé that balances delicacy with vibrant Mediterranean charm.</div>
                     <div class="price">Price: £33</div>
                     <div class="buttons">
-                        <button class="button">SEE MORE INFO</button>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=12"><button class="button">SEE MORE INFO</button></a>
+                        <a href="roséWines.php?add=12"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
