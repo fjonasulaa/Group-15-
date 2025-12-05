@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Wine Exchange - Login</title>
 
   <!-- Main site CSS -->
-  <link rel="stylesheet" href="../css/styles.css" /">
+  <link rel="stylesheet" href="../css/styles.css" />
 </head>
 
 <body class="info">
@@ -109,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </script>
 </body>
 </html>
+
 
 
 
