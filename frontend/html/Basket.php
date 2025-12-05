@@ -71,6 +71,84 @@
 }
 .remove-link { color: #444; text-decoration: underline; font-size: 0.9rem; margin-top: 8px; display: inline-block; }
 .basket-total-price { font-size: 1.2rem; font-weight: bold; }
+
+.footer {
+  background-color: #f4f4f4;
+  padding: 30px 10%;
+  margin-top: 40px;
+  color: #333;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-section {
+  flex: 1 1 250px;
+  margin: 10px;
+}
+
+.footer-section h3 {
+  margin-bottom: 10px;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin: 5px 0;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* Contact button */
+.footer-button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.footer-button:hover {
+  opacity: 0.9;
+}
+
+/* Footer bottom bar */
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* DARK MODE SUPPORT */
+.darkmode .footer {
+  background-color: #1e1e1e;
+  color: #eee;
+}
+
+.darkmode .footer-bottom {
+  border-top: 1px solid #555;
+}
+
+.darkmode .footer-links a {
+  color: #ddd;
+}
 </style>
 
 <body>
@@ -93,6 +171,9 @@
         </form>
         <a href="log-in.php">Login</a>
         <a href="signup.php">Sign up</a>
+        <button id="dark-mode" class="dark-mode-button">
+        <img src="../../images/darkmode.png" alt="Dark Mode" />
+    </button>
     </div>
 </div>
 
@@ -166,17 +247,60 @@
 </div>
 <?php endif; ?>
 
-<footer>
-    <button id="dark-mode" class="dark-mode-button">
-        <img src="../../images/darkmode.png" alt="Dark Mode" />
-    </button>
+<footer class="footer">
+  <div class="footer-container">
+
+    <div class="footer-section">
+      <h3>Wine Exchange</h3>
+      <p>123 Vineyard Lane<br>London, UK</p>
+      <p>Phone: +44 1234 567890</p>
+      <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
+      <p>Open: Mon–Fri, 9am–6pm</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="wines.html">Wines</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.php">Contact</a></li>
+      </ul>
+      <a href="contact.php" class="footer-button">Contact Us</a>
+    </div>
+
+    <div class="footer-section">
+      <h3>Follow Us</h3>
+      <ul class="footer-links">
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Twitter</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2024 Wine Exchange. All rights reserved.
+  </div>
 </footer>
 
 <script>
-// Dark mode toggle
-document.getElementById("dark-mode").addEventListener("click", () => {
-    document.documentElement.classList.toggle("darkmode");
-});
+const button = document.getElementById("dark-mode");
+
+    if (localStorage.getItem("dark_mode") === "on") {
+      document.documentElement.classList.add("darkmode");
+    }
+
+    button.addEventListener("click", () => {
+      document.documentElement.classList.toggle("darkmode");
+
+      if (document.documentElement.classList.contains("darkmode")) {
+        localStorage.setItem("dark_mode", "on");
+      } else {
+        localStorage.setItem("dark_mode", "off");
+      }
+    });
 
 // Quantity buttons functionality
 const rows = document.querySelectorAll('.basket-row');
