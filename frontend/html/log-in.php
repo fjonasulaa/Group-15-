@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <p style="margin-top: 15px;">
           Don't have an account?
-          <a href="register-page.php">Sign up</a>
+          <a href="signup.php">Sign up</a>
         </p>
       </form>
     </div>
@@ -106,6 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </script>
 </body>
 </html>
+
 
 
 
