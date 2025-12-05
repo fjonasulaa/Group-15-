@@ -1,3 +1,23 @@
+<?php
+session_start();
+if (!isset($_SESSION['basket'])) {
+    $_SESSION['basket'] = [];
+}
+
+if (isset($_GET['add'])) {
+    $wineId = intval($_GET['add']);
+
+    if (!isset($_SESSION['basket'][$wineId])) {
+        $_SESSION['basket'][$wineId] = 1;
+    } else {
+        $_SESSION['basket'][$wineId]++;
+    }
+
+    header("Location: fortifiedWines.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +37,6 @@
           <a href="about.html">About Us</a>
           <a href="wines.html">Wines</a>
           <a href="basket.php">Basket</a>
-          <a href="contact-us.php">Contact Us</a>
         </div>
     
         <div class="navbar-right">
@@ -26,8 +45,8 @@
 
             <input type= "hidden" name= "submitted" value= "true"/>
           </form>
-          <a href="log-in.php">Login</a>
-          <a href="signup.php">Sign up</a>
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign up</a>
           <button id="dark-mode" class="dark-mode-button">
             <img src="../../images/darkmode.png" alt="Dark Mode" />
           </button>
@@ -44,8 +63,8 @@
                     <div class="description">Dow’s 2011 Vintage Port is a powerful, structured wine showing dense black fruit, floral lift, and the house’s signature slightly drier edge, giving it impressive definition and refinement. It offers firm tannins and vibrant acidity that promise long life as it continues to develop even greater depth and complexity with age.</div>
                     <div class="price">Price: £195</div>
                     <div class="buttons">
-                        <button class="button">SEE MORE INFO</button>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=21"><button class="button">SEE MORE INFO</button></a>
+                        <a href="fortifiedWines.php?add=21"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -57,8 +76,8 @@
                     <div class="description">Fonseca’s 1985 Vintage Port is a mature, richly layered wine displaying ripe berries, dried fruits, chocolate, and warm spice, all wrapped in the producer’s hallmark opulence and warmth. Its beautifully softened tannins create a smooth, harmonious profile that still retains remarkable presence and expressive character on the palate.</div>
                     <div class="price">Price: £105</div>
                     <div class="buttons">
-                        <button class="button">SEE MORE INFO</button>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=22"><button class="button">SEE MORE INFO</button></a>
+                        <a href="fortifiedWines.php?add=22"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -70,8 +89,8 @@
                     <div class="description">Graham’s 1994 Vintage Port is lush and aromatic, bursting with blackberry, plum, cassis, and cocoa tones, enhanced by the house’s signature richness and velvety sweetness. Its combination of ripe fruit, concentration, and polished structure has cemented its reputation as one of the standout, most collectible Ports of the era.</div>
                     <div class="price">Price: £125</div>
                     <div class="buttons">
-                        <button class="button">SEE MORE INFO</button>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=23"><button class="button">SEE MORE INFO</button></a>
+                        <a href="fortifiedWines.php?add=23"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -83,8 +102,8 @@
                     <div class="description">Quinta do Vesuvio’s 2022 Vintage Port is an elegant, expressive young wine offering concentrated dark fruit, violets, and refined tannins with a beautifully pure estate character and natural freshness. Though youthful, its structure and clarity suggest it will evolve into a deeply layered, long-lived classic with remarkable charm.</div>
                     <div class="price">Price: £476</div>
                     <div class="buttons">
-                        <button class="button">SEE MORE INFO</button>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=24"><button class="button">SEE MORE INFO</button></a>
+                        <a href="fortifiedWines.php?add=24"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
