@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <a href="index.html">Home</a>
       <a href="about.html">About Us</a>
       <a href="wines.html">Wines</a>
-      <a href="basket.html">Basket</a>
+      <a href="basket.php">Basket</a>
       <a href="contact-us.php">Contact</a>
     </div>
 
@@ -158,4 +158,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 </body>
 </html>
+
 
