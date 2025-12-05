@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 require_once("users.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -109,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </script>
 </body>
 </html>
+
 
 
 
