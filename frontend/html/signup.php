@@ -207,8 +207,8 @@ function showError($errors) {
 
             <input type= "hidden" name= "submitted" value= "true"/>
       </form>
-      <a href="login.html">Login</a>
-      <a href="signup.html">Sign up</a>
+      <a href="login.php">Login</a>
+      <a href="signup.php">Sign up</a>
       <button id="dark-mode" class="dark-mode-button">
         <img src="../../images/darkmode.png" alt="Dark Mode" />
       </button>
