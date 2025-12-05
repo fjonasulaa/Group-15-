@@ -1,5 +1,5 @@
 <?php
-require_once("mycon.php");
+require_once("'../../database/db_connect.php'");
 
 class Users {
 
@@ -42,3 +42,4 @@ class Users {
         return null;
     }
 }
+
