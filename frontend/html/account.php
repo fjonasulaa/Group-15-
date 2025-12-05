@@ -209,7 +209,7 @@ $user = $userQuery->fetch_assoc();
   </div>
 
     <div class="accountcontainer">
-        <h1>Welcome, <span><?= $_SESSION['firstname'];?></span></h1>
+        <h1>Welcome, <span><?= $user['firstName'];?></span></h1>
         <div class="accountinfo">
             <h2>Account Information</h2>
             <p><Strong>Name:</Strong> <?= $user['firstName']; ?></p>
