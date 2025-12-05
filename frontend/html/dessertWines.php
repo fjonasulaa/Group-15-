@@ -1,3 +1,23 @@
+<?php
+session_start();
+if (!isset($_SESSION['basket'])) {
+    $_SESSION['basket'] = [];
+}
+
+if (isset($_GET['add'])) {
+    $wineId = intval($_GET['add']);
+
+    if (!isset($_SESSION['basket'][$wineId])) {
+        $_SESSION['basket'][$wineId] = 1;
+    } else {
+        $_SESSION['basket'][$wineId]++;
+    }
+
+    header("Location: dessertWines.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +37,6 @@
           <a href="about.html">About Us</a>
           <a href="wines.html">Wines</a>
           <a href="basket.php">Basket</a>
-          <a href="contact-us.php">Contact Us</a>
         </div>
     
         <div class="navbar-right">
@@ -26,8 +45,8 @@
 
             <input type= "hidden" name= "submitted" value= "true"/>
           </form>
-          <a href="log-in.php">Login</a>
-          <a href="signup.php">Sign up</a>
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign up</a>
           <button id="dark-mode" class="dark-mode-button">
             <img src="../../images/darkmode.png" alt="Dark Mode" />
           </button>
@@ -44,8 +63,8 @@
                     <div class="description">Royal Tokaji Essencia is one of the rarest and most luxurious sweet wines in the world, made only in exceptional years from the free-run nectar of botrytised grapes in Hungary’s historic Tokaj region. With extraordinary concentration, incredibly high natural sugar, and astonishing aging potential, Essencia is prized for its richness, purity, and rarity, making it a true collector’s treasure.</div>
                     <div class="price">Price: £390</div>
                     <div class="buttons">
-                        <button class="button">SEE MORE INFO</button>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=13"><button class="button">SEE MORE INFO</button></a>
+                        <a href="dessertWines.php?add=13"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -57,8 +76,8 @@
                     <div class="description">Constantia Vin de Constance is a legendary South African dessert wine with centuries of prestige, famed for its luscious texture, vibrant acidity, and aromas of apricot, citrus peel, honey, and spice. Produced from naturally raisined Muscat de Frontignan grapes, it offers a balanced, expressive sweetness that made it a favorite of European nobility and continues to rank among the world’s greatest sweet wines.</div>
                     <div class="price">Price: £115</div>
                     <div class="buttons">
-                        <button class="button">SEE MORE INFO</button>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=14"><button class="button">SEE MORE INFO</button></a>
+                        <a href="dessertWines.php?add=14"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -70,8 +89,8 @@
                     <div class="description">Avignonesi Occhio di Pernice is a rare, opulent Vin Santo di Montepulciano crafted from Sangiovese grapes slowly air-dried and aged for years in small casks, resulting in exceptional richness and depth. Intensely flavored with notes of dried fruit, caramel, spice, and roasted nuts, it is considered one of Italy’s most prestigious sweet wines, celebrated for its complexity and long-lived elegance.</div>
                     <div class="price">Price: £237</div>
                     <div class="buttons">
-                        <button class="button">SEE MORE INFO</button>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=15"><button class="button">SEE MORE INFO</button></a>
+                        <a href="dessertWines.php?add=15"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -83,8 +102,8 @@
                     <div class="description">Château d’Yquem 1811 is one of the most iconic and historically significant dessert wines ever produced, revered for its incredible longevity, concentration, and the near-mythic status of this particular vintage. With its extraordinary balance of sweetness, acidity, and botrytised intensity, it has become a symbol of ultimate luxury in wine collecting, commanding some of the highest prices ever paid for a sweet wine.</div>
                     <div class="price">Price: £12000</div>
                     <div class="buttons">
-                        <button class="button">SEE MORE INFO</button>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="wineinfo.php?id=16"><button class="button">SEE MORE INFO</button></a>
+                        <a href="dessertWines.php?add=16"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
