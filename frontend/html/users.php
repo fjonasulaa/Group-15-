@@ -1,6 +1,7 @@
 <?php
 session_start();
-include("'../../database/db_connect.php'");
+include '..\..\database\db_connect.php';
+
 
 class Users {
 
@@ -43,5 +44,6 @@ class Users {
         return null;
     }
 }
+
 
 
