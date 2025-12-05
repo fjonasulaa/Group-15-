@@ -42,17 +42,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <a href="basket.html">Basket</a>
       <a href="contact-us.php">Contact Us</a>
     </div>
-
+    
     <div class="navbar-right">
-      <input type="text" placeholder="Search">
-      <a href="login.php">Login</a>
-      <a href="signup.php">Sign up</a>
+      <form method= "POST" action = "search.php">
+            <input type="text" name="search" placeholder="Search">
+
+            <input type= "hidden" name= "submitted" value= "true"/>
+      </form>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign up</a>
       <button id="dark-mode" class="dark-mode-button">
         <img src="../../images/darkmode.png" alt="Dark Mode" />
       </button>
     </div>
   </div>
-
+  
   <!-- Main content -->
   <main>
     <div class="checkout-container" style="max-width: 500px;">
