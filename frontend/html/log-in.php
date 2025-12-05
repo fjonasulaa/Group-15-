@@ -8,12 +8,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $customerId = $u->login($_POST["email"], $_POST["password"]);
 
     if ($customerId !== null) {
-        // login success
-        $_SESSION["customerId"] = $customerId;
+
+        $_SESSION['customerID'] = $customerId;
+
+        // Redirect to account.php
         echo '<script>window.location="account.php";</script>';
         exit;
     } else {
-        // login failed
         echo '<script>alert("Login Failed");</script>';
     }
 }
@@ -109,6 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </script>
 </body>
 </html>
+
 
 
 
