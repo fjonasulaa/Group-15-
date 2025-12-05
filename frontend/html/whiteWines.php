@@ -1,3 +1,23 @@
+<?php
+session_start();
+if (!isset($_SESSION['basket'])) {
+    $_SESSION['basket'] = [];
+}
+
+if (isset($_GET['add'])) {
+    $wineId = intval($_GET['add']);
+
+    if (!isset($_SESSION['basket'][$wineId])) {
+        $_SESSION['basket'][$wineId] = 1;
+    } else {
+        $_SESSION['basket'][$wineId]++;
+    }
+
+    header("Location: whiteWines.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +37,6 @@
           <a href="about.html">About Us</a>
           <a href="wines.html">Wines</a>
           <a href="basket.php">Basket</a>
-          <a href="contact-us.php">Contact Us</a>
         </div>
     
         <div class="navbar-right">
@@ -26,8 +45,8 @@
 
             <input type= "hidden" name= "submitted" value= "true"/>
           </form>
-          <a href="log-in.php">Login</a>
-          <a href="signup.php">Sign up</a>
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign up</a>
           <button id="dark-mode" class="dark-mode-button">
             <img src="../../images/darkmode.png" alt="Dark Mode" />
           </button>
@@ -51,7 +70,7 @@
                         <a href="wineinfo.php?id=5">
                         <button class="button">SEE MORE INFO</button>
                         </a>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="whiteWines.php?add=5"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -70,7 +89,7 @@
                         <a href="wineinfo.php?id=6">
                         <button class="button">SEE MORE INFO</button>
                         </a>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="whiteWines.php?add=6"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -89,7 +108,7 @@
                         <a href="wineinfo.php?id=7">
                         <button class="button">SEE MORE INFO</button>
                         </a>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="whiteWines.php?add=7"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -108,7 +127,7 @@
                         <a href="wineinfo.php?id=8">
                         <button class="button">SEE MORE INFO</button>
                         </a>
-                        <button class="button">ADD TO BASKET</button>
+                        <a href="whiteWines.php?add=8"><button class="button">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
