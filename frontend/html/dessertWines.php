@@ -37,6 +37,7 @@ if (isset($_GET['add'])) {
           <a href="about.html">About Us</a>
           <a href="wines.html">Wines</a>
           <a href="basket.php">Basket</a>
+          <a href="contact-us.html">Contact</a>
         </div>
     
         <div class="navbar-right">

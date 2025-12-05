@@ -33,11 +33,12 @@ if (isset($_GET['add'])) {
     <div class="navbar">
         <img src="../../images/icon.png" alt="Wine Exchange Logo">
         <div class="navbar-links">
-          <a href="index.html">Home</a>
-          <a href="about.html">About Us</a>
-          <a href="wines.html">Wines</a>
-          <a href="basket.php">Basket</a>
-        </div>
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="wines.html">Wines</a>
+      <a href="basket.php">Basket</a>
+      <a href="contact-us.html">Contact</a>
+    </div>
     
         <div class="navbar-right">
           <form method= "POST" action = "search.php">
