@@ -45,9 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wine Exchange - Contact Us</title>
+<meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us - Wine Exchange</title>
+  <link rel="icon" type="image/x-icon" href="../../images/icon.png">
+  <link rel="stylesheet" href="../css/styles.css" />
 
   <!-- Link your CSS file -->
   <link rel="stylesheet" href="styles.css">
