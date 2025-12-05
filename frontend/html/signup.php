@@ -1,3 +1,16 @@
+<?php
+
+session_start();
+
+$error = $_SESSION['register_error'] ?? "";
+unset($_SESSION["register_error"]);
+
+
+function showError($errors) {
+    return !empty($errors) ? "<p class='error-message'>$errors</p>" : '';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,6 +98,16 @@
         p a:hover {
             text-decoration: underline;
         }
+
+        .error-message {
+            padding: 12px;
+            background: red;
+            border-radius: 6px;
+            font-size: 16px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -114,17 +137,18 @@
     </div>
   </div>
     <div class="container">
-        <div class="form-box" id="register-form">
-            <form action="">
+        <div class="form-box" id="signup-form">
+            <form action="sign_up.php" method ="post">
                 <h2>Sign up</h2>
-                <input type="text" name="first-Name" placeholder="First Name" required>
+                <?= showError($error); ?>
+                <input type="text" name="firstName" placeholder="First Name" required>
                 <input type="text" name="surname" placeholder="Surname" required>
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="tel" name="pnumber" placeholder="Phone Number">
                 <input type="date" name="dob" placeholder="Date of Birth">
                 <input type="password" name="password" placeholder="Password" required>
-                <button type="submit" name="login">Sign up</button>
-                <p>Already have an account? <a href="login.html">Login</a></p>
+                <button type="submit" name="signup">Sign up</button>
+                <p>Already have an account? <a href="login.php">Login</a></p>
             </form>
         </div>
     </div>
