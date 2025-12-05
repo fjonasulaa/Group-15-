@@ -5,13 +5,17 @@ require_once("users.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $u = new Users();
 
-    $loggedIn = $u->login($_POST["email"], sha1($_POST["password"]));
+    // 👉 pass the RAW password (no sha1!)
+    $customerId = $u->login($_POST["email"], $_POST["password"]);
 
-    if ($loggedIn === true) {
-        $_SESSION["uid"] = $u->getuid($_POST["email"]);
+    if ($customerId !== null) {
+        // login successful → store ID in session
+        $_SESSION["customerId"] = $customerId;
+
         echo '<script>window.location="user-dashboard.php";</script>';
         exit;
     } else {
+        // login failed
         echo '<script>alert("Login Failed");</script>';
     }
 }
@@ -106,6 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </script>
 </body>
 </html>
+
 
 
 
