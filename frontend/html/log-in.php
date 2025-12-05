@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($customerId !== null) {
         // login success
         $_SESSION["customerId"] = $customerId;
-        echo '<script>window.location="user-dashboard.php";</script>';
+        echo '<script>window.location="account.php";</script>';
         exit;
     } else {
         // login failed
@@ -109,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </script>
 </body>
 </html>
+
 
 
 
