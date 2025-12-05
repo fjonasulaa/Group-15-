@@ -129,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid var(--border-colour);"
           required><?php echo htmlspecialchars($message ?? ""); ?></textarea>
 
-        <button type="submit" class="place-order" style="margin-top: 15px;">
+        <button type="submit" class="send-message" style="margin-top: 15px;">
           Send Message
         </button>
       </form>
