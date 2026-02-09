@@ -129,28 +129,110 @@
         </div>
 
         <div class="admin-content">
-            <div class="transaction-wrapper">
-                <h1 class="center-title" style="padding-bottom: 3rem;">TRANSACTION HISTORY</h1>
+            <div class="profile-wrapper">
+                <h1 class = "center-title">USERNAME123's PROFILE</h1>
 
-                    <div class="transaction-header">
-                        <span>TRANSACTION ID</span>
-                        <span>ORDER ID</span>
-                        <span>AMOUNT</span>
-                        <span>CUSTOMER</span>
-                        <span>PAYMENT METHOD</span>
-                        <span>PAYMENT STATUS</span>
-                        <span>TRANSACTION DATE</span>
-                    </div>
+                <div class="frame">
+                    <form method="post">
+                        <h2>USER INFORMATION</h2>
 
-                    <div class="transaction-row">
-                        <span>ID placeholder</span>
-                        <span>order placeholder</span>
-                        <span class="transaction-amount">£123.00</span>
-                        <span>name</span>
-                        <span>visa</span>
-                        <span>Paid</span>
-                        <span>08 Feb 2026, 14:23</span>
-                    </div>
+
+                        <h3>IDENTITY</h3>
+                        <div class="row">
+                            <div>
+                                <label for="username">Username</label>
+                                <input type="text" name="username" placeholder="username placeholder">
+                            </div>
+
+                            <div>
+                                <label for="firstName">First name</label>
+                                <input id="firstName" type="text" name="firstName" placeholder="current name">
+                            </div>
+
+                            <div>
+                                <label for="surname">Surname</label>
+                                <input id="surname" type="text" name="surname" placeholder="current surname">
+                            </div>
+                        </div>
+
+                        <h3>CONTACT INFORMATION</h3>
+                        <div class="row">
+                            <div>
+                                <label for="email">Email</label>
+                                <input type="email" name="email" value="current email" readonly>
+                            </div>
+
+                            <div>
+                                <label for="pnumber">Phone Number</label>
+                                <input type="tel" name="pnumber" placeholder="current phonenumber">
+                            </div>
+                        </div>
+
+
+                        <h3>ADDRESS</h3>
+                        <div class="row">
+                            <div>
+                                <label for="addressline">ADDRESS LINE</label>
+                                <input type="text" name="addressline" placeholder="current address">
+                            </div>
+
+                            <div>
+                                <label for="postcode">POSTCODE</label>
+                                <input type="text" name="postcode" placeholder="current postcode">
+                            </div>
+                        </div>
+
+                        <button type="save-details" name="saveDetails">Save Profile</button>
+                    </form>
+                </div>
+
+                <div class="frame">
+                    <form method="post">
+                        <h2>CHANGE PASSWORD</h2>
+
+                        <label for="currentpassword">CURRENT PASSWORD</label>
+                        <input type="password" name="currentpassword" placeholder="Current Password" required>
+
+                        <div class="row">
+                            <div>
+                                <label for="newpassword">NEW PASSWORD</label>
+                                <input type="password" name="newpassword" placeholder="New Password" required>
+                            </div>
+
+                            <div>
+                                <label for="confirmnewpassword">CONFIRM NEW PASSWORD</label>
+                                <input type="password" name="confirmnewpassword" placeholder="Confirm New Password"
+                                    required>
+                            </div>
+                        </div>
+
+                        <button type="change-password" name="changePassword">Change Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="transaction-wrapper">
+            <h1 class="center-title" style="padding-bottom: 3rem;">TRANSACTION HISTORY</h1>
+
+            <div class="transaction-header">
+                <span>TRANSACTION ID</span>
+                <span>ORDER ID</span>
+                <span>AMOUNT</span>
+                <span>CUSTOMER</span>
+                <span>PAYMENT METHOD</span>
+                <span>PAYMENT STATUS</span>
+                <span>TRANSACTION DATE</span>
+            </div>
+
+            <div class="transaction-row">
+                <span>ID placeholder</span>
+                <span>order placeholder</span>
+                <span class="transaction-amount">£123.00</span>
+                <span>name</span>
+                <span>visa</span>
+                <span class="transaction-status">Paid</span>
+                <span>08 Feb 2026, 14:23</span>
             </div>
         </div>
     </main>
