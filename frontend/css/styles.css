@@ -1,6 +1,6 @@
 :root {
   --font-main: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --background-colour: #fdfdfdb3;
+  --background-colour: #fdfdfd;
   --text-colour: #333;
   --primary-colour: #6b0f1a;
   --frame-colour: #ffffff;
@@ -10,10 +10,13 @@
   --shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.12);
   --dm-button-colour: #000;
-
+  --sidebar-width: 200px;
+  --navbar-height: 90px;
+  
   --white: #ffffff;
   --dark-grey: #555555;
   --black: #000000;
+
 }
 
 :root.darkmode {
@@ -80,11 +83,12 @@ main h1 {
   padding: 10px 25px;
   border-bottom: 1px solid var(--border-colour);
   gap: 20px;
-  overflow: hidden;
   position: fixed;
   top: 0;
-  z-index: 1000;
+  left: 0;
   width: 100%;
+  height: var(--navbar-height);
+  z-index: 1000;
   box-shadow: var(--shadow);
 }
 
@@ -492,6 +496,7 @@ margin-right: 30%
 
 .details ul li {
   margin: 0;
+
   list-style: none;
   padding-left: 1.7rem;
   margin: 0.4rem 0;
@@ -910,6 +915,114 @@ textarea {
 }
 
 
+
+
+
+
+
+
+/* ===========================
+   ADMIN
+   =========================== */
+
+.sidebar {
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--navbar-height));
+  background-color: var(--frame-colour);
+  overflow-y: auto;
+  z-index: 900;
+  padding-top: 12px;
+  box-shadow: var(--shadow);
+border-bottom: 1px solid var(--border-colour);
+}
+
+/* Sidebar links */
+.sidebar a {
+  display: block;
+  color: var(--frame-text-colour);
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sidebar a.active {
+  background-color: var(--primary-colour);
+  color: var(--white);
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: var(--border-colour);
+  color: var(--white);
+}
+
+.admin-content {
+  margin-left: var(--sidebar-width);
+  margin-top: var(--navbar-height);
+  padding: 24px 32px;
+  width: calc(100% - var(--sidebar-width));
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Footer */
+.admin footer {
+  margin-left: var(--sidebar-width);
+}
+
+
+
+/* ===========================
+   TRANSACTIONS (ADMIN)
+   =========================== */
+
+.transaction-wrapper {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.transaction-wrapper {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.transaction-header {
+  display: grid;
+  grid-template-columns: 120px 100px 100px 120px 140px 100px 150px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-colour);
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: var(--dark-grey);
+  font-size: 0.85rem;
+}
+
+.transaction-row {
+  display: grid;
+  grid-template-columns: 120px 100px 100px 120px 140px 100px 150px;
+  padding: 22px 0;
+  align-items: center;
+  border-bottom: 1px solid var(--border-colour);
+  color: var(--text-colour);
+  font-size: 0.95rem;
+}
+
+.transaction-status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  width: fit-content;
+}
+
+.transaction-row:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
 
 
 
