@@ -29,9 +29,9 @@ if (isset($_POST['submitted'])) {
         while ($row = $result->fetch_assoc()) {
             echo "<a class='box-link' href='wineinfo.php?id=" . $row['wineId'] . "'>";
             echo "<div class='box'>";
-            echo "<img src='" . htmlspecialchars($row['imageUrl']) . "' alt='" . htmlspecialchars($row['wineName']) . "'>";
+            echo "<img src='../../images/" . htmlspecialchars($row['imageUrl']) . "' alt='" . htmlspecialchars($row['wineName']) . "'>";
             echo "<div class='box-text'>";
-            echo "<p><strong>" . htmlspecialchars($row['category']) . " Wine</strong></p>";
+            echo "<p><strong>" . htmlspecialchars($row['category']) . "</strong></p>";
             echo "<p>" . htmlspecialchars($row['wineName']) . "</p>";
             echo "<p>£ " . htmlspecialchars($row['price']) . "</p>";
             echo "</div>";

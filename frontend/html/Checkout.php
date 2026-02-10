@@ -56,7 +56,7 @@
         <div class="checkout-container">
             <h1>Checkout</h1>
             <!--Only show if user isn't logged in.-->
-            <?php if (!isset($_SESSION['uid'])):?>
+            <?php if (!isset($_SESSION['customerID'])):?>
             <label for="fname">First Name</label>
             <input id="fname" name="fname" type="text" placeholder="John">
             <div id="err-fname" class="error-inline">First name is required.</div>

@@ -63,7 +63,7 @@ if (isset($_GET['add'])) {
                     <div class="wine-type">RED WINE</div>
                     <div class="name">MARCHESI ANTINORI</div>
                     <div class="description">Tignanello is a renowned Super Tuscan from Marchesi Antinori, made primarily from Sangiovese with a touch of Cabernet Sauvignon and Cabernet Franc. It’s celebrated for its ripe red and dark fruit flavors, balanced acidity, polished tannins, and gentle notes of spice and oak. Often considered a benchmark of modern Italian winemaking, it combines elegance, depth, and excellent aging potential.</div>
-                    <div class="price">Price: £155</div>
+                    <div class="price">Price: £150</div>
                     <div class="buttons">
                         <a href="wineinfo.php?id=1"><button class="button">SEE MORE INFO</button></a>
                         <a href="redWines.php?add=1"><button class="button">ADD TO BASKET</button></a>

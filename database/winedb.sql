@@ -21,6 +21,7 @@ CREATE TABLE wines (
   description TEXT,
   imageUrl VARCHAR(500)
 );
+ALTER TABLE wines CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE orders (
   orderId INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -89,7 +90,7 @@ INSERT INTO wines (wineId, wineName, wineRegion, ingredients, country, category,
 
 (6, 'Sauvignon Blanc', 'Global (origin: Loire Valley & Bordeaux)', '100% Sauvignon Blanc (sometimes blended with Semillon in Bordeaux)', 'France', 'White Wine', 51.00, 'Sauvignon Blanc is known for gooseberry, grapefruit, lime, passion fruit, and herbal flavors with high acidity and no tannins. Aromas may be grassy, mineral, or flinty, especially in Loire Valley styles like Sancerre and Pouilly-Fumé. Grown globally (New Zealand, California, Chile, South Africa), it pairs excellently with goat cheese, seafood, herb-driven dishes, and Thai or Vietnamese cuisine.', 'blanc.jpg'),
 
-(7, 'Pinot Grigio', 'Northeast Italy (Veneto, Friuli, Trentino-Alto Adige); originated in Burgundy, France', '100% Pinot Grigio (Pinot Gris)', 'Italy', 'White Wine', 35.00, 'Pinot Grigio produces dry white wines with high acidity, light to medium body, and flavors of citrus, green apple, pear, and white peach. Italian styles are crisp and refreshing, while Alsace Pinot Gris is richer and fuller-bodied with honeyed or spicy notes. As a widely grown global variety, it pairs well with seafood, salads, pasta, and Mediterranean dishes.', 'grigio.jpg'),
+(7, 'Pinot Grigio', 'Northeast Italy (Veneto, Friuli, Trentino-Alto Adige); originated in Burgundy, France', '100% Pinot Grigio (Pinot Gris)', 'Italy', 'White Wine', 35.00, 'Pinot Grigio produces dry white wines with high acidity, light to medium body, and flavors of citrus, green apple, pear, and white peach. Italian styles are crisp and refreshing, while Alsace Pinot Gris is richer and fuller-bodied with honeyed or spicy notes. As a widely grown global variety, it pairs well with seafood, salads, pasta, and Mediterranean dishes.', 'Grigio.avif'),
 
 (8, 'Chablis Premier Cru', 'Chablis, Burgundy', '100% Chardonnay', 'France', 'White Wine', 62.00, 'Chablis Premier Cru wines are known for crisp acidity, minerality, and pure fruit expression. Aromas include green apple, citrus, white flowers, and flinty notes. Aged in stainless steel or neutral oak to emphasize freshness and terroir, these wines come from Premier Cru vineyard sites such as Montée de Tonnerre, Fourchaume, Vaillons, and Montmains. Compared to standard Chablis, they offer greater depth, complexity, and ageing potential.', 'Chablis.jpg');
 
