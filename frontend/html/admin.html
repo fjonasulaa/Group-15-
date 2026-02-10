@@ -118,13 +118,13 @@
         </div>
     </div>
 
+    <div class="tab">
+        <button class="tablinks active" onclick="openTab(event, 'profile')">Profile</button>
+        <button class="tablinks" onclick="openTab(event, 'transactions')">Transactions</button>
+    </div>
+
     <main>
         <div class="admin-content">
-            <div class="tab">
-                <button class="tablinks" onclick="openTab(event, 'profile')">Profile</button>
-                <button class="tablinks" onclick="openTab(event, 'transactions')">Transactions</button>
-            </div>
-
             <div class="profile-wrapper tabcontent" id="profile">
                 <h1 class="center-title">user123's Account Settings</h1>
 
@@ -273,25 +273,6 @@
         darkButton.addEventListener("click", () => {
             document.documentElement.classList.toggle("darkmode");
             localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-        });
-    </script>
-
-    <script>
-        document.querySelectorAll(".dropdown-btn").forEach(button => {
-            button.addEventListener("click", () => {
-
-                const userBlock = button.parentElement;
-                const dropdown = userBlock.querySelector(".dropdown-container");
-
-                button.classList.toggle("active");
-                userBlock.classList.toggle("active");
-
-                if (dropdown.style.display === "block") {
-                    dropdown.style.display = "none";
-                } else {
-                    dropdown.style.display = "block";
-                }
-            });
         });
     </script>
 

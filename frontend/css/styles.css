@@ -12,6 +12,7 @@
   --dm-button-colour: #000;
   --sidebar-width: 0px;
   --navbar-height: 90px;
+  --tabs-height: 55px;
 
   --white: #ffffff;
   --dark-grey: #555555;
@@ -891,6 +892,58 @@ textarea {
 .admin-content h3 {
   color: var(--primary-colour);
 }
+
+.admin .navbar {
+  box-shadow: none;
+}
+
+
+
+/* ===========================
+   TABS
+   =========================== */
+
+
+/* TAB BAR */
+.tab {
+  position: fixed;
+  top: var(--navbar-height);
+  height: var(--tabs-height);
+  display: flex;
+  width: 100%;
+  background: var(--background-colour);
+  border-bottom: 2px solid var(--border-colour);
+  z-index: 900;
+  box-shadow: var(--shadow);
+}
+
+.tablinks {
+  flex: 1;
+  padding: 15px;
+  background: var(--background-colour);
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--text-colour);
+}
+
+.tablinks:hover {
+  background: var(--shadow-hover);
+}
+
+.tablinks.active {
+  background: var(--background-colour);
+  border-bottom: 3px solid var(--primary-colour);
+  font-weight: bold;
+  color: var(--primary-colour)
+}
+
+.tabcontent {
+  display: none;
+  padding: 20px 0;
+}
+
+
 
 /* ===========================
    PROFILE DETAILS
