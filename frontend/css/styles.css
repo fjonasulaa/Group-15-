@@ -10,7 +10,7 @@
   --shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.12);
   --dm-button-colour: #000;
-  --sidebar-width: 200px;
+  --sidebar-width: 0px;
   --navbar-height: 90px;
 
   --white: #ffffff;
@@ -68,7 +68,6 @@ main h1 {
 .center-title {
   grid-column: 1 / -1;
   text-align: center;
-  font-size: 3rem;
   color: var(--primary-colour);
 }
 
@@ -873,86 +872,52 @@ textarea {
    ADMIN
    =========================== */
 
-.sidebar {
-  position: fixed;
-  top: var(--navbar-height);
-  left: 0;
-  width: var(--sidebar-width);
-  height: calc(100vh - var(--navbar-height));
-  background-color: var(--frame-colour);
-  overflow-y: auto;
-  z-index: 900;
-  padding-top: 12px;
-  box-shadow: var(--shadow);
-  border-bottom: 1px solid var(--border-colour);
-}
-
-.sidebar a {
-  display: block;
-  color: var(--frame-text-colour);
-  padding: 16px;
-  text-decoration: none;
-}
-
-.sidebar a.active {
-  background-color: var(--primary-colour);
-  color: var(--white);
-}
-
-.sidebar a:hover:not(.active) {
-  background-color: var(--border-colour);
-  color: var(--white);
-}
 
 .admin-content {
-  margin-left: var(--sidebar-width);
-  margin-top: var(--navbar-height);
-  padding: 24px 32px;
-  width: calc(100% - var(--sidebar-width));
-  box-sizing: border-box;
-  overflow-x: hidden;
-  justify-content: center;
-  gap: 40px;
+    max-width: 1200px;   
+    margin: var(--navbar-height) auto 40px auto; 
+    padding: 24px 16px;  
+    display: flex;
+    flex-direction: column;
+    gap: 40px;   
 }
 
 .admin footer {
   margin-left: var(--sidebar-width);
 }
-
 .admin-content h2 {
   color: var(--primary-colour);
 }
-
 .admin-content h3 {
   color: var(--primary-colour);
 }
 
-
 /* ===========================
-   USER
+   PROFILE DETAILS
    =========================== */
 
 .profile-wrapper {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
+    display: flex;             
+    flex-direction: column;    
+    align-items: center;     
+    gap: 40px;                 
 }
 
 .profile-wrapper .frame {
   max-width: 100%;
-  padding-top: 1rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
   width: 100%;
-  max-width: 100%;
+  padding-top: 4rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 2rem;
+  border-radius: 5px;
 }
 
 .profile-wrapper button {
-  width: 40%;
+  width: 20%;
   padding: 12px;
   background: var(--primary-colour);
-  border-radius: 6px;
+  border-radius: 3px;
   border: none;
   cursor: pointer;
   font-size: 16px;
@@ -962,18 +927,43 @@ textarea {
   display: block;
   transition: 0.5s;
   margin-top: 2rem;
-  margin-bottom: 1rem
+  margin-bottom: 1rem;
+  .profile-wrapper button {
+  margin: 2rem auto 1rem auto;
+}
 }
 
 .profile-wrapper .row {
-  display: flex;
-  gap: 20px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .profile-wrapper .row > * {
-  flex: 1;
-  min-width: 0;
+    flex: 1 1 200px;  
 }
+
+.password form > div {
+    display: flex;           
+    align-items: center;      
+    gap: 10px;            
+    margin-bottom: 15px;     
+}
+
+.password label {
+    width: 30%;           
+    text-align: right;      
+}
+
+.password.frame {
+    width: 50%;    
+    min-width: 300px;    
+    margin: 0 auto;   
+}
+
+.password button {
+    width: 80%;
+  }
 
 /* ===========================
    TRANSACTIONS (ADMIN)
@@ -983,21 +973,17 @@ textarea {
   width: 100%;
   max-width: none;
   margin: 0;
-}
-
-.transaction-wrapper {
-  width: 100%;
-  max-width: none;
-  margin: 0;
+  overflow-x: auto;
 }
 
 .transaction-header {
   display: grid;
-  grid-template-columns: 120px 100px 100px 120px 140px 100px 150px;
-  padding-bottom: 12px;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 10px 0;
   border-bottom: 1px solid var(--border-colour);
   font-weight: bold;
   letter-spacing: 1px;
+  align-items: center;
   color: var(--dark-grey);
   font-size: 0.85rem;
 }

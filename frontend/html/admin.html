@@ -119,66 +119,54 @@
     </div>
 
     <main>
-        <!-- sidebar -->
-
-        <div class="sidebar">
-            <a class="active" href="#admin">ADMIN</a>
-            <a href="#profile-username123">username123</a>
-            <a href="#profile-username456">username456</a>
-            <a href="#profile-username789">username789</a>
-        </div>
-
         <div class="admin-content">
-            <div class="profile-wrapper" id="profile-username123">
-                <h1 class="center-title">USERNAME123's PROFILE</h1>
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'profile')">Profile</button>
+                <button class="tablinks" onclick="openTab(event, 'transactions')">Transactions</button>
+            </div>
 
-                <div class="frame">
+            <div class="profile-wrapper tabcontent" id="profile">
+                <h1 class="center-title">user123's Account Settings</h1>
+
+                <div class="profile frame">
                     <form method="post">
-                        <h2>USER INFORMATION</h2>
-
-
-                        <h3>IDENTITY</h3>
                         <div class="row">
                             <div>
                                 <label for="username">USERNAME</label>
-                                <input type="text" name="username" placeholder="username placeholder">
+                                <input type="text" name="username" value="username123">
                             </div>
 
                             <div>
+                                <label for="email">EMAIL</label>
+                                <input type="email" name="email" value="email@email" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div>
                                 <label for="firstName">FIRST NAME</label>
-                                <input id="firstName" type="text" name="firstName" placeholder="current name">
+                                <input id="firstName" type="text" name="firstName" value="Bob">
                             </div>
 
                             <div>
                                 <label for="surname">SURNAME</label>
-                                <input id="surname" type="text" name="surname" placeholder="current surname">
+                                <input id="surname" type="text" name="surname" value="Smith">
                             </div>
                         </div>
 
-                        <h3>CONTACT INFORMATION</h3>
-                        <div class="row">
-                            <div>
-                                <label for="email">EMAIL</label>
-                                <input type="email" name="email" value="current email" readonly>
-                            </div>
-
-                            <div>
-                                <label for="pnumber">PHONE NUMBER</label>
-                                <input type="tel" name="pnumber" placeholder="current phonenumber">
-                            </div>
+                        <div>
+                            <label for="addressline">ADDRESS LINE</label>
+                            <input type="text" name="addressline" value="123 Street">
                         </div>
 
-
-                        <h3>ADDRESS</h3>
                         <div class="row">
-                            <div>
-                                <label for="addressline">ADDRESS LINE</label>
-                                <input type="text" name="addressline" placeholder="current address">
-                            </div>
-
                             <div>
                                 <label for="postcode">POSTCODE</label>
-                                <input type="text" name="postcode" placeholder="current postcode">
+                                <input type="text" name="postcode" value="rwgrwg4">
+                            </div>
+                            <div>
+                                <label for="pnumber">PHONE NUMBER</label>
+                                <input type="tel" name="pnumber" value="11111111111">
                             </div>
                         </div>
 
@@ -186,24 +174,20 @@
                     </form>
                 </div>
 
-                <div class="frame">
+                <div class="password frame">
                     <form method="post">
-                        <h2>CHANGE PASSWORD</h2>
+                        <div> <label for="currentpassword">CURRENT PASSWORD</label>
+                            <input type="password" name="currentpassword" placeholder="Enter Current Password" required>
+                        </div>
+                        <div>
+                            <label for="newpassword">NEW PASSWORD</label>
+                            <input type="password" name="newpassword" placeholder="Enter New Password" required>
+                        </div>
 
-                        <label for="currentpassword">CURRENT PASSWORD</label>
-                        <input type="password" name="currentpassword" placeholder="Current Password" required>
-
-                        <div class="row">
-                            <div>
-                                <label for="newpassword">NEW PASSWORD</label>
-                                <input type="password" name="newpassword" placeholder="New Password" required>
-                            </div>
-
-                            <div>
-                                <label for="confirmnewpassword">CONFIRM NEW PASSWORD</label>
-                                <input type="password" name="confirmnewpassword" placeholder="Confirm New Password"
-                                    required>
-                            </div>
+                        <div>
+                            <label for="confirmnewpassword">CONFIRM NEW</label>
+                            <input type="password" name="confirmnewpassword" placeholder="Confirm New Password"
+                                required>
                         </div>
 
                         <button type="submit" name="changePassword">Change Password</button>
@@ -211,27 +195,31 @@
                 </div>
             </div>
 
-            <div class="transaction-wrapper" id="transactions-username123">
-                <h1 class="center-title" style="padding-bottom: 3rem;">TRANSACTION HISTORY</h1>
+            <div class="transaction-wrapper tabcontent" id="transactions">
+                <h1 class="center-title">TRANSACTION HISTORY</h1>
 
-                <div class="transaction-header">
-                    <span>TRANSACTION ID</span>
-                    <span>ORDER ID</span>
-                    <span>AMOUNT</span>
-                    <span>CUSTOMER</span>
-                    <span>PAYMENT METHOD</span>
-                    <span>PAYMENT STATUS</span>
-                    <span>TRANSACTION DATE</span>
-                </div>
+                <div class="transaction-table">
+                    <div class="transaction-header">
+                        <span>TRANSACTION ID</span>
+                        <span>ORDER ID</span>
+                        <span>AMOUNT</span>
+                        <span>CUSTOMER</span>
+                        <span>PAYMENT METHOD</span>
+                        <span>PAYMENT STATUS</span>
+                        <span>TRANSACTION DATE</span>
+                    </div>
 
-                <div class="transaction-row">
-                    <span>ID placeholder</span>
-                    <span>order placeholder</span>
-                    <span class="transaction-amount">£123.00</span>
-                    <span>name</span>
-                    <span>visa</span>
-                    <span class="transaction-status">Paid</span>
-                    <span>08 Feb 2026, 14:23</span>
+                    <!-- Example row -->
+
+                    <div class="transaction-row">
+                        <span>ID placeholder</span>
+                        <span>order placeholder</span>
+                        <span class="transaction-amount">£123.00</span>
+                        <span>name</span>
+                        <span>visa</span>
+                        <span class="transaction-status">Paid</span>
+                        <span>08 Feb 2026, 14:23</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -240,7 +228,6 @@
     <!-- footer -->
     <footer class="footer">
         <div class="footer-container">
-
             <div class="footer-section">
                 <h3>Wine Exchange</h3>
                 <p>123 Vineyard Lane<br>London, UK</p>
@@ -276,7 +263,6 @@
         </div>
     </footer>
 
-
     <script>
         // DARK MODE
         const darkButton = document.getElementById("dark-mode");
@@ -291,16 +277,44 @@
     </script>
 
     <script>
-        const userLinks = document.querySelectorAll('.sidebar a');
+        document.querySelectorAll(".dropdown-btn").forEach(button => {
+            button.addEventListener("click", () => {
 
-        userLinks.forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
+                const userBlock = button.parentElement;
+                const dropdown = userBlock.querySelector(".dropdown-container");
 
-                userLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
+                button.classList.toggle("active");
+                userBlock.classList.toggle("active");
+
+                if (dropdown.style.display === "block") {
+                    dropdown.style.display = "none";
+                } else {
+                    dropdown.style.display = "block";
+                }
             });
         });
+    </script>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
     </script>
 </body>
 
