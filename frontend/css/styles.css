@@ -904,7 +904,6 @@ textarea {
    =========================== */
 
 
-/* TAB BAR */
 .tab {
   position: fixed;
   top: var(--navbar-height);
