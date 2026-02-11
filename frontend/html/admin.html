@@ -137,6 +137,7 @@
                 <div class="profile-wrapper tabcontent active" id="profile">
                     <h1 class="center-title">user123's Account Settings</h1>
 
+                    <!-- profile info -->
                     <div class="profile frame">
                         <form method="post">
                             <div class="row">
@@ -205,6 +206,7 @@
                     </div>
                 </div>
 
+                <!-- table -->
                 <div class="transaction-wrapper tabcontent" id="transactions">
                     <h1 class="center-title">TRANSACTION HISTORY</h1>
                     <div class="transaction-table">
@@ -286,6 +288,7 @@
     </script>
 
     <script>
+        // OPEN TAB
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
 
@@ -303,6 +306,17 @@
             evt.currentTarget.className += " active";
             document.documentElement.scrollTop = 0;
         }
+    </script>
+
+    <script>
+        const links = document.querySelectorAll('.sidebar a');
+
+        links.forEach(link => {
+            link.addEventListener('click', function () {
+                links.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
     </script>
 </body>
 
