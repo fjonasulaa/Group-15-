@@ -10,7 +10,7 @@
   --shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.12);
   --dm-button-colour: #000;
-  --sidebar-width: 0px;
+  --sidebar-width: 15%;
   --navbar-height: 90px;
   --tabs-height: 55px;
 
@@ -870,26 +870,28 @@ textarea {
 }
 
 /* ===========================
-   ADMIN
+   OUTER
    =========================== */
 
 
-.admin-content {
-    max-width: 1200px;   
-    margin: var(--navbar-height) auto 40px auto; 
-    padding: 24px 16px;  
-    display: flex;
-    flex-direction: column;
-    gap: 40px;   
+.sidebar-container {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width))
 }
 
-.admin footer {
-  margin-left: var(--sidebar-width);
+.tab-container {
+  width: 100%;
+  margin: var(--navbar-height) auto 40px auto;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
-.admin-content h2 {
+
+.tab-container h2 {
   color: var(--primary-colour);
 }
-.admin-content h3 {
+.tab-container h3 {
   color: var(--primary-colour);
 }
 
@@ -897,19 +899,16 @@ textarea {
   box-shadow: none;
 }
 
-
-
 /* ===========================
    TABS
    =========================== */
-
 
 .tab {
   position: fixed;
   top: var(--navbar-height);
   height: var(--tabs-height);
   display: flex;
-  width: 100%;
+  width: calc(100% - var(--sidebar-width));
   background: var(--background-colour);
   border-bottom: 2px solid var(--border-colour);
   z-index: 900;
@@ -934,7 +933,7 @@ textarea {
   background: var(--background-colour);
   border-bottom: 3px solid var(--primary-colour);
   font-weight: bold;
-  color: var(--primary-colour)
+  color: var(--primary-colour);
 }
 
 .tabcontent {
@@ -942,17 +941,48 @@ textarea {
   padding: 20px 0;
 }
 
+/* ===========================
+   SIDEBAR
+   =========================== */
 
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: var(--sidebar-width);
+  background-color: var(--background-colour);
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  border-right: 1px solid var(--border-colour);
+}
+
+.sidebar a {
+  cursor: pointer;
+  width:100%;
+  display: block;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sidebar a.active {
+  color: var(--primary-colour);
+  background-color: var(--frame-colour);
+}
+
+.sidebar a:hover:not(.active) {
+  color: var(--primary-colour);
+  background-color: var(--frame-colour);
+}
 
 /* ===========================
    PROFILE DETAILS
    =========================== */
 
 .profile-wrapper {
-    display: flex;             
-    flex-direction: column;    
-    align-items: center;     
-    gap: 40px;                 
+  display: block;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
 }
 
 .profile-wrapper .frame {
@@ -981,41 +1011,41 @@ textarea {
   margin-top: 2rem;
   margin-bottom: 1rem;
   .profile-wrapper button {
-  margin: 2rem auto 1rem auto;
-}
+    margin: 2rem auto 1rem auto;
+  }
 }
 
 .profile-wrapper .row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .profile-wrapper .row > * {
-    flex: 1 1 200px;  
+  flex: 1 1 200px;
 }
 
 .password form > div {
-    display: flex;           
-    align-items: center;      
-    gap: 10px;            
-    margin-bottom: 15px;     
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .password label {
-    width: 30%;           
-    text-align: right;      
+  width: 30%;
+  text-align: right;
 }
 
 .password.frame {
-    width: 50%;    
-    min-width: 300px;    
-    margin: 0 auto;   
+  width: 50%;
+  min-width: 300px;
+  margin: 0 auto;
 }
 
 .password button {
-    width: 80%;
-  }
+  width: 80%;
+}
 
 /* ===========================
    TRANSACTIONS (ADMIN)
@@ -1026,6 +1056,7 @@ textarea {
   max-width: none;
   margin: 0;
   overflow-x: auto;
+  display: none;
 }
 
 .transaction-header {
