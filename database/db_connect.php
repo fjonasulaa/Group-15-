@@ -9,6 +9,7 @@
     if ($conn->connect_error) {
         die("Connection failed: ".$conn->connect_error);
     }
+    $conn->set_charset("utf8mb4");
 
     //If testing db functionality locally, swap credentials to ones below,
     //go to http://localhost/phpmyadmin. Create new database:winedb. Import winedb.sql.

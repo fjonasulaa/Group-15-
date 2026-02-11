@@ -211,14 +211,23 @@
     <?php
     //Prints whole basket, else states that basket is empty.
     if (!empty($_SESSION['basket'])) {
+      include '..\..\database\db_connect.php';
         foreach ($_SESSION['basket'] as $id => $qty) {
+          $sql = "SELECT wineName, price, imageUrl FROM wines WHERE wineId = $id";
+          $result = $conn->query($sql);
+          $row = $result->fetch_assoc();
+
+          $wineName = $row['wineName'];
+          $price = $row['price'];
+          $imageUrl = $row['imageUrl'];
+
+
         echo "
             <div class='basket-row' data-product-id='$id'>
-                <img src='../../images/image($id).jpg' alt='Product Image'>
+                <img src='../../images/$imageUrl' alt='Product Image'>
 
                 <div>
-                    <div class='basket-info-title'>Product $id</div>
-                    <div class='basket-info-sub'>Example details</div>
+                    <div class='basket-info-title'>$wineName</div>
                     <a href='#' class='remove-link'>Remove Item</a>
                 </div>
 
@@ -228,7 +237,7 @@
                     <div class='qty-btn'>+</div>
                 </div>
 
-                <div class='basket-total-price' style='text-align:right;'>£150.00</div>
+                <div class='basket-total-price' style='text-align:right;'>£" . number_format($price * $qty, 2) . "</div>
             </div>
             ";
         }
