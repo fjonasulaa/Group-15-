@@ -222,13 +222,20 @@
 
                         <!-- Example row -->
                         <div class="transaction-row">
-                            <span>ID placeholder</span>
-                            <span>order placeholder</span>
+                            <span>ID</span>
+                            <span>order</span>
                             <span class="transaction-amount">£123.00</span>
                             <span>name</span>
                             <span>visa</span>
-                            <span class="transaction-status">Paid</span>
-                            <span>08 Feb 2026, 14:23</span>
+                            <span>
+                                <select class = "status-selection" name="status">
+                                    <option value="volvo">Paid</option>
+                                    <option value="saab">Pending</option>
+                                    <option value="mercedes">Refunded</option>
+                                </select>
+                            </span>
+
+                            <span>date</span>
                         </div>
                     </div>
                 </div>

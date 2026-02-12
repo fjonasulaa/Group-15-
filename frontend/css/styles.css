@@ -941,6 +941,31 @@ textarea {
   padding: 20px 0;
 }
 
+
+/* ===========================
+   DROPDOWN
+   =========================== */
+
+
+.status-selection {
+  width: 70%;
+  box-sizing: border-box;
+  border: none;
+  padding: 12px 16px;
+  background-color: var(--primary-colour);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  appearance: none; 
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.status-selection:hover,
+.status-selection:focus {
+  background-color: var(--primary-colour)
+}
+
 /* ===========================
    SIDEBAR
    =========================== */
@@ -965,8 +990,8 @@ textarea {
 }
 
 .sidebar a.active {
-  color: var(--primary-colour);
-  background-color: var(--frame-colour);
+  color: var(--white);
+  background-color: var(--primary-colour);
 }
 
 .sidebar a:hover:not(.active) {
@@ -1053,32 +1078,37 @@ textarea {
 
 .transaction-wrapper {
   width: 100%;
-  max-width: none;
   margin: 0;
   overflow-x: auto;
   display: none;
 }
 
+.transaction-table {
+  width: 100%;
+}
+
 .transaction-header {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
   padding: 10px 0;
   border-bottom: 1px solid var(--border-colour);
   font-weight: bold;
   letter-spacing: 1px;
-  align-items: center;
   color: var(--dark-grey);
   font-size: 0.85rem;
 }
 
 .transaction-row {
-  display: grid;
-  grid-template-columns: 120px 100px 100px 120px 140px 100px 150px;
   padding: 22px 0;
-  align-items: center;
   border-bottom: 1px solid var(--border-colour);
   color: var(--text-colour);
   font-size: 0.95rem;
+}
+
+.transaction-header,
+.transaction-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+  align-items: center;
 }
 
 .transaction-status {
