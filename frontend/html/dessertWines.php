@@ -94,8 +94,8 @@ $wine = $result->fetch_assoc();
                     <div class="description">Royal Tokaji Essencia is one of the rarest and most luxurious sweet wines in the world, made only in exceptional years from the free-run nectar of botrytised grapes in Hungary’s historic Tokaj region. With extraordinary concentration, incredibly high natural sugar, and astonishing aging potential, Essencia is prized for its richness, purity, and rarity, making it a true collector’s treasure.</div>
                     <div class="price">Price: £390</div>
                     <div class="buttons">
-                        <a href="wineinfo.php?id=13"><button class="button">SEE MORE INFO</button></a>
-                        <a href="dessertWines.php?add=13"><button class="button">ADD TO BASKET</button></a>
+                        <a href="wineinfo.php?id=13"><button class="winebutton">SEE MORE INFO</button></a>
+                        <a href="dessertWines.php?add=13"><button class="winebutton">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -107,8 +107,8 @@ $wine = $result->fetch_assoc();
                     <div class="description">Constantia Vin de Constance is a legendary South African dessert wine with centuries of prestige, famed for its luscious texture, vibrant acidity, and aromas of apricot, citrus peel, honey, and spice. Produced from naturally raisined Muscat de Frontignan grapes, it offers a balanced, expressive sweetness that made it a favorite of European nobility and continues to rank among the world’s greatest sweet wines.</div>
                     <div class="price">Price: £115</div>
                     <div class="buttons">
-                        <a href="wineinfo.php?id=14"><button class="button">SEE MORE INFO</button></a>
-                        <a href="dessertWines.php?add=14"><button class="button">ADD TO BASKET</button></a>
+                        <a href="wineinfo.php?id=14"><button class="winebutton">SEE MORE INFO</button></a>
+                        <a href="dessertWines.php?add=14"><button class="winebutton">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -120,8 +120,8 @@ $wine = $result->fetch_assoc();
                     <div class="description">Avignonesi Occhio di Pernice is a rare, opulent Vin Santo di Montepulciano crafted from Sangiovese grapes slowly air-dried and aged for years in small casks, resulting in exceptional richness and depth. Intensely flavored with notes of dried fruit, caramel, spice, and roasted nuts, it is considered one of Italy’s most prestigious sweet wines, celebrated for its complexity and long-lived elegance.</div>
                     <div class="price">Price: £237</div>
                     <div class="buttons">
-                        <a href="wineinfo.php?id=15"><button class="button">SEE MORE INFO</button></a>
-                        <a href="dessertWines.php?add=15"><button class="button">ADD TO BASKET</button></a>
+                        <a href="wineinfo.php?id=15"><button class="winebutton">SEE MORE INFO</button></a>
+                        <a href="dessertWines.php?add=15"><button class="winebutton">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -133,8 +133,8 @@ $wine = $result->fetch_assoc();
                     <div class="description">Château d’Yquem 1811 is one of the most iconic and historically significant dessert wines ever produced, revered for its incredible longevity, concentration, and the near-mythic status of this particular vintage. With its extraordinary balance of sweetness, acidity, and botrytised intensity, it has become a symbol of ultimate luxury in wine collecting, commanding some of the highest prices ever paid for a sweet wine.</div>
                     <div class="price">Price: £12000</div>
                     <div class="buttons">
-                        <a href="wineinfo.php?id=16"><button class="button">SEE MORE INFO</button></a>
-                        <a href="dessertWines.php?add=16"><button class="button">ADD TO BASKET</button></a>
+                        <a href="wineinfo.php?id=16"><button class="winebutton">SEE MORE INFO</button></a>
+                        <a href="dessertWines.php?add=16"><button class="winebutton">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
