@@ -1253,4 +1253,32 @@ textarea {
   .content {
     padding-top: 0;
   }
+
+  /* ===========================
+   WINE BUTTONS
+   =========================== */
+    .winebutton {
+      padding: 12px 22px;
+      border: none;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      color: white;
+      background: linear-gradient(135deg, #6B0F1A, #A41623);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+  }
+
+  .winebutton:hover {
+      background: linear-gradient(135deg, #8B1E2D, #C72C41);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+
+  .winebutton:active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  } 
 }
