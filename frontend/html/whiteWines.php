@@ -99,9 +99,9 @@ $wine = $result->fetch_assoc();
                     <div class="price">Price: £37</div>
                     <div class="buttons">
                         <a href="wineinfo.php?id=5">
-                        <button class="button">SEE MORE INFO</button>
+                        <button class="winebutton">SEE MORE INFO</button>
                         </a>
-                        <a href="whiteWines.php?add=5"><button class="button">ADD TO BASKET</button></a>
+                        <a href="whiteWines.php?add=5"><button class="winebutton">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -118,9 +118,9 @@ $wine = $result->fetch_assoc();
                     <div class="price">Price: £51</div>
                     <div class="buttons">
                         <a href="wineinfo.php?id=6">
-                        <button class="button">SEE MORE INFO</button>
+                        <button class="winebutton">SEE MORE INFO</button>
                         </a>
-                        <a href="whiteWines.php?add=6"><button class="button">ADD TO BASKET</button></a>
+                        <a href="whiteWines.php?add=6"><button class="winebutton">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -137,9 +137,9 @@ $wine = $result->fetch_assoc();
                     <div class="price">Price: £35</div>
                     <div class="buttons">
                         <a href="wineinfo.php?id=7">
-                        <button class="button">SEE MORE INFO</button>
+                        <button class="winebutton">SEE MORE INFO</button>
                         </a>
-                        <a href="whiteWines.php?add=7"><button class="button">ADD TO BASKET</button></a>
+                        <a href="whiteWines.php?add=7"><button class="winebutton">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -156,9 +156,9 @@ $wine = $result->fetch_assoc();
                     <div class="price">Price: £62</div>
                     <div class="buttons">
                         <a href="wineinfo.php?id=8">
-                        <button class="button">SEE MORE INFO</button>
+                        <button class="winebutton">SEE MORE INFO</button>
                         </a>
-                        <a href="whiteWines.php?add=8"><button class="button">ADD TO BASKET</button></a>
+                        <a href="whiteWines.php?add=8"><button class="winebutton">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
