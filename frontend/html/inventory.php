@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -194,7 +197,35 @@
 
 </tr>
 
+<?php
+    include '..\..\database\db_connect.php';
+        $sql = "SELECT imageUrl, wineName, price, Stock FROM wines";
+        $result = $conn->query($sql);
 
+        
+        if ($result->num_rows === 0) {
+            echo "<tr><td colspan='5'>No data found.</td></tr>";
+            exit;
+        }
+
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+
+            echo "<td><img src='../../images/" . htmlspecialchars($row['imageUrl']) . "'></td>";
+            echo "<td>" . htmlspecialchars($row['wineName']) . "</td>";
+            echo "<td>£" . htmlspecialchars($row['price']) . "</td>";
+            echo "<td> <input type='number' value=". htmlspecialchars($row['Stock']) ." class='stock-input'> </td>";
+
+            echo "<td>
+                    <button class='stock-btn update-btn'>Update</button>
+                    <button class='stock-btn remove-btn'>Remove</button>
+                </td>";
+
+            echo "</tr>";
+        }
+?>
+
+<!--
 <tr>
 
 <td>
@@ -365,7 +396,7 @@ Remove
 </td>
 
 </tr>
-
+-->
 
 </table>
 

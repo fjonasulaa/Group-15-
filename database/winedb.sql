@@ -19,7 +19,8 @@ CREATE TABLE wines (
   category VARCHAR(100),
   price DECIMAL(7,2) NOT NULL,
   description TEXT,
-  imageUrl VARCHAR(500)
+  imageUrl VARCHAR(500),
+  stock INT UNSIGNED
 );
 ALTER TABLE wines CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

@@ -5,16 +5,45 @@ if (!isset($_SESSION['basket'])) {
 }
 
 if (isset($_GET['add'])) {
-    $wineId = intval($_GET['add']);
-
-    if (!isset($_SESSION['basket'][$wineId])) {
-        $_SESSION['basket'][$wineId] = 1;
-    } else {
-        $_SESSION['basket'][$wineId]++;
-    }
-
-    header("Location: redWines.php");
+  $wineId = intval($_GET['add']);
+  require_once('../../database/db_connect.php');
+  $stmt = $conn->prepare("SELECT * FROM wines WHERE wineId = ?");
+if (!$stmt) {
+    echo "Database error (prepare failed).";
     exit;
+}
+$stmt->bind_param("i", $wineId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows == 0) {
+    echo "Wine not found.";
+    exit;
+}
+
+$wine = $result->fetch_assoc();
+  $addMessage = '';
+  $quantity = 1;
+    if ($quantity < 1) $quantity = 1;
+    if ($quantity > $wine['stock']) {
+        $addMessage = "Only {$wine['stock']} in stock. You tried to add {$quantity}.";
+    } else {
+
+    if (isset($_SESSION['basket'][$wineId])) {
+        $_SESSION['basket'][$wineId] += $quantity;
+    } else {
+        $_SESSION['basket'][$wineId] = $quantity;
+    }
+    
+
+    $addMessage = "Added {$quantity} × {$wine['wineName']} to your basket.";
+    
+    }
+    echo "<script>
+            alert(".json_encode($addMessage).");
+          </script>";
+
+
 }
 ?>
 <!DOCTYPE html>

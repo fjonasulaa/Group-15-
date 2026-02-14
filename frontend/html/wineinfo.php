@@ -21,20 +21,7 @@ if (!isset($_SESSION['basket'])) {
     $_SESSION['basket'] = [];
 }
 
-$addMessage = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
-    $quantity = get_int_from($_POST, 'quantity', 1);
-    if ($quantity < 1) $quantity = 1;
 
-    if (isset($_SESSION['basket'][$wineId])) {
-        $_SESSION['basket'][$wineId] += $quantity;
-    } else {
-        $_SESSION['basket'][$wineId] = $quantity;
-    }
-
-    $addMessage = "Added {$quantity} × item #{$wineId} to your basket.";
-
-}
 
 $stmt = $conn->prepare("SELECT * FROM wines WHERE wineId = ?");
 if (!$stmt) {
@@ -55,7 +42,30 @@ $wine = $result->fetch_assoc();
 $mainImage = $wine['imageUrl']
     ? "/Group-15-/images/" . $wine['imageUrl']
     : "../../images/placeholder.jpg";
+
+$stock = $wine['stock'];
+
+$addMessage = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
+    $quantity = get_int_from($_POST, 'quantity', 1);
+    if ($quantity < 1) $quantity = 1;
+    if ($quantity > $wine['stock']) {
+        $addMessage = "Only {$wine['stock']} in stock. You tried to add {$quantity}.";
+    } else {
+
+    if (isset($_SESSION['basket'][$wineId])) {
+        $_SESSION['basket'][$wineId] += $quantity;
+    } else {
+        $_SESSION['basket'][$wineId] = $quantity;
+    }
+    
+
+    $addMessage = "Added {$quantity} × {$wine['wineName']} to your basket.";
+    }
+
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
