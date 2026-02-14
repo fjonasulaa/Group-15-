@@ -94,8 +94,8 @@ $wine = $result->fetch_assoc();
                     <div class="description">Dom Pérignon is one of the world’s most iconic prestige Champagnes, celebrated for its seamless balance of richness, elegance, and fine mineral structure. Produced only in exceptional vintages, it showcases layers of citrus, brioche, cream, and delicate toast that evolve beautifully with age. Its reputation is built on meticulous craftsmanship, long cellar maturation, and a consistently luxurious profile that makes it a benchmark for high-end sparkling wine.</div>
                     <div class="price">Price: £410</div>
                     <div class="buttons">
-                        <a href="wineinfo.php?id=17"><button class="button">SEE MORE INFO</button></a>
-                        <a href="sparklingWines.php?add=17"><button class="button">ADD TO BASKET</button></a>
+                        <a href="wineinfo.php?id=17"><button class="winebutton">SEE MORE INFO</button></a>
+                        <a href="sparklingWines.php?add=17"><button class="winebutton">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -107,8 +107,8 @@ $wine = $result->fetch_assoc();
                     <div class="description">Cristal is a legendary luxury Champagne originally created for Russian royalty, distinguished by its crystalline purity, silk-textured finesse, and remarkable aging potential. Its flavor profile blends ripe stone fruits, white flowers, chalky minerality, and refined bubbles that deliver exceptional precision. Revered by collectors and enthusiasts alike, Cristal represents a pinnacle of elegance and craftsmanship within the world of prestige cuvées.</div>
                     <div class="price">Price: £372</div>
                     <div class="buttons">
-                        <a href="wineinfo.php?id=18"><button class="button">SEE MORE INFO</button></a>
-                        <a href="sparklingWines.php?add=18"><button class="button">ADD TO BASKET</button></a>
+                        <a href="wineinfo.php?id=18"><button class="winebutton">SEE MORE INFO</button></a>
+                        <a href="sparklingWines.php?add=18"><button class="winebutton">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -120,8 +120,8 @@ $wine = $result->fetch_assoc();
                     <div class="description">Pommery Cuvée Louise is an ultra-premium Champagne crafted only in the best years, known for its refined delicacy and graceful, linear expression. It offers subtle layers of citrus, almond, white flowers, and soft pastry notes that unfold with impressive length and harmony. Named after the visionary Madame Louise Pommery, this cuvée embodies purity, sophistication, and the quiet power of impeccably aged Chardonnay-led blends.</div>
                     <div class="price">Price: £190</div>
                     <div class="buttons">
-                        <a href="wineinfo.php?id=19"><button class="button">SEE MORE INFO</button></a>
-                        <a href="sparklingWines.php?add=19"><button class="button">ADD TO BASKET</button></a>
+                        <a href="wineinfo.php?id=19"><button class="winebutton">SEE MORE INFO</button></a>
+                        <a href="sparklingWines.php?add=19"><button class="winebutton">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
@@ -133,8 +133,8 @@ $wine = $result->fetch_assoc();
                     <div class="description">Bollinger La Grande Année is a richly structured, Pinot-dominant prestige Champagne prized for its depth, intensity, and bold, expressive character. Fermented in oak barrels and aged extensively on its lees, it delivers flavors of roasted apple, brioche, hazelnut, and spice supported by a powerful, textured palate. Known for its longevity and distinctive house style, La Grande Année stands as one of the most robust and gastronomic luxury Champagnes.</div>
                     <div class="price">Price: £260</div>
                     <div class="buttons">
-                        <a href="wineinfo.php?id=20"><button class="button">SEE MORE INFO</button></a>
-                        <a href="sparklingWines.php?add=20"><button class="button">ADD TO BASKET</button></a>
+                        <a href="wineinfo.php?id=20"><button class="winebutton">SEE MORE INFO</button></a>
+                        <a href="sparklingWines.php?add=20"><button class="winebutton">ADD TO BASKET</button></a>
                     </div>
                 </div>
             </div>
