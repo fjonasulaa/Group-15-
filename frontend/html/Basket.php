@@ -223,7 +223,7 @@
 
 
         echo "
-            <div class='basket-row' data-product-id='$id'>
+            <div class='basket-row' data-product-id='$id' data-price='$price'>
                 <img src='../../images/$imageUrl' alt='Product Image'>
 
                 <div>
@@ -332,7 +332,7 @@ rows.forEach(row => {
     const priceElement = row.querySelector('.basket-total-price');
 
     let qty = parseInt(qtyDisplay.textContent);
-    const basePrice = 150.00; // static example
+    const basePrice = parseFloat(row.getAttribute('data-price')); // static example
 
     
 
