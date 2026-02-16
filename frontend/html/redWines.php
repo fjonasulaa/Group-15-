@@ -65,7 +65,7 @@ $wine = $result->fetch_assoc();
       <a href="about.html">About Us</a>
       <a href="wines.html">Wines</a>
       <a href="basket.php">Basket</a>
-      <a href="contact-us.php">Contact</a>
+      <a href="contact-us.php">Contact Us</a>
     </div>
 
         <div class="navbar-right">

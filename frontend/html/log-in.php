@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <!-- Mobile Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <title>Wine Exchange - Login</title>
+  <title>Login | Wine Exchange</title>
 
   <!-- Main site CSS -->
   <link rel="stylesheet" href="../css/styles.css" />
