@@ -2,7 +2,7 @@
 #The purpose of this page is to place the items from the Basket into OrderWine.
 #If you just enter this link, you will be redirected to index.html.
 session_start();
-if (empty($_SESSION['basket'])) {
+if (isset($_GET['page']) && $_GET['page'] === 'Checkout' && empty($_SESSION['basket'])) {
         header("Location: index.html");
         exit;
     }
@@ -107,11 +107,52 @@ if (isset($_GET['page'])) {
             //Empty basket
             unset($_SESSION['basket']);
             unset($_SESSION['currentUser']);
+        
         }else{
             echo'I will not do anything. User\'s info is already in Customers. If Basket is empty redirect to Basket.php.';
         }
 
             header("Location: confirm.html");
+            break;
+        //Stock management. Updates/deletes a wine.
+        case 'inventory':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            include '../../database/db_connect.php';
+            $action = $_POST['action'];
+            if ($action === 'update') {
+                //Update wine stock
+                $wineId = intval($_POST['wineId']);
+                $stock = intval($_POST['stock']);
+
+                $sql = "UPDATE wines SET stock = ? WHERE wineId = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ii", $stock, $wineId);
+
+                if ($stmt->execute()) {
+                    header("Location: inventory.php");
+                    exit;
+                } else {
+                    echo "Error updating stock.";
+                }
+            }
+
+            if ($action === 'remove') {
+                ///delete wine
+                $wineId = intval($_POST['wineId']);
+                $sql = "DELETE FROM wines WHERE wineId = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $wineId);
+
+                if ($stmt->execute()) {
+                    header("Location: inventory.php");
+                    exit;
+                } else {
+                    echo "Error deleting wine.";
+                }
+            }
+
+                
+            }
             break;
         default:
             header("Location: index.html");
