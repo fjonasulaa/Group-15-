@@ -1287,10 +1287,8 @@ textarea {
    =========================== */
 
   .submit-review {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  margin-top: 25px;
+  margin-left: 30%;
+  margin-right: 30%;
   background: var(--primary-colour);
   color: var(--white);
   padding: 14px 22px;
@@ -1300,6 +1298,7 @@ textarea {
   display: inline-block;
   text-align: center;
 }
+
 
 .submit-review:hover {
   opacity: 0.85;
