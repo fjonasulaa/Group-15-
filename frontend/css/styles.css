@@ -107,6 +107,10 @@ main h1 {
   white-space: nowrap;
 }
 
+.navbar a:hover {
+  color: var(--primary-colour);
+}
+
 .navbar-right {
   margin-left: auto;
   display: flex;
