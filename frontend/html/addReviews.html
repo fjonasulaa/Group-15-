@@ -40,6 +40,24 @@
         <h1>Tell Us What You Think</h1>
 
         <form class="review-heading" method="post" action="">
+
+          <div class="rating">
+            <input type="radio" name="rating" value="5" id="star5" required>
+            <label for="star5">★</label>
+
+            <input type="radio" name="rating" value="4" id="star4">
+            <label for="star4">★</label>
+
+            <input type="radio" name="rating" value="3" id="star3">
+            <label for="star3">★</label>
+
+            <input type="radio" name="rating" value="2" id="star2">
+            <label for="star2">★</label>
+
+            <input type="radio" name="rating" value="1" id="star1">
+            <label for="star1">★</label>
+          </div>
+
           <label for="heading">Review Heading</label>
           <input
             type="text"
@@ -49,11 +67,7 @@
           />
 
           <label for="message">Review Text</label>
-          <textarea
-            id="message"
-            name="message" required
-            rows="5">
-          </textarea>
+          <textarea id="message" name="message" rows="5" required></textarea>
 
           <button type="submit" name="review" class="submit-review">
             Submit Review
