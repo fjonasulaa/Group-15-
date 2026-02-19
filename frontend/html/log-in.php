@@ -109,7 +109,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
         });
   </script>
+
+  <p style="margin-top: 10px;">
+  <a href="forgot-password.php">Forgot your password?</a>
+</p>
 </body>
+
+
 </html>
 
 

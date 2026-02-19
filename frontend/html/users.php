@@ -43,6 +43,39 @@ class Users {
 
         return null;
     }
+
+    public function savePasswordResetToken(string $email, string $token, string $expires) {
+    global $conn;
+
+    $st = $conn->prepare("UPDATE Customer SET reset_token = ?, reset_expires = ? WHERE email = ?");
+    $st->bind_param("sss", $token, $expires, $email);
+    $st->execute();
+}
+
+public function getUserByResetToken(string $token): ?array {
+    global $conn;
+
+    $st = $conn->prepare("SELECT * FROM Customer WHERE reset_token = ? AND reset_expires > NOW()");
+    $st->bind_param("s", $token);
+    $st->execute();
+    $rs = $st->get_result();
+
+    return $rs->fetch_assoc() ?: null;
+}
+
+public function updatePassword(int $customerId, string $password) {
+    global $conn;
+
+    $hashed = password_hash($password, PASSWORD_DEFAULT);
+
+    $st = $conn->prepare(
+        "UPDATE Customer 
+         SET passwordHash = ?, reset_token = NULL, reset_expires = NULL 
+         WHERE customerId = ?"
+    );
+    $st->bind_param("si", $hashed, $customerId);
+    $st->execute();
+}
 }
 
 
