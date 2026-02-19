@@ -74,8 +74,8 @@ CREATE TABLE shipping (
 );
 
 
---INSERT QUERIES--
---(If import does not work, copy and paste each query into the database)--
+-- INSERT QUERIES --
+-- (If import does not work, copy and paste each query into the database) --
 
 INSERT INTO wines (wineId, wineName, wineRegion, ingredients, country, category, price, description, imageUrl) VALUES
 (1, 'Marchesi Antinori Tignanello', 'Tuscany (Toscana IGT)', 'Predominantly Sangiovese (~78%), with Cabernet Sauvignon (~18%) and Cabernet Franc (~4%)', 'Italy', 'Red Wine', 155.00, 'Tignanello is considered a milestone in Italian winemaking. It was the first modern red wine in Chianti Classico to be aged in barriques and blended with non-traditional varieties like Cabernet. It is intensely ruby red, bold and structured, with flavors of red fruit, spice, and oak. Produced exclusively from the Tignanello vineyard (limestone-rich soils, southwest exposure), it represents innovation and excellence in Tuscan viticulture.', 'tignanello.jpg'),
@@ -131,3 +131,6 @@ INSERT INTO wines (wineId, wineName, wineRegion, ingredients, country, category,
 
 (24, 'Quinta do Vesuvio Vintage Port', 'Douro Valley', 'Touriga Nacional, Touriga Franca, Tinta Roriz, and traditional Douro varieties', 'Portugal', 'Fortified Wine', 476.00, 'Quinta do Vesuvio Vintage Port is a powerful, full-bodied fortified wine with deep color and concentrated aromas of blackberry, cassis, violets, and spice. On the palate it offers dark fruit, chocolate, strong tannins, and fresh minerality. Known for structure and elegance, it has excellent ageing potential of 30–40 years, developing complexity and smoothness over time.', 'Quinta.jpg');
 
+ALTER TABLE customer
+ADD reset_token VARCHAR(64),
+ADD reset_expires DATETIME;
