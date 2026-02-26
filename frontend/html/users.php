@@ -32,7 +32,7 @@ class Users {
     public function getCustomerIdByEmail(string $email): ?int {
         global $conn;
 
-        $st = $con->prepare("SELECT customerId FROM Customer WHERE email = ?");
+        $st = $conn->prepare("SELECT customerId FROM Customer WHERE email = ?");
         $st->bind_param("s", $email);
         $st->execute();
         $rs = $st->get_result();
@@ -55,12 +55,28 @@ class Users {
 public function getUserByResetToken(string $token): ?array {
     global $conn;
 
-    $st = $conn->prepare("SELECT * FROM Customer WHERE reset_token = ? AND reset_expires > NOW()");
+    $st = $conn->prepare(
+        "SELECT customerId, reset_expires 
+         FROM Customer 
+         WHERE reset_token = ?"
+    );
+
     $st->bind_param("s", $token);
     $st->execute();
     $rs = $st->get_result();
 
-    return $rs->fetch_assoc() ?: null;
+    $user = $rs->fetch_assoc();
+
+    if (!$user) { // if user doesnt exist it returns null and doesnt change any passwords
+        return null;
+    }
+
+    // Check expiry in PHP
+    if (strtotime($user['reset_expires']) < time()) {
+        return null;
+    }
+
+    return $user;
 }
 
 public function updatePassword(int $customerId, string $password) {

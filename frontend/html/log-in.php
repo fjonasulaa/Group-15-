@@ -94,6 +94,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           Don't have an account?
           <a href="signup.php">Sign up</a>
         </p>
+
+        <p style="margin-top: 10px;">
+  <a href="forgotPassword.php">Forgot your password?</a>
+</p>
       </form>
     </div>
   </main>
@@ -110,9 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
   </script>
 
-  <p style="margin-top: 10px;">
-  <a href="forgot-password.php">Forgot your password?</a>
-</p>
+  
 </body>
 
 
