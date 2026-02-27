@@ -100,8 +100,7 @@
 
     <!-- NAVBAR -->
     <div class="navbar">
-        <img src="../../images/icon.png" alt="Wine Exchange Logo">
-
+        <a href="index.html"><img src="../../images/icon.png" alt="Wine Exchange Logo"></a>
         <div class="navbar-links">
             <a href="index.html">Home</a>
             <a href="about.html">About Us</a>
@@ -113,13 +112,13 @@
         <div class="navbar-right">
             <form method="POST" action="search.php">
                 <input type="text" name="search" placeholder="Search">
+
                 <input type="hidden" name="submitted" value="true" />
             </form>
-
             <a href="log-in.php">Login</a>
             <a href="signup.php">Sign up</a>
             <a href="account.php">Account</a>
-
+            <a href="admin.html"><img src="../../images/admin-pic.png" alt="Admin controls"></a>
             <button id="dark-mode" class="dark-mode-button">
                 <img src="../../images/darkmode.png" alt="Dark Mode" />
             </button>
@@ -229,7 +228,7 @@
                             <span>name</span>
                             <span>visa</span>
                             <span>
-                                <select class = "status-selection" name="status">
+                                <select class="status-selection" name="status">
                                     <option value="volvo">Paid</option>
                                     <option value="saab">Pending</option>
                                     <option value="mercedes">Refunded</option>

@@ -151,6 +151,16 @@ body.info {
 
 /* Dark mode */
 
+.admin-button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin-left: 25px;
+}
+
 .dark-mode-button {
   width: 32px;
   height: 32px;
