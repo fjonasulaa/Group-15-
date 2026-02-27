@@ -114,7 +114,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
   </script>
 
-  
+  <p style="margin-top: 10px;">
+  <a href="forgot-password.php">Forgot your password?</a>
+</p>
 </body>
 
 

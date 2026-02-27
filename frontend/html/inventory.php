@@ -180,11 +180,11 @@
 
 <h2>Stock Management</h2>
 
-<button class="add-new">
+<a class="add-new" href="newWine.php">
 + Add New Wine
-</button>
-
-
+</a>
+<br>
+<br>
 <table class="stock-table">
 
 <tr>
