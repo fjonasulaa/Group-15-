@@ -139,7 +139,7 @@ if (isset($_GET['page'])) {
             if ($action === 'remove') {
                 ///delete wine
                 $wineId = intval($_POST['wineId']);
-                $sql = "DELETE FROM wines WHERE wineId = ?";
+                $sql = "UPDATE wines SET active = FALSE WHERE wineId = ?;";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("i", $wineId);
 

@@ -21,7 +21,8 @@ CREATE TABLE wines (
   price DECIMAL(7,2) NOT NULL,
   description TEXT,
   imageUrl VARCHAR(500),
-  stock INT UNSIGNED
+  stock INT UNSIGNED,
+  active BOOLEAN NOT NULL DEFAULT TRUE
 );
 ALTER TABLE wines CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
