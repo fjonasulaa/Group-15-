@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require_once('../../database/db_connect.php');
+include '../../database/db_connect.php';
 
 if (isset($_POST['create'])) {
     $wineName = $_POST['wineName'];
@@ -38,7 +38,7 @@ if (isset($_POST['create'])) {
     
 
     $stmt = $conn->prepare("INSERT INTO wines (wineName, wineRegion, ingredients, country, category, price, description, stock, imageUrl) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssdiss", $wineName, $wineRegion, $ingredients, $country, $category, $price, $description, $stock, $imageName);
+    $stmt->bind_param("sssssdsis",$wineName, $wineRegion, $ingredients, $country, $category, $price, $description, $stock, $imageName);
     $stmt->execute();
 
     header("Location: inventory.php");

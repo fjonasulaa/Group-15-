@@ -120,8 +120,10 @@ if (isset($_GET['page'])) {
             include '../../database/db_connect.php';
             $action = $_POST['action'];
             if ($action === 'update') {
-                //Update wine stock
-                $wineId = intval($_POST['wineId']);
+                //Update wine details
+                header("Location: editWine.php?id=" . $_POST['wineId'] );
+                //Update wine stock - LEGACY
+                /*$wineId = intval($_POST['wineId']);
                 $stock = intval($_POST['stock']);
 
                 $sql = "UPDATE wines SET stock = ? WHERE wineId = ?";
@@ -134,6 +136,7 @@ if (isset($_GET['page'])) {
                 } else {
                     echo "Error updating stock.";
                 }
+                */
             }
 
             if ($action === 'remove') {

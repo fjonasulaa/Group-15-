@@ -230,12 +230,12 @@ function showError($errors) {
                 <input type="text" name="country" placeholder="Country">
                 <label for="category">Category:</label>
                 <select name="category" id="category">
-                    <option value="red">Red Wine</option>
-                    <option value="white">White Wine</option>
-                    <option value="rosé">Rosé Wine</option>
-                    <option value="dessert">Dessert Wine</option>
-                    <option value="sparkling">Sparkling Wine</option>
-                    <option value="fortified">Fortified Wine</option>
+                    <option value="Red Wine">Red Wine</option>
+                    <option value="White Wine">White Wine</option>
+                    <option value="Rosé Wine">Rosé Wine</option>
+                    <option value="Dessert Wine">Dessert Wine</option>
+                    <option value="Sparkling Wine">Sparkling Wine</option>
+                    <option value="Fortified Wine">Fortified Wine</option>
                 </select>
                 <label for="price">Price (£):</label>
                 <input type="number" id="price" name="price" min="0" step="0.01" placeholder="0.00" inputmode="decimal" required>

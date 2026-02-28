@@ -13,33 +13,35 @@ if (isset($_POST['create'])) {
     $description = $_POST['description'];
     $stock = $_POST['stock'];
 
-    $imageName= "default.jpg";
-    if(isset($_FILES['image'])){  
-        $target_dir = "../../images/"; 
-        $imageName = time()."_".basename($_FILES["image"]["name"]);
-        $target_file = $target_dir . $imageName;
-    
-    
-    	$check = getimagesize($_FILES["image"]["tmp_name"]);
-    	if($check !== false) {  
-        
-        	if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)){
-            	//echo "Image uploaded successfully!";
-        	} else {
-            	//echo "Error uploading image.";
-                $imageName = "default.jpg";
-        	}
-   		} else {
-        	//echo "File is not an image.";
-            $imageName = "default.jpg";
-    	}
+    $imageName = $_POST['existingImage'];
+
+
+    if (!empty($_FILES['image']['name'])) {
+
+        $target_dir = "../../images/";
+        $newName = time() . "_" . basename($_FILES["image"]["name"]);
+        $target_file = $target_dir . $newName;
+
+        $check = getimagesize($_FILES["image"]["tmp_name"]);
+        if ($check !== false) {
+            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                $imageName = $newName; // Replace old image
+            }
+        }
     }
 
+
     
 
-    $stmt = $conn->prepare("INSERT INTO wines (wineName, wineRegion, ingredients, country, category, price, description, stock, imageUrl) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssdiss", $wineName, $wineRegion, $ingredients, $country, $category, $price, $description, $stock, $imageName);
+    $stmt = $conn->prepare("
+        UPDATE wines 
+        SET wineName=?, wineRegion=?, ingredients=?, country=?, category=?, price=?, description=?, stock=?, imageUrl=?
+        WHERE wineId=?
+    ");
+    $stmt->bind_param("sssssdsisi", $wineName, $wineRegion, $ingredients, $country, $category, $price, $description, $stock, $imageName, $_POST['wineId']);
+
     $stmt->execute();
+
 
     header("Location: inventory.php");
     exit();

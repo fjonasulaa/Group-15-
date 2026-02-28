@@ -2,6 +2,25 @@
 
 session_start();
 
+include '../../database/db_connect.php';
+
+if (!isset($_GET['id'])) {
+    die("No wine selected.");
+}
+
+$wineId = $_GET['id'];
+
+$stmt = $conn->prepare("SELECT * FROM wines WHERE wineId = ?");
+$stmt->bind_param("i", $wineId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    die("Wine not found.");
+}
+
+$wine = $result->fetch_assoc();
+
 $error = $_SESSION['register_error'] ?? "";
 unset($_SESSION["register_error"]);
 
@@ -220,32 +239,40 @@ function showError($errors) {
             <form action="edit_Wine.php" method ="post" enctype="multipart/form-data">
                 <h2>Edit Wine</h2>
                 <?= showError($error); ?>
+                <input type="hidden" name="wineId" value="<?= $wine['wineId'] ?>">
                 <label for="wineName">Wine Name:</label>
-                <input type="text" name="wineName" placeholder="Wine Name" required>
+                <input type="text" name="wineName" placeholder="Wine Name" value="<?= htmlspecialchars($wine['wineName']) ?>" required>
                 <label for="wineRegion">Wine Region:</label>
-                <input type="text" name="wineRegion" placeholder="Wine Region" required>
+                <input type="text" name="wineRegion" placeholder="Wine Region" value="<?= htmlspecialchars($wine['wineRegion']) ?>" required>
                 <label for="ingredients">Ingredients:</label>
-                <textarea name="ingredients" placeholder="Ingredients" required></textarea>
+                <textarea name="ingredients" placeholder="Ingredients" required><?= htmlspecialchars($wine['ingredients']) ?></textarea>
                 <label for="country">Country:</label>
-                <input type="text" name="country" placeholder="Country">
+                <input type="text" name="country" placeholder="Country" value="<?= htmlspecialchars($wine['country']) ?>">
                 <label for="category">Category:</label>
-                <select name="category" id="category">
-                    <option value="red">Red Wine</option>
-                    <option value="white">White Wine</option>
-                    <option value="rosé">Rosé Wine</option>
-                    <option value="dessert">Dessert Wine</option>
-                    <option value="sparkling">Sparkling Wine</option>
-                    <option value="fortified">Fortified Wine</option>
+                <select name="category" id="category" required>
+                    <option value="Red Wine" <?= ($wine['category'] == "Red Wine") ? "selected" : "" ?>>Red Wine</option>
+                    <option value="White Wine" <?= ($wine['category'] == "White Wine") ? "selected" : "" ?>>White Wine</option>
+                    <option value="Rosé Wine" <?= ($wine['category'] == "Rosé Wine") ? "selected" : "" ?>>Rosé Wine</option>
+                    <option value="Dessert Wine" <?= ($wine['category'] == "Dessert Wine") ? "selected" : "" ?>>Dessert Wine</option>
+                    <option value="Sparkling Wine" <?= ($wine['category'] == "Sparkling Wine") ? "selected" : "" ?>>Sparkling Wine</option>
+                    <option value="Fortified Wine" <?= ($wine['category'] == "Fortified Wine") ? "selected" : "" ?>>Fortified Wine</option>
                 </select>
                 <label for="price">Price (£):</label>
-                <input type="number" id="price" name="price" min="0" step="0.01" placeholder="0.00" inputmode="decimal" required>
+                <input type="number" id="price" name="price" min="0" step="0.01" placeholder="0.00" inputmode="decimal" value="<?= htmlspecialchars($wine['price']) ?>" required>
                 <label for="description">Description:</label>
-                <textarea name="description" placeholder="Description" required></textarea>
+                <textarea name="description" placeholder="Description" required><?= htmlspecialchars($wine['description']) ?></textarea>
+                <input type="hidden" name="existingImage" value="<?= htmlspecialchars($wine['imageUrl']) ?>">
                 <label for="image">Image:</label>
-                <input type="file" id="imageUpload" name="image" accept="image/*" required>
+                <?php if (!empty($wine['imageUrl'])): ?>
+                  <p>Current Image:</p>
+                  <img src="../../images/<?= htmlspecialchars($wine['imageUrl']) ?>" 
+                        alt="Current Wine Image" 
+                        style="width:150px; border-radius:6px; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
+                <?php endif; ?>
+                <input type="file" id="imageUpload" name="image" accept="image/*">
                 <label for="stock">Stock Quantity:</label>
-                <input type='number' min = '0' name = 'stock' value= '0' required>
-                <button type="submit" name="create">Create Wine</button>
+                <input type='number' min = '0' name = 'stock' value= '<?= htmlspecialchars($wine['stock']) ?>' required>
+                <button type="submit" name="create">Edit Wine</button>
             </form>
         </div>
     </div>
