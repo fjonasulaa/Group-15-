@@ -24,6 +24,7 @@
             padding-top: 110px;
         }
 
+
         .top-filter-bar {
             width: 100%;
             padding: 30px 40px;
@@ -267,7 +268,7 @@ if (isset($_POST['reset'])) {
     }
 }
 
-$query = "SELECT * FROM wines WHERE active = TRUE";
+$query = "SELECT * FROM wines WHERE 1=1";
 $params = [];
 $types = "";
 
@@ -339,9 +340,6 @@ $result = $stat->get_result();
 <?php
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-            if (!$row['active']) {
-                continue; // Skip inactive wines
-            }
         echo "<a class='box-link' href='wineinfo.php?id=" . $row['wineId'] . "'>";
         echo "<div class='box'>";
         echo "<img src='../../images/" . htmlspecialchars($row['imageUrl']) . "'>";
