@@ -49,12 +49,18 @@
             flex-direction: column;
         }
 
+        .filter-group label {
+            margin-bottom: 6px;
+        }
+
         .filter-form input,
         .filter-form select {
             padding: 12px;
             border-radius: 10px;
             border: 1px solid #ddd;
             font-size: 14px;
+            background: white;
+            color: black;
         }
 
         .filter-buttons {
@@ -89,6 +95,59 @@
         .box-container {
             padding: 40px;
         }
+
+        /* ================= DARK MODE SUPPORT ================= */
+
+        .darkmode body {
+            background: #121212;
+            color: #ffffff;
+        }
+
+        .darkmode .top-filter-bar {
+            background: #1e1e1e;
+        }
+
+        .darkmode .filter-title {
+            color: #ffffff;
+        }
+
+        .darkmode .filter-group label {
+            color: #dddddd;
+        }
+
+        .darkmode .filter-form input,
+        .darkmode .filter-form select {
+            background: #2a2a2a;
+            color: #ffffff;
+            border: 1px solid #444;
+        }
+
+        .darkmode .filter-form input::placeholder {
+            color: #bbbbbb;
+        }
+
+        .darkmode .filter-btn {
+            background: #9b2d52;
+        }
+
+        .darkmode .reset-btn {
+            background: #444;
+            color: white;
+        }
+
+        .darkmode .results-header {
+            color: #ffffff;
+        }
+
+        .darkmode .box {
+            background: #1e1e1e;
+            border: 1px solid #333;
+        }
+
+        .darkmode .box-text p {
+            color: #ffffff;
+        }
+
     </style>
 </head>
 
@@ -104,6 +163,7 @@
         <a href="wines.html">Wines</a>
         <a href="basket.php">Basket</a>
         <a href="contact-us.php">Contact Us</a>
+        
     </div>
 
     <div class="navbar-right">
@@ -116,6 +176,9 @@
         <a href="log-in.php">Login</a>
         <a href="signup.php">Sign up</a>
         <a href="account.php">Account</a>
+        <button id="dark-mode" class="dark-mode-button">
+        <img src="../../images/darkmode.png" alt="Dark Mode" />
+      </button>
     </div>
 </div>
 
@@ -295,6 +358,20 @@ if ($result->num_rows > 0) {
 $stat->close();
 $conn->close();
 ?>
+
+
+<script>
+    // DARK MODE
+    const darkButton = document.getElementById("dark-mode");
+    if (localStorage.getItem("dark_mode") === "on") {
+      document.documentElement.classList.add("darkmode");
+    }
+
+    darkButton.addEventListener("click", () => {
+      document.documentElement.classList.toggle("darkmode");
+      localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
+    });
+  </script>
 
 </body>
 </html>
