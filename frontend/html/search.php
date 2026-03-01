@@ -25,11 +25,44 @@
         }
 
 
+
+        
         .top-filter-bar {
-            width: 100%;
-            padding: 30px 40px;
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 380px;
+            height: 100%;
             background: #f4f1f2;
+            padding: 30px;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.25);
+            transition: right 0.4s ease;
+            z-index: 2000;
+            overflow-y: auto;
         }
+
+        .top-filter-bar.active {
+            right: 0;
+        }
+
+        .filter-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1500;
+        }
+
+        .filter-overlay.active {
+            display: block;
+        }
+
+    .close-filter {
+        font-size: 22px;
+        cursor: pointer;
+        text-align: right;
+        margin-bottom: 15px;
+    }
 
         .filter-title {
             font-size: 20px;
@@ -97,7 +130,6 @@
             padding: 40px;
         }
 
-        /* ================= DARK MODE SUPPORT ================= */
 
         .darkmode body {
             background: #121212;
@@ -154,7 +186,7 @@
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
+<div class="filter-overlay" id="filterOverlay"></div>
 <div class="navbar">
     <a href="index.html"><img src="../../images/icon.png" alt="Logo"></a>
 
@@ -164,12 +196,11 @@
         <a href="wines.html">Wines</a>
         <a href="basket.php">Basket</a>
         <a href="contact-us.php">Contact Us</a>
-        <a href="websiteReviews.html">Reviews</a>
         
     </div>
 
     <div class="navbar-right">
-        <!-- SEARCH FORM -->
+        
         <form method="POST" action="">
             <input type="text" name="search" placeholder="Search"
                 value="<?= isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '' ?>">
@@ -185,13 +216,15 @@
 </div>
 
 
-<!-- ================= FILTER BAR ================= -->
 <div class="top-filter-bar">
+    <div class="close-filter" id="closeFilter">
+    <i class="fa fa-times"></i>
+</div>
     <div class="filter-title">Filter & Sort Wines</div>
 
     <form method="POST" class="filter-form">
 
-        <!-- Keep search value when filtering -->
+        <!-- remembers the search value after filtering -->
         <input type="hidden" name="search"
             value="<?= isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '' ?>">
 
@@ -255,7 +288,7 @@
 <?php
 require_once('../../database/db_connect.php');
 
-/* RESET (keep search) */
+
 if (isset($_POST['reset'])) {
 
     // Save search value
@@ -273,7 +306,7 @@ $query = "SELECT * FROM wines WHERE 1=1";
 $params = [];
 $types = "";
 
-/* SEARCH */
+// search bar
 if (!empty($_POST['search'])) {
     $query .= " AND (wineName LIKE ? OR category LIKE ? OR country LIKE ?)";
     $searchTerm = "%" . $_POST['search'] . "%";
@@ -283,7 +316,7 @@ if (!empty($_POST['search'])) {
     $types .= "sss";
 }
 
-/* FILTERS */
+// filters
 if (!empty($_POST['category'])) {
     $query .= " AND category = ?";
     $params[] = $_POST['category'];
@@ -308,7 +341,7 @@ if (!empty($_POST['max_price'])) {
     $types .= "d";
 }
 
-/* SORTING */
+// sort
 if (!empty($_POST['sort'])) {
     switch ($_POST['sort']) {
         case "price_asc":
@@ -333,6 +366,11 @@ $stat->execute();
 $result = $stat->get_result();
 ?>
 
+<div style="padding:20px 40px;">
+    <button id="openFilter" class="filter-btn">
+        <i class="fa fa-sliders"></i> Filter
+    </button>
+</div>
 <div class="results-header">
     <?= $result->num_rows ?> wines found
 </div>
@@ -373,10 +411,150 @@ $conn->close();
       document.documentElement.classList.toggle("darkmode");
       localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
     });
+
+    // filter side bar script
+    const openBtn = document.getElementById("openFilter");
+    const closeBtn = document.getElementById("closeFilter");
+    const sidebar = document.querySelector(".top-filter-bar");
+    const overlay = document.getElementById("filterOverlay");
+
+    openBtn.addEventListener("click", () => {
+        sidebar.classList.add("active");
+        overlay.classList.add("active");
+    });
+
+    closeBtn.addEventListener("click", () => {
+        sidebar.classList.remove("active");
+        overlay.classList.remove("active");
+    });
+
+    overlay.addEventListener("click", () => {
+        sidebar.classList.remove("active");
+        overlay.classList.remove("active");
+    });
   </script>
 
 </body>
 </html>
+
+<style>
+/* Footer styling */
+.footer {
+  background-color: #f4f4f4;
+  padding: 30px 10%;
+  margin-top: 40px;
+  color: #333;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-section {
+  flex: 1 1 250px;
+  margin: 10px;
+}
+
+.footer-section h3 {
+  margin-bottom: 10px;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin: 5px 0;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* Contact button */
+.footer-button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.footer-button:hover {
+  opacity: 0.9;
+}
+
+/* Footer bottom bar */
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* DARK MODE SUPPORT */
+.darkmode .footer {
+  background-color: #1e1e1e;
+  color: #eee;
+}
+
+.darkmode .footer-bottom {
+  border-top: 1px solid #555;
+}
+
+.darkmode .footer-links a {
+  color: #ddd;
+}
+</style>
+
+<footer class="footer">
+  <div class="footer-container">
+
+    <div class="footer-section">
+      <h3>Wine Exchange</h3>
+      <p>123 Vineyard Lane<br>London, UK</p>
+      <p>Phone: +44 1234 567890</p>
+      <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
+      <p>Open: Mon–Fri, 9am–6pm</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="wines.html">Wines</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact-us.php">Contact</a></li>
+      </ul>
+      <a href="contact-us.php" class="footer-button">Contact Us</a>
+    </div>
+
+    <div class="footer-section">
+      <h3>Follow Us</h3>
+      <ul class="footer-links">
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Twitter</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Wine Exchange. All rights reserved.
+  </div>
+</footer>
 
 
 
