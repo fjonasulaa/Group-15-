@@ -37,7 +37,7 @@ header {
 }
 
 .left p {
-  color:  #333333;
+  color: #333333;
   margin-bottom: 1rem;
 }
 
@@ -62,7 +62,6 @@ header {
   font-weight: bold;
   cursor: pointer;
 }
-
 
 .review {
   padding: 2rem;
