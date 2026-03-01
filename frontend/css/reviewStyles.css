@@ -1,0 +1,86 @@
+:root {
+  --text-dark: #333333;
+  --white: #ffffff;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+header {
+  background-image: url("../../images/reviewsBG2.jpg");
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+}
+
+.reviews-container {
+  max-width: 1200px;
+  margin-top: 6rem;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10rem;
+}
+
+.left h1 {
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #6b0f1a;
+}
+
+.left p {
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.right {
+  display: grid;
+  gap: 2rem;
+}
+
+.review {
+  padding: 2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  background-color: var(--white);
+  border-radius: 1rem;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.review img {
+  max-width: 75px;
+  border-radius: 100%;
+}
+
+.review-content {
+  display: flex;
+  gap: 1rem;
+}
+
+
+.review-details p {
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+
+.review-details h4 {
+  text-align: right;
+  color: #6b0f1a;
+  font-size: 1rem;
+  font-weight: 700;
+}
