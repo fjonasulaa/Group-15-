@@ -163,6 +163,7 @@
         <a href="wines.html">Wines</a>
         <a href="basket.php">Basket</a>
         <a href="contact-us.php">Contact Us</a>
+        <a href="websiteReviews.html">Reviews</a>
     </div>
     <div class="navbar-right">
         <form method= "POST" action = "search.php">
@@ -292,7 +293,7 @@
   </div>
 
   <div class="footer-bottom">
-    © 2024 Wine Exchange. All rights reserved.
+    © 2026 Wine Exchange. All rights reserved.
   </div>
 </footer>
 

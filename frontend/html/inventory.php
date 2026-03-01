@@ -180,11 +180,11 @@
 
 <h2>Stock Management</h2>
 
-<button class="add-new">
+<a class="add-new" href="newWine.php">
 + Add New Wine
-</button>
-
-
+</a>
+<br>
+<br>
 <table class="stock-table">
 
 <tr>
@@ -199,7 +199,7 @@
 
 <?php
     include '..\..\database\db_connect.php';
-        $sql = "SELECT wineId, imageUrl, wineName, price, Stock FROM wines";
+        $sql = "SELECT wineId, imageUrl, wineName, price, Stock, active FROM wines";
         $result = $conn->query($sql);
 
         
@@ -209,6 +209,9 @@
         }
 
         while ($row = $result->fetch_assoc()) {
+            if (!$row['active']) {
+                continue; // Skip inactive wines
+            }
             echo "<tr>";
 
 
@@ -217,7 +220,8 @@
             echo "<td><img src='../../images/" . htmlspecialchars($row['imageUrl']) . "'></td>";
             echo "<td>" . htmlspecialchars($row['wineName']) . "</td>";
             echo "<td>£" . htmlspecialchars($row['price']) . "</td>";
-            echo "<td> <input type='number' min = '0' name = 'stock' value=". htmlspecialchars($row['Stock']) ." class='stock-input'> </td>";
+            echo "<td>". htmlspecialchars($row['Stock']) ."</td>";
+            //echo "<td> <input type='number' min = '0' name = 'stock' value=". htmlspecialchars($row['Stock']) ." class='stock-input'> </td>";
 
             echo "<td>
                     <input type='hidden' name='wineId' value='" . $row['wineId'] . "'>

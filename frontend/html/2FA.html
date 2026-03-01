@@ -1,0 +1,22 @@
+<div class="2FA-container">
+    <h1 class="center-title">Two-Factor Authentication</h1>
+    <p class="center-text">Enter the verification code sent to your email</p>
+
+    <form class="2FA-form" action="/verify-2fa" method="POST">
+        <input type="text" name="digit1" placeholder="0" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+        <input type="text" name="digit2" placeholder="0" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+        <input type="text" name="digit3" placeholder="0" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+        <input type="text" name="digit4" placeholder="0" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+        <input type="text" name="digit5" placeholder="0" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+        <input type="text" name="digit6" placeholder="0" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+    </form>
+
+    <div class="resent-container">
+        <p class="center-text">Didn't receive the code?</p>
+        <a href="/resend-2fa" class="resend-link">Resend Code</a>
+    </div>
+
+    <div class="button-container">
+        <button type="submit" form="2FA-form" class="submit-button">Confirm</button>
+    </div>
+</div>
