@@ -1,8 +1,3 @@
-:root {
-  --text-dark: #333333;
-  --white: #ffffff;
-}
-
 * {
   padding: 0;
   margin: 0;
@@ -42,7 +37,7 @@ header {
 }
 
 .left p {
-  color: var(--text-dark);
+  color:  #333333;
   margin-bottom: 1rem;
 }
 
@@ -51,12 +46,28 @@ header {
   gap: 2rem;
 }
 
+.left button {
+  padding: 1rem 2rem;
+  margin-top: 1rem;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(
+    to right,
+    #b8161c,
+    #68070a
+  );
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
 .review {
   padding: 2rem;
   display: flex;
   align-items: flex-start;
   gap: 2rem;
-  background-color: var(--white);
+  background-color: white;
   border-radius: 1rem;
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
   cursor: pointer;
@@ -74,7 +85,7 @@ header {
 
 
 .review-details p {
-  color: var(--text-dark);
+  color:  #333333;
   margin-bottom: 1rem;
 }
 
