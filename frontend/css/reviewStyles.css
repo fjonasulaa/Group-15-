@@ -84,3 +84,25 @@ header {
   font-size: 1rem;
   font-weight: 700;
 }
+
+@media (width < 1200px) {
+  .reviews-container {
+    gap: 3rem;
+  }
+}
+
+@media (width < 900px) {
+  .reviews-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .right {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width < 750px) {
+  .right {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
