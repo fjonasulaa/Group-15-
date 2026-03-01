@@ -84,7 +84,6 @@ header {
   gap: 1rem;
 }
 
-
 .review-details p {
   color: #333333;
   margin-bottom: 1rem;
@@ -95,6 +94,10 @@ header {
   color: #6b0f1a;
   font-size: 1rem;
   font-weight: 700;
+}
+
+.popup-container {
+  display: none;
 }
 
 @media (width < 1200px) {
@@ -118,3 +121,4 @@ header {
     grid-template-columns: repeat(1, 1fr);
   }
 }
+
