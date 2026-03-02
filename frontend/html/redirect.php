@@ -1,6 +1,10 @@
+<head>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
 <?php
 #The purpose of this page is to place the items from the Basket into OrderWine.
 #If you just enter this link, you will be redirected to index.html.
+#UPDATE: This page also handles inventory management.
 session_start();
 if (isset($_GET['page']) && $_GET['page'] === 'Checkout' && empty($_SESSION['basket'])) {
         header("Location: index.html");
@@ -140,7 +144,10 @@ if (isset($_GET['page'])) {
             }
 
             if ($action === 'remove') {
-                ///delete wine
+                $wineId = intval($_POST['wineId']);
+
+                /*
+                ///delete wine - LEGACY
                 $wineId = intval($_POST['wineId']);
                 $sql = "UPDATE wines SET active = FALSE WHERE wineId = ?;";
                 $stmt = $conn->prepare($sql);
@@ -152,6 +159,35 @@ if (isset($_GET['page'])) {
                 } else {
                     echo "Error deleting wine.";
                 }
+                */
+                if ($action === 'remove' && !isset($_POST['confirm'])) {
+                    echo "
+                        <h3>Confirm deletion</h3>
+                        <p>Are you sure you want to delete wine ID: {$wineId}?</p>
+                        <form method='POST' action='redirect.php?page=inventory'>
+                            <input type='hidden' name='wineId' value='{$wineId}'>
+                            <input type='hidden' name='action' value='remove'>
+                            <input type='hidden' name='confirm' value='yes'>
+                            <button type='submit'>Yes, delete it</button>
+                        </form>
+                        <a href='inventory.php'>Cancel</a>
+                    ";
+                    exit;
+                }
+                if ($action === 'remove' && isset($_POST['confirm']) && $_POST['confirm'] === 'yes') {
+                    //delete wine
+                $sql = "UPDATE wines SET active = FALSE WHERE wineId = ?;";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $wineId);
+
+                if ($stmt->execute()) {
+                    header("Location: inventory.php");
+                    exit;
+                } else {
+                    echo "Error deleting wine.";
+                }
+                }
+
             }
 
                 
