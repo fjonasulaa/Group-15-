@@ -46,6 +46,23 @@ header {
   margin-bottom: 1rem;
 }
 
+.left button {
+  padding: 1rem 2rem;
+  margin-top: 0.7rem;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(
+    to right,
+    #b8161c,
+    #68070a
+  );
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .right {
   display: grid;
   gap: 2rem;
