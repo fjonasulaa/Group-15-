@@ -27,6 +27,9 @@ if (isset($_POST['submitted'])) {
         echo "<div class='box-container'>";
 
         while ($row = $result->fetch_assoc()) {
+            if (!$row['active']) {
+                continue; // Skip inactive wines
+            }
             echo "<a class='box-link' href='wineinfo.php?id=" . $row['wineId'] . "'>";
             echo "<div class='box'>";
             echo "<img src='../../images/" . htmlspecialchars($row['imageUrl']) . "' alt='" . htmlspecialchars($row['wineName']) . "'>";
