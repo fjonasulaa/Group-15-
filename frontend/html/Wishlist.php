@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basket | Wine Exchange</title>
+    <title>Wishlist | Wine Exchange</title>
     <link rel="stylesheet" href="../css/styles.css" />
 </head>
 
@@ -20,13 +20,13 @@
     text-align: center;
 }
 
-.basket-wrapper {
+.wishlist-wrapper {
     width: 90%;
     margin: 120px auto 0 auto;
     font-family: Arial, sans-serif;
 }
 
-.basket-header {
+.wishlist-header {
     display: grid;
     grid-template-columns: 1fr 160px 100px;
     padding-bottom: 10px;
@@ -36,7 +36,7 @@
     color: #333;
 }
 
-.basket-row {
+.wishlist-row {
     display: grid;
     grid-template-columns: 160px 1fr 160px 100px;
     padding: 25px 0;
@@ -44,13 +44,13 @@
     border-bottom: 1px solid #eee;
 }
 
-.basket-row img {
+.wishlist-row img {
     width: 140px;
     border-radius: 8px;
 }
 
-.basket-info-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 5px; }
-.basket-info-sub { color: #666; font-size: 0.9rem; margin-bottom: 4px; }
+.wishlist-info-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 5px; }
+.wishlist-info-sub { color: #666; font-size: 0.9rem; margin-bottom: 4px; }
 
 .qty-control { display: flex; align-items: center; gap: 15px; }
 
@@ -68,7 +68,7 @@
 
 .remove-link { color: #444; text-decoration: underline; font-size: 0.9rem; margin-top: 8px; display: inline-block; }
 
-.basket-total-price { font-size: 1.2rem; font-weight: bold; }
+.wishlist-total-price { font-size: 1.2rem; font-weight: bold; }
 
 /* FOOTER */
 .footer {
@@ -162,22 +162,22 @@
     </div>
 </div>
 
-<!-- BASKET CONTENT -->
-<div class="basket-wrapper">
-    <h2>Your Basket</h2>
+<!-- WISHLIST CONTENT -->
+<div class="wishlist-wrapper">
+    <h2>Your Wishlist</h2>
 
-    <div class="basket-header">
+    <div class="wishlist-header">
         <span>PRODUCT</span>
         <span style="text-align:center;">QUANTITY</span>
         <span style="text-align:right;">TOTAL</span>
     </div>
 
     <!-- Example static item -->
-    <div class="basket-row" data-product-id="1" data-price="10.00">
+    <div class="wishlist-row" data-product-id="1" data-price="10.00">
         <img src="../../images/sample.jpg" alt="Product Image">
 
         <div>
-            <div class="basket-info-title">Sample Wine</div>
+            <div class="wishlist-info-title">Sample Wine</div>
             <a href="#" class="remove-link">Remove Item</a>
         </div>
 
@@ -187,7 +187,7 @@
             <div class="qty-btn">+</div>
         </div>
 
-        <div class="basket-total-price" style="text-align:right;">£10.00</div>
+        <div class="wishlist-total-price" style="text-align:right;">£10.00</div>
     </div>
 
 </div>
@@ -255,12 +255,12 @@ button.addEventListener("click", () => {
 });
 
 // Quantity buttons (frontend only)
-const rows = document.querySelectorAll('.basket-row');
+const rows = document.querySelectorAll('.wishlist-row');
 
 rows.forEach(row => {
     const qtyBtns = row.querySelectorAll('.qty-btn');
     const qtyDisplay = row.querySelector('.qty-control span');
-    const priceElement = row.querySelector('.basket-total-price');
+    const priceElement = row.querySelector('.wishlist-total-price');
 
     let qty = parseInt(qtyDisplay.textContent);
     const basePrice = parseFloat(row.getAttribute('data-price'));
