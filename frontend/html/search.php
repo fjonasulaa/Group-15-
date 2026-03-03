@@ -130,6 +130,38 @@
             padding: 40px;
         }
 
+        .box {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 480px; /* allows growth */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* Keep image size consistent */
+.box img {
+    width: 100%;
+    height: 240px;  /* SAME IMAGE HEIGHT */
+    object-fit: cover;
+}
+
+/* Text layout */
+.box-text {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.price {
+    margin-top: auto; /* pushes price to bottom */
+    font-weight: bold;
+}
+
+
+
 
         .darkmode body {
             background: #121212;
@@ -385,7 +417,7 @@ if ($result->num_rows > 0) {
         echo "<div class='box-text'>";
         echo "<p><strong>" . htmlspecialchars($row['category']) . "</strong></p>";
         echo "<p>" . htmlspecialchars($row['wineName']) . "</p>";
-        echo "<p>£ " . htmlspecialchars($row['price']) . "</p>";
+        echo "<p class='price'>£ " . htmlspecialchars($row['price']) . "</p>";
         echo "</div></div></a>";
     }
 } else {
