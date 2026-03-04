@@ -42,9 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="navbar-links">
       <a href="index.html">Home</a>
       <a href="about.html">About Us</a>
-      <a href="wines.html">Wines</a>
+      <a href="search.php">Wines</a>
       <a href="basket.html">Basket</a>
       <a href="contact-us.php">Contact Us</a>
+      <a href="websiteReviews.html">Reviews</a>
     </div>
     
     <div class="navbar-right">
@@ -94,6 +95,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           Don't have an account?
           <a href="signup.php">Sign up</a>
         </p>
+
+        <p style="margin-top: 10px;">
+  <a href="forgotPassword.php">Forgot your password?</a>
+</p>
       </form>
     </div>
   </main>
@@ -109,7 +114,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
         });
   </script>
+
+  
 </body>
+
+
 </html>
 
 

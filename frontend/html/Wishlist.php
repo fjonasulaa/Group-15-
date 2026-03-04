@@ -1,24 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wishlist | Wine Exchange</title>
-    <link rel="stylesheet" href="../css/styles.css" />
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wishlist | Wine Exchange</title>
+<link rel="stylesheet" href="../css/styles.css" />
 
 <style>
-.place-order {
-    margin-top: 25px;
-    background: var(--primary-colour);
-    color: white;
-    padding: 14px 22px;
-    border-radius: var(--radius);
-    text-decoration: none;
-    font-size: 1.1rem;
-    display: inline-block;
-    text-align: center;
-}
+
+/*GENERAL */
 
 .wishlist-wrapper {
     width: 90%;
@@ -26,19 +16,30 @@
     font-family: Arial, sans-serif;
 }
 
+.place-order {
+    margin-top: 25px;
+    background: #8b0000;
+    color: white;
+    padding: 14px 22px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    display: inline-block;
+}
+
+/*GRID*/
+
 .wishlist-header {
     display: grid;
-    grid-template-columns: 1fr 160px 100px;
+    grid-template-columns: 1fr 350px;
     padding-bottom: 10px;
     border-bottom: 1px solid #ccc;
     font-weight: bold;
-    letter-spacing: 1px;
-    color: #333;
 }
 
 .wishlist-row {
     display: grid;
-    grid-template-columns: 160px 1fr 160px 100px;
+    grid-template-columns: 160px 1fr 350px;
     padding: 25px 0;
     align-items: center;
     border-bottom: 1px solid #eee;
@@ -49,28 +50,66 @@
     border-radius: 8px;
 }
 
-.wishlist-info-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 5px; }
-.wishlist-info-sub { color: #666; font-size: 0.9rem; margin-bottom: 4px; }
-
-.qty-control { display: flex; align-items: center; gap: 15px; }
-
-.qty-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 1px solid #aaa;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.wishlist-info-title {
     font-size: 1.3rem;
-    cursor: pointer;
+    font-weight: 600;
 }
 
-.remove-link { color: #444; text-decoration: underline; font-size: 0.9rem; margin-top: 8px; display: inline-block; }
+.remove-link {
+    color: #444;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
 
-.wishlist-total-price { font-size: 1.2rem; font-weight: bold; }
+/*  DARK MODE BUTTON */
 
-/* FOOTER */
+.dark-mode-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.dark-mode-button img {
+    width: 24px;
+    height: 24px;
+}
+
+/* WISHLIST SIDEBAR  */
+
+.wishlist-button {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.wishlist-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 350px;
+    height: 100%;
+    background: white;
+    box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    transition: right 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
+}
+
+.wishlist-sidebar.active {
+    right: 0;
+}
+
+.wishlist-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/*  FOOTER  */
+
 .footer {
   background-color: #f4f4f4;
   padding: 30px 10%;
@@ -89,18 +128,27 @@
   margin: 10px;
 }
 
-.footer-section h3 { margin-bottom: 10px; }
+.footer-section h3 {
+  margin-bottom: 10px;
+}
 
-.footer-links { list-style: none; padding: 0; }
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
 
-.footer-links li { margin: 5px 0; }
+.footer-links li {
+  margin: 5px 0;
+}
 
 .footer-links a {
   text-decoration: none;
   color: inherit;
 }
 
-.footer-links a:hover { text-decoration: underline; }
+.footer-links a:hover {
+  text-decoration: underline;
+}
 
 .footer-button {
   display: inline-block;
@@ -112,7 +160,9 @@
   text-decoration: none;
 }
 
-.footer-button:hover { opacity: 0.9; }
+.footer-button:hover {
+  opacity: 0.9;
+}
 
 .footer-bottom {
   text-align: center;
@@ -122,7 +172,6 @@
   font-size: 14px;
 }
 
-/* DARK MODE */
 .darkmode .footer {
   background-color: #1e1e1e;
   color: #eee;
@@ -135,7 +184,9 @@
 .darkmode .footer-links a {
   color: #ddd;
 }
+
 </style>
+</head>
 
 <body>
 
@@ -149,16 +200,27 @@
         <a href="basket.html">Basket</a>
         <a href="contact-us.html">Contact Us</a>
     </div>
+
     <div class="navbar-right">
-        <form>
-            <input type="text" name="search" placeholder="Search">
-        </form>
+        <input type="text" placeholder="Search">
         <a href="log-in.html">Login</a>
         <a href="signup.html">Sign up</a>
         <a href="account.html">Account</a>
+
         <button id="dark-mode" class="dark-mode-button">
-            <img src="../../images/darkmode.png" alt="Dark Mode" />
+            <img src="../../images/darkmode.png" alt="Dark Mode">
         </button>
+
+        <button id="wishlist-toggle" class="wishlist-button">❤️</button>
+    </div>
+</div>
+
+<!-- WISHLIST SIDEBAR -->
+<div id="wishlist-sidebar" class="wishlist-sidebar">
+    <h3>Your Wishlist</h3>
+    <button id="close-wishlist">Close</button>
+    <div id="wishlist-items">
+        <p id="empty-msg">Your wishlist is empty.</p>
     </div>
 </div>
 
@@ -168,36 +230,26 @@
 
     <div class="wishlist-header">
         <span>PRODUCT</span>
-        <span style="text-align:center;">QUANTITY</span>
-        <span style="text-align:right;">TOTAL</span>
+        <span style="text-align:center;">OPTIONS</span>
     </div>
 
-    <!-- Example static item -->
-    <div class="wishlist-row" data-product-id="1" data-price="10.00">
+    <div class="wishlist-row">
         <img src="../../images/sample.jpg" alt="Product Image">
-
         <div>
             <div class="wishlist-info-title">Sample Wine</div>
             <a href="#" class="remove-link">Remove Item</a>
         </div>
-
-        <div class="qty-control" style="justify-content:center;">
-            <div class="qty-btn">-</div>
-            <span>1</span>
-            <div class="qty-btn">+</div>
+        <div style="text-align:center;">
+            <button class="add-btn">Add to Wishlist</button>
         </div>
-
-        <div class="wishlist-total-price" style="text-align:right;">£10.00</div>
     </div>
-
 </div>
 
-<!-- PLACE ORDER BUTTON -->
-<div style="margin-top: 50px; text-align: left; padding-left: 20px;">
-    <a href="checkout.html" class="place-order">Place Order</a>
+<div style="margin: 40px;">
+    <a href="basket.php" class="place-order">Place Order</a>
 </div>
 
-<!-- FOOTER -->
+<!-- FULL FOOTER -->
 <footer class="footer">
   <div class="footer-container">
 
@@ -205,7 +257,7 @@
       <h3>Wine Exchange</h3>
       <p>123 Vineyard Lane<br>London, UK</p>
       <p>Phone: +44 1234 567890</p>
-      <p>Email: contactwinexchange@gmail.com</p>
+      <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
       <p>Open: Mon–Fri, 9am–6pm</p>
     </div>
 
@@ -215,9 +267,9 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="wines.html">Wines</a></li>
         <li><a href="about.html">About Us</a></li>
-        <li><a href="contact-us.html">Contact</a></li>
+        <li><a href="contact-us.php">Contact</a></li>
       </ul>
-      <a href="contact-us.html" class="footer-button">Contact Us</a>
+      <a href="contact-us.php" class="footer-button">Contact Us</a>
     </div>
 
     <div class="footer-section">
@@ -232,57 +284,62 @@
   </div>
 
   <div class="footer-bottom">
-    © 2024 Wine Exchange. All rights reserved.
+    © 2026 Wine Exchange. All rights reserved.
   </div>
 </footer>
 
 <script>
-// Dark mode
-const button = document.getElementById("dark-mode");
+document.addEventListener("DOMContentLoaded", function() {
 
-if (localStorage.getItem("dark_mode") === "on") {
-  document.documentElement.classList.add("darkmode");
-}
+    const darkBtn = document.getElementById("dark-mode");
 
-button.addEventListener("click", () => {
-  document.documentElement.classList.toggle("darkmode");
+    if (localStorage.getItem("dark_mode") === "on") {
+        document.documentElement.classList.add("darkmode");
+    }
 
-  if (document.documentElement.classList.contains("darkmode")) {
-    localStorage.setItem("dark_mode", "on");
-  } else {
-    localStorage.setItem("dark_mode", "off");
-  }
-});
+    if (darkBtn) {
+        darkBtn.addEventListener("click", function() {
+            document.documentElement.classList.toggle("darkmode");
+            localStorage.setItem("dark_mode",
+                document.documentElement.classList.contains("darkmode") ? "on" : "off"
+            );
+        });
+    }
 
-// Quantity buttons (frontend only)
-const rows = document.querySelectorAll('.wishlist-row');
+    const wishlistToggle = document.getElementById("wishlist-toggle");
+    const wishlistSidebar = document.getElementById("wishlist-sidebar");
+    const closeWishlist = document.getElementById("close-wishlist");
+    const wishlistItems = document.getElementById("wishlist-items");
+    const emptyMsg = document.getElementById("empty-msg");
 
-rows.forEach(row => {
-    const qtyBtns = row.querySelectorAll('.qty-btn');
-    const qtyDisplay = row.querySelector('.qty-control span');
-    const priceElement = row.querySelector('.wishlist-total-price');
+    if (wishlistToggle) {
+        wishlistToggle.addEventListener("click", () => {
+            wishlistSidebar.classList.add("active");
+        });
+    }
 
-    let qty = parseInt(qtyDisplay.textContent);
-    const basePrice = parseFloat(row.getAttribute('data-price'));
+    if (closeWishlist) {
+        closeWishlist.addEventListener("click", () => {
+            wishlistSidebar.classList.remove("active");
+        });
+    }
 
-    qtyBtns[0].addEventListener('click', () => {
-        if (qty > 1) {
-            qty--;
-            qtyDisplay.textContent = qty;
-            priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
-        }
+    document.querySelectorAll(".add-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            const productName = this.closest(".wishlist-row")
+                .querySelector(".wishlist-info-title").innerText;
+
+            const item = document.createElement("div");
+            item.classList.add("wishlist-item");
+            item.innerText = productName;
+
+            if (emptyMsg) emptyMsg.style.display = "none";
+
+            wishlistItems.appendChild(item);
+            wishlistSidebar.classList.add("active");
+        });
     });
 
-    qtyBtns[1].addEventListener('click', () => {
-        qty++;
-        qtyDisplay.textContent = qty;
-        priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
-    });
-
-    row.querySelector('.remove-link').addEventListener('click', e => {
-        e.preventDefault();
-        row.remove();
-    });
 });
 </script>
 
