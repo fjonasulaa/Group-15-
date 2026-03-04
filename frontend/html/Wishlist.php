@@ -227,22 +227,7 @@
 <!-- WISHLIST CONTENT -->
 <div class="wishlist-wrapper">
     <h2>Your Wishlist</h2>
-
-    <div class="wishlist-header">
-        <span>PRODUCT</span>
-        <span style="text-align:center;">OPTIONS</span>
-    </div>
-
-    <div class="wishlist-row">
-        <img src="../../images/sample.jpg" alt="Product Image">
-        <div>
-            <div class="wishlist-info-title">Sample Wine</div>
-            <a href="#" class="remove-link">Remove Item</a>
-        </div>
-        <div style="text-align:center;">
-            <button class="add-btn">Add to Wishlist</button>
-        </div>
-    </div>
+    
 </div>
 
 <div style="margin: 40px;">
