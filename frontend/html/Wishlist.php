@@ -227,11 +227,10 @@
 <!-- WISHLIST CONTENT -->
 <div class="wishlist-wrapper">
     <h2>Your Wishlist</h2>
-    
-</div>
 
-<div style="margin: 40px;">
-    <a href="basket.php" class="place-order">Place Order</a>
+    <div id="wishlist-page-items">
+        <p>Your wishlist is empty.</p>
+    </div>
 </div>
 
 <!-- FULL FOOTER -->
@@ -308,23 +307,7 @@ document.addEventListener("DOMContentLoaded", function() {
             wishlistSidebar.classList.remove("active");
         });
     }
-
-    document.querySelectorAll(".add-btn").forEach(button => {
-        button.addEventListener("click", function() {
-            const productName = this.closest(".wishlist-row")
-                .querySelector(".wishlist-info-title").innerText;
-
-            const item = document.createElement("div");
-            item.classList.add("wishlist-item");
-            item.innerText = productName;
-
-            if (emptyMsg) emptyMsg.style.display = "none";
-
-            wishlistItems.appendChild(item);
-            wishlistSidebar.classList.add("active");
-        });
-    });
-
+    
 });
 </script>
 
