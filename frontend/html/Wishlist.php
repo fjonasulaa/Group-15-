@@ -211,7 +211,9 @@
             <img src="../../images/darkmode.png" alt="Dark Mode">
         </button>
 
-        <button id="wishlist-toggle" class="wishlist-button">❤️</button>
+       <button id="wishlist-toggle" class="wishlist-button">
+    ❤️ <span id="wishlist-count">0</span>
+</button>
     </div>
 </div>
 
@@ -310,6 +312,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
 });
 </script>
-
+<script src="../js/wishlist.js"></script>
 </body>
 </html>
