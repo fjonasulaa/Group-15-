@@ -1,43 +1,59 @@
 <?php
 session_start();
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require __DIR__ . "/PHPMailer/src/Exception.php";
+require __DIR__ . "/PHPMailer/src/PHPMailer.php";
+require __DIR__ . "/PHPMailer/src/SMTP.php";
+
 $successMsg = "";
 $errorMsg = "";
 
-// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    // Get form inputs
     $name    = trim($_POST["name"] ?? "");
     $email   = trim($_POST["email"] ?? "");
     $subject = trim($_POST["subject"] ?? "");
     $message = trim($_POST["message"] ?? "");
 
-    // Validation
     if ($name === "" || $email === "" || $subject === "" || $message === "") {
         $errorMsg = "Please fill in all fields.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errorMsg = "Please enter a valid email address.";
     } else {
-        // Email destination
-        $to = "contactwinexchange@gmail.com"; 
 
-        // Email content
-        $fullSubject = "Wine Exchange Contact Form: " . $subject;
+        $mail = new PHPMailer(true);
 
-        $body  = "Name: " . $name . "\n";
-        $body .= "Email: " . $email . "\n\n";
-        $body .= "Message:\n" . $message . "\n";
+        try {
+            // SMTP settings
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'contactwinexchange@gmail.com'; 
+            $mail->Password   = 'YOUR_APP_PASSWORD_HERE'; 
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
 
-        $headers = "From: " . $email . "\r\n" .
-                   "Reply-To: " . $email . "\r\n";
+            // Email headers
+            $mail->setFrom('contactwinexchange@gmail.com', 'Wine Exchange');
+            $mail->addAddress('contactwinexchange@gmail.com'); 
+            $mail->addReplyTo($email, $name);
 
-        // Attempt to send
-        if (mail($to, $fullSubject, $body, $headers)) {
+            // Content
+            $mail->Subject = "Wine Exchange Contact Form: $subject";
+            $mail->Body    =
+                "Name: $name\n" .
+                "Email: $email\n\n" .
+                "Message:\n$message";
+
+            $mail->send();
             $successMsg = "Your message has been sent successfully!";
-            $name = $email = $subject = $message = ""; // clear form
-        } else {
-            $errorMsg = "Something went wrong. Please try again.";
+            $name = $email = $subject = $message = "";
+
+        } catch (Exception $e) {
+            $errorMsg = "Email could not be sent. Error: " . $mail->ErrorInfo;
         }
     }
 }
@@ -61,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="navbar-links">
       <a href="index.html">Home</a>
       <a href="about.html">About Us</a>
-      <a href="search.php">Wines</a>
+      <a href="wines.html">Wines</a>
       <a href="basket.php">Basket</a>
       <a href="contact-us.php">Contact Us</a>
     </div>
@@ -69,7 +85,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="navbar-right">
       <form method= "POST" action = "search.php">
             <input type="text" name="search" placeholder="Search">
-
             <input type= "hidden" name= "submitted" value= "true"/>
       </form>
       <a href="log-in.php">Login</a>
@@ -156,5 +171,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 </body>
 </html>
-
-
