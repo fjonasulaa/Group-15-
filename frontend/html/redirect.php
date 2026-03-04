@@ -42,6 +42,19 @@ if (isset($_GET['page'])) {
             }
             $_SESSION['currentUser'] = $conn->insert_id; // Set current user to the newly created guest customer
         }
+        //One last check to ensure there's enough of a wine.
+        foreach ($_SESSION['basket'] as $wineId => $quantity) {
+            $stmt = $conn->prepare("SELECT stock FROM wines WHERE wineId = ?");
+            $stmt->bind_param("i", $wineId);
+            $stmt->execute();
+            $stmt->bind_result($stock);
+            $stmt->fetch();
+            $stmt->close();
+
+            if ($quantity > $stock) {
+                die("Error: Not enough stock for wine ID $wineId.");
+            }
+        }
             //New Order
             $totalAmount = 0.00;
 
@@ -74,6 +87,13 @@ if (isset($_GET['page'])) {
             foreach ($_SESSION['basket'] as $wineId => $quantity) {
                 $stmt->bind_param("iii", $_SESSION['currentOrder'], $wineId, $quantity);
                 $stmt->execute();
+            }
+            // Reduce stock for each purchased wine
+            $updateStock = $conn->prepare("UPDATE wines SET stock = stock - ? WHERE wineId = ?");
+
+            foreach ($_SESSION['basket'] as $wineId => $quantity) {
+                $updateStock->bind_param("ii", $quantity, $wineId);
+                $updateStock->execute();
             }
             
             //Shipping info

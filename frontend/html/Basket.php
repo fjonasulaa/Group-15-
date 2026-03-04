@@ -160,7 +160,7 @@
     <div class="navbar-links">
         <a href="index.html">Home</a>
         <a href="about.html">About Us</a>
-        <a href="wines.html">Wines</a>
+        <a href="search.php">Wines</a>
         <a href="basket.php">Basket</a>
         <a href="contact-us.php">Contact Us</a>
     </div>
@@ -214,7 +214,7 @@
     if (!empty($_SESSION['basket'])) {
       include '..\..\database\db_connect.php';
         foreach ($_SESSION['basket'] as $id => $qty) {
-          $sql = "SELECT wineName, price, imageUrl FROM wines WHERE wineId = $id";
+          $sql = "SELECT wineName, price, imageUrl, stock FROM wines WHERE wineId = $id";
           $result = $conn->query($sql);
           $row = $result->fetch_assoc();
 
@@ -224,7 +224,7 @@
 
 
         echo "
-            <div class='basket-row' data-product-id='$id' data-price='$price'>
+            <div class='basket-row' data-product-id='$id' data-price='$price' data-stock='{$row['stock']}'>
                 <img src='../../images/$imageUrl' alt='Product Image'>
 
                 <div>
@@ -333,9 +333,8 @@ rows.forEach(row => {
     const priceElement = row.querySelector('.basket-total-price');
 
     let qty = parseInt(qtyDisplay.textContent);
-    const basePrice = parseFloat(row.getAttribute('data-price')); // static example
-
-    
+    const basePrice = parseFloat(row.getAttribute('data-price'));
+    const maxStock = parseInt(row.getAttribute('data-stock'));
 
     qtyBtns[0].addEventListener('click', () => {
         if (qty > 1) {
@@ -347,17 +346,21 @@ rows.forEach(row => {
     });
 
     qtyBtns[1].addEventListener('click', () => {
-        qty++;
-        qtyDisplay.textContent = qty;
-        priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
-        updateServer(productId,qty);
+        if (qty < maxStock) {
+            qty++;
+            qtyDisplay.textContent = qty;
+            priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
+            updateServer(productId, qty);
+        } else {
+            alert("You cannot add more than the available stock.");
+        }
     });
+
     row.querySelector('.remove-link').addEventListener('click', e => {
         e.preventDefault();
         row.remove();
         updateServer(productId, 0);
     });
-
 });
 
 
