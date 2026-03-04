@@ -1,6 +1,21 @@
 <?php
     session_start();
-    
+    if (isset($_SESSION['customerID'])) {
+        include '..\..\database\db_connect.php';
+    $stmt = $conn->prepare("SELECT role FROM customer WHERE customerID = ?");
+    $stmt->bind_param("i", $_SESSION['customerID']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    if ($user['role'] !== 'admin') {
+        header("Location: index.html");
+        exit;
+    }
+} else {
+    header("Location: log-in.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

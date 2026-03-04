@@ -3,6 +3,22 @@
 session_start();
 
 include '../../database/db_connect.php';
+    if (isset($_SESSION['customerID'])) {
+        include '..\..\database\db_connect.php';
+    $stmt = $conn->prepare("SELECT role FROM customer WHERE customerID = ?");
+    $stmt->bind_param("i", $_SESSION['customerID']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    if ($user['role'] !== 'admin') {
+        header("Location: index.html");
+        exit;
+    }
+} else {
+    header("Location: log-in.php");
+    exit;
+}
 
 if (!isset($_GET['id'])) {
     die("No wine selected.");
