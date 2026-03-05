@@ -201,15 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<!-- Wishlist Sidebar -->
-<div id="wishlist-sidebar" class="wishlist-sidebar">
-    <div class="wishlist-header">
-        <h3>Your Wishlist</h3>
-        <button id="close-wishlist">✖</button>
-    </div>
 
-    <div id="wishlist-items"></div>
-</div>
 
     <!-- LOGIN FORM -->
     <div class="container">
