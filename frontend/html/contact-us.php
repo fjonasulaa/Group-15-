@@ -11,12 +11,17 @@ require __DIR__ . "/PHPMailer/src/SMTP.php";
 $successMsg = "";
 $errorMsg = "";
 
+// Helper function for old PHP versions
+function getPost($key) {
+    return isset($_POST[$key]) ? trim($_POST[$key]) : "";
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $name    = trim($_POST["name"] ?? "");
-    $email   = trim($_POST["email"] ?? "");
-    $subject = trim($_POST["subject"] ?? "");
-    $message = trim($_POST["message"] ?? "");
+    $name    = getPost("name");
+    $email   = getPost("email");
+    $subject = getPost("subject");
+    $message = getPost("message");
 
     if ($name === "" || $email === "" || $subject === "" || $message === "") {
         $errorMsg = "Please fill in all fields.";
@@ -31,14 +36,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'contactwinexchange@gmail.com'; 
-            $mail->Password   = 'YOUR_APP_PASSWORD_HERE'; 
+            $mail->Username   = 'fjonasula28@gmail.com';
+            $mail->Password   = 'fauw hphl bbxh vacb';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
 
             // Email headers
-            $mail->setFrom('contactwinexchange@gmail.com', 'Wine Exchange');
-            $mail->addAddress('contactwinexchange@gmail.com'); 
+            $mail->setFrom('fjonasula28@gmail.com', 'Wine Exchange');
+            $mail->addAddress('fjonasula28@gmail.com');
             $mail->addReplyTo($email, $name);
 
             // Content
@@ -115,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           type="text" 
           id="name" 
           name="name"
-          value="<?php echo htmlspecialchars($name ?? ""); ?>"
+          value="<?php echo htmlspecialchars(isset($name) ? $name : ""); ?>"
           required
         >
 
@@ -124,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           type="email" 
           id="email" 
           name="email"
-          value="<?php echo htmlspecialchars($email ?? ""); ?>"
+          value="<?php echo htmlspecialchars(isset($email) ? $email : ""); ?>"
           required
         >
 
@@ -133,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           type="text" 
           id="subject" 
           name="subject"
-          value="<?php echo htmlspecialchars($subject ?? ""); ?>"
+          value="<?php echo htmlspecialchars(isset($subject) ? $subject : ""); ?>"
           required
         >
 
@@ -143,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           name="message" 
           rows="5"
           style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid var(--border-colour);"
-          required><?php echo htmlspecialchars($message ?? ""); ?></textarea>
+          required><?php echo htmlspecialchars(isset($message) ? $message : ""); ?></textarea>
 
         <button type="submit" class="send-message" style="margin-top: 15px;">
           Send Message
