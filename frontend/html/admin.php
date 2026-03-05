@@ -189,10 +189,6 @@
 
                     <div class="password frame">
                         <form method="post">
-                            <div> <label for="currentpassword">CURRENT PASSWORD</label>
-                                <input type="password" name="currentpassword" placeholder="Enter Current Password"
-                                    required>
-                            </div>
                             <div>
                                 <label for="newpassword">NEW PASSWORD</label>
                                 <input type="password" name="newpassword" placeholder="Enter New Password" required>
@@ -207,6 +203,8 @@
                             <button type="submit" name="changePassword">Change Password</button>
                         </form>
                     </div>
+
+                    <button type="submit" name="changePassword">Change Password</button>
                 </div>
 
                 <!-- table -->
