@@ -178,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="navbar-links">
         <a href="index.html">Home</a>
         <a href="about.html">About Us</a>
-        <a href="wines.html">Wines</a>
+        <a href="search.php">Wines</a>
         <a href="wishlist.html">Wishlist</a>
         <a href="basket.php">Basket</a>
         <a href="contact-us.php">Contact Us</a>
