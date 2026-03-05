@@ -189,11 +189,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="signup.php">Sign up</a>
         <a href="account.php">Account</a>
 
-        <!-- Wishlist Button -->
-        <button id="wishlist-toggle" class="wishlist-button">
-            ❤️ <span id="wishlist-count">0</span>
-        </button>
-
         <!-- Dark Mode Button -->
         <button id="dark-mode" class="dark-mode-button">
             <img src="../../images/darkmode.png" alt="Dark Mode" />
