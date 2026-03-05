@@ -4,9 +4,9 @@ session_start();
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require _DIR_ . "/../../vendor/phpmailer/phpmailer/src/Exception.php";
-require _DIR_ . "/../../vendor/phpmailer/phpmailer/src/PHPMailer.php";
-require _DIR_ . "/../../vendor/phpmailer/phpmailer/src/SMTP.php";
+require __DIR__ . "/../../vendor/phpmailer/phpmailer/src/Exception.php";
+require __DIR__ . "/../../vendor/phpmailer/phpmailer/src/PHPMailer.php";
+require __DIR__ . "/../../vendor/phpmailer/phpmailer/src/SMTP.php";
 
 
 $successMsg = "";
