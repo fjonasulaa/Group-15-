@@ -211,9 +211,7 @@
             <img src="../../images/darkmode.png" alt="Dark Mode">
         </button>
 
-       <button id="wishlist-toggle" class="wishlist-button">
-    ❤️ <span id="wishlist-count">0</span>
-</button>
+        <button id="wishlist-toggle" class="wishlist-button">❤️</button>
     </div>
 </div>
 
