@@ -104,8 +104,7 @@
 
     <!-- NAVBAR -->
     <div class="navbar">
-        <img src="../../images/icon.png" alt="Wine Exchange Logo">
-
+        <a href="index.html"><img src="../../images/icon.png" alt="Wine Exchange Logo"></a>
         <div class="navbar-links">
             <a href="index.html">Home</a>
             <a href="about.html">About Us</a>
@@ -117,13 +116,13 @@
         <div class="navbar-right">
             <form method="POST" action="search.php">
                 <input type="text" name="search" placeholder="Search">
+
                 <input type="hidden" name="submitted" value="true" />
             </form>
-
             <a href="log-in.php">Login</a>
             <a href="signup.php">Sign up</a>
             <a href="account.php">Account</a>
-
+            <a href="admin.html"><img src="../../images/admin-pic.png" alt="Admin controls"></a>
             <button id="dark-mode" class="dark-mode-button">
                 <img src="../../images/darkmode.png" alt="Dark Mode" />
             </button>
@@ -240,20 +239,20 @@
 
                         <?php else: ?>
 
-                        <?php for ($i = 0; $i < count($transactions); $i++): ?>
+                            <?php for ($i = 0; $i < count($transactions); $i++): ?>
 
-                            <div class="transaction-row">
-                                <span><?= $transactions[$i]['paymentId'] ?></span>
-                                <span><?= $transactions[$i]['orderId'] ?></span>
-                                <span class="transaction-amount">£<?= number_format((float)$transactions[$i]['amount'], 2) ?></span>
-                                <span><?= $user['firstName'] . ' ' . $user['surname'] ?></span>
-                                <span><?= $transactions[$i]['method'] ?></span>
-                                <span><?= $transactions[$i]['paymentStatus'] ?></span>
-                                <span><?= $transactions[$i]['transactionTimestamp'] ?></span>
-                                <span><?= $transactions[$i]['shippingStatus'] ?></span>
-                            </div>
+                                <div class="transaction-row">
+                                    <span><?= $transactions[$i]['paymentId'] ?></span>
+                                    <span><?= $transactions[$i]['orderId'] ?></span>
+                                    <span class="transaction-amount">£<?= number_format((float)$transactions[$i]['amount'], 2) ?></span>
+                                    <span><?= $user['firstName'] . ' ' . $user['surname'] ?></span>
+                                    <span><?= $transactions[$i]['method'] ?></span>
+                                    <span><?= $transactions[$i]['paymentStatus'] ?></span>
+                                    <span><?= $transactions[$i]['transactionTimestamp'] ?></span>
+                                    <span><?= $transactions[$i]['shippingStatus'] ?></span>
+                                </div>
 
-                        <?php endfor; ?>
+                            <?php endfor; ?>
 
                         <?php endif; ?>
                     </div>
@@ -338,7 +337,7 @@
         const links = document.querySelectorAll('.sidebar a');
 
         links.forEach(link => {
-            link.addEventListener('click', function () {
+            link.addEventListener('click', function() {
                 links.forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
             });
