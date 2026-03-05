@@ -91,16 +91,8 @@
 </head>
 
 <body>
-  <!-- NAVBAR -->
-  <div class="navbar">
-    <img src="../../images/icon.png" alt="Wine Exchange Logo">
-    <div class="navbar-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="search.php">Wines</a>
-      <a href="basket.php">Basket</a>
-      <a href="contact-us.php">Contact Us</a>
-    </div>
+
+<div id="header"></div>
 
     <div class="navbar-right">
       <form method="POST" action="search.php">
@@ -329,6 +321,15 @@
       localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
     });
   </script>
+  <script>
+fetch("header.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("header").innerHTML = data;
+  });
+</script>
+
+<script src="../js/wishlist.js"></script>
 </body>
 
 </html>
