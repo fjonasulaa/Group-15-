@@ -172,29 +172,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
     <!-- NAVBAR -->
-    <div class="navbar">
-        <img src="../../images/icon.png" alt="Wine Exchange Logo">
-        <div class="navbar-links">
-            <a href="index.html">Home</a>
-            <a href="about.html">About Us</a>
-            <a href="search.php">Wines</a>
-            <a href="basket.php">Basket</a>
-            <a href="contact-us.php">Contact Us</a>
-        </div>
+<div class="navbar">
+    <img src="../../images/icon.png" alt="Wine Exchange Logo">
 
-        <div class="navbar-right">
-            <form method="POST" action="search.php">
-                <input type="text" name="search" placeholder="Search">
-                <input type="hidden" name="submitted" value="true"/>
-            </form>
-            <a href="log-in.php">Login</a>
-            <a href="signup.php">Sign up</a>
-            <a href="account.php">Account</a>
-            <button id="dark-mode" class="dark-mode-button">
-                <img src="../../images/darkmode.png" alt="Dark Mode" />
-            </button>
-        </div>
+    <div class="navbar-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="wines.html">Wines</a>
+        <a href="wishlist.html">Wishlist</a>
+        <a href="basket.php">Basket</a>
+        <a href="contact-us.php">Contact Us</a>
     </div>
+
+    <div class="navbar-right">
+        <a href="log-in.php">Login</a>
+        <a href="signup.php">Sign up</a>
+        <a href="account.php">Account</a>
+
+        <!-- Wishlist Button -->
+        <button id="wishlist-toggle" class="wishlist-button">
+            ❤️ <span id="wishlist-count">0</span>
+        </button>
+
+        <!-- Dark Mode Button -->
+        <button id="dark-mode" class="dark-mode-button">
+            <img src="../../images/darkmode.png" alt="Dark Mode" />
+        </button>
+    </div>
+</div>
+
+<!-- Wishlist Sidebar -->
+<div id="wishlist-sidebar" class="wishlist-sidebar">
+    <div class="wishlist-header">
+        <h3>Your Wishlist</h3>
+        <button id="close-wishlist">✖</button>
+    </div>
+
+    <div id="wishlist-items"></div>
+</div>
 
     <!-- LOGIN FORM -->
     <div class="container">
