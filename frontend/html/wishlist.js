@@ -22,14 +22,20 @@ document.addEventListener("DOMContentLoaded", function () {
     ----------------------------- */
 
     function addToWishlist(item) {
-        let wishlist = getWishlist();
+    let wishlist = getWishlist();
 
-        if (!wishlist.some(w => w.id === item.id)) {
-            wishlist.push(item);
-            saveWishlist(wishlist);
-            renderWishlist();
-            openSidebar();
-        }
+    let existing = wishlist.find(w => w.id === item.id);
+
+    if (existing) {
+        existing.quantity += item.quantity;
+    } else {
+        wishlist.push(item);
+    }
+
+    saveWishlist(wishlist);
+    renderWishlist();
+    openSidebar();
+}
     }
 
     function removeFromWishlist(id) {
