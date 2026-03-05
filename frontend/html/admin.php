@@ -1,3 +1,4 @@
+<?php require_once("admin_.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -90,12 +91,15 @@
 </head>
 
 <body class="admin">
-    <div class="sidebar">
 
-        <!-- Example usernames -->
-        <li><a>username123</a>
-        <li><a>username456</a>
-        <li><a>username789</a>
+    <div class="sidebar">
+        <?php for ($i = 0; $i < count($customers); $i++): ?>
+            <li>
+                <a href="admin.php?customerID=<?= (int)$customers[$i]['customerID'] ?>">
+                    <?= $customers[$i]['email'] ?>
+                </a>
+            </li>
+        <?php endfor; ?>
     </div>
 
     <!-- NAVBAR -->
@@ -135,7 +139,7 @@
         <main>
             <div class="tab-container">
                 <div class="profile-wrapper tabcontent active" id="profile">
-                    <h1 class="center-title">user123's Account Settings</h1>
+                    <h1 class="center-title"><?= $user['firstName'] ?> <?= $user['surname'] ?> Account</h1>
 
                     <!-- profile info -->
                     <div class="profile frame">
@@ -148,35 +152,35 @@
 
                                 <div>
                                     <label for="email">EMAIL</label>
-                                    <input type="email" name="email" value="email@email" readonly>
+                                    <input type="email" name="email" value="<?= $user['email'] ?>" readonly>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div>
                                     <label for="firstName">FIRST NAME</label>
-                                    <input id="firstName" type="text" name="firstName" value="Bob">
+                                    <input id="firstName" type="text" name="firstName" value="<?= $user['firstName'] ?>">
                                 </div>
 
                                 <div>
                                     <label for="surname">SURNAME</label>
-                                    <input id="surname" type="text" name="surname" value="Smith">
+                                    <input id="surname" type="text" name="surname" value="<?= $user['surname'] ?>">
                                 </div>
                             </div>
 
                             <div>
                                 <label for="addressline">ADDRESS LINE</label>
-                                <input type="text" name="addressline" value="123 Street">
+                                <input type="text" name="addressline" value="<?= $user['addressLine'] ?>">
                             </div>
 
                             <div class="row">
                                 <div>
                                     <label for="postcode">POSTCODE</label>
-                                    <input type="text" name="postcode" value="rwgrwg4">
+                                    <input type="text" name="postcode" value="<?= $user['postcode'] ?>">
                                 </div>
                                 <div>
                                     <label for="pnumber">PHONE NUMBER</label>
-                                    <input type="tel" name="pnumber" value="11111111111">
+                                    <input type="tel" name="pnumber" value="<?= $user['phoneNumber'] ?>">
                                 </div>
                             </div>
 
@@ -222,22 +226,36 @@
                         </div>
 
                         <!-- Example row -->
-                        <div class="transaction-row">
-                            <span>ID</span>
-                            <span>order</span>
-                            <span class="transaction-amount">£123.00</span>
-                            <span>name</span>
-                            <span>visa</span>
-                            <span>
-                                <select class = "status-selection" name="status">
-                                    <option value="volvo">Paid</option>
-                                    <option value="saab">Pending</option>
-                                    <option value="mercedes">Refunded</option>
-                                </select>
-                            </span>
+                        <?php if (count($transactions) == 0): ?>
+                            <div class="transaction-row">
+                                <span>—</span>
+                                <span>—</span>
+                                <span class="transaction-amount">£0.00</span>
+                                <span><?= $user['firstName'] . ' ' . $user['surname'] ?></span>
+                                <span>—</span>
+                                <span>—</span>
+                                <span>—</span>
+                                <span>—</span>
+                            </div>
 
-                            <span>date</span>
-                        </div>
+                        <?php else: ?>
+
+                        <?php for ($i = 0; $i < count($transactions); $i++): ?>
+
+                            <div class="transaction-row">
+                                <span><?= $transactions[$i]['paymentId'] ?></span>
+                                <span><?= $transactions[$i]['orderId'] ?></span>
+                                <span class="transaction-amount">£<?= number_format((float)$transactions[$i]['amount'], 2) ?></span>
+                                <span><?= $user['firstName'] . ' ' . $user['surname'] ?></span>
+                                <span><?= $transactions[$i]['method'] ?></span>
+                                <span><?= $transactions[$i]['paymentStatus'] ?></span>
+                                <span><?= $transactions[$i]['transactionTimestamp'] ?></span>
+                                <span><?= $transactions[$i]['shippingStatus'] ?></span>
+                            </div>
+
+                        <?php endfor; ?>
+
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
