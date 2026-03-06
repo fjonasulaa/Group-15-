@@ -243,7 +243,14 @@ function showError($errors) {
                 <label for="ingredients">Ingredients:</label>
                 <textarea name="ingredients" placeholder="Ingredients" required></textarea>
                 <label for="country">Country:</label>
-                <input type="text" name="country" placeholder="Country">
+                <select name="country" id="country">
+                    <option value="France">France</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Portugal">Portugal</option>
+                    <option value="South Africa">South Africa</option>
+                    <option value="Australia">Australia</option>
+                    <option value="United States">United States</option>
+                </select>
                 <label for="category">Category:</label>
                 <select name="category" id="category">
                     <option value="Red Wine">Red Wine</option>

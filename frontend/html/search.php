@@ -274,9 +274,9 @@
         </div>
 
         <div class="filter-group">
-            <label>Region</label>
+            <label>Country</label>
             <select name="region">
-                <option value="">All Regions</option>
+                <option value="">All Countries</option>
                 <option value="France" <?= (isset($_POST['region']) && $_POST['region']=="France") ? "selected" : "" ?>>France</option>
                 <option value="Italy" <?= (isset($_POST['region']) && $_POST['region']=="Italy") ? "selected" : "" ?>>Italy</option>
                 <option value="Portugal" <?= (isset($_POST['region']) && $_POST['region']=="Portugal") ? "selected" : "" ?>>Portugal</option>
@@ -288,13 +288,13 @@
 
         <div class="filter-group">
             <label>Min Price (£)</label>
-            <input type="number" name="min_price"
+            <input type="number" name="min_price" min = '0'
                 value="<?= isset($_POST['min_price']) ? htmlspecialchars($_POST['min_price']) : '' ?>">
         </div>
 
         <div class="filter-group">
             <label>Max Price (£)</label>
-            <input type="number" name="max_price"
+            <input type="number" name="max_price" min = '0'
                 value="<?= isset($_POST['max_price']) ? htmlspecialchars($_POST['max_price']) : '' ?>">
         </div>
 
@@ -372,6 +372,9 @@ if (!empty($_POST['max_price'])) {
     $params[] = $_POST['max_price'];
     $types .= "d";
 }
+
+//Excludes deleted wines from search results
+$query .= " AND active = TRUE";
 
 // sort
 if (!empty($_POST['sort'])) {
