@@ -455,10 +455,111 @@ wishlistOverlay.addEventListener("click", () => {
     text-align:right;
     margin-bottom:15px;
 }
+/* DARK MODE WISHLIST FIX */
+
+/* IMPROVED DARK MODE WISHLIST */
+
+/* DARK MODE WISHLIST FIX */
+
+html.darkmode .wishlist-sidebar{
+    background:#141414;
+    color:#ffffff;
+}
+
+html.darkmode .wishlist-sidebar h3{
+    color:#ffffff;
+}
+
+html.darkmode #wishlist-items p{
+    color:#dddddd;
+}
+
+html.darkmode .wishlist-item{
+    background:#1f1f1f;
+    border:1px solid #333;
+}
+
+html.darkmode .wishlist-name{
+    color:#ffffff;
+}
+
+html.darkmode .wishlist-price{
+    color:#ff6b6b;
+}
+
+html.darkmode .wishlist-view{
+    background:#333;
+    color:#ffffff;
+}
+
+html.darkmode .wishlist-view:hover{
+    background:#444;
+}
+
+html.darkmode .remove-wishlist{
+    color:#bbbbbb;
+}
+
+html.darkmode .remove-wishlist:hover{
+    color:#ff4d4d;
+}
+/* FORCE DARK MODE WISHLIST STYLES */
+
+html.darkmode .wishlist-sidebar{
+    background:#121212;
+    color:#ffffff;
+}
+
+/* cards */
+html.darkmode .wishlist-item{
+    background:#1e1e1e;
+    border:1px solid #333;
+    box-shadow:none;
+}
+
+/* wine name */
+html.darkmode .wishlist-name{
+    color:#ffffff;
+}
+
+/* price */
+html.darkmode .wishlist-price{
+    color:#ff6b6b;
+}
+
+/* buttons */
+html.darkmode .wishlist-view{
+    background:#2c2c2c;
+    color:#ffffff;
+}
+
+html.darkmode .wishlist-view:hover{
+    background:#3a3a3a;
+}
+
+html.darkmode .wishlist-basket{
+    background:#e63946;
+}
+
+html.darkmode .wishlist-basket:hover{
+    background:#c92d3a;
+}
+
+/* remove X */
+html.darkmode .remove-wishlist{
+    color:#bbbbbb;
+}
+
+html.darkmode .remove-wishlist:hover{
+    color:#ff4d4d;
+}
+
+/* empty text */
+html.darkmode #wishlist-items p{
+    color:#cccccc;
+}
 </style>
-<script>document.querySelector('.wishlist-button').addEventListener('click', function() {
-    this.classList.toggle('active');
-});
+<script>
 
 const wishlistButton = document.querySelector(".wishlist-button");
 const wishlistContainer = document.getElementById("wishlist-items");
