@@ -601,12 +601,17 @@ function loadWishlist(){
     if(loggedIn){
 
         fetch("get_wishlist.php")
-        .then(res=>res.json())
-        .then(renderWishlist);
+        .then(res => res.json())
+        .then(data => {
+            renderWishlist(data);
+            updateWishlistButton(data);
+        });
 
     }else{
 
-        renderWishlist(getGuestWishlist());
+        const list = getGuestWishlist();
+        renderWishlist(list);
+        updateWishlistButton(list);
 
     }
 
@@ -641,8 +646,7 @@ function renderWishlist(list){
             <div class="wishlist-price">£${wine.price}</div>
 
             <div class="wishlist-actions">
-                <a href="wine-info.php?id=${wine.wineId || wine.id}" class="wishlist-view">View</a>
-            </div>
+                    <a href="wineinfo.php?id=${wine.id || wine.wineId}" class="wishlist-view">View</a>            </div>
         </div>
 
         <button class="remove-wishlist" data-id="${wine.wineId || wine.id}" data-index="${index}">
@@ -683,7 +687,7 @@ wishlistButton.addEventListener("click",function(){
         if(!list.some(item=>item.id===wine.id)){
             list.push(wine);
             saveGuestWishlist(list);
-        }
+        }document.addEventListener
 
         renderWishlist(list);
     }
@@ -709,7 +713,15 @@ document.addEventListener("click",function(e){
             headers:{"Content-Type":"application/x-www-form-urlencoded"},
             body:"wineId="+wineId
         })
-        .then(()=>loadWishlist());
+        .then(()=>{
+            loadWishlist();
+
+            // RESET BUTTON
+            if(wishlistButton.dataset.id === wineId){
+                wishlistButton.classList.remove("active");
+                wishlistButton.innerHTML='<i class="fas fa-heart"></i> Add to Wishlist';
+            }
+        });
 
     }else{
 
@@ -718,10 +730,34 @@ document.addEventListener("click",function(e){
         saveGuestWishlist(list);
         renderWishlist(list);
 
+        // RESET BUTTON
+        if(wishlistButton.dataset.id === wineId){
+            wishlistButton.classList.remove("active");
+            wishlistButton.innerHTML='<i class="fas fa-heart"></i> Add to Wishlist';
+        }
+
     }
 
 });
 
+function updateWishlistButton(list){
+
+    const wineId = wishlistButton.dataset.id;
+
+    const exists = list.some(item => 
+        (item.wineId && item.wineId == wineId) || 
+        (item.id && item.id == wineId)
+    );
+
+    if(exists){
+        wishlistButton.classList.add("active");
+        wishlistButton.innerHTML = '<i class="fas fa-heart"></i> Added to Wishlist';
+    }else{
+        wishlistButton.classList.remove("active");
+        wishlistButton.innerHTML = '<i class="fas fa-heart"></i> Add to Wishlist';
+    }
+
+}
 loadWishlist();
 </script>
 <footer class="footer">
