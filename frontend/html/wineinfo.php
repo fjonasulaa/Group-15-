@@ -112,8 +112,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
             </button>
 
             <button id="wishlist-toggle" class="wishlist-nav-button">
-    <i class="fas fa-heart"></i>
-</button>
+                <i class="fas fa-heart"></i>
+                <span id="wishlist-count" class="wishlist-count">0</span>
+            </button>
         </div>
     </div>
 
@@ -193,24 +194,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
     });
     
     const wishlistBtn = document.getElementById("wishlist-toggle");
-const wishlistSidebar = document.getElementById("wishlistSidebar");
-const closeWishlist = document.getElementById("closeWishlist");
-const wishlistOverlay = document.getElementById("wishlistOverlay");
+        const wishlistSidebar = document.getElementById("wishlistSidebar");
+        const closeWishlist = document.getElementById("closeWishlist");
+        const wishlistOverlay = document.getElementById("wishlistOverlay");
 
-wishlistBtn.addEventListener("click", () => {
-    wishlistSidebar.classList.add("active");
-    wishlistOverlay.classList.add("active");
-});
+        wishlistBtn.addEventListener("click", () => {
+            wishlistSidebar.classList.add("active");
+            wishlistOverlay.classList.add("active");
+        });
 
-closeWishlist.addEventListener("click", () => {
-    wishlistSidebar.classList.remove("active");
-    wishlistOverlay.classList.remove("active");
-});
+        closeWishlist.addEventListener("click", () => {
+            wishlistSidebar.classList.remove("active");
+            wishlistOverlay.classList.remove("active");
+        });
 
-wishlistOverlay.addEventListener("click", () => {
-    wishlistSidebar.classList.remove("active");
-    wishlistOverlay.classList.remove("active");
-});
+        wishlistOverlay.addEventListener("click", () => {
+            wishlistSidebar.classList.remove("active");
+            wishlistOverlay.classList.remove("active");
+        });
 </script>
 </body>
 </html>
@@ -558,11 +559,37 @@ html.darkmode .remove-wishlist:hover{
 html.darkmode #wishlist-items p{
     color:#cccccc;
 }
+
+/* WISHLIST COUNTER BADGE */
+
+.wishlist-nav-button{
+    position:relative;
+}
+
+.wishlist-count{
+    position:absolute;
+    top:-6px;
+    right:-8px;
+    background:#e63946;
+    color:white;
+    font-size:11px;
+    font-weight:bold;
+    padding:2px 6px;
+    border-radius:50px;
+    min-width:18px;
+    text-align:center;
+}
 </style>
 <script>
 
 const wishlistButton = document.querySelector(".wishlist-button");
 const wishlistContainer = document.getElementById("wishlist-items");
+const wishlistCount = document.getElementById("wishlist-count");
+
+function updateWishlistCount(){
+    const list = getWishlist();
+    wishlistCount.textContent = list.length;
+}
 
 function getWishlist(){
     return JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -589,6 +616,7 @@ function renderWishlist(){
 
     if(list.length === 0){
         wishlistContainer.innerHTML = "<p>Your wishlist is empty.</p>";
+        updateWishlistCount();   // update counter when empty
         return;
     }
 
@@ -609,9 +637,9 @@ function renderWishlist(){
                         View
                     </a>
 
-                    <button class="wishlist-basket">
+                    <button class="wishlist-basket" data-id="${wine.id}">
                         <i class="fas fa-shopping-cart"></i>
-                    </button>
+                        </button>
                 </div>
             </div>
 
@@ -621,7 +649,10 @@ function renderWishlist(){
         `;
 
         wishlistContainer.appendChild(item);
+
     });
+
+    updateWishlistCount(); // update counter AFTER rendering
 }
 
 wishlistButton.addEventListener("click",function(){
@@ -681,6 +712,42 @@ document.addEventListener("click",function(e){
 });
 
 renderWishlist();
+document.addEventListener("click", function(e){
+
+    const basketBtn = e.target.closest(".wishlist-basket");
+
+    if(basketBtn){
+
+        const wineId = basketBtn.dataset.id;
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "wine-info.php?id=" + wineId;
+
+        const idInput = document.createElement("input");
+        idInput.type = "hidden";
+        idInput.name = "wineId";
+        idInput.value = wineId;
+
+        const quantityInput = document.createElement("input");
+        quantityInput.type = "hidden";
+        quantityInput.name = "quantity";
+        quantityInput.value = 1;
+
+        const addInput = document.createElement("input");
+        addInput.type = "hidden";
+        addInput.name = "add_to_basket";
+        addInput.value = "1";
+
+        form.appendChild(idInput);
+        form.appendChild(quantityInput);
+        form.appendChild(addInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+});
 updateWishlistButton();
 </script>
 <footer class="footer">
