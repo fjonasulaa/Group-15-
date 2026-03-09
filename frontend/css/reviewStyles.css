@@ -27,13 +27,6 @@ header {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10rem;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.reviews-container .show{
-  pointer-events: auto;
-  opacity: 1;
 }
 
 .left h1 {
@@ -78,6 +71,7 @@ header {
   background-color: white;
   border-radius: 1rem;
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 .review img {
@@ -113,6 +107,13 @@ header {
   justify-content: center;
   align-items: center;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.popup-container.show{
+  pointer-events: auto;
+  opacity: 1;
 }
 
 button {
