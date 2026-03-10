@@ -179,6 +179,7 @@ if ($reviewCount > 0) {
         </div>
     </div>
 
+
 <script>
 
     const loggedIn = <?php echo isset($_SESSION['customerID']) ? "true" : "false"; ?>;
@@ -215,6 +216,27 @@ if ($reviewCount > 0) {
             wishlistOverlay.classList.remove("active");
         });
 </script>
+
+<div id="reviews-section" class="reviews-container">
+    <h2>Customer Reviews</h2>
+
+    <?php if ($reviewCount == 0): ?>
+        <p>No reviews yet. Be the first to review this wine!</p>
+    <?php else: ?>
+        <?php foreach ($reviewData as $rev): ?>
+            <div class="review-card">
+                <div class="stars">
+                    <?php
+                    for ($i = 1; $i <= 5; $i++) {
+                        echo ($i <= $rev['stars']) ? "<i class='fas fa-star'></i>" : "<i class='far fa-star'></i>";
+                    }
+                    ?>
+                </div>
+                <p><?= htmlspecialchars($rev['reviewText']) ?></p>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
 </body>
 </html>
 
@@ -771,6 +793,9 @@ function updateWishlistButton(list){
 }
 loadWishlist();
 </script>
+
+
+
 <footer class="footer">
   <div class="footer-container">
 

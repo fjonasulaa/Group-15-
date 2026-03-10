@@ -76,29 +76,6 @@
 
             <div class="content">
                 <h2 class="title">Marchesi Antinori Tignanello</h2>
-<div class="rating-box">
-    <h3>Customer Reviews</h3>
-
-    <div class="avg-stars">
-        <?php
-        for ($i = 1; $i <= 5; $i++) {
-            echo ($i <= round($avgRating)) ? "<i class='fas fa-star'></i>" : "<i class='far fa-star'></i>";
-        }
-        ?>
-        <span><?= $avgRating ?> out of 5</span>
-    </div>
-
-    <p><?= $reviewCount ?> reviews</p>
-
-    <a href="#reviews-section" class="scroll-link">See all reviews</a>
-
-    <br><br>
-
-    <a href="write_review.php?wineId=<?= $wineId ?>" class="write-review-btn">
-        Write a Review
-    </a>
-</div>
-
 
                 <div class="price">
                     <p class="price"> Price: <span>£155.00</span></p>
@@ -251,28 +228,6 @@
   color: #ddd;
 }
 </style>
-
-<div id="reviews-section" class="reviews-container">
-    <h2>Customer Reviews</h2>
-
-    <?php if ($reviewCount == 0): ?>
-        <p>No reviews yet. Be the first to review this wine!</p>
-    <?php else: ?>
-        <?php foreach ($reviewData as $rev): ?>
-            <div class="review-card">
-                <div class="stars">
-                    <?php
-                    for ($i = 1; $i <= 5; $i++) {
-                        echo ($i <= $rev['stars']) ? "<i class='fas fa-star'></i>" : "<i class='far fa-star'></i>";
-                    }
-                    ?>
-                </div>
-                <p><?= htmlspecialchars($rev['reviewText']) ?></p>
-            </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
-</div>
-
 
 <footer class="footer">
   <div class="footer-container">
