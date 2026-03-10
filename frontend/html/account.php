@@ -228,12 +228,17 @@ $user = $userQuery->fetch_assoc();
                     <th>Order ID</th>
                     <th>Order Date</th>
                     <th>£ Total</th>
+                    <th>Actions</th>
                 </tr>
                 <?php while ($row = $orders->fetch_assoc()): ?>
                   <tr>
                     <td><?= $row['orderId']; ?></td>
                     <td><?= $row['orderDate']; ?></td>
                     <td><?= $row['totalAmount']; ?></td>
+                    <?php if ($row['orderDate'] > date('Y-m-d', strtotime('-30 days'))): ?>
+                      <td><button onclick="window.location.href='#'">Return</button></td>
+                    <?php endif; ?>
+                    
                   </tr>
                   <?php endwhile; ?>
             </table>
