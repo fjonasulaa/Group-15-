@@ -63,23 +63,6 @@ header {
   gap: 2rem;
 }
 
-.left button {
-  padding: 1rem 2rem;
-  margin-top: 0.7rem;
-  outline: none;
-  border: none;
-  border-radius: 5px;
-  background: linear-gradient(
-    to right,
-    #b8161c,
-    #68070a
-  );
-  color: white;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-}
-
 .review {
   padding: 2rem;
   display: flex;
@@ -114,7 +97,42 @@ header {
 }
 
 .popup-container {
-  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.popup-container.show{
+  pointer-events: auto;
+  opacity: 1;
+}
+
+button {
+  background-color: #A51117;
+  border: 0;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 25px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.pop-up {
+  background-color: white;
+  padding: 30px 50px;
+  width: 600px;
+  max-width: 100%;
 }
 
 @media (width < 1200px) {

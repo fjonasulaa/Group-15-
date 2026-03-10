@@ -56,7 +56,7 @@
         </div>
 
         <div class="right">
-          <div class="review">
+          <div class="review" id="open">
             <img src="../../images/bd.jpg" alt="user" />
             <div class="review-content">
               <div class="review-details">
@@ -68,7 +68,7 @@
             </div>
           </div>
 
-          <div class="review"> 
+          <div class="review" id="open"> 
             <img src="../../images/hm.jpg" alt="user" />
             <div class="review-content">
               <div class="review-details">
@@ -80,7 +80,7 @@
             </div>
           </div>
 
-          <div class="review">
+          <div class="review" id="open">
             <img src="../../images/jj.jpg" alt="user" />
             <div class="review-content">
               <div class="review-details">
@@ -92,7 +92,29 @@
             </div>
           </div>
           
+    <div class= "popup-container" id="pop-container">
+      <div class= "pop-up">
+          <h1>Kathy Schwabe ★★★★★</h1>
+          <h2>Effortless ordering and flawless delivery every time.</h2>
+          <p>Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time.</p>
+          <button id= close>Close Review</button>
+      </div>
+    </div>
+
         </div>
       </div>
     </header>
+    <script>
+      const open = document.getElementById('open');
+      const popupContainer = document.getElementById('pop-container');
+      const close = document.getElementById('close');
+
+      open.addEventListener('click', () => {
+      popupContainer.classList.add('show');
+      });
+
+      close.addEventListener('click', () => {
+      popupContainer.classList.remove('show');
+      });
+    </script>
 </body>

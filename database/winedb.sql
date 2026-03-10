@@ -136,6 +136,14 @@ INSERT INTO wines (wineId, wineName, wineRegion, ingredients, country, category,
 
 (24, 'Quinta do Vesuvio Vintage Port', 'Douro Valley', 'Touriga Nacional, Touriga Franca, Tinta Roriz, and traditional Douro varieties', 'Portugal', 'Fortified Wine', 476.00, 'Quinta do Vesuvio Vintage Port is a powerful, full-bodied fortified wine with deep color and concentrated aromas of blackberry, cassis, violets, and spice. On the palate it offers dark fruit, chocolate, strong tannins, and fresh minerality. Known for structure and elegance, it has excellent ageing potential of 30–40 years, developing complexity and smoothness over time.', 'Quinta.jpg');
 
+
+CREATE TABLE wishlist (
+    wishlistId INT AUTO_INCREMENT PRIMARY KEY,
+    customerID INT NOT NULL,
+    wineId INT NOT NULL,
+    addedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(customerID, wineId)
+);
 ALTER TABLE customer
 ADD reset_token VARCHAR(64),
 ADD reset_expires DATETIME;
