@@ -631,9 +631,15 @@ function renderWishlist(list){
 
     list.forEach((wine,index)=>{
 
-        const image = wine.imageUrl
-        ? "/Group-15-/images/"+wine.imageUrl
-        : "../../images/placeholder.jpg";
+       let image;
+
+        if(loggedIn){
+            image = wine.imageUrl
+                ? "../../images/" + wine.imageUrl
+                : "../../images/placeholder.jpg";
+        }else{
+            image = wine.imageUrl || "../../images/placeholder.jpg";
+        }
 
         const item=document.createElement("div");
         item.className="wishlist-item";
@@ -665,7 +671,7 @@ wishlistButton.addEventListener("click",function(){
         id:this.dataset.id,
         name:this.dataset.name,
         price:this.dataset.price,
-        image:this.dataset.image
+        imageUrl:this.dataset.image
     };
 
     if(loggedIn){
@@ -685,7 +691,12 @@ wishlistButton.addEventListener("click",function(){
         let list=getGuestWishlist();
 
         if(!list.some(item=>item.id===wine.id)){
-            list.push(wine);
+            list.push({
+            id: wine.id,
+            wineName: wine.wineName || wine.name,
+            price: wine.price,
+            imageUrl: wine.imageUrl
+});
             saveGuestWishlist(list);
         }document.addEventListener
 
