@@ -2,87 +2,78 @@
 
 session_start();
 
-if (!isset($_SESSION['customerID'])) {
-  header("Location: index.html");
-  exit();
+$error = $_SESSION['register_error'] ?? "";
+unset($_SESSION["register_error"]);
+
+    if (isset($_GET['orderId']) && isset($_SESSION['customerID'])) {
+    
+} else {
+    header("Location: index.html");
+    exit;
 }
 
-$cid = $_SESSION['customerID'];
-require_once("../../database/db_connect.php");
-
-$orders = $conn->query("SELECT * FROM orders WHERE customerId = $cid ORDER BY orderDate DESC");
-
-$userQuery = $conn->query("SELECT * FROM customer WHERE customerID = $cid");
-$user = $userQuery->fetch_assoc();
-
+function showError($errors) {
+    return !empty($errors) ? "<p class='error-message'>$errors</p>" : '';
+}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Return | Wine Exchange</title>
 
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
 
     <style>
-
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             background-color: var(--background-colour);
             padding-top: 100px;
         }
-
-        .accountcontainer{
-            max-width: 1200px;
-            margin: 40px auto;
+        .container {
+            margin: 0 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .form-box {
+            width: 100%;
+            max-width: 600px;
             padding: 30px;
             background: var(--frame-colour);
-            border-radius: 10x;
+            border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
         }
 
-        .accountinfo {
-            padding: 20px;
-            border-radius: 6px;
-            margin-bottom: 30px;
-            background-color: var(--background-colour);
-            margin-bottom: 30px;
-        }
-
-        h1, h2 {
+        h2 {
+            font-size: 34px;
             text-align: center;
             margin-bottom: 20px;
         }
 
-        .accountinfo p {
-            font-size: 16px;
-            margin: 8px 0;
-        }
-
-        table {
+        input {
             width: 100%;
-            border-collapse: collapse;
+            padding: 12px;
             background: var(--background-colour);
             border-radius: 6px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: var(--text-colour);
             margin-bottom: 20px;
-        }
-
-        th, td {
-            text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid var(--border-colour);
-        }
-
-        th {
-            background: var(--primary-colour);
-            color: #fff;
+            border: 1px solid var(--border-colour);
         }
 
         button {
+            width: 100%;
             padding: 12px;
             background: var(--primary-colour);
             border-radius: 6px;
@@ -91,18 +82,40 @@ $user = $userQuery->fetch_assoc();
             font-size: 16px;
             color: #fff;
             font-weight: 500;
+            margin-bottom: 20px;
             transition: 0.5s;
-            display: block;
-            width: 300px;
-            margin: 0 auto;
         }
 
         button:hover {
             filter: brightness(0.8);
         }
 
-        /* Footer styling */
-    .footer {
+        p {
+            font-size: 14.5px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        p a {
+            color: var(--primary-colour);
+            text-decoration: none;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            padding: 12px;
+            background: red;
+            border-radius: 6px;
+            font-size: 16px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .footer {
       background-color: #f4f4f4;
       padding: 30px 10%;
       margin-top: 40px;
@@ -189,16 +202,16 @@ $user = $userQuery->fetch_assoc();
     <div class="navbar-links">
       <a href="index.html">Home</a>
       <a href="about.html">About Us</a>
-      <a href="search.php">Wines</a>
+      <a href="wines.html">Wines</a>
       <a href="basket.php">Basket</a>
       <a href="contact-us.php">Contact Us</a>
     </div>
 
     <div class="navbar-right">
-      <form method="POST" action="search.php">
-        <input type="text" name="search" placeholder="Search">
+      <form method= "POST" action = "search.php">
+            <input type="text" name="search" placeholder="Search">
 
-        <input type="hidden" name="submitted" value="true" />
+            <input type= "hidden" name= "submitted" value= "true"/>
       </form>
       <a href="log-in.php">Login</a>
       <a href="signup.php">Sign up</a>
@@ -208,43 +221,30 @@ $user = $userQuery->fetch_assoc();
       </button>
     </div>
   </div>
+    <div class="container">
+        <div class="form-box" id="signup-form">
+            <form action="#" method ="post">
+                <h2>Return</h2>
+                <p>Order ID: <?= $_GET['orderId'] ?></p>
+                <p>We're sorry you weren't satisfied with your order. Could you please tell us why you are returning?</p>
+                <?= showError($error); ?>
+                <label for="reason">Reason for Return:</label>
+                <select name="reason" id="reason" required>
+                    <option value="wrong">I chose the wrong product</option>
+                    <option value="broken">The product was broken/not to a good standard</option>
+                    <option value="inaccurate">Inaccurate Information on website</option>
+                    <option value="duplicate">I got a duplicate order</option>
+                    <option value="gift">I ordered this as a gift and it was unwanted</option>
+                    <option value="other">Other</option>
+                </select>
+                <p>Please go into more detail.</p>
+                <label for="description">Description:</label>
+                <textarea name="description" placeholder="Description" required></textarea>
 
-    <div class="accountcontainer">
-        <h1>Welcome, <span><?= $user['firstName'];?></span></h1>
-        <div class="accountinfo">
-            <h2>Account Information</h2>
-            <p><Strong>Name:</Strong> <?= $user['firstName']; ?></p>
-            <p><Strong>Surname:</Strong> <?= $user['surname']; ?></p>
-            <p><Strong>Address:</Strong> <?= $user['addressLine']; ?></p>
-            <p><Strong>Postcode:</Strong> <?= $user['postcode']; ?></p>
-            <p><Strong>Email:</Strong> <?= $user['email']; ?></p>
-            <p><Strong>Date of Birth:</Strong> <?= $user['dateOfBirth']; ?></p>
+                <button type="submit" name="create">Return</button>
+            </form>
         </div>
-
-        <div class="orderstable">
-            <h2>Order History</h2>
-            <table>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Order Date</th>
-                    <th>£ Total</th>
-                    <th>Actions</th>
-                </tr>
-                <?php while ($row = $orders->fetch_assoc()): ?>
-                  <tr>
-                    <td><?= $row['orderId']; ?></td>
-                    <td><?= $row['orderDate']; ?></td>
-                    <td><?= $row['totalAmount']; ?></td>
-                    <?php if ($row['orderDate'] > date('Y-m-d', strtotime('-30 days'))): ?>
-                      <td><button onclick="window.location.href='return.php?orderId=<?= $row['orderId'] ?>'">Return</button></td>
-                    <?php endif; ?>
-                    
-                  </tr>
-                  <?php endwhile; ?>
-            </table>
-        </div>
-        <button onclick="window.location.href='logout.php'">Logout</button>
-    </div>  
+    </div>
 
     <!-- footer -->
   <footer class="footer">
@@ -279,18 +279,23 @@ $user = $userQuery->fetch_assoc();
       </div>
 
     </div>
-    
-    <script>
-    // DARK MODE
-    const darkButton = document.getElementById("dark-mode");
-    if (localStorage.getItem("dark_mode") === "on") {
-      document.documentElement.classList.add("darkmode");
-    }
 
-    darkButton.addEventListener("click", () => {
-      document.documentElement.classList.toggle("darkmode");
-      localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-    });
+    <div class="footer-bottom">
+      © 2024 Wine Exchange. All rights reserved.
+    </div>
+  </footer>
+
+    <script>
+        // DARK MODE
+        const darkButton = document.getElementById("dark-mode");
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
+        }
+
+        darkButton.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
+            localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
+        });
   </script>
 </body>
 </html>
