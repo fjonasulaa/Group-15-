@@ -256,7 +256,7 @@ $user = $userQuery->fetch_assoc();
       <div class="footer-section">
         <h3>Quick Links</h3>
         <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
+          <li><a href="index.php">Home</a></li>
           <li><a href="search.php">Wines</a></li>
           <li><a href="about.html">About Us</a></li>
           <li><a href="contact-us.php">Contact</a></li>

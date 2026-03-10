@@ -3,11 +3,11 @@
 </head>
 <?php
 #The purpose of this page is to place the items from the Basket into OrderWine.
-#If you just enter this link, you will be redirected to index.html.
+#If you just enter this link, you will be redirected to index.php.
 #UPDATE: This page also handles inventory management.
 session_start();
 if (isset($_GET['page']) && $_GET['page'] === 'Checkout' && empty($_SESSION['basket'])) {
-        header("Location: index.html");
+        header("Location: index.php");
         exit;
     }
 if (isset($_GET['page'])) {
@@ -214,12 +214,12 @@ if (isset($_GET['page'])) {
             }
             break;
         default:
-            header("Location: index.html");
+            header("Location: index.php");
             break;
     }
     exit;
 } else {
-    header("Location: index.html");
+    header("Location: index.php");
     exit;
 }
 
