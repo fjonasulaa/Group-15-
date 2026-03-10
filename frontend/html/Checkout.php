@@ -136,7 +136,7 @@
 
             <p>Current time: <span id="timestamp"></span></p>
 
-            <?php echo('<input type="submit" value="Confirm">') ?>
+            <?php echo('<input id="confirmBtn" type="submit" value="Confirm">') ?>
         </div>
     </form>
 
@@ -247,23 +247,27 @@
         });
 
         /* ------------------- main validation on Confirm ------------------- */
-        document.getElementById('confirmBtn').addEventListener('click', function (e) {
+        document.getElementById('checkoutForm').addEventListener('submit', function (e)  {
             e.preventDefault();
 
             // gather fields
-            const fullname = document.getElementById('fullname');
+            const fname = document.getElementById('fname');
+            const lname = document.getElementById('lname');
             const address = document.getElementById('address');
             const city = document.getElementById('city');
             const postcode = document.getElementById('postcode');
             const email = document.getElementById('email');
             const phone = document.getElementById('phone');
+            const isGuest = document.getElementById('fname') !== null;
 
             // clear previous
-            [fullname, address, city, postcode, email, phone].forEach(el => {
+            [fname, lname, address, city, postcode, email, phone].forEach(el => {
+                if (!el) return;
                 clearInlineError(el, 'err-' + el.id);
             });
 
             let valid = true;
+            if (isGuest) {
 
             if (!fname.value.trim()) { showInlineError(fname, 'err-fname'); valid = false; }
             if (!lname.value.trim()) { showInlineError(lname, 'err-lname'); valid = false; }
@@ -281,7 +285,7 @@
             if (!isValidUKPhone(phone.value)) {
                 showInlineError(phone, 'err-phone'); valid = false;
             }
-
+            }
             // payment-specific
             if (paymentSelect.value === 'card') {
                 const cardName = document.getElementById('card-name');
@@ -291,6 +295,7 @@
 
                 // clear card errors
                 [cardName, cardNumber, cardExpiry, cardCVV].forEach(el => {
+                    if (!el) return;
                     clearInlineError(el, 'err-' + el.id.replace(/-/g, '-'));
                 });
 
@@ -323,7 +328,7 @@
 
             // All validations passed
 
-            alert('Order confirmed');
+            document.getElementById('checkoutForm').submit();
 
         });
 
