@@ -6,6 +6,7 @@ CREATE TABLE customer (
   addressLine VARCHAR(255),
   postcode VARCHAR(20),
   email VARCHAR(255) NOT NULL,
+  userProfileImage VARCHAR(500),
   phoneNumber VARCHAR(20),
   passwordHash VARCHAR(255) NOT NULL,
   role ENUM("customer", "admin") NOT NULL DEFAULT "customer"
@@ -54,13 +55,23 @@ CREATE TABLE payment (
 );
 
 CREATE TABLE reviews (
-  reviewId INT NOT NULL PRIMARY KEY,
+  reviewId INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   customerId INT NOT NULL,
   wineId INT NOT NULL,
   stars INT NOT NULL,
   reviewText TEXT,
   FOREIGN KEY (customerId) REFERENCES customer(customerID),
   FOREIGN KEY (wineId) REFERENCES wines(wineId)
+);
+
+CREATE TABLE websiteReviews (
+  wReviewId INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  customerId INT NOT NULL,
+  wStars INT NOT NULL,
+  wReviewHeading TEXT,
+  wReviewText TEXT,
+  reviewDate DATE,
+  FOREIGN KEY (customerId) REFERENCES customer(customerID),
 );
 
 CREATE TABLE shipping (
