@@ -110,32 +110,21 @@ if ($reviewCount > 0) {
             <div class="content">
                 <h2 class="title"><?php echo htmlspecialchars($wine['wineName']); ?></h2>
 
-                <div class="price">
-                    <p class="price">Price: <span>£<?php echo number_format($wine['price'], 2); ?></span></p>
-                </div>
+ <div class="price">
+    <p class="price">
+        Price: <span>£<?= $wine['price'] ?></span>
+    </p>
 
-                <div class="rating-box">
-                    <h3>Customer Reviews</h3>
-                    
-                    <div class="avg-stars">
-                        <?php
-                        for ($i = 1; $i <= 5; $i++) {
-                            echo ($i <= round($avgRating)) ? "<i class='fas fa-star'></i>" : "<i class='far fa-star'></i>";
-                            }
+    <div class="inline-stars">
+        <?php
+        for ($i = 1; $i <= 5; $i++) {
+            echo ($i <= round($avgRating)) ? "<i class='fas fa-star'></i>" : "<i class='far fa-star'></i>";
+        }
         ?>
-        <span><?= $avgRating ?> out of 5</span>
+        <span>(<?= $reviewCount ?>)</span>
     </div>
-
-    <p><?= $reviewCount ?> reviews</p>
-
-    <a href="#reviews-section" class="scroll-link">See all reviews</a>
-
-    <br><br>
-
-    <a href="write_review.php?wineId=<?= $wineId ?>" class="write-review-btn">
-        Write a Review
-    </a>
 </div>
+
 
 
                 <?php if ($addMessage): ?>
@@ -218,7 +207,12 @@ if ($reviewCount > 0) {
 </script>
 
 <div id="reviews-section" class="reviews-container">
-    <h2>Customer Reviews</h2>
+
+    <a href="write_review.php?wineId=<?= $wineId ?>" class="write-review-btn">
+        Write a Review
+    </a>
+
+    <h2>All Reviews</h2>
 
     <?php if ($reviewCount == 0): ?>
         <p>No reviews yet. Be the first to review this wine!</p>
