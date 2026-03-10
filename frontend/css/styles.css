@@ -1339,3 +1339,36 @@ textarea {
 }
 
 }
+
+.rating-box {
+    border: 1px solid #ccc;
+    padding: 15px;
+    width: 250px;
+    background: #fafafa;
+}
+
+.rating-box .avg-stars i {
+    color: gold;
+}
+
+.write-review-btn {
+    display: inline-block;
+    padding: 10px;
+    background: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.reviews-container {
+    margin-top: 40px;
+}
+
+.review-card {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.review-card .stars i {
+    color: gold;
+}

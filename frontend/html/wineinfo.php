@@ -1,70 +1,46 @@
 <?php
 session_start();
+require_once("../../database/db_connect.php");
+$addMessage = "";
 
-require_once('../../database/db_connect.php');
-
-function get_int_from($arr, $key, $default = 0) {
-    return isset($arr[$key]) ? intval($arr[$key]) : $default;
+// 1. Get wine ID
+if (!isset($_GET['id'])) {
+    die("No wine selected.");
 }
+$wineId = intval($_GET['id']);
 
-$wineId = get_int_from($_POST, 'wineId', null);
-if (!$wineId) {
-    $wineId = get_int_from($_GET, 'id', 0);
-}
-
-if ($wineId <= 0) {
-    echo "No wine selected.";
-    exit;
-}
-
-if (!isset($_SESSION['basket'])) {
-    $_SESSION['basket'] = [];
-}
-
-
-
+// 2. Fetch wine info
 $stmt = $conn->prepare("SELECT * FROM wines WHERE wineId = ?");
-if (!$stmt) {
-    echo "Database error (prepare failed).";
-    exit;
-}
 $stmt->bind_param("i", $wineId);
 $stmt->execute();
-$result = $stmt->get_result();
+$wine = $stmt->get_result()->fetch_assoc();
 
-if ($result->num_rows == 0) {
-    echo "Wine not found.";
-    exit;
+if (!$wine) {
+    die("Wine not found.");
 }
 
-$wine = $result->fetch_assoc();
+// 3. Fetch reviews
+$reviewStmt = $conn->prepare("SELECT * FROM reviews WHERE wineId = ?");
+$reviewStmt->bind_param("i", $wineId);
+$reviewStmt->execute();
+$reviews = $reviewStmt->get_result();
 
-$mainImage = $wine['imageUrl']
-    ? "/Group-15-/images/" . $wine['imageUrl']
-    : "../../images/placeholder.jpg";
+// 4. Calculate average rating
+$totalStars = 0;
+$reviewCount = $reviews->num_rows;
 
-$stock = $wine['stock'];
-
-$addMessage = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
-    $quantity = get_int_from($_POST, 'quantity', 1);
-    if ($quantity < 1) $quantity = 1;
-    if ($quantity > $wine['stock']) {
-        $addMessage = "Only {$wine['stock']} in stock. You tried to add {$quantity}.";
-    } else {
-
-    if (isset($_SESSION['basket'][$wineId])) {
-        $_SESSION['basket'][$wineId] += $quantity;
-    } else {
-        $_SESSION['basket'][$wineId] = $quantity;
+if ($reviewCount > 0) {
+    while ($r = $reviews->fetch_assoc()) {
+        $totalStars += $r['stars'];
+        $reviewData[] = $r;
     }
-    
-
-    $addMessage = "Added {$quantity} × {$wine['wineName']} to your basket.";
-    }
-
+    $avgRating = round($totalStars / $reviewCount, 1);
+} else {
+    $avgRating = 0;
+    $reviewData = [];
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -96,8 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
     <div class="navbar">
         <img src="../../images/icon.png" alt="Wine Exchange Logo">
         <div class="navbar-links">
-            <a href="index.html">Home</a>
-            <a href="about.html">About Us</a>
+            <a href="index.php">Home</a>
+            <a href="about.php">About Us</a>
             <a href="search.php">Wines</a>
             <a href="basket.php">Basket</a>
             <a href="contact-us.php">Contact Us</a>
@@ -134,9 +110,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
             <div class="content">
                 <h2 class="title"><?php echo htmlspecialchars($wine['wineName']); ?></h2>
 
-                <div class="price">
-                    <p class="price">Price: <span>£<?php echo number_format($wine['price'], 2); ?></span></p>
-                </div>
+ <div class="price">
+    <p class="price">
+        Price: <span>£<?= $wine['price'] ?></span>
+    </p>
+
+    <div class="inline-stars">
+        <?php
+        for ($i = 1; $i <= 5; $i++) {
+            echo ($i <= round($avgRating)) ? "<i class='fas fa-star'></i>" : "<i class='far fa-star'></i>";
+        }
+        ?>
+        <span>(<?= $reviewCount ?>)</span>
+    </div>
+</div>
+
+
 
                 <?php if ($addMessage): ?>
                     <p style="color:green;"><?php echo htmlspecialchars($addMessage); ?></p>
@@ -179,6 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
         </div>
     </div>
 
+
 <script>
 
     const loggedIn = <?php echo isset($_SESSION['customerID']) ? "true" : "false"; ?>;
@@ -215,6 +205,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
             wishlistOverlay.classList.remove("active");
         });
 </script>
+
+<div id="reviews-section" class="reviews-container">
+
+    <a href="write_review.php?wineId=<?= $wineId ?>" class="write-review-btn">
+        Write a Review
+    </a>
+
+    <h2>All Reviews</h2>
+
+    <?php if ($reviewCount == 0): ?>
+        <p>No reviews yet. Be the first to review this wine!</p>
+    <?php else: ?>
+        <?php foreach ($reviewData as $rev): ?>
+            <div class="review-card">
+                <div class="stars">
+                    <?php
+                    for ($i = 1; $i <= 5; $i++) {
+                        echo ($i <= $rev['stars']) ? "<i class='fas fa-star'></i>" : "<i class='far fa-star'></i>";
+                    }
+                    ?>
+                </div>
+                <p><?= htmlspecialchars($rev['reviewText']) ?></p>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
 </body>
 </html>
 
@@ -631,9 +647,15 @@ function renderWishlist(list){
 
     list.forEach((wine,index)=>{
 
-        const image = wine.imageUrl
-        ? "/Group-15-/images/"+wine.imageUrl
-        : "../../images/placeholder.jpg";
+       let image;
+
+        if(loggedIn){
+            image = wine.imageUrl
+                ? "../../images/" + wine.imageUrl
+                : "../../images/placeholder.jpg";
+        }else{
+            image = wine.imageUrl || "../../images/placeholder.jpg";
+        }
 
         const item=document.createElement("div");
         item.className="wishlist-item";
@@ -665,7 +687,7 @@ wishlistButton.addEventListener("click",function(){
         id:this.dataset.id,
         name:this.dataset.name,
         price:this.dataset.price,
-        image:this.dataset.image
+        imageUrl:this.dataset.image
     };
 
     if(loggedIn){
@@ -685,7 +707,12 @@ wishlistButton.addEventListener("click",function(){
         let list=getGuestWishlist();
 
         if(!list.some(item=>item.id===wine.id)){
-            list.push(wine);
+            list.push({
+            id: wine.id,
+            wineName: wine.wineName || wine.name,
+            price: wine.price,
+            imageUrl: wine.imageUrl
+});
             saveGuestWishlist(list);
         }document.addEventListener
 
@@ -760,6 +787,9 @@ function updateWishlistButton(list){
 }
 loadWishlist();
 </script>
+
+
+
 <footer class="footer">
   <div class="footer-container">
 
@@ -774,8 +804,8 @@ loadWishlist();
     <div class="footer-section">
       <h3>Quick Links</h3>
       <ul class="footer-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="wines.html">Wines</a></li>
+        <li><a href="index.php">Home</a></li>
+        <li><a href="search.php">Wines</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="contact-us.php">Contact</a></li>
       </ul>
