@@ -423,10 +423,10 @@ html.darkmode #wishlist-items p{
 </div>
   <!-- NAVBAR -->
   <div class="navbar">
-    <a href="index.html"><img src="../../images/icon.png" alt="Wine Exchange Logo" style="cursor: pointer;"></a>
+    <a href="index.php"><img src="../../images/icon.png" alt="Wine Exchange Logo" style="cursor: pointer;"></a>
     <div class="navbar-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
+      <a href="index.php">Home</a>
+      <a href="about.php">About Us</a>
       <a href="search.php">Wines</a>
       <a href="basket.php">Basket</a>
       <a href="contact-us.php">Contact Us</a>
@@ -627,8 +627,8 @@ html.darkmode #wishlist-items p{
       <div class="footer-section">
         <h3>Quick Links</h3>
         <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="wines.html">Wines</a></li>
+          <li><a href="index.php">Home</a></li>
+          <li><a href="search.php">Wines</a></li>
           <li><a href="about.html">About Us</a></li>
           <li><a href="contact-us.php">Contact</a></li>
         </ul>

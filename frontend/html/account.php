@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['customerID'])) {
-  header("Location: index.html");
+  header("Location: index.php");
   exit();
 }
 
@@ -187,8 +187,8 @@ $user = $userQuery->fetch_assoc();
   <div class="navbar">
     <img src="../../images/icon.png" alt="Wine Exchange Logo">
     <div class="navbar-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
+      <a href="index.php">Home</a>
+      <a href="about.php">About Us</a>
       <a href="search.php">Wines</a>
       <a href="basket.php">Basket</a>
       <a href="contact-us.php">Contact Us</a>
@@ -257,7 +257,7 @@ $user = $userQuery->fetch_assoc();
         <h3>Quick Links</h3>
         <ul class="footer-links">
           <li><a href="index.html">Home</a></li>
-          <li><a href="wines.html">Wines</a></li>
+          <li><a href="search.php">Wines</a></li>
           <li><a href="about.html">About Us</a></li>
           <li><a href="contact-us.php">Contact</a></li>
         </ul>
