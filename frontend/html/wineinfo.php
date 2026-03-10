@@ -1,70 +1,45 @@
 <?php
 session_start();
+require_once("../../database/db_connect.php");
 
-require_once('../../database/db_connect.php');
-
-function get_int_from($arr, $key, $default = 0) {
-    return isset($arr[$key]) ? intval($arr[$key]) : $default;
+// 1. Get wine ID
+if (!isset($_GET['id'])) {
+    die("No wine selected.");
 }
+$wineId = intval($_GET['id']);
 
-$wineId = get_int_from($_POST, 'wineId', null);
-if (!$wineId) {
-    $wineId = get_int_from($_GET, 'id', 0);
-}
-
-if ($wineId <= 0) {
-    echo "No wine selected.";
-    exit;
-}
-
-if (!isset($_SESSION['basket'])) {
-    $_SESSION['basket'] = [];
-}
-
-
-
+// 2. Fetch wine info
 $stmt = $conn->prepare("SELECT * FROM wines WHERE wineId = ?");
-if (!$stmt) {
-    echo "Database error (prepare failed).";
-    exit;
-}
 $stmt->bind_param("i", $wineId);
 $stmt->execute();
-$result = $stmt->get_result();
+$wine = $stmt->get_result()->fetch_assoc();
 
-if ($result->num_rows == 0) {
-    echo "Wine not found.";
-    exit;
+if (!$wine) {
+    die("Wine not found.");
 }
 
-$wine = $result->fetch_assoc();
+// 3. Fetch reviews
+$reviewStmt = $conn->prepare("SELECT * FROM reviews WHERE wineId = ?");
+$reviewStmt->bind_param("i", $wineId);
+$reviewStmt->execute();
+$reviews = $reviewStmt->get_result();
 
-$mainImage = $wine['imageUrl']
-    ? "/Group-15-/images/" . $wine['imageUrl']
-    : "../../images/placeholder.jpg";
+// 4. Calculate average rating
+$totalStars = 0;
+$reviewCount = $reviews->num_rows;
 
-$stock = $wine['stock'];
-
-$addMessage = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
-    $quantity = get_int_from($_POST, 'quantity', 1);
-    if ($quantity < 1) $quantity = 1;
-    if ($quantity > $wine['stock']) {
-        $addMessage = "Only {$wine['stock']} in stock. You tried to add {$quantity}.";
-    } else {
-
-    if (isset($_SESSION['basket'][$wineId])) {
-        $_SESSION['basket'][$wineId] += $quantity;
-    } else {
-        $_SESSION['basket'][$wineId] = $quantity;
+if ($reviewCount > 0) {
+    while ($r = $reviews->fetch_assoc()) {
+        $totalStars += $r['stars'];
+        $reviewData[] = $r;
     }
-    
-
-    $addMessage = "Added {$quantity} × {$wine['wineName']} to your basket.";
-    }
-
+    $avgRating = round($totalStars / $reviewCount, 1);
+} else {
+    $avgRating = 0;
+    $reviewData = [];
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
