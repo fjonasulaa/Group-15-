@@ -1,39 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wine Exchange</title>
+<link rel="stylesheet" href="../css/styles.css" />
+
+<style>
+
+/* NAVBAR SPACING */
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    padding-top:110px;
+}
+
+/* DARK MODE BUTTON */
+
+.dark-mode-button{
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:5px;
+}
+
+.dark-mode-button img{
+    width:24px;
+}
+
+/* WISHLIST BUTTON */
+
+.wishlist-button{
+    background:none;
+    border:none;
+    font-size:22px;
+    cursor:pointer;
+    margin-left:10px;
+}
+
+/* WISHLIST SIDEBAR */
+
+.wishlist-sidebar{
+    position:fixed;
+    top:0;
+    right:-420px;
+    width:380px;
+    height:100%;
+    background:#f4f1f2;
+    padding:30px;
+    box-shadow:-5px 0 20px rgba(0,0,0,0.25);
+    transition:right 0.4s ease;
+    z-index:2000;
+    overflow-y:auto;
+}
+
+.wishlist-sidebar.active{
+    right:0;
+}
+
+.wishlist-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    z-index:1500;
+}
+
+.wishlist-overlay.active{
+    display:block;
+}
+
+.close-wishlist{
+    font-size:22px;
+    cursor:pointer;
+    text-align:right;
+    margin-bottom:15px;
+}
+
+.wishlist-item{
+    padding:12px 0;
+    border-bottom:1px solid #ddd;
+}
+
+/* FOOTER */
+
+.footer{
+  background-color:#f4f4f4;
+  padding:30px 10%;
+  margin-top:40px;
+  color:#333;
+}
+
+.footer-container{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+
+.footer-section{
+  flex:1 1 250px;
+  margin:10px;
+}
+
+.footer-links{
+  list-style:none;
+  padding:0;
+}
+
+.footer-links li{
+  margin:5px 0;
+}
+
+.footer-links a{
+  text-decoration:none;
+  color:inherit;
+}
+
+.footer-bottom{
+  text-align:center;
+  margin-top:20px;
+  padding-top:10px;
+  border-top:1px solid #ccc;
+  font-size:14px;
+}
+
+/* DARK MODE */
+
+.darkmode .wishlist-sidebar{
+    background:#1e1e1e;
+    color:white;
+}
+
+.darkmode .wishlist-item{
+    border-bottom:1px solid #444;
+}
+
+.darkmode .footer{
+  background:#1e1e1e;
+  color:#eee;
+}
+
+.darkmode .footer-bottom{
+  border-top:1px solid #555;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- WISHLIST OVERLAY -->
+<div class="wishlist-overlay" id="wishlistOverlay"></div>
+
 <!-- NAVBAR -->
 <div class="navbar">
-    <img src="../../images/icon.png" alt="Wine Exchange Logo">
 
-    <div class="navbar-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About Us</a>
-        <a href="wines.html">Wines</a>
-        <a href="wishlist.html">Wishlist</a>
-        <a href="basket.php">Basket</a>
-        <a href="contact-us.php">Contact Us</a>
-    </div>
+<img src="../../images/icon.png" alt="Wine Exchange Logo">
 
-    <div class="navbar-right">
-        <a href="log-in.php">Login</a>
-        <a href="signup.php">Sign up</a>
-        <a href="account.php">Account</a>
-
-        <!-- Wishlist Button -->
-        <button id="wishlist-toggle" class="wishlist-button">
-            ❤️ <span id="wishlist-count">0</span>
-        </button>
-
-        <!-- Dark Mode Button -->
-        <button id="dark-mode" class="dark-mode-button">
-            <img src="../../images/darkmode.png" alt="Dark Mode" />
-        </button>
-    </div>
+<div class="navbar-links">
+<a href="index.html">Home</a>
+<a href="about.html">About Us</a>
+<a href="wines.html">Wines</a>
+<a href="basket.html">Basket</a>
+<a href="contact-us.html">Contact Us</a>
 </div>
 
-<!-- Wishlist Sidebar -->
-<div id="wishlist-sidebar" class="wishlist-sidebar">
-    <div class="wishlist-header">
-        <h3>Your Wishlist</h3>
-        <button id="close-wishlist">✖</button>
-    </div>
+<div class="navbar-right">
 
-    <div id="wishlist-items"></div>
+<input type="text" placeholder="Search">
+
+<a href="log-in.html">Login</a>
+<a href="signup.html">Sign up</a>
+<a href="account.html">Account</a>
+
+<button id="dark-mode" class="dark-mode-button">
+<img src="../../images/darkmode.png">
+</button>
+
+<button id="wishlist-toggle" class="wishlist-button">
+❤️
+</button>
+
 </div>
+</div>
+
+<!-- WISHLIST SIDEBAR -->
+
+<div class="wishlist-sidebar" id="wishlistSidebar">
+
+<div class="close-wishlist" id="closeWishlist">
+✖
+</div>
+
+<h3>Your Wishlist</h3>
+
+<div id="wishlist-items">
+
+<p id="empty-msg">Your wishlist is empty.</p>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<div class="footer-container">
+
+<div class="footer-section">
+<h3>Wine Exchange</h3>
+<p>123 Vineyard Lane<br>London, UK</p>
+<p>Phone: +44 1234 567890</p>
+<p>Email: contactwinexchange@gmail.com</p>
+</div>
+
+<div class="footer-section">
+<h3>Quick Links</h3>
+<ul class="footer-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="wines.html">Wines</a></li>
+<li><a href="about.html">About Us</a></li>
+<li><a href="contact-us.php">Contact</a></li>
+</ul>
+</div>
+
+<div class="footer-section">
+<h3>Follow Us</h3>
+<ul class="footer-links">
+<li><a href="#">Instagram</a></li>
+<li><a href="#">Facebook</a></li>
+<li><a href="#">Twitter</a></li>
+</ul>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+© 2026 Wine Exchange. All rights reserved.
+</div>
+
+</footer>
+
+<script>
+
+/* DARK MODE */
+
+const darkBtn = document.getElementById("dark-mode");
+
+if(localStorage.getItem("dark_mode")==="on"){
+document.documentElement.classList.add("darkmode");
+}
+
+darkBtn.addEventListener("click",()=>{
+
+document.documentElement.classList.toggle("darkmode");
+
+localStorage.setItem("dark_mode",
+document.documentElement.classList.contains("darkmode") ? "on":"off"
+);
+
+});
+
+/* WISHLIST SIDEBAR */
+
+const wishlistBtn = document.getElementById("wishlist-toggle");
+const wishlistSidebar = document.getElementById("wishlistSidebar");
+const closeWishlist = document.getElementById("closeWishlist");
+const wishlistOverlay = document.getElementById("wishlistOverlay");
+
+wishlistBtn.addEventListener("click",()=>{
+
+wishlistSidebar.classList.add("active");
+wishlistOverlay.classList.add("active");
+
+});
+
+closeWishlist.addEventListener("click",()=>{
+
+wishlistSidebar.classList.remove("active");
+wishlistOverlay.classList.remove("active");
+
+});
+
+wishlistOverlay.addEventListener("click",()=>{
+
+wishlistSidebar.classList.remove("active");
+wishlistOverlay.classList.remove("active");
+
+});
+
+</script>
+
+<script src="../js/wishlist.js"></script>
+
+</body>
+</html>
