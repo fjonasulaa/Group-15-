@@ -114,6 +114,30 @@ if ($reviewCount > 0) {
                     <p class="price">Price: <span>£<?php echo number_format($wine['price'], 2); ?></span></p>
                 </div>
 
+                <div class="rating-box">
+                    <h3>Customer Reviews</h3>
+                    
+                    <div class="avg-stars">
+                        <?php
+                        for ($i = 1; $i <= 5; $i++) {
+                            echo ($i <= round($avgRating)) ? "<i class='fas fa-star'></i>" : "<i class='far fa-star'></i>";
+                            }
+        ?>
+        <span><?= $avgRating ?> out of 5</span>
+    </div>
+
+    <p><?= $reviewCount ?> reviews</p>
+
+    <a href="#reviews-section" class="scroll-link">See all reviews</a>
+
+    <br><br>
+
+    <a href="write_review.php?wineId=<?= $wineId ?>" class="write-review-btn">
+        Write a Review
+    </a>
+</div>
+
+
                 <?php if ($addMessage): ?>
                     <p style="color:green;"><?php echo htmlspecialchars($addMessage); ?></p>
                 <?php endif; ?>
