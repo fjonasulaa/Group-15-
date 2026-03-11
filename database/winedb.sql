@@ -60,6 +60,7 @@ CREATE TABLE reviews (
   wineId INT NOT NULL,
   stars INT NOT NULL,
   reviewText TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (customerId) REFERENCES customer(customerID),
   FOREIGN KEY (wineId) REFERENCES wines(wineId)
 );
