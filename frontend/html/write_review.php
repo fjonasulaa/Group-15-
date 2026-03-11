@@ -11,7 +11,7 @@ $customerId = $_SESSION['customerID'];
 $wineId = $_GET['wineId'] ?? null;
 
 // Fetch customer name for storing in reviews table
-$nameQuery = $conn->prepare("SELECT firstName, surname FROM customers WHERE customerID = ?");
+$nameQuery = $conn->prepare("SELECT firstName, surname FROM customer WHERE customerID = ?");
 $nameQuery->bind_param("i", $customerId);
 $nameQuery->execute();
 $nameResult = $nameQuery->get_result()->fetch_assoc();
