@@ -3,7 +3,7 @@ session_start();
 require_once("../../database/db_connect.php");
 $addMessage = "";
 
-// 1. Get wine ID
+// 1. Get wine I
 if (!isset($_GET['id'])) {
     die("No wine selected.");
 }
@@ -219,9 +219,11 @@ if ($reviewCount > 0) {
     </div>
 
     <div class="reviews-top-bar">
-        <a href="write_review.php?wineId=<?= $wineId ?>" class="write-review-btn">
-            Write a Review
-        </a>
+        <form action="write_review.php" method="POST" style="text-align:center;">
+    <input type="hidden" name="wineId" value="<?= $wineId ?>">
+    <button type="submit" class="write-review-btn">Write a Review</button>
+</form>
+
     </div>
 
     <?php if ($reviewCount == 0): ?>

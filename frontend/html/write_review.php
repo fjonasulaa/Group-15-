@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("../../database/db_connect.php");
+require_once "../../php/db_connection.php";
 
 // Make sure the user is logged in
 if (!isset($_SESSION['customerID'])) {
@@ -8,9 +8,22 @@ if (!isset($_SESSION['customerID'])) {
 }
 
 $customerId = $_SESSION['customerID'];
-$wineId = $_GET['wineId'] ?? null;
 
-// Fetch customer name for storing in reviews table
+// Accept wineId from POST first, fallback to GET
+$wineId = null;
+
+if (isset($_POST['wineId'])) {
+    $wineId = $_POST['wineId'];
+} elseif (isset($_GET['wineId'])) {
+    $wineId = $_GET['wineId'];
+}
+
+
+if (!$wineId) {
+    die("No wine selected.");
+}
+
+// Fetch customer name
 $nameQuery = $conn->prepare("SELECT firstName, surname FROM customer WHERE customerID = ?");
 $nameQuery->bind_param("i", $customerId);
 $nameQuery->execute();
