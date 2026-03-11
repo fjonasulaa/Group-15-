@@ -120,6 +120,7 @@ if ($reviewCount > 0) {
         Price: <span>£<?= $wine['price'] ?></span>
     </p>
 
+<a href="#reviews-section" class="stars-link">
     <div class="inline-stars">
         <?php
         for ($i = 1; $i <= 5; $i++) {
@@ -128,6 +129,8 @@ if ($reviewCount > 0) {
         ?>
         <span>(<?= $reviewCount ?>)</span>
     </div>
+</a>
+
 </div>
 
 
