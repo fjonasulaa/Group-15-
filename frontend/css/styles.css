@@ -1199,6 +1199,35 @@ textarea {
   } 
 
 /* ===========================
+   WINE BUTTONS
+   =========================== */
+.winebutton {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  color: white;
+  background: linear-gradient(135deg, #6B0F1A, #A41623);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.winebutton:hover {
+  background: linear-gradient(135deg, #8B1E2D, #C72C41);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.winebutton:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+}
+
+/* ===========================
    REVIEWS
    =========================== */
 
@@ -1258,12 +1287,12 @@ textarea {
 
 /* Write Review Button */
 .write-review-btn {
-  font-size: 1.1rem;
-  padding: 12px 24px;
+  font-size: 1.3rem;
+  padding: 16px 32px;
   background-color: #7a1f1f;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-family: "Playfair Display", serif;
   transition: 0.2s ease;
@@ -1295,7 +1324,7 @@ textarea {
 }
 
 .reviews-header h2 {
-  font-size: 3.4rem;
+  font-size: 3rem;
   font-family: "Playfair Display", serif;
   font-weight: 700;
   margin-bottom: 0.3rem;
@@ -1303,7 +1332,7 @@ textarea {
 }
 
 .reviews-subtitle {
-  font-size: 2.2rem;
+  font-size: 1.3rem;
   font-family: "Playfair Display", serif;
   font-weight: 400;
   color: #555;
@@ -1356,5 +1385,4 @@ textarea {
   font-size: 14px;
   color: #7a5c5c;
   margin-top: 10px;
-}
 }
