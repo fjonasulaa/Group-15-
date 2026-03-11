@@ -2,34 +2,49 @@
 session_start();
 require_once("../../database/db_connect.php");
 
-// Make sure the user is logged in
+// 1. Make sure the user is logged in
 if (!isset($_SESSION['customerID'])) {
     die("You must be logged in to leave a review.");
 }
 
 $customerId = $_SESSION['customerID'];
 
-// Fetch customer name
+// 2. Get wineId (from GET on first load, from POST on submit)
+$wineId = null;
+
+if (isset($_GET['wineId'])) {
+    $wineId = $_GET['wineId'];
+}
+if (isset($_POST['wineId'])) {
+    // On form submit, POST takes priority
+    $wineId = $_POST['wineId'];
+}
+
+if (!$wineId) {
+    die("No wine selected.");
+}
+
+// 3. Fetch customer name from customer table
 $nameQuery = $conn->prepare("SELECT firstName, surname FROM customer WHERE customerID = ?");
 $nameQuery->bind_param("i", $customerId);
 $nameQuery->execute();
 $nameResult = $nameQuery->get_result()->fetch_assoc();
 
+if (!$nameResult) {
+    die("Customer not found.");
+}
+
 $customerName = $nameResult['firstName'] . " " . $nameResult['surname'];
 
-// Handle form submission
+// 4. Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    // Get wineId from POST
-    $wineId = isset($_POST['wineId']) ? $_POST['wineId'] : null;
-
-    if (!$wineId) {
-        die("No wine selected.");
-    }
-
-    // Get form fields
     $stars = isset($_POST['stars']) ? $_POST['stars'] : null;
     $reviewText = isset($_POST['reviewText']) ? $_POST['reviewText'] : null;
+
+    if (!$stars || !$reviewText) {
+        die("Rating and review text are required.");
+    }
 
     // Insert review
     $query = $conn->prepare("
@@ -37,7 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         VALUES (?, ?, ?, ?, ?)
     ");
 
-    $query->bind_param("isiss", $customerId, $customerName, $wineId, $stars, $reviewText);
+    // customerId (i), customerName (s), wineId (i), stars (i), reviewText (s)
+    $query->bind_param("isiis", $customerId, $customerName, $wineId, $stars, $reviewText);
 
     if ($query->execute()) {
         header("Location: wineinfo.php?wineId=" . $wineId);
@@ -45,13 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         echo "Error submitting review: " . $conn->error;
     }
-}
-
-// If the page was opened normally (not submitted), get wineId from GET
-$wineId = isset($_GET['wineId']) ? $_GET['wineId'] : null;
-
-if (!$wineId) {
-    die("No wine selected.");
 }
 ?>
 
@@ -65,7 +74,8 @@ if (!$wineId) {
 <h2>Write a Review</h2>
 
 <form method="POST">
-    <input type="hidden" name="wineId" value="<?= $wineId ?>">
+    <!-- Keep wineId across the POST -->
+    <input type="hidden" name="wineId" value="<?php echo htmlspecialchars($wineId); ?>">
 
     <label>Rating:</label><br>
     <select name="stars" required>
@@ -82,7 +92,6 @@ if (!$wineId) {
     <br><br>
 
     <button type="submit">Submit Review</button>
-
 </form>
 
 </body>
