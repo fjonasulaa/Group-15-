@@ -208,29 +208,63 @@ if ($reviewCount > 0) {
 
 <div id="reviews-section" class="reviews-container">
 
-    <a href="write_review.php?wineId=<?= $wineId ?>" class="write-review-btn">
-        Write a Review
-    </a>
+    <div class="reviews-header">
+        <h2>All Reviews</h2>
 
-    <h2>All Reviews</h2>
+        <a href="write_review.php?wineId=<?= $wineId ?>" class="write-review-btn">
+            Write a Review
+        </a>
+    </div>
 
     <?php if ($reviewCount == 0): ?>
-        <p>No reviews yet. Be the first to review this wine!</p>
+        <p class="no-reviews">No reviews yet. Be the first to review this wine!</p>
     <?php else: ?>
-        <?php foreach ($reviewData as $rev): ?>
-            <div class="review-card">
-                <div class="stars">
-                    <?php
-                    for ($i = 1; $i <= 5; $i++) {
-                        echo ($i <= $rev['stars']) ? "<i class='fas fa-star'></i>" : "<i class='far fa-star'></i>";
-                    }
-                    ?>
+        <div class="reviews-grid">
+            <?php foreach ($reviewData as $rev): ?>
+                <div class="review-card">
+                    <div class="review-stars">
+                        <?php
+                        for ($i = 1; $i <= 5; $i++) {
+                            echo ($i <= $rev['stars']) 
+                                ? "<i class='fas fa-star'></i>" 
+                                : "<i class='far fa-star'></i>";
+                        }
+                        ?>
+                    </div>
+
+                    <p class="review-text">
+                        <?= htmlspecialchars($rev['reviewText']) ?>
+                    </p>
+
+                    <p class="review-meta">
+                        You left this review
+                    </p>
                 </div>
-                <p><?= htmlspecialchars($rev['reviewText']) ?></p>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
     <?php endif; ?>
+
 </div>
+
+<script>
+document.querySelectorAll('.review-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        card.style.transform = `translateY(-6px) rotateX(${y / 40}deg) rotateY(${x / 40}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+    });
+});
+</script>
+
+</body>
+</html>
+
 </body>
 </html>
 
