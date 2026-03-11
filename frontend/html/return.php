@@ -223,9 +223,10 @@ function showError($errors) {
   </div>
     <div class="container">
         <div class="form-box" id="signup-form">
-            <form action="#" method ="post">
+            <form action="redirect.php?page=return" method ="post">
                 <h2>Return</h2>
                 <p>Order ID: <?= $_GET['orderId'] ?></p>
+                <input type="hidden" name="orderId" value="<?= $_GET['orderId'] ?>">
                 <p>We're sorry you weren't satisfied with your order. Could you please tell us why you are returning?</p>
                 <?= showError($error); ?>
                 <label for="reason">Reason for Return:</label>
