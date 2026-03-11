@@ -39,7 +39,7 @@ if (!$nameResult) {
     die("Customer not found.");
 }
 
-$customerName = $nameResult['firstName'] . " " . $nameResult['surname'];
+$customerName = ucfirst($nameResult['firstName']) . " " . ucfirst($nameResult['surname']);
 
 // 4. Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {

@@ -1311,17 +1311,20 @@ textarea {
 }
 
 .reviews-header h2 {
-    font-size: 32px;
+        font-size: 2.4rem;
+    font-family: "Playfair Display", serif;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
     color: #4a1f2d; /* burgundy */
-    margin-bottom: 10px;
+  
 }
 
 .reviews-subtitle {
-    font-size: 19px;
-    color: #6b4a4a;
-    max-width: 700px;
-    margin: 0 auto;
-    line-height: 1.5;
+    font-size: 1.2rem;
+    font-family: "Playfair Display", serif;
+    font-weight: 400;
+    color: #555;
+    margin-bottom: 1.5rem;
 }
 
 /* Write Review button */
@@ -1331,19 +1334,19 @@ textarea {
 }
 
 .write-review-btn {
-    background-color: #b08f6a; /* soft gold-brown */
+    font-size: 1.1rem;
+    padding: 12px 24px;
+    background-color: #7a1f1f;
     color: white;
-    padding: 12px 22px;
+    border: none;
     border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 15px;
-    transition: 0.3s ease;
+    cursor: pointer;
+    font-family: "Playfair Display", serif;
+    transition: 0.2s ease;
 }
 
 .write-review-btn:hover {
-    background-color: #9c7a55;
-}
+    background-color: #5e1717;}
 
 /* Grid layout */
 .reviews-grid {
