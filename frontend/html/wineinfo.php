@@ -206,11 +206,19 @@ if ($reviewCount > 0) {
         });
 </script>
 
+<hr class="reviews-divider">
+
 <div id="reviews-section" class="reviews-container">
 
     <div class="reviews-header">
         <h2>All Reviews</h2>
+        <p class="reviews-subtitle">
+            You are our most important critics, and your ratings help fellow wine lovers too.  
+            We’ll always pop your name next to your post to show that it’s genuine.
+        </p>
+    </div>
 
+    <div class="reviews-top-bar">
         <a href="write_review.php?wineId=<?= $wineId ?>" class="write-review-btn">
             Write a Review
         </a>
@@ -222,6 +230,7 @@ if ($reviewCount > 0) {
         <div class="reviews-grid">
             <?php foreach ($reviewData as $rev): ?>
                 <div class="review-card">
+                    
                     <div class="review-stars">
                         <?php
                         for ($i = 1; $i <= 5; $i++) {
@@ -237,8 +246,10 @@ if ($reviewCount > 0) {
                     </p>
 
                     <p class="review-meta">
-                        You left this review
+                        <strong><?= htmlspecialchars($rev['customerName']) ?></strong>  
+                        • <?= date("F j, Y", strtotime($rev['created_at'])) ?>
                     </p>
+
                 </div>
             <?php endforeach; ?>
         </div>

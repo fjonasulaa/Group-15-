@@ -1,30 +1,42 @@
 <?php
 session_start();
-require_once("../../database/db_connect.php");
+require_once "../php/db_connection.php";
 
-// Must be logged in
+// Make sure the user is logged in
 if (!isset($_SESSION['customerID'])) {
-    header("Location: log-in.php");
-    exit;
+    die("You must be logged in to leave a review.");
 }
 
-if (!isset($_GET['wineId'])) {
-    die("No wine selected.");
-}
-
-$wineId = intval($_GET['wineId']);
 $customerId = $_SESSION['customerID'];
+$wineId = $_GET['wineId'] ?? null;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $stars = intval($_POST['stars']);
-    $text = trim($_POST['reviewText']);
+// Fetch customer name for storing in reviews table
+$nameQuery = $conn->prepare("SELECT firstName, surname FROM customers WHERE customerID = ?");
+$nameQuery->bind_param("i", $customerId);
+$nameQuery->execute();
+$nameResult = $nameQuery->get_result()->fetch_assoc();
 
-    $stmt = $conn->prepare("INSERT INTO reviews (customerId, wineId, stars, reviewText) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("iiis", $customerId, $wineId, $stars, $text);
-    $stmt->execute();
+$customerName = $nameResult['firstName'] . " " . $nameResult['surname'];
 
-    header("Location: wineinfo.php?id=" . $wineId);
-    exit;
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $stars = $_POST['stars'];
+    $reviewText = $_POST['reviewText'];
+
+    // Insert review
+    $query = $conn->prepare("
+        INSERT INTO reviews (customerId, customerName, wineId, stars, reviewText)
+        VALUES (?, ?, ?, ?, ?)
+    ");
+
+    $query->bind_param("isiss", $customerId, $customerName, $wineId, $stars, $reviewText);
+
+    if ($query->execute()) {
+        header("Location: wineinfo.php?wineId=" . $wineId);
+        exit();
+    } else {
+        echo "Error submitting review: " . $conn->error;
+    }
 }
 ?>
 
@@ -38,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h2>Write a Review</h2>
 
 <form method="POST">
+
     <label>Rating:</label><br>
     <select name="stars" required>
         <option value="5">★★★★★</option>
@@ -46,16 +59,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <option value="2">★★☆☆☆</option>
         <option value="1">★☆☆☆☆</option>
     </select>
-
     <br><br>
 
     <label>Your Review:</label><br>
-    <textarea name="reviewText" required></textarea>
-
+    <textarea name="reviewText" rows="5" cols="40" required></textarea>
     <br><br>
 
     <button type="submit">Submit Review</button>
+
 </form>
 
 </body>
 </html>
+

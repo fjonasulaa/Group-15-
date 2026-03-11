@@ -1289,61 +1289,75 @@ textarea {
     color: gold;
 }
 
-
-/* ============================
-   REVIEWS SECTION
-============================ */
-
-.reviews-container {
-    margin: 80px auto;
-    max-width: 900px;
-    padding: 0 20px;
+/* Divider line above reviews */
+.reviews-divider {
+    margin: 60px auto 40px;
+    width: 90%;
+    border: none;
+    border-top: 1px solid #d8cfc9;
 }
 
+/* Main container */
+.reviews-container {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    padding: 0 40px;
+}
+
+/* Header */
 .reviews-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    text-align: center;
     margin-bottom: 25px;
 }
 
 .reviews-header h2 {
-    font-size: 28px;
-    color: #4a1f2d; /* deep burgundy */
+    font-size: 32px;
+    color: #4a1f2d; /* burgundy */
+    margin-bottom: 10px;
+}
+
+.reviews-subtitle {
+    font-size: 16px;
+    color: #6b4a4a;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* Write Review button */
+.reviews-top-bar {
+    text-align: center;
+    margin: 25px 0 40px;
 }
 
 .write-review-btn {
-    background-color: #5a8f6f; /* soft green */
+    background-color: #b08f6a; /* soft gold-brown */
     color: white;
-    padding: 10px 18px;
+    padding: 12px 22px;
     border-radius: 6px;
     text-decoration: none;
     font-weight: bold;
+    font-size: 15px;
     transition: 0.3s ease;
 }
 
 .write-review-btn:hover {
-    background-color: #4b7a5d;
+    background-color: #9c7a55;
 }
 
-.no-reviews {
-    color: #555;
-    font-style: italic;
-}
-
-/* Review cards grid */
+/* Grid layout */
 .reviews-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
 }
 
-/* Individual review card */
+/* Review card */
 .review-card {
     background: #faf7f5;
     border: 1px solid #e0d6d0;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 22px;
+    border-radius: 12px;
     box-shadow: 0 4px 10px rgba(80, 40, 40, 0.08);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
@@ -1367,8 +1381,9 @@ textarea {
     line-height: 1.5;
 }
 
-/* Meta text */
+/* Meta info */
 .review-meta {
-    font-size: 13px;
+    font-size: 14px;
     color: #7a5c5c;
+    margin-top: 10px;
 }
