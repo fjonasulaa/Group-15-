@@ -20,7 +20,12 @@ if (!$wine) {
 }
 
 // 3. Fetch reviews
-$reviewStmt = $conn->prepare("SELECT * FROM reviews WHERE wineId = ?");
+$reviewStmt = $conn->prepare("
+    SELECT r.*, c.firstName, c.surname
+    FROM reviews r
+    JOIN customer c ON r.customerId = c.customerID
+    WHERE r.wineId = ?
+");
 $reviewStmt->bind_param("i", $wineId);
 $reviewStmt->execute();
 $reviews = $reviewStmt->get_result();
@@ -246,7 +251,7 @@ if ($reviewCount > 0) {
                     </p>
 
                     <p class="review-meta">
-                        <strong><?= htmlspecialchars($rev['customerName']) ?></strong>  
+                        <strong><?= htmlspecialchars($rev['firstName'] . " " . $rev['surname']) ?></strong> 
                         • <?= date("F j, Y", strtotime($rev['created_at'])) ?>
                     </p>
 

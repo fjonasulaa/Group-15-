@@ -53,12 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Insert review
     $query = $conn->prepare("
-        INSERT INTO reviews (customerId, customerName, wineId, stars, reviewText)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO reviews (customerId, wineId, stars, reviewText)
+        VALUES (?, ?, ?, ?)
     ");
 
     // i = int, s = string
-    $query->bind_param("isiis", $customerId, $customerName, $wineId, $stars, $reviewText);
+    $query->bind_param("iiis", $customerId, $wineId, $stars, $reviewText);
 
     if ($query->execute()) {
         header("Location: wineinfo.php?id=" . $wineId);
