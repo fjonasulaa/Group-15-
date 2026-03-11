@@ -26,7 +26,7 @@ require_once('../../database/db_connect.php');
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            padding-top: 110px;
+            padding-top: 65px;
         }
 
 
@@ -127,12 +127,12 @@ require_once('../../database/db_connect.php');
         }
 
         .results-header {
-            padding: 20px 40px;
+            padding: 5px 40px 10px;
             font-weight: 600;
         }
 
         .box-container {
-            padding: 40px;
+            padding: 10px 40px 40px;
         }
 
         .box {
@@ -732,7 +732,7 @@ $stat->execute();
 $result = $stat->get_result();
 ?>
 
-<div style="padding:20px 40px;">
+<div style="padding:10px 40px 0;">
     <button id="openFilter" class="filter-btn">
         <i class="fa fa-sliders"></i> Filter
     </button>
