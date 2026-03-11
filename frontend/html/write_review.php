@@ -63,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <h2>Write a Review</h2>
 
 <form method="POST">
+<input type="hidden" name="wineId" value="<?= $wineId ?>">
 
     <label>Rating:</label><br>
     <select name="stars" required>
