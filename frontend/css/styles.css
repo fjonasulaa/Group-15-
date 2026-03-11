@@ -543,11 +543,17 @@ body.info {
 
 /* Cards */
 
+.wine-advert {
+  height: 100vh;
+  position: relative;
+}
+
 .cards-cycle {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   position: relative;
+  z-index: 1;
 }
 .cards-cycle .wines-list .wine {
   position: absolute;
@@ -586,30 +592,6 @@ body.info {
   padding-bottom: 10px;
 }
 
-.wines-list .wine .price {
-  font-weight: bold;
-  font-size: 1.5em;
-  padding-bottom: 10px;
-}
-
-.wines-list .wine .buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 130px);
-  grid-template-rows: 40px;
-  gap: 5px;
-}
-
-.wines-list .wine .buttons .button {
-  border: none;
-  background-color: var(--white);
-  font-weight: bold;
-}
-
-.wines-list .wine .buttons .button:nth-child(2) {
-  background-color: transparent;
-  color: var(--white);
-  border: 1px solid var(--white);
-}
 
 /* Cover */
 
@@ -650,39 +632,8 @@ body.info {
   font-weight: bold;
 }
 
-.arrow {
-  padding-top: 30px;
-  position: absolute;
-  top: 80%;
-  right: 52%;
-  width: 300px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
 
-.arrow button {
-  width: 40px;
-  height: 40px;
-  background-color: rgba(0, 0, 0, 0.377);
-  border: none;
-  color: var(--white);
-  font-weight: bold;
-  font-size: large;
-  transition: 0.5s;
-  border-radius: 50%;
-  font-family: monospace;
-  z-index: 500;
-}
 
-.arrow button:hover {
-  background-color: #eee;
-  color: var(--dark-grey);
-}
-
-.cards-cycle .wines-list .wine:nth-child(1) {
-  z-index: 1;
-}
 
 /* ===========================
    CHECKOUT
@@ -1178,45 +1129,6 @@ textarea {
 /* ===========================
    ANIMATIONS
    =========================== */
-
-.wines-list .wine:nth-child(1) .wine-type,
-.wines-list .wine:nth-child(1) .name,
-.wines-list .wine:nth-child(1) .description,
-.wines-list .wine:nth-child(1) .price,
-.wines-list .wine:nth-child(1) .buttons {
-  transform: translateY(50px);
-  filter: blur(20px);
-  opacity: 0;
-  animation: contentAppears 0.5s 1s linear forwards;
-}
-
-@keyframes contentAppears {
-  to {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-  }
-}
-
-.wines-list .wine:nth-child(1) .wine-type {
-  animation-delay: 1s;
-}
-
-.wines-list .wine:nth-child(1) .name {
-  animation-delay: 1.2s;
-}
-
-.wines-list .wine:nth-child(1) .description {
-  animation-delay: 1.4s;
-}
-
-.wines-list .wine:nth-child(1) .price {
-  animation-delay: 1.6s;
-}
-
-.wines-list .wine:nth-child(1) .buttons {
-  animation-delay: 1.8s;
-}
 
 @keyframes show-data {
   50% {
