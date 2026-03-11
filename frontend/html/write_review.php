@@ -9,20 +9,6 @@ if (!isset($_SESSION['customerID'])) {
 
 $customerId = $_SESSION['customerID'];
 
-// Accept wineId from POST first, fallback to GET
-$wineId = null;
-
-if (isset($_POST['wineId'])) {
-    $wineId = $_POST['wineId'];
-} elseif (isset($_GET['wineId'])) {
-    $wineId = $_GET['wineId'];
-}
-
-
-if (!$wineId) {
-    die("No wine selected.");
-}
-
 // Fetch customer name
 $nameQuery = $conn->prepare("SELECT firstName, surname FROM customer WHERE customerID = ?");
 $nameQuery->bind_param("i", $customerId);
@@ -31,10 +17,19 @@ $nameResult = $nameQuery->get_result()->fetch_assoc();
 
 $customerName = $nameResult['firstName'] . " " . $nameResult['surname'];
 
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $stars = $_POST['stars'];
-    $reviewText = $_POST['reviewText'];
+    // Get wineId from POST
+    $wineId = isset($_POST['wineId']) ? $_POST['wineId'] : null;
+
+    if (!$wineId) {
+        die("No wine selected.");
+    }
+
+    // Get form fields
+    $stars = isset($_POST['stars']) ? $_POST['stars'] : null;
+    $reviewText = isset($_POST['reviewText']) ? $_POST['reviewText'] : null;
 
     // Insert review
     $query = $conn->prepare("
@@ -51,6 +46,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo "Error submitting review: " . $conn->error;
     }
 }
+
+// If the page was opened normally (not submitted), get wineId from GET
+$wineId = isset($_GET['wineId']) ? $_GET['wineId'] : null;
+
+if (!$wineId) {
+    die("No wine selected.");
+}
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <h2>Write a Review</h2>
 
 <form method="POST">
-<input type="hidden" name="wineId" value="<?= $wineId ?>">
+    <input type="hidden" name="wineId" value="<?= $wineId ?>">
 
     <label>Rating:</label><br>
     <select name="stars" required>
@@ -85,4 +87,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 </body>
 </html>
-
