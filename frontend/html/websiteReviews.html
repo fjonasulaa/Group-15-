@@ -38,6 +38,7 @@
         </div>
       </div>
 
+      <!--Reviews-->
       <header>
       <div class="reviews-container">
         <div class="left">
@@ -56,6 +57,7 @@
         </div>
 
         <div class="right">
+          
           <div class="review"
             data-name="Kathy Schwabe"
             data-title="Effortless ordering and flawless delivery."
@@ -135,11 +137,8 @@
           popup_Name.textContent = review.dataset.name + " " + review.dataset.stars;
           popup_Title.textContent = review.dataset.title;
           popup_Text.textContent = review.dataset.review;
-
           popup.classList.add("show");
-
         });
-
       });
 
       close.addEventListener("click", () => {
