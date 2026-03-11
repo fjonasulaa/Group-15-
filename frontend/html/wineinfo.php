@@ -258,9 +258,12 @@ if ($reviewCount > 0) {
                     </p>
 
                     <p class="review-meta">
-                        <strong><?= htmlspecialchars($rev['firstName'] . " " . $rev['surname']) ?></strong> 
-                        • <?= date("F j, Y", strtotime($rev['created_at'])) ?>
-                    </p>
+    <strong>
+        <?= htmlspecialchars( ucfirst($rev['firstName']) . " " . ucfirst($rev['surname']) ) ?>
+    </strong>
+    • <?= date("F j, Y", strtotime($rev['created_at'])) ?>
+</p>
+
 
                 </div>
             <?php endforeach; ?>
