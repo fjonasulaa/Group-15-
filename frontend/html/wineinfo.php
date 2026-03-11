@@ -219,10 +219,11 @@ if ($reviewCount > 0) {
     </div>
 
     <div class="reviews-top-bar">
-        <form action="write_review.php" method="GET" style="text-align:center;">
+<form action="write_review.php" method="GET">
     <input type="hidden" name="wineId" value="<?php echo htmlspecialchars($wineId); ?>">
     <button type="submit" class="write-review-btn">Write a Review</button>
 </form>
+
 
 
     </div>

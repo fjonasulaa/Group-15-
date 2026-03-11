@@ -2,21 +2,23 @@
 session_start();
 require_once("../../database/db_connect.php");
 
-// 1. Make sure the user is logged in
+// 1. User must be logged in
 if (!isset($_SESSION['customerID'])) {
     die("You must be logged in to leave a review.");
 }
 
 $customerId = $_SESSION['customerID'];
 
-// 2. Get wineId (from GET on first load, from POST on submit)
+// 2. Determine wineId
 $wineId = null;
 
+// First load → GET
 if (isset($_GET['wineId'])) {
     $wineId = $_GET['wineId'];
 }
+
+// Form submit → POST overrides GET
 if (isset($_POST['wineId'])) {
-    // On form submit, POST takes priority
     $wineId = $_POST['wineId'];
 }
 
@@ -24,7 +26,7 @@ if (!$wineId) {
     die("No wine selected.");
 }
 
-// 3. Fetch customer name from customer table
+// 3. Fetch customer name
 $nameQuery = $conn->prepare("SELECT firstName, surname FROM customer WHERE customerID = ?");
 $nameQuery->bind_param("i", $customerId);
 $nameQuery->execute();
@@ -52,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         VALUES (?, ?, ?, ?, ?)
     ");
 
-    // customerId (i), customerName (s), wineId (i), stars (i), reviewText (s)
+    // i = int, s = string
     $query->bind_param("isiis", $customerId, $customerName, $wineId, $stars, $reviewText);
 
     if ($query->execute()) {
@@ -74,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <h2>Write a Review</h2>
 
 <form method="POST">
-    <!-- Keep wineId across the POST -->
+    <!-- KEEP wineId across POST -->
     <input type="hidden" name="wineId" value="<?php echo htmlspecialchars($wineId); ?>">
 
     <label>Rating:</label><br>
