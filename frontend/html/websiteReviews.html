@@ -56,7 +56,12 @@
         </div>
 
         <div class="right">
-          <div class="review" id="open">
+          <div class="review"
+            data-name="Kathy Schwabe"
+            data-title="Effortless ordering and flawless delivery."
+            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time."
+            data-stars="★★★★★">
+
             <img src="../../images/bd.jpg" alt="user" />
             <div class="review-content">
               <div class="review-details">
@@ -68,7 +73,12 @@
             </div>
           </div>
 
-          <div class="review" id="open"> 
+          <div class="review"
+            data-name="Edward Sinclair"
+            data-title="My go-to site for hassle-free wine shopping."
+            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time."
+            data-stars="★★★★★"> 
+
             <img src="../../images/hm.jpg" alt="user" />
             <div class="review-content">
               <div class="review-details">
@@ -80,7 +90,11 @@
             </div>
           </div>
 
-          <div class="review" id="open">
+          <div class="review"
+            data-name="Henry Ashford"
+            data-title="Exactly as described, delivered without delay!"
+            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time."
+            data-stars="★★★★★">
             <img src="../../images/jj.jpg" alt="user" />
             <div class="review-content">
               <div class="review-details">
@@ -92,29 +106,45 @@
             </div>
           </div>
           
-    <div class= "popup-container" id="pop-container">
-      <div class= "pop-up">
-          <h1>Kathy Schwabe ★★★★★</h1>
-          <h2>Effortless ordering and flawless delivery.</h2>
-          <p>Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time.</p>
-          <button id= close>Close Review</button>
-      </div>
-    </div>
-
+          <div class="popup-container" id="popup">
+            <div class="pop-up">
+              <h1 id="popup-name"></h1>
+              <h2 id="popup-title"></h2>
+              <p id="popup-text"></p>
+              <button id="close">Close Review</button>
+            </div>
+          </div>
         </div>
       </div>
     </header>
+
     <script>
-      const open = document.getElementById('open');
-      const popupContainer = document.getElementById('pop-container');
-      const close = document.getElementById('close');
+      const reviews = document.querySelectorAll(".review");
+      const popup = document.getElementById("popup");
 
-      open.addEventListener('click', () => {
-      popupContainer.classList.add('show');
+      const popup_Name = document.getElementById("popup-name");
+      const popup_Title = document.getElementById("popup-title");
+      const popup_Text = document.getElementById("popup-text");
+
+      const close = document.getElementById("close");
+
+      reviews.forEach(review => {
+
+        review.addEventListener("click", () => {
+
+          popup_Name.textContent = review.dataset.name + " " + review.dataset.stars;
+          popup_Title.textContent = review.dataset.title;
+          popup_Text.textContent = review.dataset.review;
+
+          popup.classList.add("show");
+
+        });
+
       });
 
-      close.addEventListener('click', () => {
-      popupContainer.classList.remove('show');
+      close.addEventListener("click", () => {
+        popup.classList.remove("show");
       });
+
     </script>
 </body>
