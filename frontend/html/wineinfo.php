@@ -213,8 +213,7 @@ if ($reviewCount > 0) {
     <div class="reviews-header">
         <h2>All Reviews</h2>
         <p class="reviews-subtitle">
-            You are our most important critics, and your ratings help fellow wine lovers too.  
-            We’ll always pop your name next to your post to show that it’s genuine.
+            Wine is best shared. Your honest reviews help others explore, discover, and choose with confidence.
         </p>
     </div>
 
