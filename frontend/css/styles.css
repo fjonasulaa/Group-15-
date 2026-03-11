@@ -584,6 +584,10 @@ body.info {
 }
 
 .wines-list .wine .name {
+  font-size: 2rem;
+}
+
+.wines-list .wine .name {
   color: var(--primary-colour);
 }
 
