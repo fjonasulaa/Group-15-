@@ -12,7 +12,10 @@ $customerId = $_SESSION['customerID'];
 // 2. Determine wineId
 $wineId = null;
 
-// First load → GET
+// Accept BOTH ?id= and ?wineId=
+if (isset($_GET['id'])) {
+    $wineId = $_GET['id'];
+}
 if (isset($_GET['wineId'])) {
     $wineId = $_GET['wineId'];
 }
@@ -58,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $query->bind_param("isiis", $customerId, $customerName, $wineId, $stars, $reviewText);
 
     if ($query->execute()) {
-        header("Location: wineinfo.php?wineId=" . $wineId);
+        header("Location: wineinfo.php?id=" . $wineId);
         exit();
     } else {
         echo "Error submitting review: " . $conn->error;

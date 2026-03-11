@@ -223,9 +223,6 @@ if ($reviewCount > 0) {
     <input type="hidden" name="wineId" value="<?php echo htmlspecialchars($wineId); ?>">
     <button type="submit" class="write-review-btn">Write a Review</button>
 </form>
-
-
-
     </div>
 
     <?php if ($reviewCount == 0): ?>
