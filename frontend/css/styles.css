@@ -1387,3 +1387,38 @@ textarea {
   color: #7a5c5c;
   margin-top: 10px;
 }
+
+/* Make stars clickable and remove link styling */
+.stars-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+/* Make the stars gold */
+.inline-stars i {
+    color: #d4a017;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+/* Hover animation */
+.inline-stars:hover i {
+    color: #b8860b; /* richer gold */
+    transform: scale(1.15);
+}
+
+/* Hover effect for the review count */
+.inline-stars span {
+    margin-left: 6px;
+    color: #7a5c5c;
+    transition: color 0.2s ease;
+}
+
+.inline-stars:hover span {
+    color: #b8860b;
+}
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}

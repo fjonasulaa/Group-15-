@@ -124,12 +124,15 @@ if ($reviewCount > 0) {
     <div class="inline-stars">
         <?php
         for ($i = 1; $i <= 5; $i++) {
-            echo ($i <= round($avgRating)) ? "<i class='fas fa-star'></i>" : "<i class='far fa-star'></i>";
+            echo ($i <= round($avgRating)) 
+                ? "<i class='fas fa-star'></i>" 
+                : "<i class='far fa-star'></i>";
         }
         ?>
         <span>(<?= $reviewCount ?>)</span>
     </div>
 </a>
+
 
 </div>
 
@@ -216,9 +219,10 @@ if ($reviewCount > 0) {
 
 <hr class="reviews-divider">
 
-<div id="reviews-section" class="reviews-container">
+<div class="reviews-container">
 
-    <div class="reviews-header">
+
+    <div id="reviews-section" class="reviews-header">
         <h2>All Reviews</h2>
         <p class="reviews-subtitle">
             Wine is best shared. Your honest reviews help others explore, discover, and choose with confidence.
