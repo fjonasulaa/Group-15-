@@ -1198,11 +1198,12 @@ textarea {
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   } 
 
-  /* ===========================
+/* ===========================
    REVIEWS
    =========================== */
 
-  .submit-review {
+/* Submit Review Button (old version kept if needed) */
+.submit-review {
   margin-left: 30%;
   margin-right: 30%;
   background: var(--primary-colour);
@@ -1213,25 +1214,14 @@ textarea {
   font-size: 1.1rem;
   display: inline-block;
   text-align: center;
+  margin-top: 25px;
 }
-
 
 .submit-review:hover {
   opacity: 0.85;
 }
 
-.submit-review {
-  margin-top: 25px;
-  background: var(--primary-colour);
-  color: var(--white);
-  padding: 14px 22px;
-  border-radius: var(--radius);
-  text-decoration: none;
-  font-size: 1.1rem;
-  display: inline-block;
-  text-align: center;
-}
-
+/* Star rating input */
 .rating {
   display: flex;
   flex-direction: row-reverse;
@@ -1254,139 +1244,117 @@ textarea {
   color: gold;
 }
 
-}
-
+/* Rating box */
 .rating-box {
-    border: 1px solid #ccc;
-    padding: 15px;
-    width: 250px;
-    background: #fafafa;
+  border: 1px solid #ccc;
+  padding: 15px;
+  width: 250px;
+  background: #fafafa;
 }
 
 .rating-box .avg-stars i {
-    color: gold;
+  color: gold;
 }
 
+/* Write Review Button */
 .write-review-btn {
-    display: inline-block;
-    padding: 10px;
-    background: #4CAF50;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
+  font-size: 1.1rem;
+  padding: 12px 24px;
+  background-color: #7a1f1f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: "Playfair Display", serif;
+  transition: 0.2s ease;
 }
 
+.write-review-btn:hover {
+  background-color: #5e1717;
+}
+
+/* Reviews container */
 .reviews-container {
-    margin-top: 40px;
+  max-width: 1200px;
+  margin: 0 auto 80px;
+  padding: 0 40px;
 }
 
-.review-card {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-}
-
-.review-card .stars i {
-    color: gold;
-}
-
-/* Divider line above reviews */
+/* Divider line */
 .reviews-divider {
-    margin: 60px auto 40px;
-    width: 90%;
-    border: none;
-    border-top: 1px solid #d8cfc9;
-}
-
-/* Main container */
-.reviews-container {
-    max-width: 1200px;
-    margin: 0 auto 80px;
-    padding: 0 40px;
+  margin: 60px auto 40px;
+  width: 90%;
+  border: none;
+  border-top: 1px solid #d8cfc9;
 }
 
 /* Header */
 .reviews-header {
-    text-align: center;
-    margin-bottom: 25px;
+  text-align: center;
+  margin-bottom: 25px;
 }
 
 .reviews-header h2 {
-        font-size: 2.4rem;
-    font-family: "Playfair Display", serif;
-    font-weight: 700;
-    margin-bottom: 0.3rem;
-    color: #4a1f2d; /* burgundy */
-  
+  font-size: 3.4rem;
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: #4a1f2d;
 }
 
 .reviews-subtitle {
-    font-size: 1.2rem;
-    font-family: "Playfair Display", serif;
-    font-weight: 400;
-    color: #555;
-    margin-bottom: 1.5rem;
+  font-size: 2.2rem;
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  color: #555;
+  margin-bottom: 1.5rem;
 }
 
-/* Write Review button */
+/* Top bar */
 .reviews-top-bar {
-    text-align: center;
-    margin: 25px 0 40px;
+  text-align: center;
+  margin: 25px 0 40px;
 }
-
-.write-review-btn {
-    font-size: 1.1rem;
-    padding: 12px 24px;
-    background-color: #7a1f1f;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: "Playfair Display", serif;
-    transition: 0.2s ease;
-}
-
-.write-review-btn:hover {
-    background-color: #5e1717;}
 
 /* Grid layout */
 .reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
 }
 
 /* Review card */
 .review-card {
-    background: #faf7f5;
-    border: 1px solid #e0d6d0;
-    padding: 22px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(80, 40, 40, 0.08);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: #faf7f5;
+  border: 1px solid #e0d6d0;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(80, 40, 40, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Hover movement */
 .review-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 18px rgba(80, 40, 40, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 18px rgba(80, 40, 40, 0.15);
 }
 
 /* Stars */
 .review-stars i {
-    color: #d4a017; /* soft gold */
-    margin-right: 2px;
+  color: #d4a017;
+  margin-right: 2px;
 }
 
 /* Review text */
 .review-text {
-    margin: 12px 0;
-    color: #333;
-    line-height: 1.5;
+  margin: 12px 0;
+  color: #333;
+  line-height: 1.5;
 }
 
 /* Meta info */
 .review-meta {
-    font-size: 14px;
-    color: #7a5c5c;
-    margin-top: 10px;
+  font-size: 14px;
+  color: #7a5c5c;
+  margin-top: 10px;
+}
 }
