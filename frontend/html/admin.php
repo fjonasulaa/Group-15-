@@ -203,8 +203,6 @@
                             <button type="submit" name="changePassword">Change Password</button>
                         </form>
                     </div>
-
-                    <button type="submit" name="changePassword">Change Password</button>
                 </div>
 
                 <!-- table -->

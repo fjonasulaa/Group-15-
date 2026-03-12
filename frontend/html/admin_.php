@@ -3,7 +3,10 @@
 session_start();
 
 
-require_once('../../database/db_connect.php');
+ob_start();
+require_once('users.php');
+ob_end_clean();
+
 
 if (!isset($_SESSION['customerID'])) {
     header("Location: log-in.php");
@@ -75,7 +78,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['saveDetails'])) {
 }
 
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['changePassword'])) {
 
+    if (isset($_POST['newpassword']) && isset($_POST['confirmnewpassword'])) {
+        $newPassword = $_POST['newpassword'];
+        $confirmNewPassword = $_POST['confirmnewpassword'];
+        
+        if ($newPassword === $confirmNewPassword) {
+            $u = new Users();
+            $u->updatePassword($customerID, $newPassword);
+        }
+    }
+}
 
 $result1 = $conn->query("SELECT customerID, email FROM customer ORDER BY customerID DESC");
 while ($row = $result1->fetch_assoc()) {
