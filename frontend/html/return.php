@@ -5,20 +5,59 @@ session_start();
 $error = $_SESSION['register_error'] ?? "";
 unset($_SESSION["register_error"]);
 
-    if (isset($_SESSION['customerID'])) {
-        include '..\..\database\db_connect.php';
-    $stmt = $conn->prepare("SELECT role FROM customer WHERE customerID = ?");
-    $stmt->bind_param("i", $_SESSION['customerID']);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
+    if (isset($_GET['orderId']) && isset($_SESSION['customerID'])) {
+      include '../../database/db_connect.php';
 
-    if ($user['role'] !== 'admin') {
-        header("Location: index.html");
-        exit;
-    }
+$orderId = $_GET['orderId'];
+$customerId = $_SESSION['customerID'];
+
+$stmt = $conn->prepare("SELECT customerID, orderDate FROM orders WHERE orderID = ?");
+$stmt->bind_param("i", $orderId);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows === 0) {
+    header("Location: index.html");
+    exit;
+}
+
+$stmt->bind_result($orderOwner, $orderDate);
+$stmt->fetch();
+
+if ($orderOwner != $customerId) {
+    // User is trying to access someone else's order
+    header("Location: index.html");
+    exit;
+}
+
+// Check if order is older than 30 days
+$today = new DateTime();
+$orderDateObj = new DateTime($orderDate);
+$diff = $today->diff($orderDateObj)->days;
+
+if ($diff > 30) {
+    header("Location: account.php");
+    exit;
+}
+
+// Check if order has already been refunded/returned
+$stmt2 = $conn->prepare("
+    SELECT refundId 
+    FROM refund 
+    WHERE orderId = ?
+");
+$stmt2->bind_param("i", $orderId);
+$stmt2->execute();
+$stmt2->store_result();
+
+if ($stmt2->num_rows > 0) {
+    header("Location: account.php");
+    exit;
+}
+
+    
 } else {
-    header("Location: log-in.php");
+    header("Location: index.html");
     exit;
 }
 
@@ -32,7 +71,7 @@ function showError($errors) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Wine | Wine Exchange</title>
+    <title>Return | Wine Exchange</title>
 
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
@@ -233,42 +272,26 @@ function showError($errors) {
   </div>
     <div class="container">
         <div class="form-box" id="signup-form">
-            <form action="new_Wine.php" method ="post" enctype="multipart/form-data">
-                <h2>New Wine</h2>
+            <form action="redirect.php?page=return" method ="post">
+                <h2>Return</h2>
+                <p>Order ID: <?= $_GET['orderId'] ?></p>
+                <input type="hidden" name="orderId" value="<?= $_GET['orderId'] ?>">
+                <p>We're sorry you weren't satisfied with your order. Could you please tell us why you are returning?</p>
                 <?= showError($error); ?>
-                <label for="wineName">Wine Name:</label>
-                <input type="text" name="wineName" placeholder="Wine Name" required>
-                <label for="wineRegion">Wine Region:</label>
-                <input type="text" name="wineRegion" placeholder="Wine Region" required>
-                <label for="ingredients">Ingredients:</label>
-                <textarea name="ingredients" placeholder="Ingredients" required></textarea>
-                <label for="country">Country:</label>
-                <select name="country" id="country">
-                    <option value="France">France</option>
-                    <option value="Italy">Italy</option>
-                    <option value="Portugal">Portugal</option>
-                    <option value="South Africa">South Africa</option>
-                    <option value="Australia">Australia</option>
-                    <option value="United States">United States</option>
+                <label for="reason">Reason for Return:</label>
+                <select name="reason" id="reason" required>
+                    <option value="wrong">I chose the wrong product</option>
+                    <option value="broken">The product was broken/not to a good standard</option>
+                    <option value="inaccurate">Inaccurate Information on website</option>
+                    <option value="duplicate">I got a duplicate order</option>
+                    <option value="gift">I ordered this as a gift and it was unwanted</option>
+                    <option value="other">Other</option>
                 </select>
-                <label for="category">Category:</label>
-                <select name="category" id="category">
-                    <option value="Red Wine">Red Wine</option>
-                    <option value="White Wine">White Wine</option>
-                    <option value="Rosé Wine">Rosé Wine</option>
-                    <option value="Dessert Wine">Dessert Wine</option>
-                    <option value="Sparkling Wine">Sparkling Wine</option>
-                    <option value="Fortified Wine">Fortified Wine</option>
-                </select>
-                <label for="price">Price (£):</label>
-                <input type="number" id="price" name="price" min="0" step="0.01" placeholder="0.00" inputmode="decimal" required>
+                <p>Please go into more detail.</p>
                 <label for="description">Description:</label>
                 <textarea name="description" placeholder="Description" required></textarea>
-                <label for="image">Image:</label>
-                <input type="file" id="imageUpload" name="image" accept="image/*" required>
-                <label for="stock">Stock Quantity:</label>
-                <input type='number' min = '0' name = 'stock' value= '0' required>
-                <button type="submit" name="create">Create Wine</button>
+
+                <button type="submit" name="create">Return</button>
             </form>
         </div>
     </div>

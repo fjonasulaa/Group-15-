@@ -543,11 +543,17 @@ body.info {
 
 /* Cards */
 
+.wine-advert {
+  height: 100vh;
+  position: relative;
+}
+
 .cards-cycle {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   position: relative;
+  z-index: 1;
 }
 .cards-cycle .wines-list .wine {
   position: absolute;
@@ -578,6 +584,10 @@ body.info {
 }
 
 .wines-list .wine .name {
+  font-size: 2rem;
+}
+
+.wines-list .wine .name {
   color: var(--primary-colour);
 }
 
@@ -586,30 +596,6 @@ body.info {
   padding-bottom: 10px;
 }
 
-.wines-list .wine .price {
-  font-weight: bold;
-  font-size: 1.5em;
-  padding-bottom: 10px;
-}
-
-.wines-list .wine .buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 130px);
-  grid-template-rows: 40px;
-  gap: 5px;
-}
-
-.wines-list .wine .buttons .button {
-  border: none;
-  background-color: var(--white);
-  font-weight: bold;
-}
-
-.wines-list .wine .buttons .button:nth-child(2) {
-  background-color: transparent;
-  color: var(--white);
-  border: 1px solid var(--white);
-}
 
 /* Cover */
 
@@ -650,39 +636,8 @@ body.info {
   font-weight: bold;
 }
 
-.arrow {
-  padding-top: 30px;
-  position: absolute;
-  top: 80%;
-  right: 52%;
-  width: 300px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
 
-.arrow button {
-  width: 40px;
-  height: 40px;
-  background-color: rgba(0, 0, 0, 0.377);
-  border: none;
-  color: var(--white);
-  font-weight: bold;
-  font-size: large;
-  transition: 0.5s;
-  border-radius: 50%;
-  font-family: monospace;
-  z-index: 500;
-}
 
-.arrow button:hover {
-  background-color: #eee;
-  color: var(--dark-grey);
-}
-
-.cards-cycle .wines-list .wine:nth-child(1) {
-  z-index: 1;
-}
 
 /* ===========================
    CHECKOUT
@@ -1179,45 +1134,6 @@ textarea {
    ANIMATIONS
    =========================== */
 
-.wines-list .wine:nth-child(1) .wine-type,
-.wines-list .wine:nth-child(1) .name,
-.wines-list .wine:nth-child(1) .description,
-.wines-list .wine:nth-child(1) .price,
-.wines-list .wine:nth-child(1) .buttons {
-  transform: translateY(50px);
-  filter: blur(20px);
-  opacity: 0;
-  animation: contentAppears 0.5s 1s linear forwards;
-}
-
-@keyframes contentAppears {
-  to {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-  }
-}
-
-.wines-list .wine:nth-child(1) .wine-type {
-  animation-delay: 1s;
-}
-
-.wines-list .wine:nth-child(1) .name {
-  animation-delay: 1.2s;
-}
-
-.wines-list .wine:nth-child(1) .description {
-  animation-delay: 1.4s;
-}
-
-.wines-list .wine:nth-child(1) .price {
-  animation-delay: 1.6s;
-}
-
-.wines-list .wine:nth-child(1) .buttons {
-  animation-delay: 1.8s;
-}
-
 @keyframes show-data {
   50% {
     transform: translateY(-10rem);
@@ -1282,11 +1198,41 @@ textarea {
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   } 
 
-  /* ===========================
+/* ===========================
+   WINE BUTTONS
+   =========================== */
+.winebutton {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  color: white;
+  background: linear-gradient(135deg, #6B0F1A, #A41623);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.winebutton:hover {
+  background: linear-gradient(135deg, #8B1E2D, #C72C41);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.winebutton:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+}
+
+/* ===========================
    REVIEWS
    =========================== */
 
-  .submit-review {
+/* Submit Review Button (old version kept if needed) */
+.submit-review {
   margin-left: 30%;
   margin-right: 30%;
   background: var(--primary-colour);
@@ -1297,25 +1243,14 @@ textarea {
   font-size: 1.1rem;
   display: inline-block;
   text-align: center;
+  margin-top: 25px;
 }
-
 
 .submit-review:hover {
   opacity: 0.85;
 }
 
-.submit-review {
-  margin-top: 25px;
-  background: var(--primary-colour);
-  color: var(--white);
-  padding: 14px 22px;
-  border-radius: var(--radius);
-  text-decoration: none;
-  font-size: 1.1rem;
-  display: inline-block;
-  text-align: center;
-}
-
+/* Star rating input */
 .rating {
   display: flex;
   flex-direction: row-reverse;
@@ -1338,4 +1273,152 @@ textarea {
   color: gold;
 }
 
+/* Rating box */
+.rating-box {
+  border: 1px solid #ccc;
+  padding: 15px;
+  width: 250px;
+  background: #fafafa;
+}
+
+.rating-box .avg-stars i {
+  color: gold;
+}
+
+/* Write Review Button */
+.write-review-btn {
+  font-size: 1.3rem;
+  padding: 16px 32px;
+  background-color: #7a1f1f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Playfair Display", serif;
+  transition: 0.2s ease;
+}
+
+.write-review-btn:hover {
+  background-color: #5e1717;
+}
+
+/* Reviews container */
+.reviews-container {
+  max-width: 1200px;
+  margin: 0 auto 80px;
+  padding: 0 40px;
+}
+
+/* Divider line */
+.reviews-divider {
+  margin: 60px auto 40px;
+  width: 90%;
+  border: none;
+  border-top: 1px solid #d8cfc9;
+}
+
+/* Header */
+.reviews-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.reviews-header h2 {
+  font-size: 2.7rem;
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: #4a1f2d;
+}
+
+.reviews-subtitle {
+  font-size: 1.3rem;
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+/* Top bar */
+.reviews-top-bar {
+  text-align: center;
+  margin: 25px 0 40px;
+}
+
+/* Grid layout */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+/* Review card */
+.review-card {
+  background: #faf7f5;
+  border: 1px solid #e0d6d0;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(80, 40, 40, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 18px rgba(80, 40, 40, 0.15);
+}
+
+/* Stars */
+.review-stars i {
+  color: #d4a017;
+  margin-right: 2px;
+}
+
+/* Review text */
+.review-text {
+  margin: 12px 0;
+  color: #333;
+  line-height: 1.6;
+  font-size: 1.2rem;
+}
+
+/* Meta info */
+.review-meta {
+  font-size: 1rem; 
+  color: #7a5c5c;
+  margin-top: 10px;
+}
+
+/* Make stars clickable and remove link styling */
+.stars-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+/* Make the stars gold */
+.inline-stars i {
+    color: #d4a017;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+/* Hover animation */
+.inline-stars:hover i {
+    color: #b8860b; /* richer gold */
+    transform: scale(1.15);
+}
+
+/* Hover effect for the review count */
+.inline-stars span {
+    margin-left: 6px;
+    color: #7a5c5c;
+    transition: color 0.2s ease;
+}
+
+.inline-stars:hover span {
+    color: #b8860b;
+}
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
 }

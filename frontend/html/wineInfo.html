@@ -76,14 +76,6 @@
 
             <div class="content">
                 <h2 class="title">Marchesi Antinori Tignanello</h2>
-                <div class="rating">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <span>5.0</span>
-                </div>
 
                 <div class="price">
                     <p class="price"> Price: <span>£155.00</span></p>
@@ -274,3 +266,14 @@
     © 2026 Wine Exchange. All rights reserved.
   </div>
 </footer>
+
+<script>
+document.querySelectorAll('.scroll-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('#reviews-section').scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+</script>

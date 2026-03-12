@@ -3,7 +3,7 @@
 session_start();
 
 if (!isset($_SESSION['customerID'])) {
-  header("Location: index.html");
+  header("Location: index.php");
   exit();
 }
 
@@ -29,6 +29,24 @@ $user = $userQuery->fetch_assoc();
     <link rel="stylesheet" href="../css/styles.css" />
 
     <style>
+        
+        .orderstable td {
+          vertical-align: middle;
+          height: 60px;
+        }
+        .status-returned {
+          color: green;
+          font-weight: bold;
+          text-align: center;
+
+
+      }
+      .status-not-eligible {
+        color: grey;
+        font-style: italic;
+        text-align: center;
+
+      }
 
         body {
             background-color: var(--background-colour);
@@ -187,8 +205,8 @@ $user = $userQuery->fetch_assoc();
   <div class="navbar">
     <img src="../../images/icon.png" alt="Wine Exchange Logo">
     <div class="navbar-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
+      <a href="index.php">Home</a>
+      <a href="about.php">About Us</a>
       <a href="search.php">Wines</a>
       <a href="basket.php">Basket</a>
       <a href="contact-us.php">Contact Us</a>
@@ -228,12 +246,32 @@ $user = $userQuery->fetch_assoc();
                     <th>Order ID</th>
                     <th>Order Date</th>
                     <th>£ Total</th>
+                    <th>Actions</th>
                 </tr>
                 <?php while ($row = $orders->fetch_assoc()): ?>
                   <tr>
                     <td><?= $row['orderId']; ?></td>
                     <td><?= $row['orderDate']; ?></td>
                     <td><?= $row['totalAmount']; ?></td>
+                    <td>
+                      <?php
+                        $oid = $row['orderId'];
+
+                        $checkRefund = $conn->query("SELECT 1 FROM refund WHERE orderId = $oid LIMIT 1");
+                        $hasRefund = $checkRefund->num_rows > 0;
+
+                        $within30 = $row['orderDate'] > date('Y-m-d', strtotime('-30 days'));
+
+                        if ($hasRefund) {
+                            echo "<span class='status-returned'>Returned</span>";
+                        } elseif ($within30) {
+                            echo "<button onclick=\"window.location.href='return.php?orderId=$oid'\">Return</button>";
+                        } else {
+                            echo "<span class='status-not-eligible'>Not eligible</span>";
+                        }
+                    ?>
+                    </td>
+                    
                   </tr>
                   <?php endwhile; ?>
             </table>
@@ -256,9 +294,9 @@ $user = $userQuery->fetch_assoc();
       <div class="footer-section">
         <h3>Quick Links</h3>
         <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="wines.html">Wines</a></li>
-          <li><a href="about.html">About Us</a></li>
+          <li><a href="index.php">Home</a></li>
+          <li><a href="search.php">Wines</a></li>
+          <li><a href="about.php">About Us</a></li>
           <li><a href="contact-us.php">Contact</a></li>
         </ul>
         <a href="contact-us.php" class="footer-button">Contact Us</a>

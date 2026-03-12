@@ -6,6 +6,7 @@ CREATE TABLE customer (
   addressLine VARCHAR(255),
   postcode VARCHAR(20),
   email VARCHAR(255) NOT NULL,
+  userProfileImage VARCHAR(500),
   phoneNumber VARCHAR(20),
   passwordHash VARCHAR(255) NOT NULL,
   role ENUM("customer", "admin") NOT NULL DEFAULT "customer"
@@ -54,13 +55,24 @@ CREATE TABLE payment (
 );
 
 CREATE TABLE reviews (
-  reviewId INT NOT NULL PRIMARY KEY,
+  reviewId INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   customerId INT NOT NULL,
   wineId INT NOT NULL,
   stars INT NOT NULL,
   reviewText TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (customerId) REFERENCES customer(customerID),
   FOREIGN KEY (wineId) REFERENCES wines(wineId)
+);
+
+CREATE TABLE websiteReviews (
+  wReviewId INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  customerId INT NOT NULL,
+  wStars INT NOT NULL,
+  wReviewHeading TEXT,
+  wReviewText TEXT,
+  reviewDate DATE,
+  FOREIGN KEY (customerId) REFERENCES customer(customerID),
 );
 
 CREATE TABLE shipping (
@@ -75,13 +87,17 @@ CREATE TABLE shipping (
   FOREIGN KEY (orderId) REFERENCES orders(orderId)
 );
 
+CREATE TABLE refund (
+  refundId INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  orderId INT NOT NULL,
+  reason ENUM('wrong', 'broken', 'inaccurate', 'duplicate', 'gift', 'other') NOT NULL,
+  description TEXT NOT NULL,
+  FOREIGN KEY (orderId) REFERENCES orders(orderId)
+);
+
 
 -- INSERT QUERIES --
 -- (If import does not work, copy and paste each query into the database) --
-
-INSERT INTO customer (firstName, surname, email, passwordHash, role) VALUES
-("ADMIN", "ADMIN", "admin@wineexchange.com", "Rainbow", "admin");
-
 INSERT INTO wines (wineId, wineName, wineRegion, ingredients, country, category, price, description, imageUrl) VALUES
 (1, 'Marchesi Antinori Tignanello', 'Tuscany (Toscana IGT)', 'Predominantly Sangiovese (~78%), with Cabernet Sauvignon (~18%) and Cabernet Franc (~4%)', 'Italy', 'Red Wine', 155.00, 'Tignanello is considered a milestone in Italian winemaking. It was the first modern red wine in Chianti Classico to be aged in barriques and blended with non-traditional varieties like Cabernet. It is intensely ruby red, bold and structured, with flavors of red fruit, spice, and oak. Produced exclusively from the Tignanello vineyard (limestone-rich soils, southwest exposure), it represents innovation and excellence in Tuscan viticulture.', 'tignanello.jpg'),
 
@@ -136,6 +152,14 @@ INSERT INTO wines (wineId, wineName, wineRegion, ingredients, country, category,
 
 (24, 'Quinta do Vesuvio Vintage Port', 'Douro Valley', 'Touriga Nacional, Touriga Franca, Tinta Roriz, and traditional Douro varieties', 'Portugal', 'Fortified Wine', 476.00, 'Quinta do Vesuvio Vintage Port is a powerful, full-bodied fortified wine with deep color and concentrated aromas of blackberry, cassis, violets, and spice. On the palate it offers dark fruit, chocolate, strong tannins, and fresh minerality. Known for structure and elegance, it has excellent ageing potential of 30–40 years, developing complexity and smoothness over time.', 'Quinta.jpg');
 
+
+CREATE TABLE wishlist (
+    wishlistId INT AUTO_INCREMENT PRIMARY KEY,
+    customerID INT NOT NULL,
+    wineId INT NOT NULL,
+    addedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(customerID, wineId)
+);
 ALTER TABLE customer
 ADD reset_token VARCHAR(64),
 ADD reset_expires DATETIME;
