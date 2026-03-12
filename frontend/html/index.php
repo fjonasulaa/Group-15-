@@ -2,7 +2,7 @@
 session_start();
 require_once('../../database/db_connect.php');
 
-$accountLink = 'signup.php';
+$accountLink = 'log-in.php';
 
 if (isset($_SESSION['customerID'])) {
     $accountLink = 'account.php';
