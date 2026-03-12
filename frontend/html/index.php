@@ -1,6 +1,21 @@
 <?php
 session_start();
 require_once('../../database/db_connect.php');
+
+$accountLink = 'signup.php';
+
+if (isset($_SESSION['customerID'])) {
+    $accountLink = 'account.php';
+
+    $cid = (int) $_SESSION['customerID'];
+    $result = $conn->query("SELECT role FROM customer WHERE customerID = $cid");
+
+    if ($result && $row = $result->fetch_assoc()) {
+        if ($row['role'] === 'admin') {
+            $accountLink = 'admin.php';
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -438,17 +453,17 @@ html.darkmode #wishlist-items p{
 
         <input type="hidden" name="submitted" value="true" />
       </form>
-      <a href="log-in.php">Login</a>
-      <a href="signup.php">Sign up</a>
-      <a href="account.php">Account</a>
-      <a href="admin.html"><img src="../../images/admin-pic.png" alt="Admin controls"></a>
-      <button id="dark-mode" class="dark-mode-button">
-        <img src="../../images/darkmode.png" alt="Dark Mode" />
-      </button>
+      
+      <button onclick="location.href='<?= $accountLink ?>'" class="wishlist-nav-button">
+                <i class="fas fa-user"></i>
+            </button>
       <button id="wishlist-toggle" class="wishlist-nav-button">
                 <i class="fas fa-heart"></i>
                 <span id="wishlist-count" class="wishlist-count">0</span>
             </button>
+      <button id="dark-mode" class="dark-mode-button">
+        <img src="../../images/darkmode.png" alt="Dark Mode" />
+      </button>
     </div>
   </div>
 
