@@ -29,6 +29,24 @@ $user = $userQuery->fetch_assoc();
     <link rel="stylesheet" href="../css/styles.css" />
 
     <style>
+        
+        .orderstable td {
+          vertical-align: middle;
+          height: 60px;
+        }
+        .status-returned {
+          color: green;
+          font-weight: bold;
+          text-align: center;
+
+
+      }
+      .status-not-eligible {
+        color: grey;
+        font-style: italic;
+        text-align: center;
+
+      }
 
         body {
             background-color: var(--background-colour);
@@ -228,12 +246,32 @@ $user = $userQuery->fetch_assoc();
                     <th>Order ID</th>
                     <th>Order Date</th>
                     <th>£ Total</th>
+                    <th>Actions</th>
                 </tr>
                 <?php while ($row = $orders->fetch_assoc()): ?>
                   <tr>
                     <td><?= $row['orderId']; ?></td>
                     <td><?= $row['orderDate']; ?></td>
                     <td><?= $row['totalAmount']; ?></td>
+                    <td>
+                      <?php
+                        $oid = $row['orderId'];
+
+                        $checkRefund = $conn->query("SELECT 1 FROM refund WHERE orderId = $oid LIMIT 1");
+                        $hasRefund = $checkRefund->num_rows > 0;
+
+                        $within30 = $row['orderDate'] > date('Y-m-d', strtotime('-30 days'));
+
+                        if ($hasRefund) {
+                            echo "<span class='status-returned'>Returned</span>";
+                        } elseif ($within30) {
+                            echo "<button onclick=\"window.location.href='return.php?orderId=$oid'\">Return</button>";
+                        } else {
+                            echo "<span class='status-not-eligible'>Not eligible</span>";
+                        }
+                    ?>
+                    </td>
+                    
                   </tr>
                   <?php endwhile; ?>
             </table>

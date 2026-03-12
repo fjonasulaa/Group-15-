@@ -87,6 +87,14 @@ CREATE TABLE shipping (
   FOREIGN KEY (orderId) REFERENCES orders(orderId)
 );
 
+CREATE TABLE refund (
+  refundId INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  orderId INT NOT NULL,
+  reason ENUM('wrong', 'broken', 'inaccurate', 'duplicate', 'gift', 'other') NOT NULL,
+  description TEXT NOT NULL,
+  FOREIGN KEY (orderId) REFERENCES orders(orderId)
+);
+
 
 -- INSERT QUERIES --
 -- (If import does not work, copy and paste each query into the database) --

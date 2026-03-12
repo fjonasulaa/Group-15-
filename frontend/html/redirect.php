@@ -213,6 +213,51 @@ if (isset($_GET['page'])) {
                 
             }
             break;
+        case 'return':
+            include '../../database/db_connect.php';
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $orderId = intval($_POST['orderId']);
+
+$sql = "SELECT w.wineId, w.wineName, w.stock, ow.quantity
+        FROM orderswines ow
+        JOIN wines w ON ow.wineId = w.wineId
+        WHERE ow.orderId = ?";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $orderId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$wines = [];
+while ($row = $result->fetch_assoc()) {
+    $wines[] = $row;
+}
+
+// Example: iterate and print stock
+foreach ($wines as $wine) {
+    $wineId   = (int)$wine['wineId'];
+    $quantity = (int)$wine['quantity'];
+
+    $updateSql = "UPDATE wines SET stock = stock + ? WHERE wineId = ?";
+    $updateStmt = $conn->prepare($updateSql);
+    $updateStmt->bind_param("ii", $quantity, $wineId);
+    $updateStmt->execute();
+
+}
+                $reason = trim($_POST['reason']);
+                $description = trim($_POST['description']);
+
+                $sql = "INSERT INTO refund (orderId, reason, description) VALUES (?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("iss", $orderId, $reason, $description);
+
+                if ($stmt->execute()) {
+                    header("Location: return-confirm.html");
+                    exit;
+                } else {
+                    echo "Error processing return.";
+                }
+            }
         default:
             header("Location: index.php");
             break;
