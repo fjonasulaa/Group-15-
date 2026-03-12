@@ -137,6 +137,8 @@
 
         <main>
             <div class="tab-container">
+                <a href="inventory.php">Manage Inventory</a>
+
                 <div class="profile-wrapper tabcontent active" id="profile">
                     <h1 class="center-title"><?= $user['firstName'] ?> <?= $user['surname'] ?> Account</h1>
 
