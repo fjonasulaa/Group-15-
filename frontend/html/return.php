@@ -6,6 +6,55 @@ $error = $_SESSION['register_error'] ?? "";
 unset($_SESSION["register_error"]);
 
     if (isset($_GET['orderId']) && isset($_SESSION['customerID'])) {
+      include '../../database/db_connect.php';
+
+$orderId = $_GET['orderId'];
+$customerId = $_SESSION['customerID'];
+
+$stmt = $conn->prepare("SELECT customerID, orderDate FROM orders WHERE orderID = ?");
+$stmt->bind_param("i", $orderId);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows === 0) {
+    header("Location: index.html");
+    exit;
+}
+
+$stmt->bind_result($orderOwner, $orderDate);
+$stmt->fetch();
+
+if ($orderOwner != $customerId) {
+    // User is trying to access someone else's order
+    header("Location: index.html");
+    exit;
+}
+
+// Check if order is older than 30 days
+$today = new DateTime();
+$orderDateObj = new DateTime($orderDate);
+$diff = $today->diff($orderDateObj)->days;
+
+if ($diff > 30) {
+    header("Location: account.php");
+    exit;
+}
+
+// Check if order has already been refunded/returned
+$stmt2 = $conn->prepare("
+    SELECT refundId 
+    FROM refund 
+    WHERE orderId = ?
+");
+$stmt2->bind_param("i", $orderId);
+$stmt2->execute();
+$stmt2->store_result();
+
+if ($stmt2->num_rows > 0) {
+    header("Location: account.php");
+    exit;
+}
+
     
 } else {
     header("Location: index.html");
