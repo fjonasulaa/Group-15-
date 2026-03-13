@@ -19,6 +19,36 @@ if (!$wine) {
     die("Wine not found.");
 }
 
+$mainImage = "../../images/" . $wine['imageUrl'];
+
+// ADD TO BASKET
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
+
+    $wineId = intval($_POST['wineId']);
+    $qty = max(1, intval($_POST['quantity']));
+
+    // Check stock
+    $available = intval($wine['stock']); // <-- adjust column name if needed
+
+    if ($qty > $available) {
+        $addMessage = "Only $available left in stock.";
+    } else {
+
+        if (!isset($_SESSION['basket'])) {
+            $_SESSION['basket'] = [];
+        }
+
+        // If already in basket, check combined quantity
+        $current = $_SESSION['basket'][$wineId] ?? 0;
+
+        if ($current + $qty > $available) {
+            $addMessage = "You already have $current in your basket. Only $available available.";
+        } else {
+            $_SESSION['basket'][$wineId] = $current + $qty;
+            $addMessage = $qty."x ".$wine['wineName']." added to basket!";
+        }
+    }
+}
 // 3. Fetch reviews
 $reviewStmt = $conn->prepare("
     SELECT r.*, c.firstName, c.surname
