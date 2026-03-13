@@ -229,32 +229,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <style>
 /* ════════════════════════════════════════
-   CONTACT PAGE — REDESIGNED
+   CONTACT PAGE — FINALISED
    ════════════════════════════════════════ */
 
 /* ── Hero Banner ── */
 .contact-hero {
-  background: linear-gradient(135deg, #4a0e24 0%, #7b1e3a 50%, #9e2d4f 100%);
-  padding: 72px 20px 60px;
+  padding: 52px 20px 40px;
   text-align: center;
-  position: relative;
-  overflow: hidden;
 }
 
-.contact-hero::before {
+.contact-hero-inner {
+  background: linear-gradient(135deg, #4a0e24 0%, #7b1e3a 50%, #9e2d4f 100%);
+  position: relative;
+  overflow: hidden;
+  max-width: 275px;
+  margin: 0 auto;
+  padding: 36px 28px;
+  border-radius: 16px;
+}
+
+.contact-hero-inner::before {
   content: '';
   position: absolute;
   inset: 0;
   background-image:
     radial-gradient(circle at 20% 80%, rgba(255,255,255,0.04) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
-}
-
-.contact-hero-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 600px;
-  margin: 0 auto;
 }
 
 .contact-eyebrow {
@@ -265,22 +265,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   text-transform: uppercase;
   color: rgba(255,255,255,0.6);
   margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
 }
 
 .contact-hero h1 {
-  font-size: 48px;
+  font-size: 28px;
   font-weight: 700;
   color: #ffffff;
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   letter-spacing: -0.5px;
   line-height: 1.1;
+  position: relative;
+  z-index: 1;
 }
 
 .contact-hero p {
-  font-size: 17px;
+  font-size: 13px;
   color: rgba(255,255,255,0.75);
   line-height: 1.6;
   margin: 0;
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Info Strip ── */
@@ -518,7 +524,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   }
 
   .contact-hero h1 {
-    font-size: 36px;
+    font-size: 22px;
   }
 
   .info-strip-divider {
@@ -630,7 +636,7 @@ html.darkmode .contact-alert--success {
   border-color: #14532d;
 }
 
-/* ── Wishlist (preserved) ── */
+/* ── Wishlist ── */
 #wishlist-items{display:flex;flex-direction:column;gap:15px;margin-top:20px;}
 .wishlist-item{display:flex;gap:12px;align-items:center;background:white;border-radius:10px;padding:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08);position:relative;}
 .wishlist-img{width:65px;height:65px;object-fit:cover;border-radius:8px;}
@@ -663,7 +669,7 @@ html.darkmode .remove-wishlist{color:#bbbbbb;}
 html.darkmode .remove-wishlist:hover{color:#ff4d4d;}
 html.darkmode #wishlist-items p{color:#cccccc;}
 
-/* ── Footer (preserved) ── */
+/* ── Footer ── */
 .footer{background-color:#f4f4f4;padding:30px 10%;margin-top:40px;color:#333;}
 .footer-container{display:flex;justify-content:space-between;flex-wrap:wrap;}
 .footer-section{flex:1 1 250px;margin:10px;}
