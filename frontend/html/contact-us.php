@@ -242,10 +242,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   background: linear-gradient(135deg, #4a0e24 0%, #7b1e3a 50%, #9e2d4f 100%);
   position: relative;
   overflow: hidden;
-  max-width: 180px;
+  max-width: 275px;
   margin: 0 auto;
-  padding: 24px 18px;
-  border-radius: 14px;
+  padding: 36px 28px;
+  border-radius: 16px;
 }
 
 .contact-hero-inner::before {
@@ -259,31 +259,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 .contact-eyebrow {
   display: inline-block;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   color: rgba(255,255,255,0.6);
-  margin-bottom: 8px;
+  margin-bottom: 14px;
   position: relative;
   z-index: 1;
 }
 
 .contact-hero h1 {
-  font-size: 20px;
+  font-size: 28px;
   font-weight: 700;
   color: #ffffff;
-  margin: 0 0 8px;
-  letter-spacing: -0.3px;
+  margin: 0 0 12px;
+  letter-spacing: -0.5px;
   line-height: 1.1;
   position: relative;
   z-index: 1;
 }
 
 .contact-hero p {
-  font-size: 11px;
+  font-size: 13px;
   color: rgba(255,255,255,0.75);
-  line-height: 1.5;
+  line-height: 1.6;
   margin: 0;
   position: relative;
   z-index: 1;
@@ -518,20 +518,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   .contact-main {
     grid-template-columns: 1fr;
   }
+
   .form-row {
     grid-template-columns: 1fr;
   }
+
   .contact-hero h1 {
-    font-size: 17px;
+    font-size: 22px;
   }
+
   .info-strip-divider {
     display: none;
   }
+
   .contact-info-strip-inner {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
   }
+
   .info-strip-item {
     padding: 10px 0;
   }
@@ -542,71 +547,89 @@ html.darkmode .contact-info-strip {
   background: #1a1a1a;
   border-bottom-color: #333;
 }
+
 html.darkmode .info-strip-item {
   color: #bbb;
 }
+
 html.darkmode .info-strip-item i {
   color: #e88ca0;
 }
+
 html.darkmode .info-strip-divider {
   background: #3a3a3a;
 }
+
 html.darkmode .contact-form-card,
 html.darkmode .map-card-footer {
   background: #1e1e1e;
   border-color: #333;
   box-shadow: 0 2px 24px rgba(0,0,0,0.3);
 }
+
 html.darkmode .form-card-header h2 {
   color: #f5e8ec;
 }
+
 html.darkmode .form-card-header p {
   color: #888;
 }
+
 html.darkmode .form-group label {
   color: #e0c8d0;
 }
+
 html.darkmode .form-group input,
 html.darkmode .form-group textarea {
   background: #2a1a1f;
   border-color: #4a2a35;
   color: #f0e0e5;
 }
+
 html.darkmode .form-group input::placeholder,
 html.darkmode .form-group textarea::placeholder {
   color: #6a4555;
 }
+
 html.darkmode .form-group input:focus,
 html.darkmode .form-group textarea:focus {
   border-color: #e88ca0;
   background: #321520;
   box-shadow: 0 0 0 3px rgba(232,140,160,0.1);
 }
+
 html.darkmode .contact-submit {
   background: #9e2d4f;
   box-shadow: 0 4px 14px rgba(0,0,0,0.4);
 }
+
 html.darkmode .contact-submit:hover {
   background: #c03a60;
 }
+
 html.darkmode .contact-map-card {
   border-color: #333;
   box-shadow: 0 2px 24px rgba(0,0,0,0.3);
 }
+
 html.darkmode .map-card-footer h3 {
   color: #f5e8ec;
 }
+
 html.darkmode .map-card-footer p {
   color: #888;
 }
+
 html.darkmode .map-card-footer {
   border-top-color: #333;
 }
+
 html.darkmode .contact-alert--error {
   background: #2a1010;
   color: #f87171;
   border-color: #7f1d1d;
 }
+
 html.darkmode .contact-alert--success {
   background: #0a1f10;
   color: #4ade80;
