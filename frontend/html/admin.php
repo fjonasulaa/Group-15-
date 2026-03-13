@@ -204,10 +204,10 @@
                         </form>
                     </div>
 
-                    <button onclick="window.location.href='newWine.php'">Wine Stock</button>
+                    <button onclick="window.location.href='inventory.php'">Inventory</button>
                     <form action="editwine.php" method="GET">
                         <button type="submit">Edit Wine </button>
-                        <input type="number" name="id" placeholder="Enter Wine ID" required >
+                        <input type="number" name="id" min="1" placeholder="Enter Wine ID" required >
                     </form>
                     <button onclick="window.location.href='logout.php'">Logout</button>
 

@@ -153,6 +153,20 @@
     border-bottom:1px solid #444;
 }
 
+.button-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.return-btn {
+    background: #c0392b;
+}
+
+.return-btn:hover {
+    opacity: 0.8;
+}
+
 </style>
 
 </head>
@@ -196,11 +210,10 @@
 
 <h2>Stock Management</h2>
 
-<a class="add-new" href="newWine.php">
-+ Add New Wine
-</a>
-<br>
-<br>
+<div class="button-row">
+    <a class="add-new" href="newWine.php">+ Add New Wine</a>
+    <a class="add-new return-btn" href="admin.php">↩ Admin Dashboard</a>
+</div>
 <table class="stock-table">
 
 <tr>
@@ -237,8 +250,7 @@
             echo "<td>" . htmlspecialchars($row['wineName']) . "</td>";
             echo "<td>£" . htmlspecialchars($row['price']) . "</td>";
             echo "<td>". htmlspecialchars($row['Stock']) ."</td>";
-            //echo "<td> <input type='number' min = '0' name = 'stock' value=". htmlspecialchars($row['Stock']) ." class='stock-input'> </td>";
-
+            
             echo "<td>
                     <input type='hidden' name='wineId' value='" . $row['wineId'] . "'>
                     <button type = 'submit' name = 'action' value = 'update' class='stock-btn update-btn'>Update</button>
@@ -251,178 +263,6 @@
         }
 ?>
 
-<!--
-<tr>
-
-<td>
-<img src="../../images/tignanello.jpg">
-</td>
-
-<td>
-Marchesi Antinori Tignanello
-</td>
-
-<td>
-£155
-</td>
-
-<td>
-
-<div class="stock-controls">
-
-<button class="stock-btn remove-btn">−</button>
-
-<input type="number" value="12" class="stock-input">
-
-<button class="stock-btn add-btn">+</button>
-
-</div>
-
-</td>
-
-<td>
-
-<button class="stock-btn update-btn">
-Update
-</button>
-
-<button class="stock-btn remove-btn">
-Remove
-</button>
-
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-<img src="../../images/opus.jpg">
-</td>
-
-<td>
-Opus One
-</td>
-
-<td>
-£375
-</td>
-
-<td>
-
-<div class="stock-controls">
-
-<button class="stock-btn remove-btn">−</button>
-
-<input type="number" value="8" class="stock-input">
-
-<button class="stock-btn add-btn">+</button>
-
-</div>
-
-</td>
-
-<td>
-
-<button class="stock-btn update-btn">
-Update
-</button>
-
-<button class="stock-btn remove-btn">
-Remove
-</button>
-
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-<img src="../../images/grange.jpg">
-</td>
-
-<td>
-Penfolds Grange
-</td>
-
-<td>
-£550
-</td>
-
-<td>
-
-<div class="stock-controls">
-
-<button class="stock-btn remove-btn">−</button>
-
-<input type="number" value="5" class="stock-input">
-
-<button class="stock-btn add-btn">+</button>
-
-</div>
-
-</td>
-
-<td>
-
-<button class="stock-btn update-btn">
-Update
-</button>
-
-<button class="stock-btn remove-btn">
-Remove
-</button>
-
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-<img src="../../images/margaux.jpg">
-</td>
-
-<td>
-Château Margaux
-</td>
-
-<td>
-£980
-</td>
-
-<td>
-
-<div class="stock-controls">
-
-<button class="stock-btn remove-btn">−</button>
-
-<input type="number" value="3" class="stock-input">
-
-<button class="stock-btn add-btn">+</button>
-
-</div>
-
-</td>
-
-<td>
-
-<button class="stock-btn update-btn">
-Update
-</button>
-
-<button class="stock-btn remove-btn">
-Remove
-</button>
-
-</td>
-
-</tr>
--->
 
 </table>
 
