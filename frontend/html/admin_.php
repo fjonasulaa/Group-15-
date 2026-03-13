@@ -91,10 +91,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['changePassword'])) {
     }
 }
 
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateTransactionStatus'])) {
+
+    $orderId = (int)$_POST['orderId'];
+    $paymentStatus = $_POST['paymentStatus'];
+    $shippingStatus = $_POST['shippingStatus'];
+    $trackingNumber = $_POST['trackingNumber'];
+
+    $PaymentStatu = ['Pending', 'Paid'];
+    $ShippingStatu = ['Preparing', 'In Transit', 'Delivered'];
+
+    if (in_array($paymentStatus, $PaymentStatu) && in_array($shippingStatus, $ShippingStatu)) {
+
+        $stmt = $conn->prepare("
+            UPDATE payment
+            SET paymentStatus=?
+            WHERE orderId=?");
+
+        $stmt->bind_param("si", $paymentStatus, $orderId);
+        $stmt->execute();
+        $stmt->close();
+
+        $stmt = $conn->prepare("
+            UPDATE shipping
+            SET shippingStatus=?, trackingNumber=?
+            WHERE orderId=?");
+
+        $stmt->bind_param("ssi", $shippingStatus, $trackingNumber, $orderId);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    header("Location: admin.php?customerID=" . $customerID);
+    exit();
+    
+}
+
+
+
+
 $result1 = $conn->query("SELECT customerID, email FROM customer ORDER BY customerID DESC");
 while ($row = $result1->fetch_assoc()) {
     $customers[] = $row;
 }
+
+
 
 
 
