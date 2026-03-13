@@ -73,12 +73,12 @@ $wineName = $wineResult['wineName'];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $stars = $_POST['stars'] === null;
-    $reviewText = $_POST['reviewText'] === null;
+    $stars = isset($_POST['stars']) ? intval($_POST['stars']) : 0;
+$reviewText = isset($_POST['reviewText']) ? trim($_POST['reviewText']) : '';
 
-    if (!$stars || !$reviewText) {
-        die("Rating and review text are required.");
-    }
+if ($stars == 0 || $reviewText === '') {
+    die("Rating and review text are required.");
+}
 
     $query = $conn->prepare("
         INSERT INTO reviews (customerId, wineId, stars, reviewText)
@@ -321,19 +321,19 @@ Reviewing as <strong><?php echo $customerName; ?></strong>
 
 <div class="rating">
 
-<input type="radio" name="stars" value="5" id="star5" required>
+<input type="radio" name="stars" id="star5" value="5">
 <label for="star5">★</label>
 
-<input type="radio" name="stars" value="4" id="star4">
+<input type="radio" name="stars" id="star4" value="4">
 <label for="star4">★</label>
 
-<input type="radio" name="stars" value="3" id="star3">
+<input type="radio" name="stars" id="star3" value="3">
 <label for="star3">★</label>
 
-<input type="radio" name="stars" value="2" id="star2">
+<input type="radio" name="stars" id="star2" value="2">
 <label for="star2">★</label>
 
-<input type="radio" name="stars" value="1" id="star1">
+<input type="radio" name="stars" id="star1" value="1" required>
 <label for="star1">★</label>
 
 </div>
