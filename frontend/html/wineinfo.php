@@ -564,11 +564,7 @@ document.querySelectorAll('.review-card').forEach(card => {
     text-align:right;
     margin-bottom:15px;
 }
-/* DARK MODE WISHLIST FIX */
-
-/* IMPROVED DARK MODE WISHLIST */
-
-/* DARK MODE WISHLIST FIX */
+/* DARK MODE WISHLIST */
 
 html.darkmode .wishlist-sidebar{
     background:#141414;
