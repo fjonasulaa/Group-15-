@@ -55,7 +55,7 @@ $customerName = ucfirst($nameResult['firstName']) . " " . ucfirst($nameResult['s
    FETCH WINE NAME
 ------------------------- */
 
-$wineQuery = $conn->prepare("SELECT wineName FROM wine WHERE wineId = ?");
+$wineQuery = $conn->prepare("SELECT wineName FROM wines WHERE wineId = ?");
 $wineQuery->bind_param("i", $wineId);
 $wineQuery->execute();
 $wineResult = $wineQuery->get_result()->fetch_assoc();
