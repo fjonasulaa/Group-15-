@@ -203,6 +203,14 @@
                             <button type="submit" name="changePassword">Change Password</button>
                         </form>
                     </div>
+
+                    <button onclick="window.location.href='newWine.php'">Wine Stock</button>
+                    <form action="editwine.php" method="GET">
+                        <button type="submit">Edit Wine </button>
+                        <input type="number" name="id" placeholder="Enter Wine ID" required >
+                    </form>
+                    <button onclick="window.location.href='logout.php'">Logout</button>
+
                 </div>
 
                 <!-- table -->

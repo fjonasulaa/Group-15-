@@ -72,7 +72,7 @@ CREATE TABLE websiteReviews (
   wReviewHeading TEXT,
   wReviewText TEXT,
   reviewDate DATE,
-  FOREIGN KEY (customerId) REFERENCES customer(customerID),
+  FOREIGN KEY (customerId) REFERENCES customer(customerID)
 );
 
 CREATE TABLE shipping (
