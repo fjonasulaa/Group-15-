@@ -4,7 +4,8 @@ require_once("../../database/db_connect.php");
 
 // 1. User must be logged in
 if (!isset($_SESSION['customerID'])) {
-    die("You must be logged in to leave a review.");
+    header("Location: log-in.php");
+    exit();
 }
 
 $customerId = $_SESSION['customerID'];
