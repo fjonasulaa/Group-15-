@@ -55,22 +55,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['saveDetails'])) {
 
     $firstName = $_POST['firstName'];
     $surname = $_POST['surname'];
+    $email = $_POST['email'];
     $addressLine = $_POST['addressline'];
     $postcode = $_POST['postcode'];
     $phoneNumber = $_POST['pnumber'];
 
-    if ($firstName !== '' && $surname !== '') {
+    if ($firstName !== '' && $surname !== '' && $email !== '') {
         $stmt = $conn->prepare("
             UPDATE customer
-            SET firstName=?, surname=?, addressLine=?, postcode=?, phoneNumber=?
-            WHERE customerID=?
-        ");
+            SET firstName=?, surname=?, email=?, addressLine=?, postcode=?, phoneNumber=?
+            WHERE customerID=?");
 
 
 
 
 
-        $stmt->bind_param("sssssi", $firstName, $surname, $addressLine, $postcode, $phoneNumber, $customerID);
+        $stmt->bind_param("ssssssi", $firstName, $surname, $email, $addressLine, $postcode, $phoneNumber, $customerID);
         $stmt->execute();
         $stmt->close();
     }

@@ -151,7 +151,7 @@
 
                                 <div>
                                     <label for="email">EMAIL</label>
-                                    <input type="email" name="email" value="<?= $user['email'] ?>" readonly>
+                                    <input type="email" name="email" value="<?= $user['email'] ?>">
                                 </div>
                             </div>
 
