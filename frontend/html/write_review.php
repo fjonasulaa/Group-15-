@@ -88,8 +88,8 @@ if ($stars == 0 || $reviewText === '') {
     $query->bind_param("iiis", $customerId, $wineId, $stars, $reviewText);
 
     if ($query->execute()) {
-        header("Location: wineinfo.php?id=" . $wineId);
-        exit();
+        header("Location: wineinfo.php?id=" . $wineId . "&review=success");
+exit();
     } else {
         echo "Error submitting review: " . $conn->error;
     }
@@ -110,6 +110,18 @@ if ($stars == 0 || $reviewText === '') {
 <link rel="stylesheet" href="../css/styles.css">
 
 <style>
+
+.review-success{
+    max-width:800px;
+    margin:20px auto;
+    padding:15px;
+    background:#eaf7ea;
+    border:1px solid #8bc48b;
+    border-radius:8px;
+    text-align:center;
+    font-weight:600;
+    color:#2f6b2f;
+}
 
 /* -------------------------
    REVIEW BOX
@@ -301,6 +313,14 @@ if ($stars == 0 || $reviewText === '') {
 
 <main>
 
+<?php if (isset($_GET['review']) && $_GET['review'] === 'success'): ?>
+
+<div class="review-success">
+    Thank you for leaving a review! Your feedback helps other wine lovers 🍷
+</div>
+
+<?php endif; ?>
+
 <div class="review-container">
 
 <h1 class="review-title">
@@ -397,6 +417,15 @@ Submit Review
 </div>
 
 </footer>
+
+<script>
+setTimeout(() => {
+    const msg = document.querySelector(".review-success");
+    if(msg){
+        msg.style.display = "none";
+    }
+}, 5000);
+</script>
 
 </body>
 </html>
