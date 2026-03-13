@@ -242,10 +242,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   background: linear-gradient(135deg, #4a0e24 0%, #7b1e3a 50%, #9e2d4f 100%);
   position: relative;
   overflow: hidden;
-  max-width: 120px;
+  max-width: 180px;
   margin: 0 auto;
-  padding: 20px 14px;
-  border-radius: 12px;
+  padding: 24px 18px;
+  border-radius: 14px;
 }
 
 .contact-hero-inner::before {
@@ -259,21 +259,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 .contact-eyebrow {
   display: inline-block;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 600;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: rgba(255,255,255,0.6);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   position: relative;
   z-index: 1;
 }
 
 .contact-hero h1 {
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 700;
   color: #ffffff;
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   letter-spacing: -0.3px;
   line-height: 1.1;
   position: relative;
@@ -281,7 +281,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 .contact-hero p {
-  font-size: 10px;
+  font-size: 11px;
   color: rgba(255,255,255,0.75);
   line-height: 1.5;
   margin: 0;
@@ -522,7 +522,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     grid-template-columns: 1fr;
   }
   .contact-hero h1 {
-    font-size: 13px;
+    font-size: 17px;
   }
   .info-strip-divider {
     display: none;
