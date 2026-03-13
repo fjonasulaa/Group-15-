@@ -111,18 +111,6 @@ exit();
 
 <style>
 
-.review-success{
-    max-width:800px;
-    margin:20px auto;
-    padding:15px;
-    background:#eaf7ea;
-    border:1px solid #8bc48b;
-    border-radius:8px;
-    text-align:center;
-    font-weight:600;
-    color:#2f6b2f;
-}
-
 /* -------------------------
    REVIEW BOX
 ------------------------- */
@@ -313,14 +301,6 @@ exit();
 
 <main>
 
-<?php if (isset($_GET['review']) && $_GET['review'] === 'success'): ?>
-
-<div class="review-success">
-    Thank you for leaving a review! Your feedback helps other wine lovers 🍷
-</div>
-
-<?php endif; ?>
-
 <div class="review-container">
 
 <h1 class="review-title">
@@ -417,15 +397,6 @@ Submit Review
 </div>
 
 </footer>
-
-<script>
-setTimeout(() => {
-    const msg = document.querySelector(".review-success");
-    if(msg){
-        msg.style.display = "none";
-    }
-}, 5000);
-</script>
 
 </body>
 </html>

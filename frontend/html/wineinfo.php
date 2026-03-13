@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
         }
 
         // If already in basket, check combined quantity
-        $current = $_SESSION['basket'][$wineId] ?? 0;
+        $current = $_SESSION['basket'][$wineId] === 0;
 
         if ($current + $qty > $available) {
             $addMessage = "You already have $current in your basket. Only $available available.";
@@ -73,6 +73,14 @@ if ($reviewCount > 0) {
 } else {
     $avgRating = 0;
     $reviewData = [];
+}
+?>
+
+<?php
+if (isset($_GET['review']) && $_GET['review'] === "success") {
+    $showReviewMessage = true;
+} else {
+    $showReviewMessage = false;
 }
 ?>
 
@@ -129,7 +137,14 @@ if ($reviewCount > 0) {
         </div>
     </div>
 
+    <?php if (isset($_GET['review']) && $_GET['review'] === "success"): ?>
+  <div class="review-popup">
+    🎉 Thank you for leaving a review! Your feedback helps other wine lovers 🍷
+  </div>
+<?php endif; ?>
+
     <div class="separator info"></div>
+
 
     <div class="wrap-cards">
         <div class="info-card">
@@ -318,6 +333,17 @@ document.querySelectorAll('.review-card').forEach(card => {
 });
 </script>
 
+<script>
+setTimeout(() => {
+    const msg = document.querySelector(".review-popup");
+    if(msg){
+        msg.style.animation = "fadeOut 0.8s forwards";
+        // Remove the element after fadeOut finishes
+        setTimeout(() => msg.remove(), 800);
+    }
+}, 3000); // stays for 3 seconds
+</script> 
+
 </body>
 </html>
 
@@ -325,6 +351,38 @@ document.querySelectorAll('.review-card').forEach(card => {
 </html>
 
 <style>
+
+.review-popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: #fffae5;
+    border: 2px solid #ffcc00;
+    border-radius: 10px;
+    padding: 15px 25px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #5a3e00;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    text-align: center;
+    z-index: 9999;
+    animation: popIn 0.5s forwards;
+}
+
+/* Keyframes for pop-in */
+@keyframes popIn {
+    0% { transform: translateX(-50%) scale(0); opacity: 0; }
+    70% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+    100% { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
+/* Fade out animation */
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
 /* Footer styling */
 .footer {
   background-color: #f4f4f4;
