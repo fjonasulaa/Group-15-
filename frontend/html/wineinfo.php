@@ -139,7 +139,7 @@ if (isset($_GET['review']) && $_GET['review'] === "success") {
 
     <?php if (isset($_GET['review']) && $_GET['review'] === "success"): ?>
   <div class="review-popup">
-    🎉 Thank you for leaving a review! Your feedback helps other wine lovers 🍷
+    Thank you for leaving a review! Your feedback helps other wine lovers 🍷
   </div>
 <?php endif; ?>
 
