@@ -1,16 +1,59 @@
 <?php
+session_start();
+$lockoutTime = 30; // seconds to block login
+$maxAttempts = 2;  // number of failed attempts allowed
 
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+}
+if (!isset($_SESSION['last_attempt_time'])) {
+    $_SESSION['last_attempt_time'] = 0;
+}
+
+if ($_SESSION['login_attempts'] >= $maxAttempts) {
+
+    // If unlock_time is not set, create it
+    if (!isset($_SESSION['unlock_time'])) {
+        $_SESSION['unlock_time'] = time() + $lockoutTime;
+    }
+
+    $remaining = $_SESSION['unlock_time'] - time();
+
+    if ($remaining > 0) {
+        echo "<script>
+            alert('Too many failed attempts. Try again in {$remaining} seconds');
+
+            // Auto-refresh when time is up
+            setTimeout(function() {
+                window.location.reload();
+            }, " . ($remaining * 1000) . ");
+        </script>";
+
+        exit;
+    } else {
+        // Reset after lockout expires
+        $_SESSION['login_attempts'] = 0;
+        unset($_SESSION['unlock_time']);
+        echo "<script>window.location = 'log-in.php';</script>";
+        exit;
+    }
+}
 require_once("users.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $_SESSION['last_attempt_time'] = time();
+
     $u = new Users();
     $customerId = $u->login($_POST["email"], $_POST["password"]);
 
     if ($customerId !== null) {
         $_SESSION['customerID'] = $customerId;
+        $_SESSION['login_attempts'] = 0; // reset on success
         echo '<script>window.location="account.php";</script>';
         exit;
     } else {
+        $_SESSION['login_attempts']++;
         echo '<script>alert("Login Failed");</script>';
     }
 }
