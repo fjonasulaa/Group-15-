@@ -264,7 +264,7 @@ $user = $userQuery->fetch_assoc();
             <h2>Order History</h2>
             <table>
                 <tr>
-                    <th>Transaction ID</th>
+                    <th>Tracking Number</th>
                     <th>Order ID</th>
                     <th>£ Total</th>
                     <th>Payment Method</th>
