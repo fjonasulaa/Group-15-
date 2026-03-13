@@ -10,7 +10,28 @@ if (!isset($_SESSION['customerID'])) {
 $cid = $_SESSION['customerID'];
 require_once("../../database/db_connect.php");
 
-$orders = $conn->query("SELECT * FROM orders WHERE customerId = $cid ORDER BY orderDate DESC");
+$stmt = $conn->prepare("
+
+    SELECT
+    shipping.trackingNumber,
+    orders.orderId,
+    orders.orderDate,
+    payment.amount,
+    payment.method,
+    payment.paymentStatus,
+    payment.transactionTimestamp,
+    shipping.shippingStatus
+    FROM orders
+    LEFT JOIN payment ON payment.orderId = orders.orderId
+    LEFT JOIN shipping ON shipping.orderId = orders.orderId
+    WHERE orders.customerId = ?
+    ORDER BY payment.transactionTimestamp DESC, orders.orderId DESC
+    
+");
+
+$stmt->bind_param("i", $cid);
+$stmt->execute();
+$transactions = $stmt->get_result();
 
 $userQuery = $conn->query("SELECT * FROM customer WHERE customerID = $cid");
 $user = $userQuery->fetch_assoc();
@@ -243,16 +264,24 @@ $user = $userQuery->fetch_assoc();
             <h2>Order History</h2>
             <table>
                 <tr>
+                    <th>Transaction ID</th>
                     <th>Order ID</th>
-                    <th>Order Date</th>
                     <th>£ Total</th>
+                    <th>Payment Method</th>
+                    <th>Payment Status</th>
+                    <th>Shipping Status</th>
+                    <th>Transaction Date</th>
                     <th>Actions</th>
                 </tr>
-                <?php while ($row = $orders->fetch_assoc()): ?>
+                <?php while ($row = $transactions->fetch_assoc()): ?>
                   <tr>
+                    <td><?= $row['trackingNumber']; ?></td>
                     <td><?= $row['orderId']; ?></td>
-                    <td><?= $row['orderDate']; ?></td>
-                    <td><?= $row['totalAmount']; ?></td>
+                    <td><?= $row['amount']; ?></td>
+                    <td><?= $row['method']; ?></td>
+                    <td><?= $row['paymentStatus']; ?></td>
+                    <td><?= $row['shippingStatus']; ?></td>
+                    <td><?= $row['transactionTimestamp']; ?></td>
                     <td>
                       <?php
                         $oid = $row['orderId'];

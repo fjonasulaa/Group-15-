@@ -110,19 +110,21 @@ $user = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
 $stmt = $conn->prepare("
+
     SELECT
-        payment.paymentId,
-        orders.orderId,
-        payment.amount,
-        payment.method,
-        payment.paymentStatus,
-        payment.transactionTimestamp,
-        shipping.shippingStatus
+    shipping.trackingNumber,
+    orders.orderId,
+    payment.amount,
+    payment.method,
+    payment.paymentStatus,
+    payment.transactionTimestamp,
+    shipping.shippingStatus
     FROM orders
     LEFT JOIN payment ON payment.orderId = orders.orderId
     LEFT JOIN shipping ON shipping.orderId = orders.orderId
     WHERE orders.customerId = ?
     ORDER BY payment.transactionTimestamp DESC, orders.orderId DESC
+
 ");
 
 $stmt->bind_param("i", $customerID);

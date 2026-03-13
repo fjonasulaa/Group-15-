@@ -218,7 +218,7 @@
                     <h1 class="center-title">TRANSACTION HISTORY</h1>
                     <div class="transaction-table">
                         <div class="transaction-header">
-                            <span>TRANSACTION ID</span>
+                            <span>SHIPPING NUMBER</span>
                             <span>ORDER ID</span>
                             <span>AMOUNT</span>
                             <span>CUSTOMER</span>
@@ -246,7 +246,7 @@
                             <?php for ($i = 0; $i < count($transactions); $i++): ?>
 
                                 <div class="transaction-row">
-                                    <span><?= $transactions[$i]['paymentId'] ?></span>
+                                    <span><?= $transactions[$i]['trackingNumber'] ?></span>
                                     <span><?= $transactions[$i]['orderId'] ?></span>
                                     <span class="transaction-amount">£<?= number_format((float)$transactions[$i]['amount'], 2) ?></span>
                                     <span><?= $user['firstName'] . ' ' . $user['surname'] ?></span>
