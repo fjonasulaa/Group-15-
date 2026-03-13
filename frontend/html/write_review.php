@@ -132,6 +132,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     color:#4a1f2d;
 }
 
+.wine-name{
+    text-align:center;
+    font-family:"Playfair Display", serif;
+    font-size:1.7rem;
+    margin-bottom:25px;
+    color:#7a1f1f;
+}
+
 .review-user{
     text-align:center;
     margin-bottom:25px;
@@ -189,14 +197,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ------------------------- */
 
 .submit-review{
-    width:100%;
-    margin-top:25px;
-    padding:14px;
+    display:block;
+    margin:25px auto 0 auto;
+    padding:14px 40px;
     background:#7a1f1f;
     color:white;
     border:none;
     border-radius:8px;
-    font-size:1.2rem;
+    font-size:1.1rem;
     cursor:pointer;
 }
 
@@ -296,8 +304,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <div class="review-container">
 
 <h1 class="review-title">
-Tell Us What You Think About <?php echo htmlspecialchars($wineName); ?>
+    Tell Us What You Think About:
 </h1>
+
+<h2 class="wine-name">
+    <?php echo htmlspecialchars($wineName); ?>
+</h2>
 
 <p class="review-user">
 Reviewing as <strong><?php echo $customerName; ?></strong>
