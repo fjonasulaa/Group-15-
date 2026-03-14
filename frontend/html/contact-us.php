@@ -230,9 +230,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <style>
 
 /* ──  Banner ── */
+/* ── Hero Banner ── */
 .contact-hero {
-  padding: 60px 20px 40px;
-  text-align: center;
+  padding: 0;
 }
 
 .contact-hero-inner {
@@ -241,15 +241,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   overflow: hidden;
 
   width: 100%;
-  max-width: 1100px;
 
-  margin: 0 auto;
+  padding: 90px 20px;
 
-  padding: 70px 40px;
-
-  border-radius: 16px;
+  text-align: center;
 }
 
+/* background pattern */
 .contact-hero-inner::before {
   content: '';
   position: absolute;
@@ -259,34 +257,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     radial-gradient(circle at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
 }
 
+/* small text */
 .contact-eyebrow {
   display: inline-block;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.7);
   margin-bottom: 14px;
   position: relative;
   z-index: 1;
 }
 
+/* title */
 .contact-hero h1 {
-  font-size: 28px;
+  font-size: 38px;
   font-weight: 700;
   color: #ffffff;
   margin: 0 0 12px;
-  letter-spacing: -0.5px;
-  line-height: 1.1;
   position: relative;
   z-index: 1;
 }
 
+/* description */
 .contact-hero p {
-  font-size: 13px;
-  color: rgba(255,255,255,0.75);
+  font-size: 15px;
+  color: rgba(255,255,255,0.85);
   line-height: 1.6;
-  margin: 0;
+  margin: 0 auto;
+  max-width: 700px;
   position: relative;
   z-index: 1;
 }
