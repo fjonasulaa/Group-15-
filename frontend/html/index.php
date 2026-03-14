@@ -788,7 +788,7 @@ if (isset($_SESSION['customerID'])) {
               <a href="wineinfo.php?id=1" class="ca-btn">View Wine</a>
             </div>
             <div class="ca-right">
-              <img src="../../images/tignanello.jpg" alt="Marchesi Antinori" class="ca-img">
+              <img src="../../images/indexTignanello.jpg" alt="Marchesi Antinori" class="ca-img">
             </div>
           </div>
 
