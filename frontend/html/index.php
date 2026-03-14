@@ -791,7 +791,6 @@ if (isset($_SESSION['customerID'])) {
               <img src="../../images/indexTignanello.jpg" alt="Marchesi Antinori" class="ca-img">
             </div>
           </div>
-
         </div>
       </div>
 
