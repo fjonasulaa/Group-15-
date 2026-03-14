@@ -41,6 +41,7 @@ else
 
 
 $user = [
+    'customerID' => '',
     'firstName' => '',
     'surname' => '',
     'email' => '',
@@ -126,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateTransactionStat
 
     header("Location: admin.php?customerID=" . $customerID);
     exit();
-    
+
 }
 
 
@@ -143,7 +144,7 @@ while ($row = $result1->fetch_assoc()) {
 
 
 $stmt = $conn->prepare("
-    SELECT firstName, surname, email, addressLine, postcode, phoneNumber
+    SELECT customerID, firstName, surname, email, addressLine, postcode, phoneNumber
     FROM customer
     WHERE customerID=?
 ");

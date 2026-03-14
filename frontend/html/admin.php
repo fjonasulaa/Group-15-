@@ -166,8 +166,8 @@
                         <form method="post">
                             <div class="row">
                                 <div>
-                                    <label for="username">USERNAME</label>
-                                    <input type="text" name="username" value="username123">
+                                    <label for="username">Customer ID</label>
+                                    <input type="text" name="customerID" value="<?= $user['customerID'] ?>" readonly>
                                 </div>
 
                                 <div>
