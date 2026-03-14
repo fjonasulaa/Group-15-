@@ -228,13 +228,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   </script>
 
 <style>
-/* ════════════════════════════════════════
-   CONTACT PAGE — FINALISED
-   ════════════════════════════════════════ */
 
-/* ── Hero Banner ── */
+/* ──  Banner ── */
 .contact-hero {
-  padding: 52px 20px 40px;
+  padding: 60px 20px 40px;
   text-align: center;
 }
 
@@ -242,9 +239,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   background: linear-gradient(135deg, #4a0e24 0%, #7b1e3a 50%, #9e2d4f 100%);
   position: relative;
   overflow: hidden;
-  max-width: 275px;
+
+  width: 100%;
+  max-width: 1100px;
+
   margin: 0 auto;
-  padding: 36px 28px;
+
+  padding: 70px 40px;
+
   border-radius: 16px;
 }
 
