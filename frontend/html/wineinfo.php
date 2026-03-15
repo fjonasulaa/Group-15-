@@ -51,7 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
 }
 
 // grab reviews for this wine
-// TODO: could paginate this later if a wine gets loads of reviews
 $reviewStmt = $conn->prepare("
     SELECT r.*, c.firstName, c.surname
     FROM reviews r
@@ -77,7 +76,6 @@ if ($reviewCount > 0) {
     $avgRating = 0;
 }
 
-// show success toast if they just submitted a review
 $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
 ?>
 
@@ -594,7 +592,6 @@ html.darkmode #wishlist-items p { color: #ccc; }
 </style>
 
 <script>
-// TODO: maybe pull wishlist into a separate file, getting a bit long in here
 
 const wishlistButton = document.querySelector(".wishlist-button");
 const wishlistContainer = document.getElementById("wishlist-items");
@@ -706,7 +703,7 @@ wishlistButton.addEventListener("click", function() {
     this.innerHTML = '<i class="fas fa-heart"></i> Added to Wishlist';
 });
 
-// remove from wishlist - delegated so it works on dynamically rendered items
+// remove from wishlist
 document.addEventListener("click", function(e) {
 
     const removeBtn = e.target.closest(".remove-wishlist");
