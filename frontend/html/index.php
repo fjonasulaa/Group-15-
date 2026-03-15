@@ -1073,6 +1073,7 @@ if (isset($_SESSION['customerID'])) {
 
     loadWishlist();
   </script>
-
+  <!-- CHATBOT -->
+  <script src="chatbot.js"></script>
 </body>
 </html>
