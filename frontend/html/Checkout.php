@@ -1,9 +1,11 @@
 <?php
-    session_start();
-    if (empty($_SESSION['basket'])) {
-        header("Location: index.html");
-        exit;
-    }
+session_start();
+
+// nothing in basket? send them back
+if (empty($_SESSION['basket'])) {
+    header("Location: index.html");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +18,7 @@
 </head>
 
 <style>
-    /* ── PAGE WRAPPER ── */
+    /* ── page layout ── */
     .checkout-page {
         max-width: 1200px;
         margin: 110px auto 60px auto;
@@ -26,7 +28,7 @@
         align-items: flex-start;
     }
 
-    /* ── LEFT: FORM COLUMN ── */
+    /* ── left: form column ── */
     .checkout-form-col {
         flex: 1;
         min-width: 0;
@@ -122,7 +124,6 @@
         background: #fff8f8;
     }
 
-    /* Inline error messages */
     .error-inline {
         display: none;
         color: #e63946;
@@ -131,7 +132,7 @@
         font-weight: 500;
     }
 
-    /* ── RIGHT: SUMMARY COLUMN ── */
+    /* ── right: order summary ── */
     .checkout-summary-col {
         width: 340px;
         flex-shrink: 0;
@@ -167,10 +168,7 @@
         letter-spacing: 0;
     }
 
-    .summary-items {
-        background: white;
-        padding: 0 18px;
-    }
+    .summary-items { background: white; padding: 0 18px; }
 
     .summary-item {
         display: flex;
@@ -185,7 +183,7 @@
 
     .summary-item:last-child { border-bottom: none; }
     .summary-item span:first-child { flex: 1; }
-    .summary-item span:last-child  { white-space: nowrap; font-weight: 500; }
+    .summary-item span:last-child { white-space: nowrap; font-weight: 500; }
 
     .summary-totals {
         background: white;
@@ -268,13 +266,7 @@
     }
 
     .accordion-toggle:hover { background: #fafafa; }
-
-    .accordion-toggle .chevron {
-        font-size: 16px;
-        color: #999;
-        transition: transform 0.2s;
-    }
-
+    .accordion-toggle .chevron { font-size: 16px; color: #999; transition: transform 0.2s; }
     .accordion-toggle.open .chevron { transform: rotate(180deg); }
 
     .accordion-body {
@@ -295,7 +287,72 @@
         margin: 16px 0 4px;
     }
 
-    /* ── DARK MODE ── */
+    /* ── order confirmation modal ── */
+    .confirm-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.45);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        animation: fadeInOverlay 0.3s ease;
+    }
+
+    .confirm-modal-box {
+        background: white;
+        border-radius: 18px;
+        padding: 40px 44px;
+        max-width: 420px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 30px 70px rgba(0,0,0,0.18);
+        animation: popIn 0.4s ease;
+    }
+
+    .confirm-modal-icon { font-size: 48px; margin-bottom: 16px; }
+
+    .confirm-modal-box h2 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #7b1e3a;
+        margin-bottom: 10px;
+    }
+
+    .confirm-modal-box p {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 28px;
+    }
+
+    .confirm-modal-btn {
+        display: inline-block;
+        padding: 12px 32px;
+        background: #7b1e3a;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .confirm-modal-btn:hover { background: #5e152c; }
+
+    @keyframes fadeInOverlay {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+
+    @keyframes popIn {
+        0%   { transform: scale(0.85); opacity: 0; }
+        70%  { transform: scale(1.03); opacity: 1; }
+        100% { transform: scale(1);    opacity: 1; }
+    }
+
+    /* ── dark mode ── */
     html.darkmode .checkout-guest-banner { background: #1e1e1e; color: #ccc; }
     html.darkmode .checkout-section,
     html.darkmode .summary-box,
@@ -322,8 +379,10 @@
     html.darkmode .accordion-body { background: #111; color: #aaa; border-top-color: #2a2a2a; }
     html.darkmode .accordion-item { border-bottom-color: #2a2a2a; }
     html.darkmode .checkout-form-col h1 { color: #fff; }
+    html.darkmode .confirm-modal-box { background: #1a1a1a; }
+    html.darkmode .confirm-modal-box h2 { color: #e06070; }
+    html.darkmode .confirm-modal-box p { color: #aaa; }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 800px) {
         .checkout-page { flex-direction: column; }
         .checkout-summary-col { width: 100%; position: static; }
@@ -332,7 +391,6 @@
 </style>
 
 <body>
-    <!-- NAVBAR -->
     <div class="navbar">
         <img src="../../images/icon.png" alt="Wine Exchange Logo">
         <div class="navbar-links">
@@ -358,7 +416,7 @@
 
     <div class="checkout-page">
 
-        <!-- LEFT: FORM COLUMN -->
+        <!-- left: form -->
         <div class="checkout-form-col">
             <h1>Checkout</h1>
 
@@ -423,11 +481,7 @@
 
                     </div>
                 </div>
-                <?php endif; ?>
 
-
-                <?php if (!isset($_SESSION['customerID'])): ?>
-                <!-- AGE VERIFICATION -->
                 <div class="checkout-section">
                     <div class="checkout-section-header">Age Verification</div>
                     <div class="checkout-section-body">
@@ -440,7 +494,6 @@
                 </div>
                 <?php endif; ?>
 
-                <!-- SHIPPING -->
                 <div class="checkout-section">
                     <div class="checkout-section-header">Shipping Method</div>
                     <div class="checkout-section-body">
@@ -453,7 +506,6 @@
                     </div>
                 </div>
 
-                <!-- PAYMENT -->
                 <div class="checkout-section">
                     <div class="checkout-section-header">Payment Method</div>
                     <div class="checkout-section-body">
@@ -466,9 +518,8 @@
                             </select>
                         </div>
 
-                        <!-- Card fields: hidden by default since Apple Pay is default option -->
+                        <!-- card fields - only shown if they pick card -->
                         <div id="card-details" style="display:none;">
-
                             <div class="form-group">
                                 <label for="card-name">Cardholder Name *</label>
                                 <input id="card-name" type="text" placeholder="John Smith" autocomplete="cc-name">
@@ -493,8 +544,8 @@
                                     <div id="err-card-cvv" class="error-inline">Enter the 3-digit CVV from the back of your card.</div>
                                 </div>
                             </div>
-
                         </div>
+
                     </div>
                 </div>
 
@@ -504,37 +555,42 @@
             </form>
         </div>
 
-        <!-- RIGHT: SUMMARY COLUMN -->
+        <!-- right: summary -->
         <div class="checkout-summary-col">
 
             <?php
                 require_once('../../database/db_connect.php');
+
                 $subtotal   = 0;
                 $itemCount  = 0;
                 $basketRows = [];
+
                 foreach ($_SESSION['basket'] as $id => $qty) {
                     $safeId    = intval($id);
-                    $sql       = "SELECT wineName, price FROM wines WHERE wineId = $safeId";
-                    $result    = $conn->query($sql);
+                    $result    = $conn->query("SELECT wineName, price FROM wines WHERE wineId = $safeId");
                     $row       = $result->fetch_assoc();
                     $lineTotal = $row['price'] * $qty;
                     $subtotal  += $lineTotal;
                     $itemCount += $qty;
-                    $basketRows[] = ['name' => $row['wineName'], 'qty' => $qty, 'line' => $lineTotal];
+                    $basketRows[] = [
+                        'name' => $row['wineName'],
+                        'qty'  => $qty,
+                        'line' => $lineTotal
+                    ];
                 }
             ?>
 
             <div class="summary-box">
                 <div class="summary-box-header">
-                    <span>Basket Total (<?php echo $itemCount; ?> item<?php echo $itemCount !== 1 ? 's' : ''; ?>)</span>
-                    <span class="summary-header-price">£<?php echo number_format($subtotal, 2); ?></span>
+                    <span>Basket Total (<?= $itemCount ?> item<?= $itemCount !== 1 ? 's' : '' ?>)</span>
+                    <span class="summary-header-price">£<?= number_format($subtotal, 2) ?></span>
                 </div>
 
                 <div class="summary-items">
                     <?php foreach ($basketRows as $r): ?>
                     <div class="summary-item">
-                        <span><?php echo htmlspecialchars($r['name']); ?> &times;<?php echo $r['qty']; ?></span>
-                        <span>£<?php echo number_format($r['line'], 2); ?></span>
+                        <span><?= htmlspecialchars($r['name']) ?> &times;<?= $r['qty'] ?></span>
+                        <span>£<?= number_format($r['line'], 2) ?></span>
                     </div>
                     <?php endforeach; ?>
                 </div>
@@ -546,7 +602,7 @@
                     </div>
                     <div class="summary-row order-total">
                         <span>Order Total</span>
-                        <span id="summary-total">£<?php echo number_format($subtotal, 2); ?></span>
+                        <span id="summary-total">£<?= number_format($subtotal, 2) ?></span>
                     </div>
                 </div>
             </div>
@@ -577,276 +633,243 @@
             </div>
 
         </div>
+    </div>
 
+    <!-- shown after validation passes, submits the form on dismiss -->
+    <div class="confirm-modal" id="orderModal" style="display:none;">
+        <div class="confirm-modal-box">
+            <div class="confirm-modal-icon">🍷</div>
+            <h2>Order Confirmed!</h2>
+            <p>Thank you for your order. Your wine is on its way — we'll be in touch with a delivery update soon.</p>
+            <button class="confirm-modal-btn" id="modalOkBtn">Back to Home</button>
+        </div>
     </div>
 
     <script>
 
-        /*   VALIDATION HELPERS */
-
-        function showError(inputEl, errId) {
-            inputEl.classList.add('invalid');
-            const err = document.getElementById(errId);
-            if (err) err.style.display = 'block';
+        // red border + show the little error message under a field
+        function markBad(el, errId) {
+            el.classList.add('invalid');
+            var msg = document.getElementById(errId);
+            if (msg) msg.style.display = 'block';
         }
 
-        function clearError(inputEl, errId) {
-            inputEl.classList.remove('invalid');
-            const err = document.getElementById(errId);
-            if (err) err.style.display = 'none';
+        function markOk(el, errId) {
+            el.classList.remove('invalid');
+            var msg = document.getElementById(errId);
+            if (msg) msg.style.display = 'none';
         }
 
-        // UK postcode: e.g. SW1A 1AA, M1 1AE, B1 1BB
-        function isValidUKPostcode(p) {
+        // postcode regex - covers most UK formats, good enough for our purposes
+        function checkPostcode(p) {
             return /^([A-Z]{1,2}\d{1,2}[A-Z]?)\s*(\d[A-Z]{2})$/i.test(p.trim());
         }
 
-        // UK mobile: 07... or +447...
-        function isValidUKPhone(p) {
-            return /^(?:0?7\d{9}|\+447\d{9}|00447\d{9})$/.test(p.replace(/\s+/g, ''));
+        // phone - 07xxx or +447xxx
+        function checkPhone(p) {
+            var stripped = p.replace(/\s+/g, '');
+            return /^(?:0?7\d{9}|\+447\d{9}|00447\d{9})$/.test(stripped);
         }
 
-        // Basic email format
-        function isValidEmail(e) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());
-        }
-        // Expiry: MM/YY, must be in the future
-        function isValidExpiry(val) {
-            const match = val.trim().match(/^(0[1-9]|1[0-2])\/?(\d{2})$/);
-            if (!match) return false;
-            const month = parseInt(match[1], 10);
-            const year  = parseInt(match[2], 10) + 2000;
-            // Card expires at the END of the expiry month
-            return new Date(year, month, 1) > new Date();
+        // card expiry - needs to be MM/YY and not already expired
+        // cards expire at end of the month so we check against the 1st of the month after
+        function checkExpiry(raw) {
+            var m = raw.trim().match(/^(0[1-9]|1[0-2])\/?(\d{2})$/);
+            if (!m) return false;
+            var expMonth = parseInt(m[1], 10);
+            var expYear = parseInt(m[2], 10) + 2000;
+            var expiresAfter = new Date(expYear, expMonth, 1);
+            return expiresAfter > new Date();
         }
 
-        // CVV: exactly 3 digits
-        function isValidCVV(val) {
-            return /^\d{3}$/.test(val.replace(/\D/g, ''));
-        }
-
-        const cardNumberInput = document.getElementById('card-number');
-        if (cardNumberInput) {
-            cardNumberInput.addEventListener('input', function () {
-                // 1. Strip EVERYTHING that isnt a digit
-                const digits = this.value.replace(/\D/g, '').substring(0, 16);
-                // 2. Rebuild cleanly: insert a space after every 4th digit
-                let formatted = '';
-                for (let i = 0; i < digits.length; i++) {
-                    if (i > 0 && i % 4 === 0) formatted += ' ';
-                    formatted += digits[i];
+        // card number input - strip non-digits and reformat as groups of 4
+        var numField = document.getElementById('card-number');
+        if (numField) {
+            numField.addEventListener('input', function() {
+                var digits = this.value.replace(/\D/g, '').substring(0, 16);
+                var spaced = '';
+                for (var i = 0; i < digits.length; i++) {
+                    if (i > 0 && i % 4 == 0) spaced += ' ';
+                    spaced += digits[i];
                 }
-                this.value = formatted;
+                this.value = spaced;
             });
         }
 
-        // Expiry: auto-insert slash after MM
-        const cardExpiryInput = document.getElementById('card-expiry');
-        if (cardExpiryInput) {
-            cardExpiryInput.addEventListener('input', function () {
-                let val = this.value.replace(/\D/g, '').substring(0, 4);
-                if (val.length >= 3) {
-                    val = val.substring(0, 2) + '/' + val.substring(2);
-                }
-                this.value = val;
+        // expiry field - shove in the slash automatically after they type the month
+        var expField = document.getElementById('card-expiry');
+        if (expField) {
+            expField.addEventListener('input', function() {
+                var nums = this.value.replace(/\D/g, '').substring(0, 4);
+                if (nums.length >= 3) nums = nums.slice(0, 2) + '/' + nums.slice(2);
+                this.value = nums;
             });
         }
 
-        /* PAYMENT METHOD TOGGLE */
-        const paymentSelect = document.getElementById('payment-method');
-        const cardDetails   = document.getElementById('card-details');
+        var paymentDrop = document.getElementById('payment-method');
+        var cardSection = document.getElementById('card-details');
 
-        paymentSelect.addEventListener('change', function () {
+        paymentDrop.addEventListener('change', function() {
             if (this.value === 'card') {
-                cardDetails.style.display = 'block';
+                cardSection.style.display = 'block';
             } else {
-                cardDetails.style.display = 'none';
-                // Clear any lingering card errors when switching away
-                ['card-name','card-number','card-expiry','card-cvv'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) clearError(el, 'err-' + id);
+                cardSection.style.display = 'none';
+                // clear card errors when switching back to apple pay etc
+                var cardFields = ['card-name', 'card-number', 'card-expiry', 'card-cvv'];
+                cardFields.forEach(function(fid) {
+                    var f = document.getElementById(fid);
+                    if (f) markOk(f, 'err-' + fid);
                 });
             }
         });
 
-        /* CLEAR ERRORS AS USER TYPES */
-        [
-            ['fname',       'err-fname'],
-            ['lname',       'err-lname'],
-            ['address',     'err-address'],
-            ['city',        'err-city'],
-            ['postcode',    'err-postcode'],
-            ['email',       'err-email'],
-            ['phone',       'err-phone'],
-            ['dob',         'err-dob'],
-            ['card-name',   'err-card-name'],
+        // clear each field's error as soon as the user starts typing again
+        var fieldPairs = [
+            ['fname', 'err-fname'],
+            ['lname', 'err-lname'],
+            ['address', 'err-address'],
+            ['city', 'err-city'],
+            ['postcode', 'err-postcode'],
+            ['email', 'err-email'],
+            ['phone', 'err-phone'],
+            ['dob', 'err-dob'],
+            ['card-name', 'err-card-name'],
             ['card-number', 'err-card-number'],
             ['card-expiry', 'err-card-expiry'],
-            ['card-cvv',    'err-card-cvv'],
-        ].forEach(([id, errId]) => {
-            const el = document.getElementById(id);
-            if (el) el.addEventListener('input', () => clearError(el, errId));
+            ['card-cvv', 'err-card-cvv']
+        ];
+        fieldPairs.forEach(function(pair) {
+            var f = document.getElementById(pair[0]);
+            if (f) f.addEventListener('input', function() { markOk(f, pair[1]); });
         });
 
-        /* MAIN FORM VALIDATION */
-        document.getElementById('checkoutForm').addEventListener('submit', function (e) {
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            let valid = true;
-            const isGuest = !!document.getElementById('fname');
+            var allGood = true;
 
-            // ── Guest delivery fields ──
-            if (isGuest) {
-                const fname    = document.getElementById('fname');
-                const lname    = document.getElementById('lname');
-                const address  = document.getElementById('address');
-                const city     = document.getElementById('city');
-                const postcode = document.getElementById('postcode');
-                const email    = document.getElementById('email');
-                const phone    = document.getElementById('phone');
+            // only shown to guests - logged in users already have their address saved
+            var firstNameField = document.getElementById('fname');
+            if (firstNameField) {
+                var fn = document.getElementById('fname');
+                var ln = document.getElementById('lname');
+                var addr = document.getElementById('address');
+                var city = document.getElementById('city');
+                var pc = document.getElementById('postcode');
+                var em = document.getElementById('email');
+                var ph = document.getElementById('phone');
 
-                if (!fname.value.trim()) {
-                    showError(fname, 'err-fname'); valid = false;
-                }
-                if (!lname.value.trim()) {
-                    showError(lname, 'err-lname'); valid = false;
-                }
-                if (!address.value.trim()) {
-                    showError(address, 'err-address'); valid = false;
-                }
-                if (!city.value.trim()) {
-                    showError(city, 'err-city'); valid = false;
-                }
-                if (!isValidUKPostcode(postcode.value)) {
-                    showError(postcode, 'err-postcode'); valid = false;
-                }
-                if (!isValidEmail(email.value)) {
-                    showError(email, 'err-email'); valid = false;
-                }
-                if (!isValidUKPhone(phone.value)) {
-                    showError(phone, 'err-phone'); valid = false;
-                }
+                if (!fn.value.trim()) { markBad(fn, 'err-fname'); allGood = false; }
+                if (!ln.value.trim()) { markBad(ln, 'err-lname'); allGood = false; }
+                if (!addr.value.trim()) { markBad(addr, 'err-address'); allGood = false; }
+                if (!city.value.trim()) { markBad(city, 'err-city'); allGood = false; }
+
+                if (!checkPostcode(pc.value)) { markBad(pc, 'err-postcode'); allGood = false; }
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) { markBad(em, 'err-email'); allGood = false; }
+                if (!checkPhone(ph.value)) { markBad(ph, 'err-phone'); allGood = false; }
             }
 
-            // ── Age verification (always required) ──
-            const dob = document.getElementById('dob');
-            if (dob) {
-                const dobErr = 'err-dob';
-                if (!dob.value) {
-                    showError(dob, dobErr); valid = false;
+            // age check
+            var dobField = document.getElementById('dob');
+            if (dobField) {
+                if (!dobField.value) {
+                    markBad(dobField, 'err-dob');
+                    allGood = false;
                 } else {
-                    const today   = new Date();
-                    const birth   = new Date(dob.value);
-                    let age       = today.getFullYear() - birth.getFullYear();
-                    const monthDiff = today.getMonth() - birth.getMonth();
-                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-                        age--;
-                    }
+                    var today = new Date();
+                    var bday = new Date(dobField.value);
+                    var age = today.getFullYear() - bday.getFullYear();
+                    var monthsOff = today.getMonth() - bday.getMonth();
+                    if (monthsOff < 0 || (monthsOff === 0 && today.getDate() < bday.getDate())) age--;
                     if (age < 18) {
-                        showError(dob, dobErr); valid = false;
+                        markBad(dobField, 'err-dob');
+                        allGood = false;
                     }
                 }
             }
 
-            // ── Card fields (only if card is selected) ──
-            if (paymentSelect.value === 'card') {
-                const cardName   = document.getElementById('card-name');
-                const cardNumber = document.getElementById('card-number');
-                const cardExpiry = document.getElementById('card-expiry');
-                const cardCVV    = document.getElementById('card-cvv');
+            if (paymentDrop.value === 'card') {
+                var cName = document.getElementById('card-name');
+                var cNum  = document.getElementById('card-number');
+                var cExp  = document.getElementById('card-expiry');
+                var cCVV  = document.getElementById('card-cvv');
+                var digits = cNum.value.replace(/\s+/g, '');
 
-                // Cardholder name
-                if (!cardName.value.trim()) {
-                    showError(cardName, 'err-card-name'); valid = false;
-                }
-
-                // Card number: must be exactly 16 digits
-                const rawNumber = cardNumber.value.replace(/\s+/g, '');
-                if (!/^\d{16}$/.test(rawNumber)) {
-                    showError(cardNumber, 'err-card-number'); valid = false;
-                }
-
-                // Expiry
-                if (!isValidExpiry(cardExpiry.value)) {
-                    showError(cardExpiry, 'err-card-expiry'); valid = false;
-                }
-
-                // CVV: exactly 3 digits
-                if (!isValidCVV(cardCVV.value)) {
-                    showError(cardCVV, 'err-card-cvv'); valid = false;
-                }
+                if (!cName.value.trim()) { markBad(cName, 'err-card-name'); allGood = false; }
+                if (!/^\d{16}$/.test(digits)) { markBad(cNum, 'err-card-number'); allGood = false; }
+                if (!checkExpiry(cExp.value)) { markBad(cExp, 'err-card-expiry'); allGood = false; }
+                if (!/^\d{3}$/.test(cCVV.value.replace(/\D/g, ''))) { markBad(cCVV, 'err-card-cvv'); allGood = false; }
             }
 
-            if (!valid) {
-                // Scroll to first red field
-                const firstInvalid = document.querySelector('.invalid');
-                if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (!allGood) {
+                var firstProblem = document.querySelector('.invalid');
+                if (firstProblem) firstProblem.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
 
-            // All good — submit
-            this.submit();
+            document.getElementById('orderModal').style.display = 'flex';
         });
 
-        /* LIVE ORDER SUMMARY UPDATE */
-        const subtotalBase    = <?php echo number_format($subtotal, 2, '.', ''); ?>;
-        const shippingSelect  = document.getElementById('shipping');
-        const summaryDelivery = document.getElementById('summary-delivery');
-        const summaryTotal    = document.getElementById('summary-total');
+        document.getElementById('modalOkBtn').addEventListener('click', function() {
+            document.getElementById('checkoutForm').submit();
+            window.location.href = 'index.html';
+        });
 
-        function updateOrderSummary() {
-            const cost = shippingSelect.value === 'nextday' ? 4.99 : 0;
-            if (cost > 0) {
-                summaryDelivery.textContent  = '£' + cost.toFixed(2);
-                summaryDelivery.className    = '';
+        // update the delivery + total in the sidebar when shipping option changes
+        var basePrice = <?= number_format($subtotal, 2, '.', '') ?>;
+        var shipDrop  = document.getElementById('shipping');
+        var deliveryLabel = document.getElementById('summary-delivery');
+        var totalLabel    = document.getElementById('summary-total');
+
+        shipDrop.addEventListener('change', function() {
+            var extra = this.value === 'nextday' ? 4.99 : 0;
+            if (extra > 0) {
+                deliveryLabel.textContent = '£' + extra.toFixed(2);
+                deliveryLabel.className = '';
             } else {
-                summaryDelivery.textContent  = 'Free';
-                summaryDelivery.className    = 'summary-free';
+                deliveryLabel.textContent = 'Free';
+                deliveryLabel.className = 'summary-free';
             }
-            summaryTotal.textContent = '£' + (subtotalBase + cost).toFixed(2);
-        }
+            totalLabel.textContent = '£' + (basePrice + extra).toFixed(2);
+        });
 
-        shippingSelect.addEventListener('change', updateOrderSummary);
+        // accordion panels
+        document.querySelectorAll('.accordion-toggle').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var panel = btn.nextElementSibling;
+                var wasOpen = panel.classList.contains('open');
 
-        /* ACCORDION */
-        document.querySelectorAll('.accordion-toggle').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const body    = btn.nextElementSibling;
-                const isOpen  = body.classList.contains('open');
-                // Close all
-                document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('open'));
-                document.querySelectorAll('.accordion-toggle').forEach(b => b.classList.remove('open'));
-                // Toggle clicked one
-                if (!isOpen) {
-                    body.classList.add('open');
+                // close everything first
+                document.querySelectorAll('.accordion-body').forEach(function(b) { b.classList.remove('open'); });
+                document.querySelectorAll('.accordion-toggle').forEach(function(b) { b.classList.remove('open'); });
+
+                if (!wasOpen) {
+                    panel.classList.add('open');
                     btn.classList.add('open');
                 }
             });
         });
 
-        /*  TIMESTAMP */
-        function updateTimestamp() {
-            const n = new Date();
-            document.getElementById("timestamp").textContent =
-                n.getFullYear() + "-" +
-                String(n.getMonth() + 1).padStart(2, '0') + "-" +
-                String(n.getDate()).padStart(2, '0') + " " +
-                String(n.getHours()).padStart(2, '0') + ":" +
-                String(n.getMinutes()).padStart(2, '0') + ":" +
-                String(n.getSeconds()).padStart(2, '0');
+        // live clock in the corner
+        function tickClock() {
+            var now = new Date();
+            var pad = function(n) { return String(n).padStart(2, '0'); };
+            document.getElementById('timestamp').textContent =
+                now.getFullYear() + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate()) +
+                ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
         }
-        setInterval(updateTimestamp, 1000);
-        updateTimestamp();
+        setInterval(tickClock, 1000);
+        tickClock();
 
-        /*  DARK MODE */
-        const darkButton = document.getElementById("dark-mode");
-        if (localStorage.getItem("dark_mode") === "on") {
-            document.documentElement.classList.add("darkmode");
+        // dark mode
+        var dmBtn = document.getElementById('dark-mode');
+        if (localStorage.getItem('dark_mode') === 'on') {
+            document.documentElement.classList.add('darkmode');
         }
-        darkButton.addEventListener("click", () => {
-            document.documentElement.classList.toggle("darkmode");
-            localStorage.setItem("dark_mode",
-                document.documentElement.classList.contains("darkmode") ? "on" : "off");
+        dmBtn.addEventListener('click', function() {
+            document.documentElement.classList.toggle('darkmode');
+            var nowDark = document.documentElement.classList.contains('darkmode');
+            localStorage.setItem('dark_mode', nowDark ? 'on' : 'off');
         });
 
     </script>
