@@ -384,6 +384,12 @@ if (isset($_SESSION['customerID'])) {
       margin-bottom: 16px;
     }
 
+    .review-header .stars {
+      color: rgb(255, 215, 0);
+      font-size: 1.3rem;
+    }
+
+
     .profile-pic {
       width: 44px;
       height: 44px;
@@ -456,6 +462,49 @@ if (isset($_SESSION['customerID'])) {
     @media (max-width: 700px) {
       .faq-grid { grid-template-columns: 1fr; }
     }
+
+      .popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.popup-container.show{
+  pointer-events: auto;
+  opacity: 1;
+}
+
+button {
+  background-color: #6B0F1A;
+  border: 0;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 25px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.pop-up {
+  background-color: white;
+  padding: 30px 50px;
+  width: 600px;
+  max-width: 100%;
+}
+
+.pop-up h1 {
+  font-size: 2rem;
+}
 
     /* ── WISHLIST SIDEBAR ── */
     .wishlist-sidebar {
@@ -988,10 +1037,10 @@ if (isset($_SESSION['customerID'])) {
       </div>
     </section>
 
-    <!-- REVIEWS -->
+<!-- REVIEWS -->
     <section class="reviews">
       <div class="reviews-header">
-        <h1 class="section-label">REVIEWS</h1>
+        <h1 class="section-label">WEBSITE REVIEWS</h1>
         <span class="section-divider"></span>
       </div>
       <div class="reviews-grid">
@@ -999,52 +1048,59 @@ if (isset($_SESSION['customerID'])) {
         <div class="review-card"
             data-name="Kathy Schwabe"
             data-title="Effortless ordering and flawless delivery."
-            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It's clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it's refreshing to know I can rely on them every single time."
+            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time."
             data-stars="★★★★★">
+
 
           <div class="review-header">
             <img src="../../images/bd.jpg" alt="Kathy Schwabe" class="profile-pic" />
             <h3>Kathy Schwabe</h3>
-            <img src="../../images/5star.png" alt="5 stars" class="review-rating" />
+            <p class= "stars">★★★★★</p>
           </div>
           <blockquote>
             <h4>Effortless ordering and flawless delivery.</h4>
-            <p>Wine Exchange has a truly impressive variety of red, white, sparkling, and rosé wines. Browsing the site felt effortless, with clear categories and detailed descriptions that made choosing the right bottle simple and enjoyable.</p>
           </blockquote>
         </div>
 
         <div class="review-card"
             data-name="Edward Sinclair"
             data-title="My go-to site for hassle-free wine shopping."
-            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It's clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it's refreshing to know I can rely on them every single time."
+            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time."
             data-stars="★★★★★"> 
 
           <div class="review-header">
             <img src="../../images/jj.jpg" alt="Edward Sinclair" class="profile-pic" />
             <h3>Edward Sinclair</h3>
-            <img src="../../images/5star.png" alt="5 stars" class="review-rating" />
+            <p class= "stars">★★★★★</p>
           </div>
           <blockquote>
             <h4>My go-to site for hassle-free wine shopping.</h4>
-            <p>I've ordered several times from Wine Exchange and they've always delivered on time. The prices are fair compared to other online shops, and the range of wines keeps me coming back to explore new options.</p>
           </blockquote>
         </div>
 
         <div class="review-card"
             data-name="Harry Maguire"
             data-title="Exactly as described, delivered without delay!"
-            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It's clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it's refreshing to know I can rely on them every single time."
+            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time."
             data-stars="★★★★★">
 
           <div class="review-header">
             <img src="../../images/hm.jpg" alt="Harry Maguire" class="profile-pic" />
             <h3>Harry Maguire</h3>
-            <img src="../../images/5star.png" alt="5 stars" class="review-rating" />
+            <p class= "stars">★★★★★</p>
           </div>
           <blockquote>
             <h4>Exactly as described, delivered without delay!</h4>
-            <p>I wasn't sure which wine to choose, but the clear descriptions and tasting notes made the decision much easier. The rosé I purchased was crisp, refreshing, and exactly what I hoped for.</p>
           </blockquote>
+        </div>
+
+        <div class="popup-container" id="popup">
+            <div class="pop-up">
+              <h1 id="popup-name"></h1>
+              <h2 id="popup-title"></h2>
+              <p id="popup-text"></p>
+              <button id="close">Close Review</button>
+            </div>
         </div>
 
       </div>
@@ -1337,6 +1393,34 @@ if (isset($_SESSION['customerID'])) {
 
     loadWishlist();
   </script>
+
+  <!--Reviews Pop-up Script-->
+  <script>
+      const reviews = document.querySelectorAll(".review-card");
+      const popup = document.getElementById("popup");
+
+      const popup_Name = document.getElementById("popup-name");
+      const popup_Title = document.getElementById("popup-title");
+      const popup_Text = document.getElementById("popup-text");
+
+      const close = document.getElementById("close");
+
+      reviews.forEach(review => {
+
+        review.addEventListener("click", () => {
+
+          popup_Name.innerHTML = review.dataset.name + ' <span class="popup-stars">' + review.dataset.stars + '</span>';
+          popup_Title.textContent = review.dataset.title;
+          popup_Text.textContent = review.dataset.review;
+          popup.classList.add("show");
+        });
+      });
+
+      close.addEventListener("click", () => {
+        popup.classList.remove("show");
+      });
+
+    </script>
 
  <script src="chatbot.js"></script>
 </body>
