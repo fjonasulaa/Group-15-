@@ -506,6 +506,10 @@ button {
   font-size: 2rem;
 }
 
+.popup-stars {
+  color: rgb(255, 215, 0);
+}
+
     /* ── WISHLIST SIDEBAR ── */
     .wishlist-sidebar {
       position: fixed;
