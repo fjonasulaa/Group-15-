@@ -7,6 +7,18 @@ if (!isset($_SESSION['customerID'])) {
     exit();
 }
 
+$customerId = $_SESSION['customerID'];
+$nameQuery = $conn->prepare("SELECT firstName, surname FROM customer WHERE customerID = ?");
+$nameQuery->bind_param("i", $customerId);
+$nameQuery->execute();
+$nameResult = $nameQuery->get_result()->fetch_assoc();
+
+if (!$nameResult) {
+    die("Customer not found.");
+}
+
+$customerName = ucfirst($nameResult['firstName']) . " " . ucfirst($nameResult['surname']);
+
 ?>
 
 
