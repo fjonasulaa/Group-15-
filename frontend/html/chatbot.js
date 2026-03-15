@@ -1,5 +1,5 @@
 (function () {
-  const SYSTEM_PROMPT = `You are "Vineyard Assistant", a friendly and knowledgeable AI chatbot for a Wine Exchange website. You help users with:
+  const SYSTEM_PROMPT = `You are "Edward", a friendly and knowledgeable AI chatbot for the Wine Exchange website. You help users with:
 
 - Wine recommendations (red, white, rosé, sparkling, by budget, occasion, or taste)
 - Food and wine pairings
@@ -136,10 +136,9 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
     .wc-msg.wc-user { flex-direction: row-reverse; }
     .wc-avatar {
       width: 26px; height: 26px; border-radius: 50%;
-      background: #7B1F2E; color: #fff;
+      background: #7B1F2E;
       display: flex; align-items: center; justify-content: center;
-      font-size: 12px; flex-shrink: 0;
-      font-family: 'Cormorant Garamond', serif;
+      flex-shrink: 0; overflow: hidden;
     }
     .wc-bubble {
       max-width: 80%; padding: 9px 12px;
@@ -201,8 +200,8 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
   // ── Build DOM ──────────────────────────────────────────────────────────────
   const toggle = document.createElement("button");
   toggle.id = "wc-toggle";
-  toggle.innerHTML = "🍷";
-  toggle.title = "Chat with Vineyard Assistant";
+  toggle.innerHTML = `<img src="../../images/icon.png" alt="Edward" style="width:34px;height:34px;object-fit:contain;border-radius:50%;">`;
+  toggle.title = "Chat with Edward";
   document.body.appendChild(toggle);
 
   const win = document.createElement("div");
@@ -210,9 +209,9 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
   win.classList.add("wc-hidden");
   win.innerHTML = `
     <div class="wc-header">
-      <div class="wc-header-icon">🍷</div>
+      <div class="wc-header-icon"><img src="../../images/icon.png" alt="Wine Exchange" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div>
       <div>
-        <h3>Vineyard Assistant</h3>
+        <h3>Edward</h3>
         <p><span class="wc-dot"></span>Wine Exchange — always available</p>
       </div>
       <button class="wc-close" id="wc-close-btn" title="Close">&#x2715;</button>
@@ -220,8 +219,8 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
     <div class="wc-chips" id="wc-chips"></div>
     <div class="wc-messages" id="wc-messages">
       <div class="wc-msg wc-bot">
-        <div class="wc-avatar">V</div>
-        <div class="wc-bubble">Welcome to the Wine Exchange! 🍷<br><br>I'm your personal vineyard assistant. Ask me anything — wine recommendations, how the exchange works, returns, pairings, or selling your bottles. How can I help?</div>
+        <div class="wc-avatar"><img src="../../images/icon.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div>
+        <div class="wc-bubble">Welcome to Wine Exchange! 🍷<br><br>I'm Edward, your personal wine assistant. Ask me anything — recommendations, how the exchange works, returns, food pairings, or selling your bottles. How can I help?</div>
       </div>
     </div>
     <div class="wc-input-row">
@@ -259,7 +258,7 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
     const div = document.createElement("div");
     div.className = "wc-msg wc-" + role;
     div.innerHTML = role === "bot"
-      ? `<div class="wc-avatar">V</div><div class="wc-bubble">${html}</div>`
+      ? `<div class="wc-avatar"><img src="../../images/icon.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div><div class="wc-bubble">${html}</div>`
       : `<div class="wc-bubble">${html}</div>`;
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
@@ -268,7 +267,7 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
   function showTyping() {
     const div = document.createElement("div");
     div.className = "wc-msg wc-bot"; div.id = "wc-typing";
-    div.innerHTML = `<div class="wc-avatar">V</div><div class="wc-bubble wc-typing"><span></span><span></span><span></span></div>`;
+    div.innerHTML = `<div class="wc-avatar"><img src="../../images/icon.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div><div class="wc-bubble wc-typing"><span></span><span></span><span></span></div>`;
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
