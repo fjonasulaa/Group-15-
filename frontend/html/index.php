@@ -818,8 +818,8 @@ if (isset($_SESSION['customerID'])) {
             <img src="../../images/5star.png" alt="5 stars" class="review-rating" />
           </div>
           <blockquote>
-            <p>"Wine Exchange has a truly impressive variety of red, white, sparkling, and rosé wines. Browsing the site felt effortless, with clear categories and detailed descriptions that made choosing the right bottle simple and enjoyable."</p>
-            <p>"Checkout was quick and secure, and my order arrived in perfect condition, beautifully packaged to protect the bottles. It's clear that customer care is a priority."</p>
+            <h4>Effortless ordering and flawless delivery.</h4>
+            <p>Wine Exchange has a truly impressive variety of red, white, sparkling, and rosé wines. Browsing the site felt effortless, with clear categories and detailed descriptions that made choosing the right bottle simple and enjoyable.</p>
           </blockquote>
         </article>
 
@@ -830,8 +830,8 @@ if (isset($_SESSION['customerID'])) {
             <img src="../../images/5star.png" alt="5 stars" class="review-rating" />
           </div>
           <blockquote>
-            <p>"I've ordered several times from Wine Exchange and they've always delivered on time. The prices are fair compared to other online shops, and the range of wines keeps me coming back to explore new options."</p>
-            <p>"Their recommendations have introduced me to wines I wouldn't have tried otherwise, which makes the experience even more rewarding."</p>
+            <h4>My go-to site for hassle-free wine shopping.</h4>
+            <p>I've ordered several times from Wine Exchange and they've always delivered on time. The prices are fair compared to other online shops, and the range of wines keeps me coming back to explore new options.</p>
           </blockquote>
         </article>
 
@@ -842,8 +842,8 @@ if (isset($_SESSION['customerID'])) {
             <img src="../../images/5star.png" alt="5 stars" class="review-rating" />
           </div>
           <blockquote>
-            <p>"I wasn't sure which wine to choose, but the clear descriptions and tasting notes made the decision much easier. The rosé I purchased was crisp, refreshing, and exactly what I hoped for."</p>
-            <p>"What impressed me most was how accessible the site feels even for someone who isn't a wine expert. I'm already planning to try more of their collection."</p>
+            <h4>Exactly as described, delivered without delay!</h4>
+            <p>I wasn't sure which wine to choose, but the clear descriptions and tasting notes made the decision much easier. The rosé I purchased was crisp, refreshing, and exactly what I hoped for.</p>
           </blockquote>
         </article>
 
