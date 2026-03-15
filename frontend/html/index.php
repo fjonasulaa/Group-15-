@@ -333,6 +333,10 @@ if (isset($_SESSION['customerID'])) {
       font-size: 1.3rem;
     }
 
+  .popup-stars {
+  color: rgb(255, 215, 0);
+}
+
     .reviews {
       display: block !important;
       position: relative !important;
@@ -854,7 +858,7 @@ button {
     <!-- REVIEWS -->
     <section class="reviews">
       <div class="reviews-header">
-        <h1 class="section-label">REVIEWS</h1>
+        <h1 class="section-label">WEBSITE REVIEWS</h1>
         <span class="section-divider"></span>
       </div>
       <div class="reviews-grid">
@@ -1143,7 +1147,7 @@ button {
 
         review.addEventListener("click", () => {
 
-          popup_Name.textContent = review.dataset.name + " " + review.dataset.stars;
+          popup_Name.innerHTML = review.dataset.name + ' <span class="popup-stars">' + review.dataset.stars + '</span>';
           popup_Title.textContent = review.dataset.title;
           popup_Text.textContent = review.dataset.review;
           popup.classList.add("show");
