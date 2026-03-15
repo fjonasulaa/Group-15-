@@ -1,3 +1,15 @@
+<?php
+session_start();
+require_once("../../database/db_connect.php");
+
+if (!isset($_SESSION['customerID'])) {
+    header("Location: log-in.php");
+    exit();
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
