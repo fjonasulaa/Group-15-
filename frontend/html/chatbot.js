@@ -200,7 +200,7 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
   // ── Build DOM ──────────────────────────────────────────────────────────────
   const toggle = document.createElement("button");
   toggle.id = "wc-toggle";
-  toggle.innerHTML = `<img src="../../images/icon.png" alt="Edward" style="width:34px;height:34px;object-fit:contain;border-radius:50%;">`;
+  toggle.innerHTML = `<img src="../../images/chatbot-logo.png" alt="Edward" style="width:34px;height:34px;object-fit:contain;border-radius:50%;">`;
   toggle.title = "Chat with Edward";
   document.body.appendChild(toggle);
 
@@ -209,7 +209,7 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
   win.classList.add("wc-hidden");
   win.innerHTML = `
     <div class="wc-header">
-      <div class="wc-header-icon"><img src="../../images/icon.png" alt="Wine Exchange" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div>
+      <div class="wc-header-icon"><img src="../../images/chatbot-logo.png" alt="Wine Exchange" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div>
       <div>
         <h3>Edward</h3>
         <p><span class="wc-dot"></span>Wine Exchange — always available</p>
@@ -219,7 +219,7 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
     <div class="wc-chips" id="wc-chips"></div>
     <div class="wc-messages" id="wc-messages">
       <div class="wc-msg wc-bot">
-        <div class="wc-avatar"><img src="../../images/icon.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div>
+        <div class="wc-avatar"><img src="../../images/chatbot-logo.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div>
         <div class="wc-bubble">Welcome to Wine Exchange! 🍷<br><br>I'm Edward, your personal wine assistant. Ask me anything — recommendations, how the exchange works, returns, food pairings, or selling your bottles. How can I help?</div>
       </div>
     </div>
@@ -258,7 +258,7 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
     const div = document.createElement("div");
     div.className = "wc-msg wc-" + role;
     div.innerHTML = role === "bot"
-      ? `<div class="wc-avatar"><img src="../../images/icon.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div><div class="wc-bubble">${html}</div>`
+      ? `<div class="wc-avatar"><img src="../../images/chatbot-logo.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div><div class="wc-bubble">${html}</div>`
       : `<div class="wc-bubble">${html}</div>`;
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
@@ -267,7 +267,7 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
   function showTyping() {
     const div = document.createElement("div");
     div.className = "wc-msg wc-bot"; div.id = "wc-typing";
-    div.innerHTML = `<div class="wc-avatar"><img src="../../images/icon.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div><div class="wc-bubble wc-typing"><span></span><span></span><span></span></div>`;
+    div.innerHTML = `<div class="wc-avatar"><img src="../../images/chatbot-logo.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div><div class="wc-bubble wc-typing"><span></span><span></span><span></span></div>`;
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
