@@ -62,6 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Wine Exchange</title>
@@ -251,6 +254,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <button type="submit" name="login">Log In</button>
 
+                <p style="text-align:center; margin: 10px 0;">or</p>
+
+        <div id="g_id_onload"
+                 data-client_id="966067449001-4ajt4ll22p3p2kefig7e2rj4ih7oipml.apps.googleusercontent.com"
+                 data-callback="handleGoogleLogin">
+            </div>
+
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-shape="rectangular"
+                 data-theme="outline"
+                 data-text="signin_with"
+                 data-size="large"
+                 data-logo_alignment="left">
+            </div>
+
                 <p>Don't have an account? <a href="signup.php">Sign up</a></p>
                 <p><a href="forgotPassword.php">Forgot your password?</a></p>
             </form>
@@ -306,6 +325,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
         });
     </script>
+
+
+    <script>
+        function handleGoogleLogin(response) {
+            fetch("google-login.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    credential: response.credential
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    window.location = "account.php";
+                } else {
+                    alert(data.message || "Google login failed");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("An error occurred during Google sign in.");
+            });
+        }
+        </script>
 
 </body>
 </html>
