@@ -17,7 +17,7 @@ $stmt->execute();
 $stmt->store_result();
 
 if ($stmt->num_rows === 0) {
-    header("Location: index.html");
+    header("Location: index.php");
     exit;
 }
 
@@ -26,7 +26,7 @@ $stmt->fetch();
 
 if ($orderOwner != $customerId) {
     // User is trying to access someone else's order
-    header("Location: index.html");
+    header("Location: index.php");
     exit;
 }
 
@@ -57,7 +57,7 @@ if ($stmt2->num_rows > 0) {
 
     
 } else {
-    header("Location: index.html");
+    header("Location: index.php");
     exit;
 }
 
@@ -249,9 +249,9 @@ function showError($errors) {
   <div class="navbar">
     <img src="../../images/icon.png" alt="Wine Exchange Logo">
     <div class="navbar-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="wines.html">Wines</a>
+      <a href="index.php">Home</a>
+      <a href="about.php">About Us</a>
+      <a href="search.php">Wines</a>
       <a href="basket.php">Basket</a>
       <a href="contact-us.php">Contact Us</a>
     </div>
