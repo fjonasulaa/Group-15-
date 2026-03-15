@@ -328,6 +328,18 @@ if (isset($_SESSION['customerID'])) {
       margin-bottom: 36px;
     }
 
+<<<<<<< HEAD
+=======
+    .review-header .stars {
+      color: rgb(255, 215, 0);
+      font-size: 1.3rem;
+    }
+
+  .popup-stars {
+  color: rgb(255, 215, 0);
+}
+
+>>>>>>> 0e399fffcca73d7fcd047aacae0b27785249d998
     .reviews {
       display: block !important;
       position: relative !important;
@@ -991,7 +1003,7 @@ if (isset($_SESSION['customerID'])) {
     <!-- REVIEWS -->
     <section class="reviews">
       <div class="reviews-header">
-        <h1 class="section-label">REVIEWS</h1>
+        <h1 class="section-label">WEBSITE REVIEWS</h1>
         <span class="section-divider"></span>
       </div>
       <div class="reviews-grid">
@@ -1338,6 +1350,40 @@ if (isset($_SESSION['customerID'])) {
     loadWishlist();
   </script>
 
+<<<<<<< HEAD
  <script src="chatbot.js"></script>
+=======
+  <script>
+      const reviews = document.querySelectorAll(".review-card");
+      const popup = document.getElementById("popup");
+
+      const popup_Name = document.getElementById("popup-name");
+      const popup_Title = document.getElementById("popup-title");
+      const popup_Text = document.getElementById("popup-text");
+
+      const close = document.getElementById("close");
+
+      reviews.forEach(review => {
+
+        review.addEventListener("click", () => {
+
+          popup_Name.innerHTML = review.dataset.name + ' <span class="popup-stars">' + review.dataset.stars + '</span>';
+          popup_Title.textContent = review.dataset.title;
+          popup_Text.textContent = review.dataset.review;
+          popup.classList.add("show");
+        });
+      });
+
+      close.addEventListener("click", () => {
+        popup.classList.remove("show");
+      });
+
+    </script>
+    
+    <!-- CHATBOT -->
+  <script src="chatbot.js"></script>
+  
+
+>>>>>>> 0e399fffcca73d7fcd047aacae0b27785249d998
 </body>
 </html>
