@@ -328,11 +328,6 @@ if (isset($_SESSION['customerID'])) {
       margin-bottom: 36px;
     }
 
-    .review-header .stars {
-      color: rgb(255, 215, 0);
-      font-size: 1.3rem;
-    }
-
     .reviews {
       display: block !important;
       position: relative !important;
@@ -462,74 +457,6 @@ if (isset($_SESSION['customerID'])) {
       .faq-grid { grid-template-columns: 1fr; }
     }
 
-    /* ── FOOTER ── */
-    .footer {
-      background-color: #f4f4f4;
-      padding: 30px 10%;
-      margin-top: 40px;
-      color: #333;
-    }
-
-    .footer-container {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .footer-section {
-      flex: 1 1 250px;
-      margin: 10px;
-    }
-
-    .footer-section h3 {
-      margin-bottom: 10px;
-      font-size: 14px;
-      color: #333;
-    }
-
-    .footer-links {
-      list-style: none;
-      padding: 0;
-    }
-
-    .footer-links li { margin: 5px 0; }
-
-    .footer-links a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .footer-links a:hover { text-decoration: underline; }
-
-    .footer-button {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 8px 15px;
-      background-color: #4CAF50;
-      color: white;
-      border-radius: 4px;
-      text-decoration: none;
-    }
-
-    .footer-button:hover { opacity: 0.9; }
-
-    .footer-bottom {
-      text-align: center;
-      margin-top: 20px;
-      padding-top: 10px;
-      border-top: 1px solid #ccc;
-      font-size: 14px;
-    }
-
-    .darkmode .footer {
-      background-color: #1e1e1e;
-      color: #eee;
-    }
-
-    .darkmode .footer-bottom { border-top: 1px solid #555; }
-    .darkmode .footer-links a { color: #ddd; }
-    .darkmode .footer-section h3 { color: #eee; }
-
     /* ── WISHLIST SIDEBAR ── */
     .wishlist-sidebar {
       position: fixed;
@@ -653,49 +580,6 @@ if (isset($_SESSION['customerID'])) {
       text-align: center;
     }
 
-  .popup-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  background-color: rgba(0, 0, 0, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.popup-container.show{
-  pointer-events: auto;
-  opacity: 1;
-}
-
-button {
-  background-color: #6B0F1A;
-  border: 0;
-  border-radius: 5px;
-  color: white;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 10px 25px;
-  margin-top: 10px;
-  cursor: pointer;
-}
-
-.pop-up {
-  background-color: white;
-  padding: 30px 50px;
-  width: 600px;
-  max-width: 100%;
-}
-
-.pop-up h1 {
-  font-size: 2rem;
-}
-
     /* Dark mode wishlist */
     html.darkmode .wishlist-sidebar { background: #121212; color: #ffffff; }
     html.darkmode .wishlist-item { background: #1e1e1e; border: 1px solid #333; box-shadow: none; }
@@ -706,6 +590,259 @@ button {
     html.darkmode .remove-wishlist { color: #bbbbbb; }
     html.darkmode .remove-wishlist:hover { color: #ff4d4d; }
     html.darkmode #wishlist-items p { color: #cccccc; }
+
+    /* ── FOOTER ── */
+    .footer-newsletter {
+      background: #6b1a2e;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-newsletter strong {
+      display: block;
+      font-weight: 500;
+      color: #ffffff;
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+
+    .footer-newsletter p {
+      color: #f5dde3;
+      font-size: 15px;
+    }
+
+    .newsletter-form {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .footer-newsletter .newsletter-form input {
+      padding: 7px 12px !important;
+      border-radius: 8px !important;
+      border: 0.5px solid rgba(255, 255, 255, 0.25) !important;
+      background: rgba(255, 255, 255, 0.12) !important;
+      color: #ffffff !important;
+      font-size: 15px !important;
+      width: 210px !important;
+      max-width: 210px !important;
+      min-width: 210px !important;
+      outline: none !important;
+      font-family: inherit !important;
+      box-sizing: border-box !important;
+      margin-bottom: 0 !important;
+    }
+
+    .footer-newsletter .newsletter-form input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .footer-newsletter .newsletter-form input:focus {
+      border-color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    .footer-newsletter .btn-subscribe {
+      padding: 7px 16px !important;
+      border-radius: 8px !important;
+      background: #ffffff !important;
+      border: none !important;
+      color: #6b1a2e !important;
+      font-size: 15px !important;
+      font-weight: 500 !important;
+      cursor: pointer !important;
+      font-family: inherit !important;
+      transition: background 0.15s !important;
+      width: 210px !important;
+      max-width: 210px !important;
+      min-width: 210px !important;
+      box-sizing: border-box !important;
+    }
+
+    .footer-newsletter .btn-subscribe:hover {
+      background: #f0e8ea !important;
+    }
+
+    .footer-main {
+      background: #ffffff;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 28px;
+      padding: 36px 32px 28px;
+    }
+
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b1a2e;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+      font-family: Georgia, serif;
+    }
+
+    .footer-col p {
+      color: #4a2a30;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .footer-col a {
+      display: block;
+      color: #4a2a30;
+      font-size: 15px;
+      line-height: 2;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-col a:hover {
+      color: #6b1a2e;
+    }
+
+    .footer-tagline {
+      color: #8a5a60;
+      font-style: italic;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .footer-contact-email {
+      color: #6b1a2e !important;
+    }
+
+    .footer-contact-muted {
+      color: #8a5a60 !important;
+    }
+
+    .btn-browse {
+      display: inline-block;
+      margin-top: 16px;
+      background: #ffffff;
+      color: #6b1a2e;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 9px 18px;
+      border-radius: 8px;
+      border: 1px solid #6b1a2e;
+      text-decoration: none;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+
+    .btn-browse:hover {
+      background: #f9f0f2;
+      color: #6b1a2e;
+    }
+
+    .trust-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: #4a2a30;
+      font-size: 15px;
+    }
+
+    .trust-item svg {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+    }
+
+    .payment-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .payment-icon {
+      background: #6b1a2e;
+      color: #f5e6c8;
+      border-radius: 3px;
+      padding: 2px 7px;
+      font-size: 10px;
+      font-weight: 600;
+      font-family: Georgia, serif;
+      letter-spacing: 0.04em;
+    }
+
+    .col-divider {
+      border: none;
+      border-top: 0.5px solid #e8c8c8;
+      margin: 10px 0;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #e8c8c8;
+      background: #fdf6f0;
+      padding: 16px 32px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-bottom p {
+      font-size: 14px;
+      color: #8a5a60;
+    }
+
+    .age-badge {
+      background: #fdf0e8;
+      border: 0.5px solid #c9a84c;
+      color: #7a4a00;
+      font-size: 13px;
+      padding: 3px 10px;
+      border-radius: 8px;
+    }
+
+    .darkmode .footer-main { background: #1c100d; }
+    .darkmode .footer-col p,
+    .darkmode .footer-col a { color: #c0a898; }
+    .darkmode .footer-col a:hover { color: #f0e6de; }
+    .darkmode .footer-bottom { background: #140a08; border-top-color: #3a2820; }
+    .darkmode .footer-bottom p { color: #8a7a72; }
+
+    @media (max-width: 600px) {
+      .footer-newsletter {
+        padding: 16px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .newsletter-form {
+        width: 100%;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        width: auto;
+      }
+
+      .footer-main {
+        padding: 24px 20px;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-bottom {
+        padding: 14px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
   </style>
 </head>
 
@@ -862,59 +999,52 @@ button {
         <div class="review-card"
             data-name="Kathy Schwabe"
             data-title="Effortless ordering and flawless delivery."
-            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time."
+            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It's clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it's refreshing to know I can rely on them every single time."
             data-stars="★★★★★">
-
 
           <div class="review-header">
             <img src="../../images/bd.jpg" alt="Kathy Schwabe" class="profile-pic" />
             <h3>Kathy Schwabe</h3>
-            <p class= "stars">★★★★★</p>
+            <img src="../../images/5star.png" alt="5 stars" class="review-rating" />
           </div>
           <blockquote>
             <h4>Effortless ordering and flawless delivery.</h4>
+            <p>Wine Exchange has a truly impressive variety of red, white, sparkling, and rosé wines. Browsing the site felt effortless, with clear categories and detailed descriptions that made choosing the right bottle simple and enjoyable.</p>
           </blockquote>
         </div>
 
         <div class="review-card"
             data-name="Edward Sinclair"
             data-title="My go-to site for hassle-free wine shopping."
-            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time."
+            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It's clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it's refreshing to know I can rely on them every single time."
             data-stars="★★★★★"> 
 
           <div class="review-header">
             <img src="../../images/jj.jpg" alt="Edward Sinclair" class="profile-pic" />
             <h3>Edward Sinclair</h3>
-            <p class= "stars">★★★★★</p>
+            <img src="../../images/5star.png" alt="5 stars" class="review-rating" />
           </div>
           <blockquote>
             <h4>My go-to site for hassle-free wine shopping.</h4>
+            <p>I've ordered several times from Wine Exchange and they've always delivered on time. The prices are fair compared to other online shops, and the range of wines keeps me coming back to explore new options.</p>
           </blockquote>
         </div>
 
         <div class="review-card"
             data-name="Harry Maguire"
             data-title="Exactly as described, delivered without delay!"
-            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time."
+            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It's clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it's refreshing to know I can rely on them every single time."
             data-stars="★★★★★">
 
           <div class="review-header">
             <img src="../../images/hm.jpg" alt="Harry Maguire" class="profile-pic" />
             <h3>Harry Maguire</h3>
-            <p class= "stars">★★★★★</p>
+            <img src="../../images/5star.png" alt="5 stars" class="review-rating" />
           </div>
           <blockquote>
             <h4>Exactly as described, delivered without delay!</h4>
+            <p>I wasn't sure which wine to choose, but the clear descriptions and tasting notes made the decision much easier. The rosé I purchased was crisp, refreshing, and exactly what I hoped for.</p>
           </blockquote>
-        </div>
-
-        <div class="popup-container" id="popup">
-            <div class="pop-up">
-              <h1 id="popup-name"></h1>
-              <h2 id="popup-title"></h2>
-              <p id="popup-text"></p>
-              <button id="close">Close Review</button>
-            </div>
         </div>
 
       </div>
@@ -949,37 +1079,116 @@ button {
   </main>
 
   <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-section">
-        <h3>Wine Exchange</h3>
+  <footer>
+
+    <!-- Newsletter bar -->
+    <div class="footer-newsletter">
+      <div>
+        <strong>Join our wine newsletter</strong>
+        <p>Tasting notes, new arrivals &amp; exclusive offers</p>
+      </div>
+      <div class="newsletter-form" style="display:flex; flex-direction:row; gap:8px; align-items:center;">
+        <input type="email" placeholder="Your email address" style="width:210px !important; min-width:210px !important; max-width:210px !important; padding:7px 12px; border-radius:8px; border:0.5px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.12); color:#ffffff; font-size:15px; outline:none; box-sizing:border-box; margin-bottom:0;" />
+        <button class="btn-subscribe" style="width:210px !important; min-width:210px !important; max-width:210px !important; padding:7px 16px; border-radius:8px; background:#ffffff; border:none; color:#6b1a2e; font-size:15px; font-weight:500; cursor:pointer; box-sizing:border-box;">Subscribe</button>
+      </div>
+    </div>
+
+    <!-- Main columns -->
+    <div class="footer-main">
+
+      <!-- Col 1: Brand info -->
+      <div class="footer-col">
+        <h4>Wine Exchange</h4>
+        <p class="footer-tagline">Independent wine merchant since 2010</p>
         <p>123 Vineyard Lane<br>London, UK</p>
-        <p>Phone: +44 1234 567890</p>
-        <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
-        <p>Open: Mon–Fri, 9am–6pm</p>
+        <p class="footer-contact-muted" style="margin-top: 8px;">+44 1234 567890</p>
+        <a href="mailto:contactwinexchange@gmail.com" class="footer-contact-email">contactwinexchange@gmail.com</a>
+        <p class="footer-contact-muted" style="margin-top: 8px;">Mon–Fri, 9am–6pm</p>
+        <a href="search.php" class="btn-browse">Browse all wines →</a>
       </div>
-      <div class="footer-section">
-        <h3>Quick Links</h3>
-        <ul class="footer-links">
-          <li><a href="index.php">Home</a></li>
-          <li><a href="search.php">Wines</a></li>
-          <li><a href="about.php">About Us</a></li>
-          <li><a href="contact-us.php">Contact</a></li>
-        </ul>
-        <a href="contact-us.php" class="footer-button">Contact Us</a>
+
+      <!-- Col 2: Why shop with us -->
+      <div class="footer-col">
+        <h4>Why shop with us</h4>
+        <div class="trust-list">
+
+          <div class="trust-item">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="4" width="16" height="11" rx="2" stroke="#6b1a2e" stroke-width="1.2"/>
+              <path d="M1 7h16" stroke="#6b1a2e" stroke-width="1.2"/>
+            </svg>
+            Secure payments
+          </div>
+
+          <div class="trust-item">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="8" width="10" height="7" rx="1.2" stroke="#6b1a2e" stroke-width="1.2"/>
+              <path d="M12 11h2.5a1 1 0 001-1V8.5a1 1 0 00-.6-.9L13 7" stroke="#6b1a2e" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="5" cy="15.5" r="1.2" fill="#6b1a2e"/>
+              <circle cx="10" cy="15.5" r="1.2" fill="#6b1a2e"/>
+            </svg>
+            Free standard delivery on every order
+          </div>
+
+          <div class="trust-item">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 2v8M9 10l-3 3m3-3l3 3" stroke="#6b1a2e" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M4 14h10" stroke="#6b1a2e" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+            Easy returns
+          </div>
+
+          <div class="trust-item">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="9" cy="9" r="7" stroke="#6b1a2e" stroke-width="1.2"/>
+              <path d="M9 5v4l2.5 2.5" stroke="#6b1a2e" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+            Next-day dispatch
+          </div>
+
+          <div class="trust-item">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 2l1.8 5h5.2l-4.2 3 1.6 5L9 12l-3.4 3 1.6-5L3 7h5.2z" stroke="#6b1a2e" stroke-width="1.1" stroke-linejoin="round"/>
+            </svg>
+            Expert curation
+          </div>
+
+        </div>
       </div>
-      <div class="footer-section">
-        <h3>Follow Us</h3>
-        <ul class="footer-links">
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">Twitter</a></li>
-        </ul>
+
+      <!-- Col 3: Help -->
+      <div class="footer-col">
+        <h4>Help</h4>
+        <a href="about.php">About us</a>
+        <a href="faq.php">FAQ</a>
+        <a href="contact-us.php">Contact us</a>
+        <a href="shipping.php">Shipping &amp; delivery</a>
+        <a href="terms.php">Terms &amp; conditions</a>
       </div>
+
+      <!-- Col 4: Legal & payments -->
+      <div class="footer-col">
+        <h4>Legal &amp; payments</h4>
+        <a href="terms.php">Privacy policy</a>
+        <a href="terms.php">Cookie policy</a>
+        <a href="terms.php">Accessibility</a>
+        <hr class="col-divider" />
+        <div class="payment-icons">
+          <span class="payment-icon">VISA</span>
+          <span class="payment-icon">MC</span>
+          <span class="payment-icon">AMEX</span>
+          <span class="payment-icon">PayPal</span>
+        </div>
+      </div>
+
     </div>
+
+    <!-- Bottom bar -->
     <div class="footer-bottom">
-      © 2026 Wine Exchange. All rights reserved.
+      <p>© 2026 Wine Exchange. All rights reserved.</p>
+      <span class="age-badge">18+ only — please drink responsibly</span>
     </div>
+
   </footer>
 
   <!-- CAROUSEL SCRIPT -->
@@ -1129,36 +1338,6 @@ button {
     loadWishlist();
   </script>
 
-  <script>
-      const reviews = document.querySelectorAll(".review-card");
-      const popup = document.getElementById("popup");
-
-      const popup_Name = document.getElementById("popup-name");
-      const popup_Title = document.getElementById("popup-title");
-      const popup_Text = document.getElementById("popup-text");
-
-      const close = document.getElementById("close");
-
-      reviews.forEach(review => {
-
-        review.addEventListener("click", () => {
-
-          popup_Name.textContent = review.dataset.name + " " + review.dataset.stars;
-          popup_Title.textContent = review.dataset.title;
-          popup_Text.textContent = review.dataset.review;
-          popup.classList.add("show");
-        });
-      });
-
-      close.addEventListener("click", () => {
-        popup.classList.remove("show");
-      });
-
-    </script>
-    
-    <!-- CHATBOT -->
-  <script src="chatbot.js"></script>
-  
-
+ <script src="chatbot.js"></script>
 </body>
 </html>
