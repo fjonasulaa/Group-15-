@@ -19,6 +19,30 @@ if (!$nameResult) {
 
 $customerName = ucfirst($nameResult['firstName']) . " " . ucfirst($nameResult['surname']);
 
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $stars = isset($_POST['rating']) ? intval($_POST['rating']) : 0;
+    $wReviewHeading = isset($_POST['heading']) ? trim($_POST['heading']) : '';
+    $rwReviewText = isset($_POST['message']) ? trim($_POST['message']) : '';
+
+    if ($stars == 0 || $wReviewHeading === '' || $rwReviewText === '') {
+        die("Rating and review text are required.");
+    }
+
+    $query = $conn->prepare("
+        INSERT INTO websiteReviews (customerId, wStars, wReviewHeading, wReviewText, reviewDate)
+        VALUES (?, ?, ?, ?, CURRENT_DATE)
+    ");
+
+    $query->bind_param("iiss", $customerId, $stars, $wReviewHeading, $rwReviewText);
+
+    if ($query->execute()) {
+        header("Location: index.php?review=success");
+        exit();
+    } else {
+        echo "Error submitting review: " . $conn->error;
+    }
+}
 ?>
 
 
