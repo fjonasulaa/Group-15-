@@ -267,7 +267,7 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
   function showTyping() {
     const div = document.createElement("div");
     div.className = "wc-msg wc-bot"; div.id = "wc-typing";
-    div.innerHTML = `<div class="wc-avatar"><img src="../../images/icon.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div><div class="wc-bubble wc-typing"><span></span><span></span><span></span></div>`;
+    div.innerHTML = `<div class="wc-avatar"><img src="../../images/.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div><div class="wc-bubble wc-typing"><span></span><span></span><span></span></div>`;
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
