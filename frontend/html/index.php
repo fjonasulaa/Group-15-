@@ -803,7 +803,7 @@ if (isset($_SESSION['customerID'])) {
       </div>
     </section>
 
-    <!-- REVIEWS -->
+<!-- REVIEWS -->
     <section class="reviews">
       <div class="reviews-header">
         <h1 class="section-label">REVIEWS</h1>
@@ -811,41 +811,56 @@ if (isset($_SESSION['customerID'])) {
       </div>
       <div class="reviews-grid">
 
-        <article class="review-card">
+        <div class="review-card"
+            data-name="Kathy Schwabe"
+            data-title="Effortless ordering and flawless delivery."
+            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time."
+            data-stars="★★★★★">
+
           <div class="review-header">
-            <img src="../../images/bd.jpg" alt="Bob Duncan" class="profile-pic" />
-            <h3>Bob Duncan, 44</h3>
+            <img src="../../images/bd.jpg" alt="Kathy Schwabe" class="profile-pic" />
+            <h3>Kathy Schwabe</h3>
             <img src="../../images/5star.png" alt="5 stars" class="review-rating" />
           </div>
           <blockquote>
             <h4>Effortless ordering and flawless delivery.</h4>
             <p>Wine Exchange has a truly impressive variety of red, white, sparkling, and rosé wines. Browsing the site felt effortless, with clear categories and detailed descriptions that made choosing the right bottle simple and enjoyable.</p>
           </blockquote>
-        </article>
+        </div>
 
-        <article class="review-card">
+        <div class="review-card"
+            data-name="Edward Sinclair"
+            data-title="My go-to site for hassle-free wine shopping."
+            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time."
+            data-stars="★★★★★"> 
+
           <div class="review-header">
-            <img src="../../images/jj.jpg" alt="Jodi Jones" class="profile-pic" />
-            <h3>Jodi Jones, 55</h3>
+            <img src="../../images/jj.jpg" alt="Edward Sinclair" class="profile-pic" />
+            <h3>Edward Sinclair</h3>
             <img src="../../images/5star.png" alt="5 stars" class="review-rating" />
           </div>
           <blockquote>
             <h4>My go-to site for hassle-free wine shopping.</h4>
             <p>I've ordered several times from Wine Exchange and they've always delivered on time. The prices are fair compared to other online shops, and the range of wines keeps me coming back to explore new options.</p>
           </blockquote>
-        </article>
+        </div>
 
-        <article class="review-card">
+        <div class="review-card"
+            data-name="Harry Maguire"
+            data-title="Exactly as described, delivered without delay!"
+            data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It’s clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it’s refreshing to know I can rely on them every single time."
+            data-stars="★★★★★">
+
           <div class="review-header">
             <img src="../../images/hm.jpg" alt="Harry Maguire" class="profile-pic" />
-            <h3>Harry Maguire, 54</h3>
+            <h3>Harry Maguire</h3>
             <img src="../../images/5star.png" alt="5 stars" class="review-rating" />
           </div>
           <blockquote>
             <h4>Exactly as described, delivered without delay!</h4>
             <p>I wasn't sure which wine to choose, but the clear descriptions and tasting notes made the decision much easier. The rosé I purchased was crisp, refreshing, and exactly what I hoped for.</p>
           </blockquote>
-        </article>
+        </div>
 
       </div>
     </section>
