@@ -834,22 +834,24 @@ $reviews = $conn->query($reviewSQL);
     }
 
     /* ── SCROLL FADE-INS ── */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity .65s ease, transform .65s ease;
-    }
-    .fade-in.visible { opacity: 1; transform: none; }
-
-    .stagger-children > * {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity .55s ease, transform .55s ease;
-    }
-    .stagger-children.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:.05s; }
-    .stagger-children.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:.15s; }
-    .stagger-children.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:.25s; }
-    .stagger-children.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:.35s; }
+  .fade-in {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .65s ease, transform .65s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+  .stagger-children > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .55s ease, transform .55s ease;
+  }
+  .stagger-children.visible > * {
+    opacity: 1;
+    transform: none;
+  }
 
     /* ── HERO TEXT ENTRANCE ── */
     .header-content p:first-child,
