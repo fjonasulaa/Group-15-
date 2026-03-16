@@ -13,17 +13,20 @@ CREATE TABLE customer (
 );
 
 CREATE TABLE wines (
-  wineId INT NOT NULL PRIMARY KEY,
-  wineName VARCHAR(100) NOT NULL,
-  wineRegion VARCHAR(100),
-  ingredients TEXT,
-  country VARCHAR(100),
-  category VARCHAR(100),
-  price DECIMAL(7,2) NOT NULL,
-  description TEXT,
-  imageUrl VARCHAR(500),
-  stock INT UNSIGNED,
-  active BOOLEAN NOT NULL DEFAULT TRUE
+    wineId INT NOT NULL PRIMARY KEY,
+    wineName VARCHAR(100) NOT NULL,
+    wineRegion VARCHAR(100),
+    ingredients TEXT,
+    country VARCHAR(100),
+    category VARCHAR(100),
+    price DECIMAL(7,2) NOT NULL,
+    description TEXT,
+    imageUrl VARCHAR(500),
+    img2 VARCHAR(500),
+    img3 VARCHAR(500),
+    img4 VARCHAR(500),
+    stock INT UNSIGNED,
+    active BOOLEAN NOT NULL DEFAULT TRUE
 );
 ALTER TABLE wines CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
