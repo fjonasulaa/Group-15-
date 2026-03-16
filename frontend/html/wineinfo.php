@@ -161,6 +161,11 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
                     Price: <span>£<?= $wine['price'] ?></span>
                 </p>
 
+                <p class="stock">
+                    In stock: <strong><?php echo intval($wine['stock']); ?></strong>
+                </p>
+
+
                 <!-- star rating links down to reviews section -->
                 <a href="#reviews-section" class="stars-link">
                     <div class="inline-stars">
