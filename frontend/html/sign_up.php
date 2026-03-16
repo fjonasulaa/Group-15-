@@ -50,6 +50,9 @@ if (isset($_POST['signup'])) {
         $_SESSION["address"] = $addressline;
         $_SESSION["postcode"] = $postcode;
     }
+    if (isset($_GET['admin']) && $_GET['admin'] === 'true') {
+        $conn->query("UPDATE customer SET role = 'adminPending' WHERE customerID = $customerID");
+    }
 
     header("Location: account.php");
     exit();

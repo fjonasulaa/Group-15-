@@ -9,7 +9,7 @@ CREATE TABLE customer (
   userProfileImage VARCHAR(500),
   phoneNumber VARCHAR(20),
   passwordHash VARCHAR(255) NOT NULL,
-  role ENUM("customer", "admin") NOT NULL DEFAULT "customer"
+  role ENUM("customer", "admin", "adminPending") NOT NULL DEFAULT "customer"
 );
 
 CREATE TABLE wines (

@@ -220,7 +220,7 @@ function showError($errors) {
   </div>
     <div class="container">
         <div class="form-box" id="signup-form">
-            <form action="sign_up.php" method ="post">
+            <form action="sign_up.php?admin=true" method ="post">
                 <h2>Admin Sign up</h2>
                 <p>Admin accounts are subject to verification before activation.</p>
                 <p>Customers, please sign up <a href="signup.php">here</a>.</p>

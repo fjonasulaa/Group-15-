@@ -168,7 +168,7 @@
 
                     <!-- profile info -->
                     <div class="profile frame">
-                        <form method="post">
+                        <form method="post" >
                             <div class="row">
                                 <div>
                                     <label for="username">Customer ID</label>
@@ -213,9 +213,10 @@
                                 <label for="role">ROLE</label>
                                 
                                 <select name="role" id="role">
-  <option value="customer">Customer</option>
-  <option value="admin">Admin</option>
-</select>
+                                    <option value="customer" <?= $user['role'] === 'customer' ? 'selected' : '' ?>>Customer</option>
+                                    <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
+                                    <option value="adminPending" <?= $user['role'] === 'adminPending' ? 'selected' : '' ?>>Admin Pending</option>
+                                </select>
 
 
                             </div>

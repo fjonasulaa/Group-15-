@@ -236,7 +236,7 @@ function showError($errors) {
                 required>
                 <button type="submit" name="signup">Sign up</button>
                 <p>Already have an account? <a href="log-in.php">Login</a></p>
-                <p>Trying to sign up as an admin? <a href="admin_signup.php">Login</a></p>
+                <p>Trying to sign up as an admin? <a href="admin_signup.php">Click here</a></p>
 
                 <div id="g_id_onload"
                   data-client_id="966067449001-4ajt4ll22p3p2kefig7e2rj4ih7oipml.apps.googleusercontent.com"
