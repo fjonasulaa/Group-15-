@@ -129,6 +129,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateTransactionStat
     exit();
 
 }
+// Returns
+if (isset($_POST['approveReturn'])) {
+    $refundId = intval($_POST['refundId']);
+    $orderId = intval($_POST['orderId']);
+
+    $sql = "SELECT wineId, quantity FROM orderswines WHERE orderId = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $orderId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($row = $result->fetch_assoc()) {
+        $wineId = (int)$row['wineId'];
+        $qty = (int)$row['quantity'];
+
+        $update = $conn->prepare("UPDATE wines SET stock = stock + ? WHERE wineId = ?");
+        $update->bind_param("ii", $qty, $wineId);
+        $update->execute();
+    }
+
+    $updateRefund = $conn->prepare("UPDATE refund SET status = 'accepted' WHERE refundId = ?");
+    $updateRefund->bind_param("i", $refundId);
+    $updateRefund->execute();
+}
+
+if (isset($_POST['rejectReturn'])) {
+    $refundId = intval($_POST['refundId']);
+
+    $updateRefund = $conn->prepare("UPDATE refund SET status = 'denied' WHERE refundId = ?");
+    $updateRefund->bind_param("i", $refundId);
+    $updateRefund->execute();
+}
 
 
 
@@ -181,3 +213,12 @@ while ($row = $result2->fetch_assoc()) {
 }
 
 $stmt->close();
+
+$returnQuery = $conn->prepare("
+    SELECT r.refundId, r.orderId, r.reason, r.description, r.status, o.customerId
+    FROM refund r
+    JOIN orders o ON r.orderId = o.orderId
+    ORDER BY r.refundId DESC
+");
+$returnQuery->execute();
+$returns = $returnQuery->get_result()->fetch_all(MYSQLI_ASSOC);

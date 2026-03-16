@@ -95,6 +95,7 @@ CREATE TABLE refund (
   orderId INT NOT NULL,
   reason ENUM('wrong', 'broken', 'inaccurate', 'duplicate', 'gift', 'other') NOT NULL,
   description TEXT NOT NULL,
+  status ENUM('pending', 'accepted', 'denied') NOT NULL DEFAULT 'pending',
   FOREIGN KEY (orderId) REFERENCES orders(orderId)
 );
 

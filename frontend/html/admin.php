@@ -154,6 +154,7 @@
         <div class="tab">
             <button class="tablinks active" onclick="openTab(event, 'profile')">Profile</button>
             <button class="tablinks" onclick="openTab(event, 'transactions')">Transactions</button>
+            <button class="tablinks" onclick="openTab(event, 'returns')">Returns</button>
 <button class = "tablinks" onclick="window.location.href='inventory.php'">Inventory</button>
                     <button class = "tablinks" onclick="window.location.href='logout.php'">Logout</button>
         </div>
@@ -305,6 +306,56 @@
 
                 
                             <?php endfor; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <!-- returns -->
+                <div class="tabcontent" id="returns" style="display:none;">
+                    <h1 class="center-title">RETURN REQUESTS</h1>
+
+                    <div class="transaction-table">
+                        <div class="transaction-header">
+                            <span>REFUND ID</span>
+                            <span>ORDER ID</span>
+                            <span>REASON</span>
+                            <span>DESCRIPTION</span>
+                            <span>STATUS</span>
+                            <span>ACTION</span>
+                        </div>
+
+                        <?php if (count($returns) === 0): ?>
+                            <div class="transaction-row">
+                                <span>—</span>
+                                <span>—</span>
+                                <span>No returns found</span>
+                                <span>—</span>
+                                <span>—</span>
+                                <span>—</span>
+                            </div>
+                        <?php else: ?>
+                        
+                            <?php foreach ($returns as $r): ?>
+                                <form method="post" class="transaction-row">
+                                    <input type="hidden" name="refundId" value="<?= $r['refundId'] ?>">
+                                    <input type="hidden" name="orderId" value="<?= $r['orderId'] ?>">
+                            
+                                    <span><?= $r['refundId'] ?></span>
+                                    <span><?= $r['orderId'] ?></span>
+                                    <span><?= htmlspecialchars($r['reason']) ?></span>
+                                    <span><?= htmlspecialchars($r['description']) ?></span>
+                                    <span><?= $r['status'] ?></span>
+                            
+                                    <span>
+                                        <?php if ($r['status'] === 'pending'): ?>
+                                            <button name="approveReturn">Approve</button>
+                                            <button name="rejectReturn" style="background:#b33;">Reject</button>
+                                        <?php else: ?>
+                                            <strong><?= $r['status'] ?></strong>
+                                        <?php endif; ?>
+                                    </span>
+                                </form>
+                            <?php endforeach; ?>
+                                        
                         <?php endif; ?>
                     </div>
                 </div>

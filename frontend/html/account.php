@@ -92,7 +92,16 @@ $user = $userQuery->get_result()->fetch_assoc();
         .status-returned {
             color: green;
             font-weight: bold;
-            text-align: center;
+        }
+
+        .status-pending {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .status-rejected {
+            color: #b33;
+            font-weight: bold;
         }
         .status-not-eligible {
             color: grey;
@@ -436,14 +445,22 @@ $user = $userQuery->get_result()->fetch_assoc();
                         <td>
                             <?php
                                 $oid = (int)$row['orderId'];
-                                $checkRefund = $conn->query("SELECT 1 FROM refund WHERE orderId = $oid LIMIT 1");
-                                $hasRefund   = $checkRefund->num_rows > 0;
+                                $refundQuery = $conn->query("SELECT status FROM refund WHERE orderId = $oid LIMIT 1");
+                                $refund      = $refundQuery->fetch_assoc();
+                                $refundStatus = $refund['status'] ?? null;
                                 $within30    = $row['orderDate'] > date('Y-m-d', strtotime('-30 days'));
 
-                                if ($hasRefund) {
-                                    echo "<span class='status-returned'>Returned</span>";
+                                if ($refundStatus === 'accepted') {                             
+                                    echo "<span class='status-returned'>Return Approved</span>";
+                                } elseif ($refundStatus === 'pending') {
+                                    echo "<span class='status-not-eligible'>Return Pending Approval</span>";
+                                                
+                                } elseif ($refundStatus === 'denied') {
+                                    echo "<span class='status-not-eligible' style='color:#b33;'>Return Rejected</span>";
+                                                
                                 } elseif ($within30) {
                                     echo "<button onclick=\"window.location.href='return.php?orderId=$oid'\">Return</button>";
+                                                
                                 } else {
                                     echo "<span class='status-not-eligible'>Not eligible</span>";
                                 }
