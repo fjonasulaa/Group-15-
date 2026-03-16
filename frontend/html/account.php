@@ -33,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 // ── Handle Delete Account 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete') {
-    // Delete in dependency order (children before parents)
     $conn->query("DELETE FROM refund      WHERE orderId IN (SELECT orderId FROM orders WHERE customerId = $cid)");
     $conn->query("DELETE FROM shipping    WHERE orderId IN (SELECT orderId FROM orders WHERE customerId = $cid)");
     $conn->query("DELETE FROM payment     WHERE orderId IN (SELECT orderId FROM orders WHERE customerId = $cid)");
@@ -129,7 +128,6 @@ $user = $userQuery->get_result()->fetch_assoc();
             background-color: var(--background-colour);
         }
 
-        /* ── Buttons below the info box */
         .accountinfo-actions {
             display: flex;
             gap: 0;
@@ -179,7 +177,6 @@ $user = $userQuery->get_result()->fetch_assoc();
             color: #fff;
         }
 
-        /* ── Button row  */
         .action-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -216,7 +213,6 @@ $user = $userQuery->get_result()->fetch_assoc();
             background: #555;
         }
 
-        /* ── Success banner  */
         .alert-success {
             background: #d4edda;
             color: #155724;
@@ -227,7 +223,6 @@ $user = $userQuery->get_result()->fetch_assoc();
             text-align: center;
         }
 
-        /* ── Modal backdrop*/
         .modal-backdrop {
             display: none;
             position: fixed;
@@ -268,7 +263,6 @@ $user = $userQuery->get_result()->fetch_assoc();
             padding: 0;
         }
 
-        /* ── Edit form  */
         .edit-form label {
             display: block;
             margin-bottom: 4px;
@@ -292,7 +286,6 @@ $user = $userQuery->get_result()->fetch_assoc();
             width: 100%;
         }
 
-        /* ── Delete confirmation modal  */
         .delete-warning {
             color: #c0392b;
             font-weight: 600;
@@ -323,48 +316,6 @@ $user = $userQuery->get_result()->fetch_assoc();
                 border-bottom: none;
             }
         }
-
-        /* ── Footer  */
-        .footer {
-            background-color: #f4f4f4;
-            padding: 30px 10%;
-            margin-top: 40px;
-            color: #333;
-        }
-        .footer-container {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .footer-section {
-            flex: 1 1 250px;
-            margin: 10px;
-        }
-        .footer-section h3 { margin-bottom: 10px; }
-        .footer-links { list-style: none; padding: 0; }
-        .footer-links li { margin: 5px 0; }
-        .footer-links a { text-decoration: none; color: inherit; }
-        .footer-links a:hover { text-decoration: underline; }
-        .footer-button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 4px;
-            text-decoration: none;
-        }
-        .footer-button:hover { opacity: 0.9; }
-        .footer-bottom {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 10px;
-            border-top: 1px solid #ccc;
-            font-size: 14px;
-        }
-        .darkmode .footer { background-color: #1e1e1e; color: #eee; }
-        .darkmode .footer-bottom { border-top: 1px solid #555; }
-        .darkmode .footer-links a { color: #ddd; }
     </style>
 </head>
 <body>
@@ -412,7 +363,7 @@ $user = $userQuery->get_result()->fetch_assoc();
             <p><strong>Date of Birth:</strong> <?= htmlspecialchars($user['dateOfBirth']); ?></p>
         </div>
 
-        <!-- Action buttons — flush below info box -->
+        <!-- Action buttons -->
         <div class="accountinfo-actions">
             <button onclick="openModal('editModal')">✏️ Edit My Details</button>
             <button class="btn-secondary" onclick="window.location.href='logout.php'">🚪 Logout</button>
@@ -454,13 +405,10 @@ $user = $userQuery->get_result()->fetch_assoc();
                                     echo "<span class='status-returned'>Return Approved</span>";
                                 } elseif ($refundStatus === 'pending') {
                                     echo "<span class='status-not-eligible'>Return Pending Approval</span>";
-                                                
                                 } elseif ($refundStatus === 'denied') {
                                     echo "<span class='status-not-eligible' style='color:#b33;'>Return Rejected</span>";
-                                                
                                 } elseif ($within30) {
                                     echo "<button onclick=\"window.location.href='return.php?orderId=$oid'\">Return</button>";
-                                                
                                 } else {
                                     echo "<span class='status-not-eligible'>Not eligible</span>";
                                 }
@@ -471,10 +419,9 @@ $user = $userQuery->get_result()->fetch_assoc();
             </table>
         </div>
 
-
     </div>
 
-    <!-- ── EDIT DETAILS MODAL  -->
+    <!-- ── EDIT DETAILS MODAL -->
     <div class="modal-backdrop" id="editModal">
         <div class="modal">
             <button class="close-btn" onclick="closeModal('editModal')">&times;</button>
@@ -511,7 +458,7 @@ $user = $userQuery->get_result()->fetch_assoc();
         </div>
     </div>
 
-    <!-- ── DELETE ACCOUNT MODAL  -->
+    <!-- ── DELETE ACCOUNT MODAL -->
     <div class="modal-backdrop" id="deleteModal">
         <div class="modal">
             <button class="close-btn" onclick="closeModal('deleteModal')">&times;</button>
@@ -532,38 +479,7 @@ $user = $userQuery->get_result()->fetch_assoc();
     </div>
 
     <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3>Wine Exchange</h3>
-                <p>123 Vineyard Lane<br>London, UK</p>
-                <p>Phone: +44 1234 567890</p>
-                <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
-                <p>Open: Mon–Fri, 9am–6pm</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="search.php">Wines</a></li>
-                    <li><a href="about.php">About Us</a></li>
-                    <li><a href="contact-us.php">Contact</a></li>
-                </ul>
-                <a href="contact-us.php" class="footer-button">Contact Us</a>
-            </div>
-            <div class="footer-section">
-                <h3>Follow Us</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Twitter</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            &copy; <?= date('Y'); ?> Wine Exchange. All rights reserved.
-        </div>
-    </footer>
+    <?php include 'footer.php'; ?>
 
     <script>
         // Dark mode

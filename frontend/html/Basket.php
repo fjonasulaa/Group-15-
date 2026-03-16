@@ -3,11 +3,6 @@
     require_once('../../database/db_connect.php');
     if (!isset($_SESSION['basket'])) {
         $_SESSION['basket'] = [];
-        #Test values - [productID] => quantity
-        #$_SESSION['basket'][1] = 1;
-        #$_SESSION['basket'][2] = 3;
-        #$_SESSION['basket'][3] = 2;
-        #$_SESSION['customerID'] = 6;
     }
     
 ?>
@@ -18,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basket | Wine Exchange</title>
     <link rel="stylesheet" href="../css/styles.css" />
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <style>
@@ -183,10 +178,11 @@
     text-align:right;
     margin-bottom:15px;
 }
+
 /* DARK MODE WISHLIST */
 
 html.darkmode .wishlist-sidebar{
-    background:#141414;
+    background:#121212;
     color:#ffffff;
 }
 
@@ -195,64 +191,23 @@ html.darkmode .wishlist-sidebar h3{
 }
 
 html.darkmode #wishlist-items p{
-    color:#dddddd;
+    color:#cccccc;
 }
 
-html.darkmode .wishlist-item{
-    background:#1f1f1f;
-    border:1px solid #333;
-}
-
-html.darkmode .wishlist-name{
-    color:#ffffff;
-}
-
-html.darkmode .wishlist-price{
-    color:#ff6b6b;
-}
-
-html.darkmode .wishlist-view{
-    background:#333;
-    color:#ffffff;
-}
-
-html.darkmode .wishlist-view:hover{
-    background:#444;
-}
-
-html.darkmode .remove-wishlist{
-    color:#bbbbbb;
-}
-
-html.darkmode .remove-wishlist:hover{
-    color:#ff4d4d;
-}
-
-/* DARK MODE WISHLIST STYLES */
-
-html.darkmode .wishlist-sidebar{
-    background:#121212;
-    color:#ffffff;
-}
-
-/* cards */
 html.darkmode .wishlist-item{
     background:#1e1e1e;
     border:1px solid #333;
     box-shadow:none;
 }
 
-/* wine name */
 html.darkmode .wishlist-name{
     color:#ffffff;
 }
 
-/* price */
 html.darkmode .wishlist-price{
     color:#ff6b6b;
 }
 
-/* buttons */
 html.darkmode .wishlist-view{
     background:#2c2c2c;
     color:#ffffff;
@@ -270,18 +225,12 @@ html.darkmode .wishlist-basket:hover{
     background:#c92d3a;
 }
 
-/* remove X */
 html.darkmode .remove-wishlist{
     color:#bbbbbb;
 }
 
 html.darkmode .remove-wishlist:hover{
     color:#ff4d4d;
-}
-
-/* empty text */
-html.darkmode #wishlist-items p{
-    color:#cccccc;
 }
 
 /* WISHLIST COUNTER BADGE */
@@ -356,84 +305,6 @@ html.darkmode #wishlist-items p{
 }
 .remove-link { color: #444; text-decoration: underline; font-size: 0.9rem; margin-top: 8px; display: inline-block; }
 .basket-total-price { font-size: 1.2rem; font-weight: bold; }
-
-.footer {
-  background-color: #f4f4f4;
-  padding: 30px 10%;
-  margin-top: 40px;
-  color: #333;
-}
-
-.footer-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.footer-section {
-  flex: 1 1 250px;
-  margin: 10px;
-}
-
-.footer-section h3 {
-  margin-bottom: 10px;
-}
-
-.footer-links {
-  list-style: none;
-  padding: 0;
-}
-
-.footer-links li {
-  margin: 5px 0;
-}
-
-.footer-links a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.footer-links a:hover {
-  text-decoration: underline;
-}
-
-/* Contact button */
-.footer-button {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 15px;
-  background-color: #4CAF50;
-  color: white;
-  border-radius: 4px;
-  text-decoration: none;
-}
-
-.footer-button:hover {
-  opacity: 0.9;
-}
-
-/* Footer bottom bar */
-.footer-bottom {
-  text-align: center;
-  margin-top: 20px;
-  padding-top: 10px;
-  border-top: 1px solid #ccc;
-  font-size: 14px;
-}
-
-/* DARK MODE SUPPORT */
-.darkmode .footer {
-  background-color: #1e1e1e;
-  color: #eee;
-}
-
-.darkmode .footer-bottom {
-  border-top: 1px solid #555;
-}
-
-.darkmode .footer-links a {
-  color: #ddd;
-}
 </style>
 
 <body>
@@ -441,239 +312,172 @@ html.darkmode #wishlist-items p{
 <body class="info">
     <div class="wishlist-overlay" id="wishlistOverlay"></div>
 
-<div class="wishlist-sidebar" id="wishlistSidebar">
-
-    <div class="close-wishlist" id="closeWishlist">
-        <i class="fa fa-times"></i>
+    <div class="wishlist-sidebar" id="wishlistSidebar">
+        <div class="close-wishlist" id="closeWishlist">
+            <i class="fa fa-times"></i>
+        </div>
+        <h3>Your Wishlist</h3>
+        <div id="wishlist-items">
+            <p>Your wishlist is empty.</p>
+        </div>
     </div>
 
-    <h3>Your Wishlist</h3>
-
-    <div id="wishlist-items">
-        <p>Your wishlist is empty.</p>
-    </div>
-
-</div>
-
-<!-- NAVBAR -->
-<div class="navbar">
-    <img src="../../images/icon.png" alt="Wine Exchange Logo">
-    <div class="navbar-links">
-        <a href="index.php">Home</a>
-        <a href="about.php">About Us</a>
-        <a href="search.php">Wines</a>
-        <a href="basket.php">Basket</a>
-        <a href="contact-us.php">Contact Us</a>
-    </div>
-    <div class="navbar-right">
-        <form method= "POST" action = "search.php">
-            <input type="text" name="search" placeholder="Search">
-
-            <input type= "hidden" name= "submitted" value= "true"/>
-        </form>
-        <a href="log-in.php">Login</a>
-        <a href="signup.php">Sign up</a>
-        <a href="account.php">Account</a>
-        <button id="dark-mode" class="dark-mode-button">
-        <img src="../../images/darkmode.png" alt="Dark Mode" />
-    </button>
-    <button id="wishlist-toggle" class="wishlist-nav-button">
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <img src="../../images/icon.png" alt="Wine Exchange Logo">
+        <div class="navbar-links">
+            <a href="index.php">Home</a>
+            <a href="about.php">About Us</a>
+            <a href="search.php">Wines</a>
+            <a href="basket.php">Basket</a>
+            <a href="contact-us.php">Contact Us</a>
+        </div>
+        <div class="navbar-right">
+            <form method="POST" action="search.php">
+                <input type="text" name="search" placeholder="Search">
+                <input type="hidden" name="submitted" value="true"/>
+            </form>
+            <a href="log-in.php">Login</a>
+            <a href="signup.php">Sign up</a>
+            <a href="account.php">Account</a>
+            <button id="dark-mode" class="dark-mode-button">
+                <img src="../../images/darkmode.png" alt="Dark Mode" />
+            </button>
+            <button id="wishlist-toggle" class="wishlist-nav-button">
                 <i class="fas fa-heart"></i>
                 <span id="wishlist-count" class="wishlist-count">0</span>
             </button>
-    </div>
-</div>
-
-<!-- BASKET CONTENT -->
-<div class="basket-wrapper">
-    <h2>Your Basket</h2>
-
-    <div class="basket-header">
-        <span>PRODUCT</span>
-        <span style="text-align:center;">QUANTITY</span>
-        <span style="text-align:right;">TOTAL</span>
+        </div>
     </div>
 
-    <!-- EXAMPLE
-    <div class="basket-row">
-        <img src="../../images/image(3).jpg" alt="Product Image">
+    <!-- BASKET CONTENT -->
+    <div class="basket-wrapper">
+        <h2>Your Basket</h2>
 
-        <div>
-            <div class="basket-info-title">Marchesi Antinori Tignanello</div>
-            <div class="basket-info-sub">13.5% / 75cl</div>
-            <div class="basket-info-sub">Italian Red Wine</div>
-            <a href="#" class="remove-link">Remove Item</a>
+        <div class="basket-header">
+            <span>PRODUCT</span>
+            <span style="text-align:center;">QUANTITY</span>
+            <span style="text-align:right;">TOTAL</span>
         </div>
 
-        <div class="qty-control" style="justify-content:center;">
-            <div class="qty-btn">-</div>
-            <span>1</span>
-            <div class="qty-btn">+</div>
-        </div>
+        <?php
+        if (!empty($_SESSION['basket'])) {
+            include '..\..\database\db_connect.php';
+            foreach ($_SESSION['basket'] as $id => $qty) {
+                $sql = "SELECT wineName, price, imageUrl, stock FROM wines WHERE wineId = $id";
+                $result = $conn->query($sql);
+                $row = $result->fetch_assoc();
 
-        <div class="basket-total-price" style="text-align:right;">£150.00</div>
-    </div>
-     -->
-    <?php
-    //Prints whole basket, else states that basket is empty.
-    if (!empty($_SESSION['basket'])) {
-      include '..\..\database\db_connect.php';
-        foreach ($_SESSION['basket'] as $id => $qty) {
-          $sql = "SELECT wineName, price, imageUrl, stock FROM wines WHERE wineId = $id";
-          $result = $conn->query($sql);
-          $row = $result->fetch_assoc();
+                $wineName = $row['wineName'];
+                $price = $row['price'];
+                $imageUrl = $row['imageUrl'];
 
-          $wineName = $row['wineName'];
-          $price = $row['price'];
-          $imageUrl = $row['imageUrl'];
+                echo "
+                    <div class='basket-row' data-product-id='$id' data-price='$price' data-stock='{$row['stock']}'>
+                        <img src='../../images/$imageUrl' alt='Product Image'>
 
+                        <div>
+                            <div class='basket-info-title'>$wineName</div>
+                            <a href='#' class='remove-link'>Remove Item</a>
+                        </div>
 
-        echo "
-            <div class='basket-row' data-product-id='$id' data-price='$price' data-stock='{$row['stock']}'>
-                <img src='../../images/$imageUrl' alt='Product Image'>
+                        <div class='qty-control' style='justify-content:center;'>
+                            <div class='qty-btn'>-</div>
+                            <span>$qty</span>
+                            <div class='qty-btn'>+</div>
+                        </div>
 
-                <div>
-                    <div class='basket-info-title'>$wineName</div>
-                    <a href='#' class='remove-link'>Remove Item</a>
-                </div>
-
-                <div class='qty-control' style='justify-content:center;'>
-                    <div class='qty-btn'>-</div>
-                    <span>$qty</span>
-                    <div class='qty-btn'>+</div>
-                </div>
-
-                <div class='basket-total-price' style='text-align:right;'>£" . number_format($price * $qty, 2) . "</div>
-            </div>
-            ";
+                        <div class='basket-total-price' style='text-align:right;'>£" . number_format($price * $qty, 2) . "</div>
+                    </div>
+                ";
+            }
+        } else {
+            echo "<p>Your basket is empty.</p>";
         }
-    } else {
-        echo "<p>Your basket is empty.</p>";
-    }
-    ?>
-
-    
-    
-</div>
-
-<!-- PLACE ORDER BUTTON -->
- <?php if (!empty($_SESSION['basket'])): ?>
-<div style="margin-top: 50px; text-align: left; padding-left: 20px;">
-    <a href="checkout.php" class="place-order">Place Order</a>
-</div>
-<?php endif; ?>
-
-<footer class="footer">
-  <div class="footer-container">
-
-    <div class="footer-section">
-      <h3>Wine Exchange</h3>
-      <p>123 Vineyard Lane<br>London, UK</p>
-      <p>Phone: +44 1234 567890</p>
-      <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
-      <p>Open: Mon–Fri, 9am–6pm</p>
+        ?>
     </div>
 
-    <div class="footer-section">
-      <h3>Quick Links</h3>
-      <ul class="footer-links">
-        <li><a href="index.php">Home</a></li>
-        <li><a href="search.php">Wines</a></li>
-        <li><a href="about.php">About Us</a></li>
-        <li><a href="contact-us.php">Contact</a></li>
-      </ul>
-      <a href="contact-us.php" class="footer-button">Contact Us</a>
+    <!-- PLACE ORDER BUTTON -->
+    <?php if (!empty($_SESSION['basket'])): ?>
+    <div style="margin-top: 50px; text-align: left; padding-left: 20px;">
+        <a href="checkout.php" class="place-order">Place Order</a>
     </div>
+    <?php endif; ?>
 
-    <div class="footer-section">
-      <h3>Follow Us</h3>
-      <ul class="footer-links">
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Facebook</a></li>
-        <li><a href="#">Twitter</a></li>
-      </ul>
-    </div>
+    <!-- FOOTER -->
+    <?php include 'footer.php'; ?>
 
-  </div>
+    <script>
+        const button = document.getElementById("dark-mode");
 
-  <div class="footer-bottom">
-    © 2024 Wine Exchange. All rights reserved.
-  </div>
-</footer>
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
+        }
 
-<script>
-const button = document.getElementById("dark-mode");
+        button.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
 
-    if (localStorage.getItem("dark_mode") === "on") {
-      document.documentElement.classList.add("darkmode");
-    }
-
-    button.addEventListener("click", () => {
-      document.documentElement.classList.toggle("darkmode");
-
-      if (document.documentElement.classList.contains("darkmode")) {
-        localStorage.setItem("dark_mode", "on");
-      } else {
-        localStorage.setItem("dark_mode", "off");
-      }
-    });
-
-// Quantity buttons functionality
-const rows = document.querySelectorAll('.basket-row');
-
-function updateServer(productId, newQuantity){
-        fetch("update.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: `product_id=${productId}&quantity=${newQuantity}`
+            if (document.documentElement.classList.contains("darkmode")) {
+                localStorage.setItem("dark_mode", "on");
+            } else {
+                localStorage.setItem("dark_mode", "off");
+            }
         });
 
-}
-rows.forEach(row => {
-    const productId = row.getAttribute('data-product-id');
-    const qtyBtns = row.querySelectorAll('.qty-btn');
-    const qtyDisplay = row.querySelector('.qty-control span');
-    const priceElement = row.querySelector('.basket-total-price');
+        // Quantity buttons functionality
+        const rows = document.querySelectorAll('.basket-row');
 
-    let qty = parseInt(qtyDisplay.textContent);
-    const basePrice = parseFloat(row.getAttribute('data-price'));
-    const maxStock = parseInt(row.getAttribute('data-stock'));
-
-    qtyBtns[0].addEventListener('click', () => {
-        if (qty > 1) {
-            qty--;
-            qtyDisplay.textContent = qty;
-            priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
-            updateServer(productId, qty);
+        function updateServer(productId, newQuantity){
+            fetch("update.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: `product_id=${productId}&quantity=${newQuantity}`
+            });
         }
-    });
 
-    qtyBtns[1].addEventListener('click', () => {
-        if (qty < maxStock) {
-            qty++;
-            qtyDisplay.textContent = qty;
-            priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
-            updateServer(productId, qty);
-        } else {
-            alert("You cannot add more than the available stock.");
-        }
-    });
+        rows.forEach(row => {
+            const productId = row.getAttribute('data-product-id');
+            const qtyBtns = row.querySelectorAll('.qty-btn');
+            const qtyDisplay = row.querySelector('.qty-control span');
+            const priceElement = row.querySelector('.basket-total-price');
 
-    row.querySelector('.remove-link').addEventListener('click', e => {
-        e.preventDefault();
-        row.remove();
-        updateServer(productId, 0);
-    });
-});
+            let qty = parseInt(qtyDisplay.textContent);
+            const basePrice = parseFloat(row.getAttribute('data-price'));
+            const maxStock = parseInt(row.getAttribute('data-stock'));
 
+            qtyBtns[0].addEventListener('click', () => {
+                if (qty > 1) {
+                    qty--;
+                    qtyDisplay.textContent = qty;
+                    priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
+                    updateServer(productId, qty);
+                }
+            });
 
-</script>
+            qtyBtns[1].addEventListener('click', () => {
+                if (qty < maxStock) {
+                    qty++;
+                    qtyDisplay.textContent = qty;
+                    priceElement.textContent = '£' + (basePrice * qty).toFixed(2);
+                    updateServer(productId, qty);
+                } else {
+                    alert("You cannot add more than the available stock.");
+                }
+            });
 
- <script>
-const loggedIn = <?php echo isset($_SESSION['customerID']) ? "true" : "false"; ?>;
-const wishlistBtn = document.getElementById("wishlist-toggle");
+            row.querySelector('.remove-link').addEventListener('click', e => {
+                e.preventDefault();
+                row.remove();
+                updateServer(productId, 0);
+            });
+        });
+    </script>
+
+    <script>
+        const loggedIn = <?php echo isset($_SESSION['customerID']) ? "true" : "false"; ?>;
+        const wishlistBtn = document.getElementById("wishlist-toggle");
         const wishlistSidebar = document.getElementById("wishlistSidebar");
         const closeWishlist = document.getElementById("closeWishlist");
         const wishlistOverlay = document.getElementById("wishlistOverlay");
@@ -694,113 +498,96 @@ const wishlistBtn = document.getElementById("wishlist-toggle");
         });
 
         const wishlistContainer = document.getElementById("wishlist-items");
-const wishlistCount = document.getElementById("wishlist-count");
+        const wishlistCount = document.getElementById("wishlist-count");
 
-function getGuestWishlist(){
-    return JSON.parse(localStorage.getItem("wishlist")) || [];
-}
-
-function saveGuestWishlist(list){
-    localStorage.setItem("wishlist",JSON.stringify(list));
-}
-
-function loadWishlist(){
-
-    if(loggedIn){
-
-        fetch("get_wishlist.php")
-        .then(res => res.json())
-        .then(data => {
-            renderWishlist(data);
-        });
-
-    }else{
-
-        const list = getGuestWishlist();
-        renderWishlist(list);
-
-    }
-
-}
-
-function renderWishlist(list){
-
-    wishlistContainer.innerHTML="";
-
-    if(list.length===0){
-        wishlistContainer.innerHTML="<p>Your wishlist is empty.</p>";
-        wishlistCount.textContent=0;
-        return;
-    }
-
-    wishlistCount.textContent=list.length;
-
-    list.forEach((wine,index)=>{
-
-        let image;
-
-        if(loggedIn){
-            image = wine.imageUrl
-                ? "../../images/" + wine.imageUrl
-                : "../../images/placeholder.jpg";
-        }else{
-            image = wine.imageUrl || "../../images/placeholder.jpg";
+        function getGuestWishlist(){
+            return JSON.parse(localStorage.getItem("wishlist")) || [];
         }
 
-        const item=document.createElement("div");
-        item.className="wishlist-item";
+        function saveGuestWishlist(list){
+            localStorage.setItem("wishlist", JSON.stringify(list));
+        }
 
-        item.innerHTML=`
-        <img src="${image}" class="wishlist-img">
+        function loadWishlist(){
+            if(loggedIn){
+                fetch("get_wishlist.php")
+                .then(res => res.json())
+                .then(data => {
+                    renderWishlist(data);
+                });
+            }else{
+                const list = getGuestWishlist();
+                renderWishlist(list);
+            }
+        }
 
-        <div class="wishlist-info">
-            <div class="wishlist-name">${wine.wineName || wine.name}</div>
-            <div class="wishlist-price">£${wine.price}</div>
+        function renderWishlist(list){
+            wishlistContainer.innerHTML = "";
 
-            <div class="wishlist-actions">
-                <a href="wineinfo.php?id=${wine.id || wine.wineId}" class="wishlist-view">View</a>
-            </div>
-        </div>
+            if(list.length === 0){
+                wishlistContainer.innerHTML = "<p>Your wishlist is empty.</p>";
+                wishlistCount.textContent = 0;
+                return;
+            }
 
-        <button class="remove-wishlist" data-id="${wine.wineId || wine.id}" data-index="${index}">
-            <i class="fas fa-times"></i>
-        </button>
-        `;
+            wishlistCount.textContent = list.length;
 
-        wishlistContainer.appendChild(item);
-    });
+            list.forEach((wine, index) => {
+                let image;
 
-}
+                if(loggedIn){
+                    image = wine.imageUrl
+                        ? "../../images/" + wine.imageUrl
+                        : "../../images/placeholder.jpg";
+                }else{
+                    image = wine.imageUrl || "../../images/placeholder.jpg";
+                }
 
-document.addEventListener("click",function(e){
+                const item = document.createElement("div");
+                item.className = "wishlist-item";
 
-    const removeBtn=e.target.closest(".remove-wishlist");
-    if(!removeBtn) return;
+                item.innerHTML = `
+                <img src="${image}" class="wishlist-img">
+                <div class="wishlist-info">
+                    <div class="wishlist-name">${wine.wineName || wine.name}</div>
+                    <div class="wishlist-price">£${wine.price}</div>
+                    <div class="wishlist-actions">
+                        <a href="wineinfo.php?id=${wine.id || wine.wineId}" class="wishlist-view">View</a>
+                    </div>
+                </div>
+                <button class="remove-wishlist" data-id="${wine.wineId || wine.id}" data-index="${index}">
+                    <i class="fas fa-times"></i>
+                </button>
+                `;
 
-    const wineId=removeBtn.dataset.id;
-    const index=removeBtn.dataset.index;
+                wishlistContainer.appendChild(item);
+            });
+        }
 
-    if(loggedIn){
+        document.addEventListener("click", function(e){
+            const removeBtn = e.target.closest(".remove-wishlist");
+            if(!removeBtn) return;
 
-        fetch("remove_from_wishlist.php",{
-            method:"POST",
-            headers:{"Content-Type":"application/x-www-form-urlencoded"},
-            body:"wineId="+wineId
-        })
-        .then(()=> loadWishlist());
+            const wineId = removeBtn.dataset.id;
+            const index = removeBtn.dataset.index;
 
-    }else{
+            if(loggedIn){
+                fetch("remove_from_wishlist.php", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                    body: "wineId=" + wineId
+                })
+                .then(() => loadWishlist());
+            }else{
+                let list = getGuestWishlist();
+                list.splice(index, 1);
+                saveGuestWishlist(list);
+                renderWishlist(list);
+            }
+        });
 
-        let list=getGuestWishlist();
-        list.splice(index,1);
-        saveGuestWishlist(list);
-        renderWishlist(list);
-
-    }
-
-});
-loadWishlist();
-</script>
+        loadWishlist();
+    </script>
 
 </body>
 </html>

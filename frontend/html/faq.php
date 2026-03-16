@@ -320,57 +320,9 @@ if (isset($_SESSION['customerID'])) {
       background: var(--wine-light);
     }
 
-    /* ── FOOTER ── */
-    .footer-newsletter {
-      background: #6b1a2e;
-      padding: 18px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .footer-newsletter strong { display: block; font-weight: 500; color: #fff; font-size: 16px; margin-bottom: 2px; }
-    .footer-newsletter p { color: #f5dde3; font-size: 15px; margin: 0; }
-    .footer-main {
-      background: #ffffff;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 28px;
-      padding: 36px 32px 28px;
-    }
-    .footer-col h4 { font-size: 13px; font-weight: 600; color: #6b1a2e; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; font-family: Georgia, serif; }
-    .footer-col p { color: #4a2a30; font-size: 15px; line-height: 1.8; margin: 0; }
-    .footer-col a { display: block; color: #4a2a30; font-size: 15px; line-height: 2; text-decoration: none; transition: color 0.15s; }
-    .footer-col a:hover { color: #6b1a2e; }
-    .footer-tagline { color: #8a5a60; font-style: italic; font-size: 15px; margin-bottom: 12px; }
-    .footer-contact-email { color: #6b1a2e !important; }
-    .footer-contact-muted { color: #8a5a60 !important; }
-    .btn-browse {
-      display: inline-block; margin-top: 16px; background: #fff; color: #6b1a2e;
-      font-size: 15px; font-weight: 500; padding: 9px 18px; border-radius: 8px;
-      border: 1px solid #6b1a2e; text-decoration: none; font-family: inherit; transition: background 0.15s;
-    }
-    .btn-browse:hover { background: #f9f0f2; color: #6b1a2e; }
-    .trust-list { display: flex; flex-direction: column; gap: 10px; }
-    .trust-item { display: flex; align-items: center; gap: 9px; color: #4a2a30; font-size: 15px; }
-    .trust-item svg { flex-shrink: 0; width: 16px; height: 16px; }
-    .payment-icons { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-    .payment-icon { background: #6b1a2e; color: #f5e6c8; border-radius: 3px; padding: 2px 7px; font-size: 10px; font-weight: 600; font-family: Georgia, serif; letter-spacing: 0.04em; }
-    .col-divider { border: none; border-top: 0.5px solid #e8c8c8; margin: 10px 0; }
-    .footer-bottom {
-      border-top: 1px solid #e8c8c8; background: #fdf6f0; padding: 16px 32px;
-      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px;
-    }
-    .footer-bottom p { font-size: 14px; color: #8a5a60; margin: 0; }
-    .age-badge { background: #fdf0e8; border: 0.5px solid #c9a84c; color: #7a4a00; font-size: 13px; padding: 3px 10px; border-radius: 8px; }
-
     @media (max-width: 600px) {
       .faq-page { padding: 100px 16px 60px; }
       .faq-page-title h1 { font-size: 1.8rem; }
-      .footer-newsletter { padding: 16px 20px; flex-direction: column; align-items: flex-start; }
-      .footer-main { padding: 24px 20px; grid-template-columns: 1fr 1fr; }
-      .footer-bottom { padding: 14px 20px; flex-direction: column; align-items: flex-start; }
     }
 
   </style>
@@ -417,19 +369,16 @@ if (isset($_SESSION['customerID'])) {
   <!-- FAQ PAGE -->
   <div class="faq-page">
 
-    <!-- Title -->
     <div class="faq-page-title">
       <h1>Frequently Asked Questions</h1>
       <p>Find answers to our most common questions below.</p>
       <span class="faq-title-divider"></span>
     </div>
 
-    <!-- Search -->
     <div class="faq-search-wrap">
       <input type="text" id="faq-search" placeholder="Search this page..." />
     </div>
 
-    <!-- Category tabs -->
     <div class="faq-categories">
       <button class="faq-cat-btn active" data-cat="all">All</button>
       <button class="faq-cat-btn" data-cat="ordering">Ordering</button>
@@ -438,7 +387,6 @@ if (isset($_SESSION['customerID'])) {
       <button class="faq-cat-btn" data-cat="account">Account</button>
     </div>
 
-    <!-- No results message -->
     <div class="faq-no-results" id="faq-no-results">No questions match your search.</div>
 
     <!-- Ordering -->
@@ -484,7 +432,6 @@ if (isset($_SESSION['customerID'])) {
           <p>Please contact us as soon as possible at contactwinexchange@gmail.com if you need to make changes.</p>
         </div>
       </div>
-
     </div>
 
     <!-- Shipping -->
@@ -517,12 +464,9 @@ if (isset($_SESSION['customerID'])) {
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer">
-          <p>UK orders are typically dispatched the next working day and arrive within 2–3 business days. </p>
+          <p>UK orders are typically dispatched the next working day and arrive within 2–3 business days.</p>
+        </div>
       </div>
-
-      
-      </div>
-
     </div>
 
     <!-- Returns -->
@@ -548,7 +492,6 @@ if (isset($_SESSION['customerID'])) {
           <p>We're sorry to hear that. Please email us at contactwinexchange@gmail.com with your order number and a photo of the damage within 48 hours. We'll arrange a replacement or refund as quickly as possible.</p>
         </div>
       </div>
-
     </div>
 
     <!-- Account -->
@@ -561,8 +504,8 @@ if (isset($_SESSION['customerID'])) {
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer">
-<p>You do not need an account to purchase.</p>
-    </div>
+          <p>You do not need an account to purchase.</p>
+        </div>
       </div>
 
       <div class="faq-item">
@@ -584,7 +527,6 @@ if (isset($_SESSION['customerID'])) {
           <p>Absolutely. We take data privacy seriously. Your details are never sold or shared with third parties. Please see our Privacy Policy for full details.</p>
         </div>
       </div>
-
     </div>
 
     <!-- Contact CTA -->
@@ -596,88 +538,7 @@ if (isset($_SESSION['customerID'])) {
   </div>
 
   <!-- FOOTER -->
-  <footer>
-
-    <div class="footer-newsletter">
-      <div>
-        <strong>Join our wine newsletter</strong>
-        <p>Tasting notes, new arrivals &amp; exclusive offers</p>
-      </div>
-      <div style="display:flex; flex-direction:row; gap:8px; align-items:center;">
-        <input type="email" placeholder="Your email address" style="width:210px !important; min-width:210px !important; max-width:210px !important; padding:7px 12px; border-radius:8px; border:0.5px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.12); color:#ffffff; font-size:15px; outline:none; box-sizing:border-box; margin-bottom:0;" />
-        <button style="width:210px !important; min-width:210px !important; max-width:210px !important; padding:7px 16px; border-radius:8px; background:#ffffff; border:none; color:#6b1a2e; font-size:15px; font-weight:500; cursor:pointer; box-sizing:border-box;">Subscribe</button>
-      </div>
-    </div>
-
-    <div class="footer-main">
-
-      <div class="footer-col">
-        <h4>Wine Exchange</h4>
-        <p class="footer-tagline">Independent wine merchant since 2010</p>
-        <p>123 Vineyard Lane<br>London, UK</p>
-        <p class="footer-contact-muted" style="margin-top:8px;">+44 1234 567890</p>
-        <a href="mailto:contactwinexchange@gmail.com" class="footer-contact-email">contactwinexchange@gmail.com</a>
-        <p class="footer-contact-muted" style="margin-top:8px;">Mon–Fri, 9am–6pm</p>
-        <a href="search.php" class="btn-browse">Browse all wines →</a>
-      </div>
-
-      <div class="footer-col">
-        <h4>Why shop with us</h4>
-        <div class="trust-list">
-          <div class="trust-item">
-            <svg viewBox="0 0 18 18" fill="none"><rect x="1" y="4" width="16" height="11" rx="2" stroke="#6b1a2e" stroke-width="1.2"/><path d="M1 7h16" stroke="#6b1a2e" stroke-width="1.2"/></svg>
-            Secure payments
-          </div>
-          <div class="trust-item">
-            <svg viewBox="0 0 18 18" fill="none"><rect x="2" y="8" width="10" height="7" rx="1.2" stroke="#6b1a2e" stroke-width="1.2"/><path d="M12 11h2.5a1 1 0 001-1V8.5a1 1 0 00-.6-.9L13 7" stroke="#6b1a2e" stroke-width="1.2" stroke-linecap="round"/><circle cx="5" cy="15.5" r="1.2" fill="#6b1a2e"/><circle cx="10" cy="15.5" r="1.2" fill="#6b1a2e"/></svg>
-            Free standard delivery on every order
-          </div>
-          <div class="trust-item">
-            <svg viewBox="0 0 18 18" fill="none"><path d="M9 2v8M9 10l-3 3m3-3l3 3" stroke="#6b1a2e" stroke-width="1.2" stroke-linecap="round"/><path d="M4 14h10" stroke="#6b1a2e" stroke-width="1.2" stroke-linecap="round"/></svg>
-            Easy returns
-          </div>
-          <div class="trust-item">
-            <svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#6b1a2e" stroke-width="1.2"/><path d="M9 5v4l2.5 2.5" stroke="#6b1a2e" stroke-width="1.2" stroke-linecap="round"/></svg>
-            Next-day dispatch
-          </div>
-          <div class="trust-item">
-            <svg viewBox="0 0 18 18" fill="none"><path d="M9 2l1.8 5h5.2l-4.2 3 1.6 5L9 12l-3.4 3 1.6-5L3 7h5.2z" stroke="#6b1a2e" stroke-width="1.1" stroke-linejoin="round"/></svg>
-            Expert curation
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-col">
-        <h4>Help</h4>
-        <a href="about.php">About us</a>
-        <a href="faq.php">FAQ</a>
-        <a href="contact-us.php">Contact us</a>
-        <a href="shipping.php">Shipping &amp; delivery</a>
-        <a href="terms.php">Terms &amp; conditions</a>
-      </div>
-
-      <div class="footer-col">
-        <h4>Legal &amp; payments</h4>
-        <a href="privacy.php">Privacy policy</a>
-        <a href="cookies.php">Cookie policy</a>
-        <a href="accessibility.php">Accessibility</a>
-        <hr class="col-divider" />
-        <div class="payment-icons">
-          <span class="payment-icon">VISA</span>
-          <span class="payment-icon">MC</span>
-          <span class="payment-icon">AMEX</span>
-          <span class="payment-icon">PayPal</span>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="footer-bottom">
-      <p>© 2026 Wine Exchange. All rights reserved.</p>
-      <span class="age-badge">18+ only — please drink responsibly</span>
-    </div>
-
-  </footer>
+  <?php include 'footer.php'; ?>
 
   <!-- DARK MODE -->
   <script>
@@ -749,19 +610,16 @@ if (isset($_SESSION['customerID'])) {
 
   <!-- FAQ ACCORDION + SEARCH + CATEGORIES -->
   <script>
-    // Accordion
     document.querySelectorAll('.faq-question').forEach(btn => {
       btn.addEventListener('click', () => {
         const answer = btn.nextElementSibling;
         const isOpen = btn.classList.contains('open');
 
-        // Close all
         document.querySelectorAll('.faq-question').forEach(b => {
           b.classList.remove('open');
           b.nextElementSibling.classList.remove('open');
         });
 
-        // Toggle clicked
         if (!isOpen) {
           btn.classList.add('open');
           answer.classList.add('open');
@@ -769,7 +627,6 @@ if (isset($_SESSION['customerID'])) {
       });
     });
 
-    // Category filter
     document.querySelectorAll('.faq-cat-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.faq-cat-btn').forEach(b => b.classList.remove('active'));
@@ -783,12 +640,10 @@ if (isset($_SESSION['customerID'])) {
       });
     });
 
-    // Search
     document.getElementById('faq-search').addEventListener('input', function () {
       const query = this.value.toLowerCase().trim();
       let anyVisible = false;
 
-      // Reset category
       document.querySelectorAll('.faq-cat-btn').forEach(b => b.classList.remove('active'));
       document.querySelector('[data-cat="all"]').classList.add('active');
       document.querySelectorAll('.faq-group').forEach(g => g.style.display = '');
