@@ -508,13 +508,16 @@ $reviews = $conn->query($reviewSQL);
       display: none; z-index: 1500;
     }
     .wishlist-overlay.active { display: block; }
+    
+.close-wishlist {
+  font-size: 22px; cursor: pointer;
+  text-align: right; margin-bottom: 15px;
+}
+.close-wishlist i {
+  transition: color .2s ease, transform .2s ease;
+  display: inline-block;
+}
 
-    .close-wishlist {
-      font-size: 22px; cursor: pointer;
-      text-align: right; margin-bottom: 15px;
-      transition: color .2s ease, transform .2s ease;
-    }
-    .close-wishlist:hover { color: var(--wine); transform: rotate(90deg); }
 
     #wishlist-items {
       display: flex; flex-direction: column;
