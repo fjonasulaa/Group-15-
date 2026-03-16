@@ -16,6 +16,25 @@ if (isset($_SESSION['customerID'])) {
         }
     }
 }
+
+$reviewSQL = "
+SELECT 
+    w.wStars,
+    w.wReviewHeading,
+    w.wReviewText,
+    w.reviewDate,
+    c.firstName,
+    c.surname,
+    c.userProfileImage
+
+FROM websiteReviews w
+JOIN customer c 
+ON w.customerId = c.customerID
+ORDER BY w.reviewDate DESC
+";
+
+$reviews = $conn->query($reviewSQL);
+?>
 ?>
 <!DOCTYPE html>
 <html lang="en">
