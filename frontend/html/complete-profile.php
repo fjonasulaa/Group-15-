@@ -1,21 +1,61 @@
 <?php
 session_start();
+require_once('../../database/db_connect.php');
 
-$error = $_SESSION['register_error'] ?? "";
-unset($_SESSION["register_error"]);
+// If no pending Google session, send them away
+if (!isset($_SESSION['google_pending'])) {
+    header("Location: log-in.php");
+    exit;
+}
 
-function showError($errors) {
-    return !empty($errors) ? "<p class='error-message'>" . htmlspecialchars($errors) . "</p>" : '';
+$error = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $dob         = $_POST['dob'] ?? '';
+    $addressline = trim($_POST['addressline'] ?? '');
+    $postcode    = trim($_POST['postcode'] ?? '');
+    $pnumber     = trim($_POST['pnumber'] ?? '');
+
+    // Age check
+    $birth = new DateTime($dob);
+    $today = new DateTime();
+    $age   = $today->diff($birth)->y;
+
+    if ($age < 18) {
+        $error = "You must be 18 or older to create an account.";
+    } elseif (empty($addressline) || empty($postcode)) {
+        $error = "Address and postcode are required.";
+    } else {
+        $firstName   = $conn->real_escape_string($_SESSION['google_pending']['firstName']);
+        $surname     = $conn->real_escape_string($_SESSION['google_pending']['surname']);
+        $email       = $conn->real_escape_string($_SESSION['google_pending']['email']);
+        $addressline = $conn->real_escape_string($addressline);
+        $postcode    = $conn->real_escape_string($postcode);
+        $pnumber     = $conn->real_escape_string($pnumber);
+        $dob         = $conn->real_escape_string($dob);
+
+        $conn->query("INSERT INTO customer (firstName, surname, email, passwordHash, dateOfBirth, phoneNumber, addressLine, postcode)
+                      VALUES ('$firstName', '$surname', '$email', '', '$dob', '$pnumber', '$addressline', '$postcode')");
+
+        if ($conn->error) {
+            $error = "Database error: " . $conn->error;
+        } else {
+            $customerId = $conn->insert_id;
+            $_SESSION['customerID'] = $customerId;
+            unset($_SESSION['google_pending']);
+            header("Location: account.php");
+            exit;
+        }
+    }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up | Wine Exchange</title>
+    <title>Complete Your Profile | Wine Exchange</title>
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
     <style>
@@ -36,7 +76,8 @@ function showError($errors) {
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h2 { font-size: 34px; text-align: center; margin-bottom: 20px; }
+        h2 { font-size: 28px; text-align: center; margin-bottom: 10px; }
+        .subtitle { font-size: 14px; text-align: center; color: #888; margin-bottom: 20px; }
         input {
             width: 100%;
             padding: 12px;
@@ -62,9 +103,6 @@ function showError($errors) {
             transition: 0.5s;
         }
         button:hover { filter: brightness(0.8); }
-        p { font-size: 14.5px; text-align: center; margin-bottom: 10px; }
-        p a { color: var(--primary-colour); text-decoration: none; }
-        p a:hover { text-decoration: underline; }
         .error-message {
             padding: 12px;
             background: red;
@@ -74,6 +112,7 @@ function showError($errors) {
             text-align: center;
             margin-bottom: 20px;
         }
+        label { font-size: 13px; margin-bottom: 5px; display: block; color: #888; }
         .footer { background-color: #f4f4f4; padding: 30px 10%; margin-top: 40px; color: #333; }
         .footer-container { display: flex; justify-content: space-between; flex-wrap: wrap; }
         .footer-section { flex: 1 1 250px; margin: 10px; }
@@ -111,10 +150,6 @@ function showError($errors) {
         <a href="contact-us.php">Contact Us</a>
     </div>
     <div class="navbar-right">
-        <form method="POST" action="search.php">
-            <input type="text" name="search" placeholder="Search" autocomplete="off">
-            <input type="hidden" name="submitted" value="true"/>
-        </form>
         <a href="log-in.php">Login</a>
         <a href="signup.php">Sign up</a>
         <a href="account.php">Account</a>
@@ -125,38 +160,28 @@ function showError($errors) {
 </div>
 
 <div class="container">
-    <div class="form-box" id="signup-form">
-        <form action="sign_up.php" method="post">
-            <h2>Sign up</h2>
-            <?= showError($error); ?>
-            <input type="text" name="firstName" placeholder="First Name" autocomplete="given-name" required>
-            <input type="text" name="surname" placeholder="Surname" autocomplete="family-name" required>
-            <input type="email" name="email" placeholder="Email" autocomplete="email" required>
-            <input type="tel" name="pnumber" placeholder="Phone Number" autocomplete="tel">
-            <input type="text" name="addressline" placeholder="Address Line" autocomplete="street-address">
-            <input type="text" name="postcode" placeholder="Postcode" autocomplete="postal-code">
-            <input type="date" name="dob" placeholder="Date of Birth" autocomplete="bday">
-            <input type="password" name="password" placeholder="Password"
-                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}"
-                title="Must contain at least one uppercase letter, one lowercase letter, one special character, and be at least 6 characters long."
-                autocomplete="new-password"
-                required>
-            <button type="submit" name="signup">Sign up</button>
-            <p>Already have an account? <a href="log-in.php">Login</a></p>
-            <p>Trying to sign up as an admin? <a href="admin_signup.php">Click here</a></p>
+    <div class="form-box">
+        <h2>Almost there!</h2>
+        <p class="subtitle">We just need a few more details to complete your account.</p>
 
-            <div id="g_id_onload"
-                 data-client_id="966067449001-4ajt4ll22p3p2kefig7e2rj4ih7oipml.apps.googleusercontent.com"
-                 data-callback="handleGoogleSignup">
-            </div>
-            <div class="g_id_signin"
-                 data-type="standard"
-                 data-shape="rectangular"
-                 data-theme="outline"
-                 data-text="signup_with"
-                 data-size="large"
-                 data-logo_alignment="left">
-            </div>
+        <?php if ($error): ?>
+            <p class="error-message"><?= htmlspecialchars($error) ?></p>
+        <?php endif; ?>
+
+        <form method="POST" action="">
+            <label>Date of Birth (must be 18+)</label>
+            <input type="date" name="dob" autocomplete="bday" required>
+
+            <label>Address Line</label>
+            <input type="text" name="addressline" placeholder="123 Example Street" autocomplete="street-address" required>
+
+            <label>Postcode</label>
+            <input type="text" name="postcode" placeholder="AB1 2CD" autocomplete="postal-code" required>
+
+            <label>Phone Number (optional)</label>
+            <input type="tel" name="pnumber" placeholder="+44 7000 000000" autocomplete="tel">
+
+            <button type="submit">Complete Sign Up</button>
         </form>
     </div>
 </div>
@@ -204,35 +229,6 @@ function showError($errors) {
         document.documentElement.classList.toggle("darkmode");
         localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
     });
-</script>
-
-<script>
-    function handleGoogleSignup(response) {
-        fetch("google-login.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ credential: response.credential })
-        })
-        .then(async res => {
-            const text = await res.text();
-            try {
-                return JSON.parse(text);
-            } catch (e) {
-                throw new Error("Unexpected response: " + text);
-            }
-        })
-        .then(data => {
-            if (data.success) {
-                window.location = data.redirect || "account.php";
-            } else {
-                alert(data.message || "Google sign up failed");
-            }
-        })
-        .catch(error => {
-            console.error("Google sign-up error:", error);
-            alert(error.message || "An error occurred during Google sign up.");
-        });
-    }
 </script>
 
 </body>
