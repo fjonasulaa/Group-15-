@@ -10,86 +10,135 @@ if (!isset($_SESSION['customerID'])) {
 $cid = $_SESSION['customerID'];
 require_once("../../database/db_connect.php");
 
-$stmt = $conn->prepare("
+// ── Handle Edit Details 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'edit') {
+    $firstName   = trim($_POST['firstName']);
+    $surname     = trim($_POST['surname']);
+    $addressLine = trim($_POST['addressLine']);
+    $postcode    = trim($_POST['postcode']);
+    $email       = trim($_POST['email']);
+    $dateOfBirth = trim($_POST['dateOfBirth']);
 
+    $update = $conn->prepare("
+        UPDATE customer
+        SET firstName = ?, surname = ?, addressLine = ?, postcode = ?, email = ?, dateOfBirth = ?
+        WHERE customerID = ?
+    ");
+    $update->bind_param("ssssssi", $firstName, $surname, $addressLine, $postcode, $email, $dateOfBirth, $cid);
+    $update->execute();
+
+    header("Location: account.php?updated=1");
+    exit();
+}
+
+// ── Handle Delete Account 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete') {
+    // Delete in dependency order (children before parents)
+    $conn->query("DELETE FROM refund      WHERE orderId IN (SELECT orderId FROM orders WHERE customerId = $cid)");
+    $conn->query("DELETE FROM shipping    WHERE orderId IN (SELECT orderId FROM orders WHERE customerId = $cid)");
+    $conn->query("DELETE FROM payment     WHERE orderId IN (SELECT orderId FROM orders WHERE customerId = $cid)");
+    $conn->query("DELETE FROM orderswines WHERE orderId IN (SELECT orderId FROM orders WHERE customerId = $cid)");
+    $conn->query("DELETE FROM orders      WHERE customerId = $cid");
+    $conn->query("DELETE FROM customer    WHERE customerID = $cid");
+
+    session_destroy();
+    header("Location: index.php?deleted=1");
+    exit();
+}
+
+// ── Fetch Orders 
+$stmt = $conn->prepare("
     SELECT
-    shipping.trackingNumber,
-    orders.orderId,
-    orders.orderDate,
-    payment.amount,
-    payment.method,
-    payment.paymentStatus,
-    payment.transactionTimestamp,
-    shipping.shippingStatus
+        shipping.trackingNumber,
+        orders.orderId,
+        orders.orderDate,
+        payment.amount,
+        payment.method,
+        payment.paymentStatus,
+        payment.transactionTimestamp,
+        shipping.shippingStatus
     FROM orders
-    LEFT JOIN payment ON payment.orderId = orders.orderId
+    LEFT JOIN payment  ON payment.orderId  = orders.orderId
     LEFT JOIN shipping ON shipping.orderId = orders.orderId
     WHERE orders.customerId = ?
     ORDER BY payment.transactionTimestamp DESC, orders.orderId DESC
-    
 ");
-
 $stmt->bind_param("i", $cid);
 $stmt->execute();
 $transactions = $stmt->get_result();
 
-$userQuery = $conn->query("SELECT * FROM customer WHERE customerID = $cid");
-$user = $userQuery->fetch_assoc();
+// ── Fetch User 
+$userQuery = $conn->prepare("SELECT * FROM customer WHERE customerID = ?");
+$userQuery->bind_param("i", $cid);
+$userQuery->execute();
+$user = $userQuery->get_result()->fetch_assoc();
 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>My Account</title>
 
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
 
     <style>
-        
         .orderstable td {
-          vertical-align: middle;
-          height: 60px;
+            vertical-align: middle;
+            height: 60px;
         }
         .status-returned {
-          color: green;
-          font-weight: bold;
-          text-align: center;
-
-
-      }
-      .status-not-eligible {
-        color: grey;
-        font-style: italic;
-        text-align: center;
-
-      }
+            color: green;
+            font-weight: bold;
+            text-align: center;
+        }
+        .status-not-eligible {
+            color: grey;
+            font-style: italic;
+            text-align: center;
+        }
 
         body {
             background-color: var(--background-colour);
             padding-top: 100px;
         }
 
-        .accountcontainer{
+        .accountcontainer {
             max-width: 1200px;
             margin: 40px auto;
             padding: 30px;
             background: var(--frame-colour);
-            border-radius: 10x;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
         .accountinfo {
-            padding: 20px;
-            border-radius: 6px;
-            margin-bottom: 30px;
+            padding: 20px 24px;
+            border-radius: 6px 6px 0 0;
             background-color: var(--background-colour);
+        }
+
+        /* ── Buttons below the info box */
+        .accountinfo-actions {
+            display: flex;
+            gap: 0;
+            border-radius: 0 0 6px 6px;
+            overflow: hidden;
             margin-bottom: 30px;
+        }
+
+        .accountinfo-actions button {
+            flex: 1;
+            border-radius: 0;
+            border-right: 1px solid rgba(255,255,255,0.15);
+            font-size: 14px;
+            padding: 11px 8px;
+        }
+
+        .accountinfo-actions button:last-child {
+            border-right: none;
         }
 
         h1, h2 {
@@ -121,145 +170,247 @@ $user = $userQuery->fetch_assoc();
             color: #fff;
         }
 
-        button {
+        /* ── Button row  */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        button, .btn {
             padding: 12px;
             background: var(--primary-colour);
             border-radius: 6px;
             border: none;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
             color: #fff;
             font-weight: 500;
-            transition: 0.5s;
+            transition: filter 0.3s;
+            width: 100%;
+            text-align: center;
             display: block;
-            width: 300px;
-            margin: 0 auto;
+            box-sizing: border-box;
         }
 
-        button:hover {
+        button:hover, .btn:hover {
             filter: brightness(0.8);
         }
 
-        /* Footer styling */
-    .footer {
-      background-color: #f4f4f4;
-      padding: 30px 10%;
-      margin-top: 40px;
-      color: #333;
-    }
+        .btn-danger {
+            background: #c0392b;
+        }
 
-    .footer-container {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
+        .btn-secondary {
+            background: #555;
+        }
 
-    .footer-section {
-      flex: 1 1 250px;
-      margin: 10px;
-    }
+        /* ── Success banner  */
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-    .footer-section h3 {
-      margin-bottom: 10px;
-    }
+        /* ── Modal backdrop*/
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-backdrop.open {
+            display: flex;
+        }
 
-    .footer-links {
-      list-style: none;
-      padding: 0;
-    }
+        .modal {
+            background: var(--frame-colour, #fff);
+            border-radius: 10px;
+            padding: 30px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            position: relative;
+        }
 
-    .footer-links li {
-      margin: 5px 0;
-    }
+        .modal h2 {
+            margin-bottom: 20px;
+        }
 
-    .footer-links a {
-      text-decoration: none;
-      color: inherit;
-    }
+        .modal .close-btn {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: inherit;
+            width: auto;
+            padding: 0;
+        }
 
-    .footer-links a:hover {
-      text-decoration: underline;
-    }
+        /* ── Edit form  */
+        .edit-form label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+            font-size: 14px;
+        }
 
-    /* Contact button */
-    .footer-button {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 8px 15px;
-      background-color: #4CAF50;
-      color: white;
-      border-radius: 4px;
-      text-decoration: none;
-    }
+        .edit-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border-colour, #ccc);
+            border-radius: 6px;
+            font-size: 15px;
+            background: var(--background-colour, #fff);
+            color: inherit;
+            box-sizing: border-box;
+        }
 
-    .footer-button:hover {
-      opacity: 0.9;
-    }
+        .edit-form button[type="submit"] {
+            width: 100%;
+        }
 
-    /* Footer bottom bar */
-    .footer-bottom {
-      text-align: center;
-      margin-top: 20px;
-      padding-top: 10px;
-      border-top: 1px solid #ccc;
-      font-size: 14px;
-    }
+        /* ── Delete confirmation modal  */
+        .delete-warning {
+            color: #c0392b;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: center;
+        }
 
-    /* DARK MODE SUPPORT */
-    .darkmode .footer {
-      background-color: #1e1e1e;
-      color: #eee;
-    }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
 
-    .darkmode .footer-bottom {
-      border-top: 1px solid #555;
-    }
+        .modal-actions button {
+            flex: 1;
+        }
 
-    .darkmode .footer-links a {
-      color: #ddd;
-    }
+        @media (max-width: 600px) {
+            .accountinfo-actions {
+                flex-direction: column;
+                border-radius: 0 0 6px 6px;
+            }
+            .accountinfo-actions button {
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.15);
+                border-radius: 0;
+            }
+            .accountinfo-actions button:last-child {
+                border-bottom: none;
+            }
+        }
+
+        /* ── Footer  */
+        .footer {
+            background-color: #f4f4f4;
+            padding: 30px 10%;
+            margin-top: 40px;
+            color: #333;
+        }
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .footer-section {
+            flex: 1 1 250px;
+            margin: 10px;
+        }
+        .footer-section h3 { margin-bottom: 10px; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin: 5px 0; }
+        .footer-links a { text-decoration: none; color: inherit; }
+        .footer-links a:hover { text-decoration: underline; }
+        .footer-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        .footer-button:hover { opacity: 0.9; }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ccc;
+            font-size: 14px;
+        }
+        .darkmode .footer { background-color: #1e1e1e; color: #eee; }
+        .darkmode .footer-bottom { border-top: 1px solid #555; }
+        .darkmode .footer-links a { color: #ddd; }
     </style>
 </head>
 <body>
 
     <!-- NAVBAR -->
-  <div class="navbar">
-    <img src="../../images/icon.png" alt="Wine Exchange Logo">
-    <div class="navbar-links">
-      <a href="index.php">Home</a>
-      <a href="about.php">About Us</a>
-      <a href="search.php">Wines</a>
-      <a href="basket.php">Basket</a>
-      <a href="contact-us.php">Contact Us</a>
+    <div class="navbar">
+        <img src="../../images/icon.png" alt="Wine Exchange Logo">
+        <div class="navbar-links">
+            <a href="index.php">Home</a>
+            <a href="about.php">About Us</a>
+            <a href="search.php">Wines</a>
+            <a href="basket.php">Basket</a>
+            <a href="contact-us.php">Contact Us</a>
+        </div>
+        <div class="navbar-right">
+            <form method="POST" action="search.php">
+                <input type="text" name="search" placeholder="Search">
+                <input type="hidden" name="submitted" value="true" />
+            </form>
+            <a href="log-in.php">Login</a>
+            <a href="signup.php">Sign up</a>
+            <a href="account.php">Account</a>
+            <button id="dark-mode" class="dark-mode-button">
+                <img src="../../images/darkmode.png" alt="Dark Mode" />
+            </button>
+        </div>
     </div>
-
-    <div class="navbar-right">
-      <form method="POST" action="search.php">
-        <input type="text" name="search" placeholder="Search">
-
-        <input type="hidden" name="submitted" value="true" />
-      </form>
-      <a href="log-in.php">Login</a>
-      <a href="signup.php">Sign up</a>
-      <a href="account.php">Account</a>
-      <button id="dark-mode" class="dark-mode-button">
-        <img src="../../images/darkmode.png" alt="Dark Mode" />
-      </button>
-    </div>
-  </div>
 
     <div class="accountcontainer">
-        <h1>Welcome, <span><?= $user['firstName'];?></span></h1>
+
+        <h1>Welcome, <span><?= htmlspecialchars($user['firstName']); ?></span></h1>
+
+        <?php if (isset($_GET['updated'])): ?>
+            <div class="alert-success">✓ Your details have been updated successfully.</div>
+        <?php endif; ?>
+
+        <!-- Account Info -->
         <div class="accountinfo">
             <h2>Account Information</h2>
-            <p><Strong>Name:</Strong> <?= $user['firstName']; ?></p>
-            <p><Strong>Surname:</Strong> <?= $user['surname']; ?></p>
-            <p><Strong>Address:</Strong> <?= $user['addressLine']; ?></p>
-            <p><Strong>Postcode:</Strong> <?= $user['postcode']; ?></p>
-            <p><Strong>Email:</Strong> <?= $user['email']; ?></p>
-            <p><Strong>Date of Birth:</Strong> <?= $user['dateOfBirth']; ?></p>
+            <p><strong>Name:</strong> <?= htmlspecialchars($user['firstName']); ?></p>
+            <p><strong>Surname:</strong> <?= htmlspecialchars($user['surname']); ?></p>
+            <p><strong>Address:</strong> <?= htmlspecialchars($user['addressLine']); ?></p>
+            <p><strong>Postcode:</strong> <?= htmlspecialchars($user['postcode']); ?></p>
+            <p><strong>Email:</strong> <?= htmlspecialchars($user['email']); ?></p>
+            <p><strong>Date of Birth:</strong> <?= htmlspecialchars($user['dateOfBirth']); ?></p>
         </div>
 
+        <!-- Action buttons — flush below info box -->
+        <div class="accountinfo-actions">
+            <button onclick="openModal('editModal')">✏️ Edit My Details</button>
+            <button class="btn-secondary" onclick="window.location.href='logout.php'">🚪 Logout</button>
+            <button class="btn-danger" onclick="openModal('deleteModal')">🗑️ Delete Account</button>
+        </div>
+
+        <!-- Order History -->
         <div class="orderstable">
             <h2>Order History</h2>
             <table>
@@ -274,85 +425,155 @@ $user = $userQuery->fetch_assoc();
                     <th>Actions</th>
                 </tr>
                 <?php while ($row = $transactions->fetch_assoc()): ?>
-                  <tr>
-                    <td><?= $row['trackingNumber']; ?></td>
-                    <td><?= $row['orderId']; ?></td>
-                    <td><?= $row['amount']; ?></td>
-                    <td><?= $row['method']; ?></td>
-                    <td><?= $row['paymentStatus']; ?></td>
-                    <td><?= $row['shippingStatus']; ?></td>
-                    <td><?= $row['transactionTimestamp']; ?></td>
-                    <td>
-                      <?php
-                        $oid = $row['orderId'];
+                    <tr>
+                        <td><?= htmlspecialchars($row['trackingNumber']); ?></td>
+                        <td><?= htmlspecialchars($row['orderId']); ?></td>
+                        <td><?= htmlspecialchars($row['amount']); ?></td>
+                        <td><?= htmlspecialchars($row['method']); ?></td>
+                        <td><?= htmlspecialchars($row['paymentStatus']); ?></td>
+                        <td><?= htmlspecialchars($row['shippingStatus']); ?></td>
+                        <td><?= htmlspecialchars($row['transactionTimestamp']); ?></td>
+                        <td>
+                            <?php
+                                $oid = (int)$row['orderId'];
+                                $checkRefund = $conn->query("SELECT 1 FROM refund WHERE orderId = $oid LIMIT 1");
+                                $hasRefund   = $checkRefund->num_rows > 0;
+                                $within30    = $row['orderDate'] > date('Y-m-d', strtotime('-30 days'));
 
-                        $checkRefund = $conn->query("SELECT 1 FROM refund WHERE orderId = $oid LIMIT 1");
-                        $hasRefund = $checkRefund->num_rows > 0;
-
-                        $within30 = $row['orderDate'] > date('Y-m-d', strtotime('-30 days'));
-
-                        if ($hasRefund) {
-                            echo "<span class='status-returned'>Returned</span>";
-                        } elseif ($within30) {
-                            echo "<button onclick=\"window.location.href='return.php?orderId=$oid'\">Return</button>";
-                        } else {
-                            echo "<span class='status-not-eligible'>Not eligible</span>";
-                        }
-                    ?>
-                    </td>
-                    
-                  </tr>
-                  <?php endwhile; ?>
+                                if ($hasRefund) {
+                                    echo "<span class='status-returned'>Returned</span>";
+                                } elseif ($within30) {
+                                    echo "<button onclick=\"window.location.href='return.php?orderId=$oid'\">Return</button>";
+                                } else {
+                                    echo "<span class='status-not-eligible'>Not eligible</span>";
+                                }
+                            ?>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
             </table>
         </div>
-        <button onclick="window.location.href='logout.php'">Logout</button>
-    </div>  
 
-    <!-- footer -->
-  <footer class="footer">
-    <div class="footer-container">
-
-      <div class="footer-section">
-        <h3>Wine Exchange</h3>
-        <p>123 Vineyard Lane<br>London, UK</p>
-        <p>Phone: +44 1234 567890</p>
-        <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
-        <p>Open: Mon–Fri, 9am–6pm</p>
-      </div>
-
-      <div class="footer-section">
-        <h3>Quick Links</h3>
-        <ul class="footer-links">
-          <li><a href="index.php">Home</a></li>
-          <li><a href="search.php">Wines</a></li>
-          <li><a href="about.php">About Us</a></li>
-          <li><a href="contact-us.php">Contact</a></li>
-        </ul>
-        <a href="contact-us.php" class="footer-button">Contact Us</a>
-      </div>
-
-      <div class="footer-section">
-        <h3>Follow Us</h3>
-        <ul class="footer-links">
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">Twitter</a></li>
-        </ul>
-      </div>
 
     </div>
-    
-    <script>
-    // DARK MODE
-    const darkButton = document.getElementById("dark-mode");
-    if (localStorage.getItem("dark_mode") === "on") {
-      document.documentElement.classList.add("darkmode");
-    }
 
-    darkButton.addEventListener("click", () => {
-      document.documentElement.classList.toggle("darkmode");
-      localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-    });
-  </script>
+    <!-- ── EDIT DETAILS MODAL  -->
+    <div class="modal-backdrop" id="editModal">
+        <div class="modal">
+            <button class="close-btn" onclick="closeModal('editModal')">&times;</button>
+            <h2>Edit My Details</h2>
+            <form class="edit-form" method="POST" action="account.php">
+                <input type="hidden" name="action" value="edit">
+
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName"
+                       value="<?= htmlspecialchars($user['firstName']); ?>" required>
+
+                <label for="surname">Surname</label>
+                <input type="text" id="surname" name="surname"
+                       value="<?= htmlspecialchars($user['surname']); ?>" required>
+
+                <label for="addressLine">Address</label>
+                <input type="text" id="addressLine" name="addressLine"
+                       value="<?= htmlspecialchars($user['addressLine']); ?>" required>
+
+                <label for="postcode">Postcode</label>
+                <input type="text" id="postcode" name="postcode"
+                       value="<?= htmlspecialchars($user['postcode']); ?>" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email"
+                       value="<?= htmlspecialchars($user['email']); ?>" required>
+
+                <label for="dateOfBirth">Date of Birth</label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth"
+                       value="<?= htmlspecialchars($user['dateOfBirth']); ?>" required>
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ── DELETE ACCOUNT MODAL  -->
+    <div class="modal-backdrop" id="deleteModal">
+        <div class="modal">
+            <button class="close-btn" onclick="closeModal('deleteModal')">&times;</button>
+            <h2>Delete Account</h2>
+            <p class="delete-warning">⚠ This action is permanent and cannot be undone.</p>
+            <p style="text-align:center; margin-bottom: 20px;">
+                All your orders and account data will be permanently removed.
+                Are you sure you want to continue?
+            </p>
+            <form method="POST" action="account.php">
+                <input type="hidden" name="action" value="delete">
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('deleteModal')">Cancel</button>
+                    <button type="submit" class="btn-danger">Yes, Delete My Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Wine Exchange</h3>
+                <p>123 Vineyard Lane<br>London, UK</p>
+                <p>Phone: +44 1234 567890</p>
+                <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
+                <p>Open: Mon–Fri, 9am–6pm</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="search.php">Wines</a></li>
+                    <li><a href="about.php">About Us</a></li>
+                    <li><a href="contact-us.php">Contact</a></li>
+                </ul>
+                <a href="contact-us.php" class="footer-button">Contact Us</a>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; <?= date('Y'); ?> Wine Exchange. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode
+        const darkButton = document.getElementById("dark-mode");
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
+        }
+        darkButton.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
+            localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
+        });
+
+        // Modal helpers
+        function openModal(id) {
+            document.getElementById(id).classList.add("open");
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove("open");
+        }
+
+        // Close modal when clicking outside the box
+        document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
+            backdrop.addEventListener("click", e => {
+                if (e.target === backdrop) closeModal(backdrop.id);
+            });
+        });
+    </script>
+
 </body>
 </html>
