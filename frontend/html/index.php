@@ -277,7 +277,7 @@ if (isset($_SESSION['customerID'])) {
       .welcome-img-wrap { width: 100%; }
     }
 
-    /* ── REVIEWS ── */
+/* ── REVIEWS ── */
     .reviews-header {
       display: block; width: 100%;
       text-align: center;
@@ -320,6 +320,19 @@ if (isset($_SESSION['customerID'])) {
       display: flex; align-items: center;
       gap: 12px; margin-bottom: 16px;
     }
+
+    .add-btn {
+      background-color: rgba(107,15,26);
+      border: 0;
+      border-radius: 5px;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 10px 25px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
     .profile-pic {
       width: 44px; height: 44px;
       border-radius: 50%; object-fit: cover;
@@ -393,10 +406,24 @@ if (isset($_SESSION['customerID'])) {
       cursor: pointer;
       transition: background var(--speed), transform .18s ease;
     }
+
+    .popup-footer {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:20px;
+    color:#777;
+    font-size: 1rem; 
+    font-weight: 600; 
+    margin: 0 0 14px;
+    }
+
+
     .pop-up .btn-close-popup:hover {
       background: var(--wine-light);
       transform: translateY(-1px);
     }
+
 
     /* ── FAQ ── */
     .faq {
