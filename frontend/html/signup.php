@@ -230,7 +230,10 @@ function showError($errors) {
                 <input type="text" name="addressline" placeholder="Address Line">
                 <input type="text" name="postcode" placeholder="Postcode">
                 <input type="date" name="dob" placeholder="Date of Birth">
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="password" placeholder="Password" 
+                  pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}"
+                  title="Must contain at least one uppercase letter, one lowercase letter, one special character, and be at least 6 characters long."
+                required>
                 <button type="submit" name="signup">Sign up</button>
                 <p>Already have an account? <a href="log-in.php">Login</a></p>
 
