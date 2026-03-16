@@ -1036,54 +1036,42 @@ $reviews = $conn->query($reviewSQL);
       </div>
       <div class="reviews-grid stagger-children">
 
-        <div class="review-card"
-             data-name="Kathy Schwabe"
-             data-title="Effortless ordering and flawless delivery."
-             data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It's clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it's refreshing to know I can rely on them every single time."
-             data-stars="★★★★★"
-             data-date="2026-03-12">
-             
-          <div class="review-header">
-            <img src="../../images/bd.jpg" alt="Kathy Schwabe" class="profile-pic">
-            <h3>Kathy Schwabe</h3>
-            <span class="stars">★★★★★</span>
-          </div>
-          <blockquote>
-            <h4>Effortless ordering and flawless delivery.</h4>
-          </blockquote>
-        </div>
+      <?php
+        if ($reviews && $reviews->num_rows > 0) {
+          while ($row = $reviews->fetch_assoc()) {
 
-        <div class="review-card"
-             data-name="Edward Sinclair"
-             data-title="My go-to site for hassle-free wine shopping."
-             data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It's clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it's refreshing to know I can rely on them every single time."
-             data-stars="★★★★★"
-             data-date="2026-02-12">
-          <div class="review-header">
-            <img src="../../images/jj.jpg" alt="Edward Sinclair" class="profile-pic">
-            <h3>Edward Sinclair</h3>
-            <span class="stars">★★★★★</span>
-          </div>
-          <blockquote>
-            <h4>My go-to site for hassle-free wine shopping.</h4>
-          </blockquote>
-        </div>
+          $name = htmlspecialchars($row['firstName'] . " " . $row['surname']);
+          $heading = htmlspecialchars($row['wReviewHeading']);
+          $text = htmlspecialchars($row['wReviewText']);
+          $date = $row['reviewDate'];
+          $stars = str_repeat("★", $row['wStars']) . str_repeat("☆", 5 - $row['wStars']);
 
+          $image = !empty($row['userProfileImage'])
+              ? $row['userProfileImage']
+              : "../../images/guestPfp.jpg";
+      ?>      
         <div class="review-card"
-             data-name="Harry Maguire"
-             data-title="Exactly as described, delivered without delay!"
-             data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It's clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it's refreshing to know I can rely on them every single time."
-             data-stars="★★★★★"
-             data-date="2025-12-14">
-          <div class="review-header">
-            <img src="../../images/hm.jpg" alt="Harry Maguire" class="profile-pic">
-            <h3>Harry Maguire</h3>
-            <span class="stars">★★★★★</span>
-          </div>
-          <blockquote>
-            <h4>Exactly as described, delivered without delay!</h4>
-          </blockquote>
+             data-name="<?= $name ?>"
+             data-title="<?= $heading ?>"
+             data-review="<?= $text ?>"
+             data-stars="<?= $stars ?>"
+             data-date="<?= $date ?>">
+
+            <div class="review-header">
+                <img src="<?= $image ?>" alt="<?= $name ?>" class="profile-pic">
+                <h3><?= $name ?></h3>
+                <span class="stars"><?= $stars ?></span>
+            </div>
+            <blockquote>
+                <h4><?= $heading ?></h4>
+            </blockquote>
         </div>
+      <?php
+    }
+  }
+?>  
+
+
         <a href="reviewForm-W.php">
           <button class= "add-btn">Write Your Review</button>
         </a>
