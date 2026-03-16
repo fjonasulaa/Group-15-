@@ -1,7 +1,23 @@
 <?php
 session_start();
 require_once('../../database/db_connect.php');
+
+$accountLink = 'log-in.php';
+
+if (isset($_SESSION['customerID'])) {
+    $accountLink = 'account.php';
+
+    $cid = (int) $_SESSION['customerID'];
+    $result = $conn->query("SELECT role FROM customer WHERE customerID = $cid");
+
+    if ($result && $row = $result->fetch_assoc()) {
+        if ($row['role'] === 'admin') {
+            $accountLink = 'admin.php';
+        }
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,6 +55,42 @@ require_once('../../database/db_connect.php');
       background: var(--bg-warm);
       font-family: Georgia, 'Times New Roman', serif;
       color: var(--text);
+    }
+
+    /* ── WISHLIST SIDEBAR ── */
+    .wishlist-sidebar {
+      position: fixed; top: 0; right: -420px; width: 380px; height: 100%;
+      background: #f4f1f2; padding: 30px;
+      box-shadow: -5px 0 20px rgba(0,0,0,0.25);
+      transition: right 0.4s ease; z-index: 2000; overflow-y: auto;
+    }
+    .wishlist-sidebar.active { right: 0; }
+    .wishlist-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      display: none; z-index: 1500;
+    }
+    .wishlist-overlay.active { display: block; }
+    .close-wishlist { font-size: 22px; cursor: pointer; text-align: right; margin-bottom: 15px; }
+    #wishlist-items { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+    .wishlist-item {
+      display: flex; gap: 12px; align-items: center; background: white;
+      border-radius: 10px; padding: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08); position: relative;
+    }
+    .wishlist-img { width: 65px; height: 65px; object-fit: cover; border-radius: 8px; }
+    .wishlist-info { flex: 1; }
+    .wishlist-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .wishlist-price { color: #7b1e3a; font-weight: bold; margin-bottom: 8px; }
+    .wishlist-actions { display: flex; gap: 8px; }
+    .wishlist-view { padding: 4px 10px; font-size: 12px; border-radius: 6px; background: #eee; text-decoration: none; color: #333; }
+    .wishlist-view:hover { background: #ddd; }
+    .remove-wishlist { position: absolute; top: 6px; right: 6px; border: none; background: none; font-size: 14px; cursor: pointer; color: #999; }
+    .remove-wishlist:hover { color: red; }
+    .wishlist-nav-button { position: relative; background: none; border: none; font-size: 20px; cursor: pointer; color: #e63946; margin-left: 10px; }
+    .wishlist-count {
+      position: absolute; top: -6px; right: -8px; background: #e63946;
+      color: white; font-size: 11px; font-weight: bold; padding: 2px 6px;
+      border-radius: 50px; min-width: 18px; text-align: center;
     }
 
     /* ── PAGE WRAPPER ── */
@@ -174,8 +226,13 @@ require_once('../../database/db_connect.php');
       transition: color 0.18s;
     }
 
-    .faq-question:hover { color: var(--wine); }
-    .faq-question.open  { color: var(--wine); }
+    .faq-question:hover {
+      color: var(--wine);
+    }
+
+    .faq-question.open {
+      color: var(--wine);
+    }
 
     .faq-icon {
       flex-shrink: 0;
@@ -259,7 +316,9 @@ require_once('../../database/db_connect.php');
       transition: background 0.18s;
     }
 
-    .faq-cta a:hover { background: var(--wine-light); }
+    .faq-cta a:hover {
+      background: var(--wine-light);
+    }
 
     /* ── FOOTER ── */
     .footer-newsletter {
@@ -273,27 +332,6 @@ require_once('../../database/db_connect.php');
     }
     .footer-newsletter strong { display: block; font-weight: 500; color: #fff; font-size: 16px; margin-bottom: 2px; }
     .footer-newsletter p { color: #f5dde3; font-size: 15px; margin: 0; }
-
-    .newsletter-form { display: flex; flex-direction: row; gap: 8px; align-items: center; }
-    .footer-newsletter .newsletter-form input {
-      padding: 7px 12px !important; border-radius: 8px !important;
-      border: 0.5px solid rgba(255,255,255,0.25) !important;
-      background: rgba(255,255,255,0.12) !important; color: #ffffff !important;
-      font-size: 15px !important; width: 210px !important; max-width: 210px !important;
-      min-width: 210px !important; outline: none !important; font-family: inherit !important;
-      box-sizing: border-box !important; margin-bottom: 0 !important;
-    }
-    .footer-newsletter .newsletter-form input::placeholder { color: rgba(255,255,255,0.5); }
-    .footer-newsletter .newsletter-form input:focus { border-color: rgba(255,255,255,0.5) !important; }
-    .footer-newsletter .btn-subscribe {
-      padding: 7px 16px !important; border-radius: 8px !important; background: #ffffff !important;
-      border: none !important; color: #6b1a2e !important; font-size: 15px !important;
-      font-weight: 500 !important; cursor: pointer !important; font-family: inherit !important;
-      transition: background 0.15s !important; width: 210px !important;
-      max-width: 210px !important; min-width: 210px !important; box-sizing: border-box !important;
-    }
-    .footer-newsletter .btn-subscribe:hover { background: #f0e8ea !important; }
-
     .footer-main {
       background: #ffffff;
       display: grid;
@@ -327,23 +365,6 @@ require_once('../../database/db_connect.php');
     .footer-bottom p { font-size: 14px; color: #8a5a60; margin: 0; }
     .age-badge { background: #fdf0e8; border: 0.5px solid #c9a84c; color: #7a4a00; font-size: 13px; padding: 3px 10px; border-radius: 8px; }
 
-    /* ── DARK MODE ── */
-    .darkmode .faq-search-wrap input { background: #221410 !important; border-color: #3a2820 !important; color: #c0a898 !important; }
-    .darkmode .faq-cat-btn { background: #221410; border-color: #3a2820; color: #c0a898; }
-    .darkmode .faq-cat-btn.active { background: var(--wine); color: #fff; border-color: var(--wine); }
-    .darkmode .faq-question { color: #f0e6de; }
-    .darkmode .faq-answer p { color: #c0a898; }
-    .darkmode .faq-group-title { color: #e8c8c8; border-bottom-color: #3a2820; }
-    .darkmode .faq-item { border-bottom-color: #3a2820; }
-    .darkmode .faq-icon { background: #1c100d; border-color: #3a2820; }
-    .darkmode .faq-cta { background: #1c100d; border-color: #3a2820; }
-    .darkmode .faq-cta p { color: #c0a898; }
-    .darkmode .footer-main { background: #1c100d; }
-    .darkmode .footer-col p, .darkmode .footer-col a { color: #c0a898; }
-    .darkmode .footer-col a:hover { color: #f0e6de; }
-    .darkmode .footer-bottom { background: #140a08; border-top-color: #3a2820; }
-    .darkmode .footer-bottom p { color: #8a7a72; }
-
     @media (max-width: 600px) {
       .faq-page { padding: 100px 16px 60px; }
       .faq-page-title h1 { font-size: 1.8rem; }
@@ -357,7 +378,41 @@ require_once('../../database/db_connect.php');
 
 <body>
 
-  <?php require_once('navbar.php'); ?>
+  <!-- WISHLIST OVERLAY & SIDEBAR -->
+  <div class="wishlist-overlay" id="wishlistOverlay"></div>
+  <div class="wishlist-sidebar" id="wishlistSidebar">
+    <div class="close-wishlist" id="closeWishlist"><i class="fa fa-times"></i></div>
+    <h3>Your Wishlist</h3>
+    <div id="wishlist-items"><p>Your wishlist is empty.</p></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <a href="index.php"><img src="../../images/icon.png" alt="Wine Exchange Logo" style="cursor:pointer;"></a>
+    <div class="navbar-links">
+      <a href="index.php">Home</a>
+      <a href="about.php">About Us</a>
+      <a href="search.php">Wines</a>
+      <a href="basket.php">Basket</a>
+      <a href="contact-us.php">Contact Us</a>
+    </div>
+    <div class="navbar-right">
+      <form method="POST" action="search.php">
+        <input type="text" name="search" placeholder="Search">
+        <input type="hidden" name="submitted" value="true" />
+      </form>
+      <button onclick="location.href='<?= $accountLink ?>'" class="wishlist-nav-button">
+        <i class="fas fa-user"></i>
+      </button>
+      <button id="wishlist-toggle" class="wishlist-nav-button">
+        <i class="fas fa-heart"></i>
+        <span id="wishlist-count" class="wishlist-count">0</span>
+      </button>
+      <button id="dark-mode" class="dark-mode-button">
+        <img src="../../images/darkmode.png" alt="Dark Mode" />
+      </button>
+    </div>
+  </div>
 
   <!-- FAQ PAGE -->
   <div class="faq-page">
@@ -434,7 +489,7 @@ require_once('../../database/db_connect.php');
 
     <!-- Shipping -->
     <div class="faq-group" data-cat="shipping">
-      <p class="faq-group-title">Shipping &amp; Delivery</p>
+      <p class="faq-group-title">Shipping & Delivery</p>
 
       <div class="faq-item">
         <button class="faq-question">
@@ -462,15 +517,17 @@ require_once('../../database/db_connect.php');
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer">
-          <p>UK orders are typically dispatched the next working day and arrive within 2–3 business days.</p>
-        </div>
+          <p>UK orders are typically dispatched the next working day and arrive within 2–3 business days. </p>
+      </div>
+
+      
       </div>
 
     </div>
 
     <!-- Returns -->
     <div class="faq-group" data-cat="returns">
-      <p class="faq-group-title">Returns &amp; Refunds</p>
+      <p class="faq-group-title">Returns & Refunds</p>
 
       <div class="faq-item">
         <button class="faq-question">
@@ -496,7 +553,7 @@ require_once('../../database/db_connect.php');
 
     <!-- Account -->
     <div class="faq-group" data-cat="account">
-      <p class="faq-group-title">Account &amp; Payments</p>
+      <p class="faq-group-title">Account & Payments</p>
 
       <div class="faq-item">
         <button class="faq-question">
@@ -504,8 +561,8 @@ require_once('../../database/db_connect.php');
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer">
-          <p>You do not need an account to purchase.</p>
-        </div>
+<p>You do not need an account to purchase.</p>
+    </div>
       </div>
 
       <div class="faq-item">
@@ -546,9 +603,9 @@ require_once('../../database/db_connect.php');
         <strong>Join our wine newsletter</strong>
         <p>Tasting notes, new arrivals &amp; exclusive offers</p>
       </div>
-      <div class="newsletter-form">
-        <input type="email" placeholder="Your email address" />
-        <button class="btn-subscribe">Subscribe</button>
+      <div style="display:flex; flex-direction:row; gap:8px; align-items:center;">
+        <input type="email" placeholder="Your email address" style="width:210px !important; min-width:210px !important; max-width:210px !important; padding:7px 12px; border-radius:8px; border:0.5px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.12); color:#ffffff; font-size:15px; outline:none; box-sizing:border-box; margin-bottom:0;" />
+        <button style="width:210px !important; min-width:210px !important; max-width:210px !important; padding:7px 16px; border-radius:8px; background:#ffffff; border:none; color:#6b1a2e; font-size:15px; font-weight:500; cursor:pointer; box-sizing:border-box;">Subscribe</button>
       </div>
     </div>
 
@@ -609,7 +666,7 @@ require_once('../../database/db_connect.php');
           <span class="payment-icon">VISA</span>
           <span class="payment-icon">MC</span>
           <span class="payment-icon">AMEX</span>
-          <span class="payment-icon">ApplePay</span>
+          <span class="payment-icon">PayPal</span>
         </div>
       </div>
 
@@ -622,16 +679,84 @@ require_once('../../database/db_connect.php');
 
   </footer>
 
+  <!-- DARK MODE -->
+  <script>
+    (function () {
+      const btn = document.getElementById('dark-mode');
+      if (localStorage.getItem('dark_mode') === 'on') {
+        document.documentElement.classList.add('darkmode');
+      }
+      btn.addEventListener('click', function () {
+        document.documentElement.classList.toggle('darkmode');
+        localStorage.setItem('dark_mode', document.documentElement.classList.contains('darkmode') ? 'on' : 'off');
+      });
+    })();
+  </script>
+
+  <!-- WISHLIST -->
+  <script>
+    const loggedIn = <?php echo isset($_SESSION['customerID']) ? "true" : "false"; ?>;
+    const wishlistBtn     = document.getElementById("wishlist-toggle");
+    const wishlistSidebar = document.getElementById("wishlistSidebar");
+    const closeWishlist   = document.getElementById("closeWishlist");
+    const wishlistOverlay = document.getElementById("wishlistOverlay");
+
+    wishlistBtn.addEventListener("click", () => { wishlistSidebar.classList.add("active"); wishlistOverlay.classList.add("active"); });
+    closeWishlist.addEventListener("click", () => { wishlistSidebar.classList.remove("active"); wishlistOverlay.classList.remove("active"); });
+    wishlistOverlay.addEventListener("click", () => { wishlistSidebar.classList.remove("active"); wishlistOverlay.classList.remove("active"); });
+
+    const wishlistContainer = document.getElementById("wishlist-items");
+    const wishlistCount     = document.getElementById("wishlist-count");
+
+    function getGuestWishlist() { return JSON.parse(localStorage.getItem("wishlist")) || []; }
+    function saveGuestWishlist(list) { localStorage.setItem("wishlist", JSON.stringify(list)); }
+
+    function loadWishlist() {
+      if (loggedIn) {
+        fetch("get_wishlist.php").then(res => res.json()).then(data => renderWishlist(data));
+      } else {
+        renderWishlist(getGuestWishlist());
+      }
+    }
+
+    function renderWishlist(list) {
+      wishlistContainer.innerHTML = "";
+      if (list.length === 0) { wishlistContainer.innerHTML = "<p>Your wishlist is empty.</p>"; wishlistCount.textContent = 0; return; }
+      wishlistCount.textContent = list.length;
+      list.forEach((wine, index) => {
+        const image = loggedIn ? (wine.imageUrl ? "../../images/" + wine.imageUrl : "../../images/placeholder.jpg") : (wine.imageUrl || "../../images/placeholder.jpg");
+        const item = document.createElement("div");
+        item.className = "wishlist-item";
+        item.innerHTML = `<img src="${image}" class="wishlist-img"><div class="wishlist-info"><div class="wishlist-name">${wine.wineName || wine.name}</div><div class="wishlist-price">£${wine.price}</div><div class="wishlist-actions"><a href="wineinfo.php?id=${wine.id || wine.wineId}" class="wishlist-view">View</a></div></div><button class="remove-wishlist" data-id="${wine.wineId || wine.id}" data-index="${index}"><i class="fas fa-times"></i></button>`;
+        wishlistContainer.appendChild(item);
+      });
+    }
+
+    document.addEventListener("click", function (e) {
+      const removeBtn = e.target.closest(".remove-wishlist");
+      if (!removeBtn) return;
+      const wineId = removeBtn.dataset.id;
+      const index  = removeBtn.dataset.index;
+      if (loggedIn) {
+        fetch("remove_from_wishlist.php", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: "wineId=" + wineId }).then(() => loadWishlist());
+      } else {
+        let list = getGuestWishlist(); list.splice(index, 1); saveGuestWishlist(list); renderWishlist(list);
+      }
+    });
+
+    loadWishlist();
+  </script>
+
   <!-- FAQ ACCORDION + SEARCH + CATEGORIES -->
   <script>
     // Accordion
-    document.querySelectorAll('.faq-question').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var answer = btn.nextElementSibling;
-        var isOpen = btn.classList.contains('open');
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling;
+        const isOpen = btn.classList.contains('open');
 
         // Close all
-        document.querySelectorAll('.faq-question').forEach(function (b) {
+        document.querySelectorAll('.faq-question').forEach(b => {
           b.classList.remove('open');
           b.nextElementSibling.classList.remove('open');
         });
@@ -645,12 +770,12 @@ require_once('../../database/db_connect.php');
     });
 
     // Category filter
-    document.querySelectorAll('.faq-cat-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        document.querySelectorAll('.faq-cat-btn').forEach(function (b) { b.classList.remove('active'); });
+    document.querySelectorAll('.faq-cat-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.faq-cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        var cat = btn.dataset.cat;
-        document.querySelectorAll('.faq-group').forEach(function (group) {
+        const cat = btn.dataset.cat;
+        document.querySelectorAll('.faq-group').forEach(group => {
           group.style.display = (cat === 'all' || group.dataset.cat === cat) ? '' : 'none';
         });
         document.getElementById('faq-search').value = '';
@@ -660,17 +785,17 @@ require_once('../../database/db_connect.php');
 
     // Search
     document.getElementById('faq-search').addEventListener('input', function () {
-      var query = this.value.toLowerCase().trim();
-      var anyVisible = false;
+      const query = this.value.toLowerCase().trim();
+      let anyVisible = false;
 
       // Reset category
-      document.querySelectorAll('.faq-cat-btn').forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('.faq-cat-btn').forEach(b => b.classList.remove('active'));
       document.querySelector('[data-cat="all"]').classList.add('active');
-      document.querySelectorAll('.faq-group').forEach(function (g) { g.style.display = ''; });
+      document.querySelectorAll('.faq-group').forEach(g => g.style.display = '');
 
-      document.querySelectorAll('.faq-item').forEach(function (item) {
-        var text  = item.textContent.toLowerCase();
-        var match = !query || text.includes(query);
+      document.querySelectorAll('.faq-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        const match = !query || text.includes(query);
         item.style.display = match ? '' : 'none';
         if (match) anyVisible = true;
       });
