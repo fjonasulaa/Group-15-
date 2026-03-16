@@ -41,6 +41,7 @@ else
 
 
 $user = [
+    'customerID' => '',
     'firstName' => '',
     'surname' => '',
     'email' => '',
@@ -55,22 +56,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['saveDetails'])) {
 
     $firstName = $_POST['firstName'];
     $surname = $_POST['surname'];
+    $email = $_POST['email'];
     $addressLine = $_POST['addressline'];
     $postcode = $_POST['postcode'];
     $phoneNumber = $_POST['pnumber'];
 
-    if ($firstName !== '' && $surname !== '') {
+    if ($firstName !== '' && $surname !== '' && $email !== '') {
         $stmt = $conn->prepare("
             UPDATE customer
-            SET firstName=?, surname=?, addressLine=?, postcode=?, phoneNumber=?
-            WHERE customerID=?
-        ");
+            SET firstName=?, surname=?, email=?, addressLine=?, postcode=?, phoneNumber=?
+            WHERE customerID=?");
 
 
 
 
 
-        $stmt->bind_param("sssssi", $firstName, $surname, $addressLine, $postcode, $phoneNumber, $customerID);
+        $stmt->bind_param("ssssssi", $firstName, $surname, $email, $addressLine, $postcode, $phoneNumber, $customerID);
         $stmt->execute();
         $stmt->close();
     }
@@ -91,6 +92,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['changePassword'])) {
     }
 }
 
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateTransactionStatus'])) {
+
+    $orderId = (int)$_POST['orderId'];
+    $paymentStatus = $_POST['paymentStatus'];
+    $shippingStatus = $_POST['shippingStatus'];
+    $trackingNumber = $_POST['trackingNumber'];
+
+    $PaymentStatu = ['Pending', 'Paid'];
+    $ShippingStatu = ['Preparing', 'In Transit', 'Delivered'];
+
+    if (in_array($paymentStatus, $PaymentStatu) && in_array($shippingStatus, $ShippingStatu)) {
+
+        $stmt = $conn->prepare("
+            UPDATE payment
+            SET paymentStatus=?
+            WHERE orderId=?");
+
+        $stmt->bind_param("si", $paymentStatus, $orderId);
+        $stmt->execute();
+        $stmt->close();
+
+        $stmt = $conn->prepare("
+            UPDATE shipping
+            SET shippingStatus=?, trackingNumber=?
+            WHERE orderId=?");
+
+        $stmt->bind_param("ssi", $shippingStatus, $trackingNumber, $orderId);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    header("Location: admin.php?customerID=" . $customerID);
+    exit();
+
+}
+
+
+
+
 $result1 = $conn->query("SELECT customerID, email FROM customer ORDER BY customerID DESC");
 while ($row = $result1->fetch_assoc()) {
     $customers[] = $row;
@@ -99,8 +141,10 @@ while ($row = $result1->fetch_assoc()) {
 
 
 
+
+
 $stmt = $conn->prepare("
-    SELECT firstName, surname, email, addressLine, postcode, phoneNumber
+    SELECT customerID, firstName, surname, email, addressLine, postcode, phoneNumber
     FROM customer
     WHERE customerID=?
 ");
@@ -110,19 +154,21 @@ $user = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
 $stmt = $conn->prepare("
+
     SELECT
-        payment.paymentId,
-        orders.orderId,
-        payment.amount,
-        payment.method,
-        payment.paymentStatus,
-        payment.transactionTimestamp,
-        shipping.shippingStatus
+    shipping.trackingNumber,
+    orders.orderId,
+    payment.amount,
+    payment.method,
+    payment.paymentStatus,
+    payment.transactionTimestamp,
+    shipping.shippingStatus
     FROM orders
     LEFT JOIN payment ON payment.orderId = orders.orderId
     LEFT JOIN shipping ON shipping.orderId = orders.orderId
     WHERE orders.customerId = ?
     ORDER BY payment.transactionTimestamp DESC, orders.orderId DESC
+
 ");
 
 $stmt->bind_param("i", $customerID);

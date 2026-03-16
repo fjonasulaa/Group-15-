@@ -51,7 +51,10 @@ CREATE TABLE payment (
   amount DECIMAL(7,2) NOT NULL,
   paymentStatus VARCHAR(100) NOT NULL,
   transactionTimestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (orderId) REFERENCES orders(orderId)
+  FOREIGN KEY (orderId) REFERENCES orders(orderId),
+  cardName VARCHAR(255),
+  cardLast4 VARCHAR(4),
+  cardExpiry VARCHAR(5)
 );
 
 CREATE TABLE reviews (
@@ -72,7 +75,7 @@ CREATE TABLE websiteReviews (
   wReviewHeading TEXT,
   wReviewText TEXT,
   reviewDate DATE,
-  FOREIGN KEY (customerId) REFERENCES customer(customerID),
+  FOREIGN KEY (customerId) REFERENCES customer(customerID)
 );
 
 CREATE TABLE shipping (

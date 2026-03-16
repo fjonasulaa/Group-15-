@@ -32,7 +32,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    die("Wine not found.");
+    die("Wine not found. <a href='inventory.php'>Back to stock Management</a>");
 }
 
 $wine = $result->fetch_assoc();

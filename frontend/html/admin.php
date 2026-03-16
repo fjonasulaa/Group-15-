@@ -87,6 +87,27 @@
         .darkmode .footer-links a {
             color: #ddd;
         }
+
+        .transaction-row select[name="paymentStatus"] {
+            margin-top: 20px;
+
+        }
+
+        .transaction-row select {
+            width: 120px;
+            padding: 4px;
+            font-size: 14px;
+        }
+
+        .transaction-row button {
+            padding: 4px 8px;
+            font-size: 14px;
+            margin-left: 5px;
+            background-color: #57af4c;
+            color: white;
+            border: none;
+            outline: none;
+        }
     </style>
 </head>
 
@@ -147,13 +168,13 @@
                         <form method="post">
                             <div class="row">
                                 <div>
-                                    <label for="username">USERNAME</label>
-                                    <input type="text" name="username" value="username123">
+                                    <label for="username">Customer ID</label>
+                                    <input type="text" name="customerID" value="<?= $user['customerID'] ?>" readonly>
                                 </div>
 
                                 <div>
                                     <label for="email">EMAIL</label>
-                                    <input type="email" name="email" value="<?= $user['email'] ?>" readonly>
+                                    <input type="email" name="email" value="<?= $user['email'] ?>">
                                 </div>
                             </div>
 
@@ -205,6 +226,10 @@
                             <button type="submit" name="changePassword">Change Password</button>
                         </form>
                     </div>
+
+                    <button onclick="window.location.href='inventory.php'">Inventory</button>
+                    <button onclick="window.location.href='logout.php'">Logout</button>
+
                 </div>
 
                 <!-- table -->
@@ -212,7 +237,7 @@
                     <h1 class="center-title">TRANSACTION HISTORY</h1>
                     <div class="transaction-table">
                         <div class="transaction-header">
-                            <span>TRANSACTION ID</span>
+                            <span>SHIPPING NUMBER</span>
                             <span>ORDER ID</span>
                             <span>AMOUNT</span>
                             <span>CUSTOMER</span>
@@ -238,20 +263,36 @@
                         <?php else: ?>
 
                             <?php for ($i = 0; $i < count($transactions); $i++): ?>
-
-                                <div class="transaction-row">
-                                    <span><?= $transactions[$i]['paymentId'] ?></span>
+                                <form method="post" class="transaction-row">
+                                    <input type="hidden" name="orderId" value="<?= $transactions[$i]['orderId'] ?>">
+                                    <input type="text" name="trackingNumber" value="<?= $transactions[$i]['trackingNumber'] ?>" style="width:120px; height:24px; margin-top: 20px; font-size:14px;">
                                     <span><?= $transactions[$i]['orderId'] ?></span>
-                                    <span class="transaction-amount">£<?= number_format((float)$transactions[$i]['amount'], 2) ?></span>
+                                    <span>£<?= number_format((float)$transactions[$i]['amount'], 2) ?></span>
                                     <span><?= $user['firstName'] . ' ' . $user['surname'] ?></span>
                                     <span><?= $transactions[$i]['method'] ?></span>
-                                    <span><?= $transactions[$i]['paymentStatus'] ?></span>
+
+                                    <span>
+                                        <select name="paymentStatus">
+                                            <option value="Pending" <?= $transactions[$i]['paymentStatus'] == 'Pending' ? 'selected' : '' ?>>Pending</option>
+                                            <option value="Paid" <?= $transactions[$i]['paymentStatus'] == 'Paid' ? 'selected' : '' ?>>Paid</option>
+                                        </select>
+                                    </span>
+
                                     <span><?= $transactions[$i]['transactionTimestamp'] ?></span>
-                                    <span><?= $transactions[$i]['shippingStatus'] ?></span>
-                                </div>
 
+                                    <span>
+                                        <select name="shippingStatus">
+                                            <option value="Preparing" <?= $transactions[$i]['shippingStatus'] == 'Preparing' ? 'selected' : '' ?>>Preparing</option>
+                                            <option value="In Transit" <?= $transactions[$i]['shippingStatus'] == 'In Transit' ? 'selected' : '' ?>>In Transit</option>
+                                            <option value="Delivered" <?= $transactions[$i]['shippingStatus'] == 'Delivered' ? 'selected' : '' ?>>Delivered</option>
+                                        </select>
+
+                                        <button type="submit" name="updateTransactionStatus">Save</button>
+                                    </span>
+                                </form>
+
+                
                             <?php endfor; ?>
-
                         <?php endif; ?>
                     </div>
                 </div>

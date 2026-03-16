@@ -108,14 +108,21 @@ require_once('../../database/db_connect.php');
         }
 
         .filter-btn {
-            background: #7b1e3a;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
+    background: #7b1e3a;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 2px solid #7b1e3a;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1;
+    height: 42px;
+}
 
         .reset-btn {
             background: #e0e0e0;
@@ -127,9 +134,12 @@ require_once('../../database/db_connect.php');
         }
 
         .results-header {
-            padding: 5px 40px 10px;
-            font-weight: 600;
-        }
+    padding: 20px 40px 10px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
         .box-container {
             padding: 10px 40px 40px;
@@ -502,10 +512,62 @@ html.darkmode #wishlist-items p{
     color:#cccccc;
 }
 
+.darkmode .sort-select,
+.darkmode select[name="sort"] {
+    background: #2a2a2a;
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
 /* WISHLIST COUNTER BADGE */
 
 .wishlist-nav-button{
     position:relative;
+}
+
+.sort-dropdown {
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 10px 40px 10px 16px;
+    border-radius: 10px;
+    border: 2px solid #7b1e3a;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: white;
+    color: #7b1e3a;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237b1e3a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+    outline: none;
+    display: block;
+    margin: 0;
+    height: 42px;
+}
+
+.sort-dropdown:hover {
+    background-color: #7b1e3a;
+    color: white;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+}
+
+.sort-dropdown:focus {
+    box-shadow: 0 0 0 3px rgba(123, 30, 58, 0.2);
+    border-color: #7b1e3a;
+}
+
+html.darkmode .sort-dropdown {
+    background-color: #1e1e1e;
+    color: #e0a0b0;
+    border-color: #9b2d52;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e0a0b0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+}
+
+html.darkmode .sort-dropdown:hover {
+    background-color: #9b2d52;
+    color: white;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
 }
 
 .wishlist-count{
@@ -629,15 +691,7 @@ html.darkmode #wishlist-items p{
                 value="<?= isset($_POST['max_price']) ? htmlspecialchars($_POST['max_price']) : '' ?>">
         </div>
 
-        <div class="filter-group">
-            <label>Sort By</label>
-            <select name="sort">
-                <option value="">Default</option>
-                <option value="price_asc" <?= (isset($_POST['sort']) && $_POST['sort']=="price_asc") ? "selected" : "" ?>>Price: Low to High</option>
-                <option value="price_desc" <?= (isset($_POST['sort']) && $_POST['sort']=="price_desc") ? "selected" : "" ?>>Price: High to Low</option>
-                <option value="name_asc" <?= (isset($_POST['sort']) && $_POST['sort']=="name_asc") ? "selected" : "" ?>>Name: A to Z</option>
-            </select>
-        </div>
+       
 
         <div class="filter-buttons">
             <button type="submit" class="filter-btn">Apply</button>
@@ -732,13 +786,29 @@ $stat->execute();
 $result = $stat->get_result();
 ?>
 
-<div style="padding:10px 40px 0;">
-    <button id="openFilter" class="filter-btn">
-        <i class="fa fa-sliders"></i> Filter
-    </button>
-</div>
 <div class="results-header">
-    <?= $result->num_rows ?> wines found
+    <h2 style="margin:0;">Our Wine Collection</h2>
+
+    <div style="display:flex; align-items:center; gap:12px;">
+        <button id="openFilter" class="filter-btn">
+            <i class="fa fa-sliders"></i> Filter
+        </button>
+
+        <form method="POST" style="margin:0;">
+            <input type="hidden" name="search"    value="<?= isset($_POST['search'])    ? htmlspecialchars($_POST['search'])    : '' ?>">
+            <input type="hidden" name="category"  value="<?= isset($_POST['category'])  ? htmlspecialchars($_POST['category'])  : '' ?>">
+            <input type="hidden" name="region"    value="<?= isset($_POST['region'])    ? htmlspecialchars($_POST['region'])    : '' ?>">
+            <input type="hidden" name="min_price" value="<?= isset($_POST['min_price']) ? htmlspecialchars($_POST['min_price']) : '' ?>">
+            <input type="hidden" name="max_price" value="<?= isset($_POST['max_price']) ? htmlspecialchars($_POST['max_price']) : '' ?>">
+
+            <select name="sort" onchange="this.form.submit()" class="sort-dropdown">
+                <option value="">Sort By</option>
+                <option value="price_asc"  <?= (isset($_POST['sort']) && $_POST['sort']=="price_asc")  ? "selected" : "" ?>>Price: Low to High</option>
+                <option value="price_desc" <?= (isset($_POST['sort']) && $_POST['sort']=="price_desc") ? "selected" : "" ?>>Price: High to Low</option>
+                <option value="name_asc"   <?= (isset($_POST['sort']) && $_POST['sort']=="name_asc")   ? "selected" : "" ?>>Name: A to Z</option>
+            </select>
+        </form>
+    </div>
 </div>
 
 <div class="box-container">

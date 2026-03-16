@@ -14,6 +14,9 @@ function showError($errors) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up | Wine Exchange</title>
@@ -194,8 +197,8 @@ function showError($errors) {
   <div class="navbar">
     <img src="../../images/icon.png" alt="Wine Exchange Logo">
     <div class="navbar-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
+      <a href="index.php">Home</a>
+      <a href="about.php">About Us</a>
       <a href="search.php">Wines</a>
       <a href="basket.php">Basket</a>
       <a href="contact-us.php">Contact Us</a>
@@ -230,6 +233,20 @@ function showError($errors) {
                 <input type="password" name="password" placeholder="Password" required>
                 <button type="submit" name="signup">Sign up</button>
                 <p>Already have an account? <a href="log-in.php">Login</a></p>
+
+                <div id="g_id_onload"
+                  data-client_id="966067449001-4ajt4ll22p3p2kefig7e2rj4ih7oipml.apps.googleusercontent.com"
+                  data-callback="handleGoogleSignup">
+                </div>
+
+                <div class="g_id_signin"
+                  data-type="standard"
+                  data-shape="rectangular"
+                  data-theme="outline"
+                  data-text="signup_with"
+                  data-size="large"
+                  data-logo_alignment="left">
+                </div>
             </form>
         </div>
     </div>
@@ -249,9 +266,9 @@ function showError($errors) {
       <div class="footer-section">
         <h3>Quick Links</h3>
         <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="wines.html">Wines</a></li>
-          <li><a href="about.html">About Us</a></li>
+          <li><a href="index.php">Home</a></li>
+          <li><a href="search.php">Wines</a></li>
+          <li><a href="about.php">About Us</a></li>
           <li><a href="contact-us.php">Contact</a></li>
         </ul>
         <a href="contact-us.php" class="footer-button">Contact Us</a>
@@ -284,6 +301,41 @@ function showError($errors) {
             document.documentElement.classList.toggle("darkmode");
             localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
         });
+  </script>
+
+    <script>
+      function handleGoogleSignup(response) {
+          fetch("google-login.php", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+            credential: response.credential
+          })
+      })
+      .then(async res => {
+        const text = await res.text();
+        console.log("Raw response from google-login.php:", text);
+
+        try {
+            return JSON.parse(text);
+        } catch (e) {
+            throw new Error("google-login.php did not return valid JSON. Response was: " + text);
+        }
+      })
+      .then(data => {
+        if (data.success) {
+            window.location = "account.php";
+        } else {
+            alert(data.message || "Google sign up failed");
+        }
+    })
+      .catch(error => {
+          console.error("Google sign-up error:", error);
+          alert(error.message || "An error occurred during Google sign up.");
+      });
+  }
   </script>
 </body>
 </html>

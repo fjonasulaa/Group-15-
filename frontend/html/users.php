@@ -1,5 +1,4 @@
 <?php
-session_start();
 include '..\..\database\db_connect.php';
 
 
@@ -27,6 +26,23 @@ class Users {
 
         // Return customerId on success
         return (int)$row['customerId'];
+    }
+
+    public function createGoogleUser(string $firstName, string $surname, string $email): int {
+    global $conn;
+
+    $randomPassword = bin2hex(random_bytes(16));
+    $passwordHash = password_hash($randomPassword, PASSWORD_DEFAULT);
+
+    $st = $conn->prepare("
+        INSERT INTO Customer (firstName, surname, email, passwordHash, role)
+        VALUES (?, ?, ?, ?, 'customer')
+    ");
+
+    $st->bind_param("ssss", $firstName, $surname, $email, $passwordHash);
+    $st->execute();
+
+    return $conn->insert_id;
     }
 
     public function getCustomerIdByEmail(string $email): ?int {

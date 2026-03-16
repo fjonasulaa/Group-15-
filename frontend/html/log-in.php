@@ -1,16 +1,59 @@
 <?php
+session_start();
+$lockoutTime = 30; // seconds to block login
+$maxAttempts = 2;  // number of failed attempts allowed
 
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+}
+if (!isset($_SESSION['last_attempt_time'])) {
+    $_SESSION['last_attempt_time'] = 0;
+}
+
+if ($_SESSION['login_attempts'] >= $maxAttempts) {
+
+    // If unlock_time is not set, create it
+    if (!isset($_SESSION['unlock_time'])) {
+        $_SESSION['unlock_time'] = time() + $lockoutTime;
+    }
+
+    $remaining = $_SESSION['unlock_time'] - time();
+
+    if ($remaining > 0) {
+        echo "<script>
+            alert('Too many failed attempts. Try again in {$remaining} seconds');
+
+            // Auto-refresh when time is up
+            setTimeout(function() {
+                window.location.reload();
+            }, " . ($remaining * 1000) . ");
+        </script>";
+
+        exit;
+    } else {
+        // Reset after lockout expires
+        $_SESSION['login_attempts'] = 0;
+        unset($_SESSION['unlock_time']);
+        echo "<script>window.location = 'log-in.php';</script>";
+        exit;
+    }
+}
 require_once("users.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $_SESSION['last_attempt_time'] = time();
+
     $u = new Users();
     $customerId = $u->login($_POST["email"], $_POST["password"]);
 
     if ($customerId !== null) {
         $_SESSION['customerID'] = $customerId;
+        $_SESSION['login_attempts'] = 0; // reset on success
         echo '<script>window.location="account.php";</script>';
         exit;
     } else {
+        $_SESSION['login_attempts']++;
         echo '<script>alert("Login Failed");</script>';
     }
 }
@@ -19,6 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Wine Exchange</title>
@@ -176,10 +222,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <img src="../../images/icon.png" alt="Wine Exchange Logo">
 
     <div class="navbar-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About Us</a>
+        <a href="index.php">Home</a>
+        <a href="about.php">About Us</a>
         <a href="search.php">Wines</a>
-        <a href="wishlist.html">Wishlist</a>
         <a href="basket.php">Basket</a>
         <a href="contact-us.php">Contact Us</a>
     </div>
@@ -209,6 +254,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <button type="submit" name="login">Log In</button>
 
+                <p style="text-align:center; margin: 10px 0;">or</p>
+
+        <div id="g_id_onload"
+                 data-client_id="966067449001-4ajt4ll22p3p2kefig7e2rj4ih7oipml.apps.googleusercontent.com"
+                 data-callback="handleGoogleLogin">
+            </div>
+
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-shape="rectangular"
+                 data-theme="outline"
+                 data-text="signin_with"
+                 data-size="large"
+                 data-logo_alignment="left">
+            </div>
+
                 <p>Don't have an account? <a href="signup.php">Sign up</a></p>
                 <p><a href="forgotPassword.php">Forgot your password?</a></p>
             </form>
@@ -230,9 +291,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul class="footer-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="wines.html">Wines</a></li>
-                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="search.php">Wines</a></li>
+                    <li><a href="about.php">About Us</a></li>
                     <li><a href="contact-us.php">Contact</a></li>
                 </ul>
                 <a href="contact-us.php" class="footer-button">Contact Us</a>
@@ -264,6 +325,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
         });
     </script>
+
+
+    <script>
+        function handleGoogleLogin(response) {
+            fetch("google-login.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    credential: response.credential
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    window.location = "account.php";
+                } else {
+                    alert(data.message || "Google login failed");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("An error occurred during Google sign in.");
+            });
+        }
+        </script>
 
 </body>
 </html>
