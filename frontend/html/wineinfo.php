@@ -1,4 +1,42 @@
 <style>
+
+.img-display {
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1 / 1; 
+    border-radius: 10px;
+    background: #fff; 
+}
+
+.image-showcase {
+    display: flex;
+    width: 100%;
+    transition: transform 0.5s ease;
+}
+.image-showcase img {
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.select-image { display: flex; gap: 10px; margin-top: 10px; }
+.select-image .item { width: 25%; }
+.select-image img {
+    width: 100%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 5px;
+}
+.select-image .item:hover img { border-color: #7b1e3a; }
+
+.product-imgs {
+    width: 100%;
+    max-width: 500px; 
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+    
 .stock-badge {
     display: inline-block;
     padding: 4px 10px;
@@ -167,13 +205,38 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
 <div class="wrap-cards">
     <div class="info-card">
 
-        <div class="images">
-            <div class="front-image">
-                <img src="<?php echo htmlspecialchars($mainImage); ?>"
-                     alt="<?php echo htmlspecialchars($wine['wineName']); ?>"
-                     style="width:100%; border-radius:10px;">
+        <div class="product-imgs">
+    <div class="img-display">
+        <div class="image-showcase">
+            <img src="../../images/<?php echo htmlspecialchars($wine['imageUrl']); ?>" alt="wine 1">
+            <img src="../../images/<?php echo htmlspecialchars($wine['img2']); ?>" alt="wine 2">
+            <img src="../../images/<?php echo htmlspecialchars($wine['img3']); ?>" alt="wine 3">
+            <img src="../../images/<?php echo htmlspecialchars($wine['img4']); ?>" alt="wine 4">
+        </div>
+    </div>
+    <div class="select-image">
+        <div class="item">
+            <a href="#" data-id="1">
+                <img src="../../images/<?php echo htmlspecialchars($wine['imageUrl']); ?>" alt="wine">
+            </a>
+        </div>
+        <div class="item">
+            <a href="#" data-id="2">
+                <img src="../../images/<?php echo htmlspecialchars($wine['img2']); ?>" alt="wine">
+            </a>
+        </div>
+        <div class="item">
+            <a href="#" data-id="3">
+                <img src="../../images/<?php echo htmlspecialchars($wine['img3']); ?>" alt="wine">
+            </a>
+        </div>
+        <div class="item">
+            <a href="#" data-id="4">
+                <img src="../../images/<?php echo htmlspecialchars($wine['img4']); ?>" alt="wine">
+            </a>
             </div>
         </div>
+    </div>
 
         <div class="content">
             <h2 class="title"><?php echo htmlspecialchars($wine['wineName']); ?></h2>
@@ -786,6 +849,27 @@ function syncWishlistButton(list) {
 }
 
 loadWishlist();
+
+const imgs = document.querySelectorAll('.select-image a');
+const imgBtns = [...imgs];
+let imgId = 1;
+
+imgBtns.forEach((imgItem) => {
+    imgItem.addEventListener('click', (event) => {
+        event.preventDefault();
+        imgId = imgItem.dataset.id;
+        slideImage();
+    });
+});
+
+function slideImage(){
+    const displayWidth = document.querySelector('.image-showcase img:first-child').clientWidth;
+    document.querySelector('.image-showcase').style.transform = `translateX(${- (imgId - 1) * displayWidth}px)`;
+}
+
+
+window.addEventListener('resize', slideImage);
+    
 </script>
 
 <footer class="footer">
