@@ -1,8 +1,6 @@
 <?php
 session_start();
-
-require_once("users.php");
-require_once __DIR__ . "/../../vendor/autoload.php";
+require_once('../../database/db_connect.php');
 
 header('Content-Type: application/json');
 
@@ -14,33 +12,48 @@ if (!isset($data['credential'])) {
 }
 
 $idToken = $data['credential'];
-
 $CLIENT_ID = "966067449001-4ajt4ll22p3p2kefig7e2rj4ih7oipml.apps.googleusercontent.com";
 
-$client = new Google_Client(['client_id' => $CLIENT_ID]);
-$payload = $client->verifyIdToken($idToken);
+// Verify token with Google's API directly - no library needed
+$response = file_get_contents("https://oauth2.googleapis.com/tokeninfo?id_token=" . urlencode($idToken));
 
-if ($payload) {
+if (!$response) {
+    echo json_encode(["success" => false, "message" => "Could not reach Google to verify token"]);
+    exit;
+}
 
-    $email = $payload['email'];
-    $firstName = $payload['given_name'] ?? 'Google';
-    $surname = $payload['family_name'] ?? 'User';
+$payload = json_decode($response, true);
 
-    $u = new Users();
+// Check it's valid and meant for your app
+if (!isset($payload['email']) || $payload['aud'] !== $CLIENT_ID) {
+    echo json_encode(["success" => false, "message" => "Invalid token: " . json_encode($payload)]);
+    exit;
+}
 
-    $customerId = $u->getCustomerIdByEmail($email);
+$email     = $conn->real_escape_string($payload['email']);
+$firstName = $conn->real_escape_string($payload['given_name'] ?? 'Google');
+$surname   = $conn->real_escape_string($payload['family_name'] ?? 'User');
 
-    if ($customerId === null) {
-        $customerId = $u->createGoogleUser($firstName, $surname, $email);
+// Check if user already exists
+$result = $conn->query("SELECT customerID FROM customer WHERE email = '$email'");
+
+if ($result && $result->num_rows > 0) {
+    // Existing user — log them in
+    $row = $result->fetch_assoc();
+    $customerId = $row['customerID'];
+} else {
+    // New user — insert with empty/placeholder values for required fields
+    $conn->query("INSERT INTO customer (firstName, surname, email, passwordHash, dateOfBirth, phoneNumber, addressLine, postcode) 
+                  VALUES ('$firstName', '$surname', '$email', '', '1900-01-01', '', '', '')");
+
+    if ($conn->error) {
+        echo json_encode(["success" => false, "message" => "DB error: " . $conn->error]);
+        exit;
     }
 
-    $_SESSION['customerID'] = $customerId;
-
-    echo json_encode(["success" => true]);
-
-} else {
-    echo json_encode([
-        "success" => false,
-        "message" => "Invalid Google token"
-    ]);
+    $customerId = $conn->insert_id;
 }
+
+$_SESSION['customerID'] = $customerId;
+echo json_encode(["success" => true]);
+?>
