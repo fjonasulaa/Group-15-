@@ -1,25 +1,19 @@
 <?php
-// subscribe.php
-// Handles newsletter sign-up: duplicate check, DB insert, confirmation email
+ob_start();
+error_reporting(0);
+ini_set('display_errors', 0);
 
-declare(strict_types=1);
-
-// ── CONFIG ──────────────────────────────────────────────────────────────────
 $db_host = 'localhost';
 $db_name = 'winedb';
-$db_user = 'YOUR_DB_USER';       // ← change
-$db_pass = 'YOUR_DB_PASSWORD';   // ← change
-
-$from_email  = 'no-reply@wineexchange.com';   // ← change to your sending address
-$from_name   = 'Wine Exchange';
-$site_url    = 'https://wineexchange.com';    // ← change to your domain (no trailing slash)
-// ────────────────────────────────────────────────────────────────────────────
+$db_user = 'root';
+$db_pass = '';
 
 header('Content-Type: application/json');
 
 // Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
+    ob_clean();
     echo json_encode(['success' => false, 'message' => 'Method not allowed.']);
     exit;
 }
@@ -27,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Validate email
 $email = isset($_POST['email']) ? trim($_POST['email']) : '';
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    ob_clean();
     echo json_encode(['success' => false, 'message' => 'Please enter a valid email address.']);
     exit;
 }
@@ -41,17 +36,18 @@ try {
     );
 } catch (PDOException $e) {
     http_response_code(500);
+    ob_clean();
     echo json_encode(['success' => false, 'message' => 'Database connection failed.']);
     exit;
 }
 
 // Check for existing subscriber
-$stmt = $pdo->prepare('SELECT id, confirmed FROM newsletter_subscribers WHERE email = ?');
+$stmt = $pdo->prepare('SELECT id FROM newsletter_subscribers WHERE email = ?');
 $stmt->execute([$email]);
 $existing = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($existing) {
-    // Already subscribed
+    ob_clean();
     echo json_encode([
         'success'   => false,
         'duplicate' => true,
@@ -60,50 +56,14 @@ if ($existing) {
     exit;
 }
 
-// Generate a confirmation token
-$token = bin2hex(openssl_random_pseudo_bytes(32));
-
-// Insert new subscriber
+// Insert new subscriber (confirmed immediately, no email required)
 $stmt = $pdo->prepare(
-    'INSERT INTO newsletter_subscribers (email, confirmed, confirm_token) VALUES (?, 0, ?)'
+    'INSERT INTO newsletter_subscribers (email, confirmed, confirm_token) VALUES (?, 1, NULL)'
 );
-$stmt->execute([$email, $token]);
+$stmt->execute([$email]);
 
-// Send confirmation email
-$confirm_link = $site_url . '/confirm-newsletter.php?token=' . urlencode($token);
-
-$subject = 'Please confirm your Wine Exchange newsletter subscription';
-$body    = <<<EOT
-Hello,
-
-Thank you for subscribing to the Wine Exchange newsletter!
-
-Please click the link below to confirm your subscription:
-$confirm_link
-
-If you did not subscribe, you can safely ignore this email.
-
-Warm regards,
-The Wine Exchange Team
-EOT;
-
-$headers  = "From: $from_name <$from_email>\r\n";
-$headers .= "Reply-To: $from_email\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
-$sent = mail($email, $subject, $body, $headers);
-
-if ($sent) {
-    echo json_encode([
-        'success' => true,
-        'message' => 'Thank you for subscribing! Please check your inbox to confirm your subscription.'
-    ]);
-} else {
-    // Subscriber was saved even if mail fails — log the issue
-    error_log("Newsletter confirmation email failed to send to: $email");
-    echo json_encode([
-        'success' => true,
-        'message' => 'Thank you for subscribing! (Note: confirmation email could not be sent — please contact us.)'
-    ]);
-}
+ob_clean();
+echo json_encode([
+    'success' => true,
+    'message' => 'Thank you for subscribing to our newsletter!'
+]);

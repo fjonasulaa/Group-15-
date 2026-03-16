@@ -399,52 +399,42 @@
   </footer>
 
   <script>
-    function subscribeNewsletter() {
-      const email = document.getElementById('newsletter-email').value.trim();
-      const btn   = document.getElementById('newsletter-btn');
-      const msg   = document.getElementById('newsletter-msg');
-      const wrap  = document.getElementById('newsletter-form-wrap');
+     function subscribeNewsletter() {
+  var email = document.getElementById('newsletter-email').value.trim();
+  var btn   = document.getElementById('newsletter-btn');
+  var msg   = document.getElementById('newsletter-msg');
+  var wrap  = document.getElementById('newsletter-form-wrap');
 
-      // Basic client-side check
-      if (!email) {
-        showMsg('Please enter your email address.', false);
-        return;
-      }
+  if (!email) {
+    msg.style.display = 'block';
+    msg.style.color   = '#ffc0cb';
+    msg.textContent   = 'Please enter your email address.';
+    return;
+  }
 
-      // Disable button while request is in flight
-      btn.disabled = true;
-      btn.textContent = 'Subscribing…';
+  btn.disabled = true;
+  btn.textContent = 'Subscribing...';
 
-      const data = new FormData();
-      data.append('email', email);
+  var data = new FormData();
+  data.append('email', email);
 
-      fetch('subscribe.php', { method: 'POST', body: data })
-        .then(r => r.json())
-        .then(res => {
-          // Hide the form, show the message
-          wrap.style.display = 'none';
-          msg.style.display  = 'block';
-          msg.style.color    = res.success ? '#ffffff' : '#ffc0cb';
-          msg.textContent    = res.message;
-        })
-        .catch(() => {
-          btn.disabled = false;
-          btn.textContent = 'Subscribe';
-          showMsg('Something went wrong. Please try again.', false);
-        });
-    }
-
-    function showMsg(text, ok) {
-      const msg = document.getElementById('newsletter-msg');
+  fetch('subscribe.php', { method: 'POST', body: data })
+    .then(function(r) { return r.text(); })
+    .then(function(text) {
+      var res = JSON.parse(text);
+      wrap.style.display = 'none';
+      msg.style.display  = 'block';
+      msg.style.color    = res.success ? '#ffffff' : '#ffc0cb';
+      msg.textContent    = res.message;
+    })
+    .catch(function(err) {
+      btn.disabled = false;
+      btn.textContent = 'Subscribe';
       msg.style.display = 'block';
-      msg.style.color   = ok ? '#ffffff' : '#ffc0cb';
-      msg.textContent   = text;
-    }
-
-    // Allow pressing Enter in the email input to subscribe
-    document.getElementById('newsletter-email').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') subscribeNewsletter();
+      msg.style.color   = '#ffc0cb';
+      msg.textContent   = 'Something went wrong. Please try again.';
     });
+}
   </script>
 
 </body>
