@@ -11,8 +11,10 @@ SELECT
     c.firstName,
     c.surname,
     c.userProfileImage
+
 FROM websiteReviews w
-JOIN customer c ON w.customerId = c.customerID
+JOIN customer c 
+ON w.customerId = c.customerID
 ORDER BY w.reviewDate DESC
 ";
 
@@ -32,6 +34,57 @@ $reviews = $conn->query($reviewSQL);
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --wine:       #6B0F1A;
+      --wine-dark:  #4a0912;
+      --wine-light: #8b1525;
+      --wine-nav:   #6b1a2e;
+      --gold:       #9a6b4b;
+      --gold-light: #d4a96a;
+      --text:       #1a0a06;
+      --text-mid:   #5a4a3a;
+      --text-soft:  #8a7a6a;
+      --bg:         #ffffff;
+      --bg-warm:    #faf7f4;
+      --bg-panel:   #f4ede8;
+      --border:     #e8ddd5;
+      --radius:     4px;
+      --speed:      0.22s ease;
+    }
+
+    .darkmode {
+      --text:      #f0e6de;
+      --text-mid:  #c0a898;
+      --text-soft: #8a7a72;
+      --bg:        #140a08;
+      --bg-warm:   #1c100d;
+      --bg-panel:  #221410;
+      --border:    #3a2820;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      margin: 0; padding: 0;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      transition: background var(--speed), color var(--speed);
+    }
+
+    a { color: inherit; }
+
+    /* home layout overrides */
+    main.main-home { max-width: 100%; margin: 0; padding: 0; }
+    main.main-home > section { margin: 0; }
+    main.main-home .wine-advert { height: auto; }
+    main.main-home .faq { margin-top: 0; }
+    main.main-home .reviews { padding-top: 72px; }
+
     .section-label {
       display: block;
       text-align: center;
@@ -48,15 +101,102 @@ $reviews = $conn->query($reviewSQL);
       background: var(--wine);
       border-radius: 2px;
       margin: 0 auto 36px;
-      transform-origin: center;
-      animation: growBar .6s ease .2s both;
     }
 
-    /* ── HERO ── */
+    /* ══════════════════════════════════════════
+       WISHLIST SIDEBAR (styles shared with navbar)
+    ══════════════════════════════════════════ */
+
+    .wishlist-sidebar {
+      position: fixed;
+      top: 0; right: -420px;
+      width: 380px; height: 100%;
+      background: #f4f1f2;
+      padding: 30px;
+      box-shadow: -5px 0 20px rgba(0,0,0,.25);
+      z-index: 2000;
+      overflow-y: auto;
+      transition: right .4s ease;
+    }
+    .wishlist-sidebar.active { right: 0; }
+
+    .wishlist-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.5);
+      display: none; z-index: 1500;
+    }
+    .wishlist-overlay.active { display: block; }
+
+    .close-wishlist {
+      font-size: 22px; cursor: pointer;
+      text-align: right; margin-bottom: 15px;
+    }
+    .close-wishlist i {
+      transition: color .2s ease, transform .2s ease;
+      display: inline-block;
+    }
+
+    #wishlist-items {
+      display: flex; flex-direction: column;
+      gap: 15px; margin-top: 20px;
+    }
+
+    .wishlist-item {
+      display: flex; gap: 12px; align-items: center;
+      background: white;
+      border-radius: 10px; padding: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      position: relative;
+      animation: slideInWishlist .3s ease both;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .wishlist-item:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.12); }
+
+    .wishlist-img { width: 65px; height: 65px; object-fit: cover; border-radius: 8px; }
+    .wishlist-info { flex: 1; }
+    .wishlist-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .wishlist-price { color: #7b1e3a; font-weight: bold; margin-bottom: 8px; }
+    .wishlist-actions { display: flex; gap: 8px; }
+    .wishlist-view {
+      padding: 4px 10px; font-size: 12px;
+      border-radius: 6px; background: #eee;
+      text-decoration: none; color: #333;
+      transition: background .2s ease;
+    }
+    .wishlist-view:hover { background: #ddd; }
+
+    .remove-wishlist {
+      position: absolute; top: 6px; right: 6px;
+      border: none; background: none;
+      font-size: 14px; cursor: pointer;
+      color: #999;
+      transition: color .2s ease, transform .2s ease;
+    }
+    .remove-wishlist:hover { color: red; transform: scale(1.2); }
+
+    html.darkmode .wishlist-sidebar { background: #121212; color: #fff; }
+    html.darkmode .wishlist-item { background: #1e1e1e; border: 1px solid #333; box-shadow: none; }
+    html.darkmode .wishlist-name { color: #fff; }
+    html.darkmode .wishlist-price { color: #ff6b6b; }
+    html.darkmode .wishlist-view { background: #2c2c2c; color: #fff; }
+    html.darkmode .wishlist-view:hover { background: #3a3a3a; }
+    html.darkmode .remove-wishlist { color: #bbb; }
+    html.darkmode .remove-wishlist:hover { color: #ff4d4d; }
+    html.darkmode #wishlist-items p { color: #ccc; }
+
+    /* ══════════════════════════════════════════
+       HERO — BIGGER
+    ══════════════════════════════════════════ */
     .header {
-      min-height: calc(100vh + 62px);
-      height: calc(100vh + 62px);
-      margin-top: -62px;
+      min-height: calc(100vh + 62px) !important;
+      height: calc(100vh + 62px) !important;
+      margin-top: -62px !important;
+      padding-top: 0 !important;
+    }
+
+    .header .header-content h1 {
+      font-size: 6rem !important;
+      line-height: 1.05 !important;
     }
 
     /* ── CAROUSEL ── */
@@ -90,6 +230,9 @@ $reviews = $conn->query($reviewSQL);
       transition: background var(--speed), border-color var(--speed);
     }
 
+    .ca-left--dark { background: #1a0a06; border-right-color: #3a1810; }
+    .darkmode .ca-left--dark { background: var(--bg-panel); border-right-color: var(--border); }
+
     .ca-label {
       font-size: 10px; font-weight: 800;
       letter-spacing: .22em;
@@ -97,6 +240,7 @@ $reviews = $conn->query($reviewSQL);
       margin-bottom: 14px;
       display: block;
     }
+    .ca-left--dark .ca-label { color: var(--gold-light); }
 
     .ca-title {
       font-size: 26px; font-weight: 800;
@@ -104,6 +248,8 @@ $reviews = $conn->query($reviewSQL);
       color: var(--text);
       margin: 0 0 16px;
     }
+    .ca-left--dark .ca-title { color: #f5ece4; }
+    .darkmode .ca-left--dark .ca-title { color: var(--text); }
 
     .ca-desc {
       font-size: 13.5px;
@@ -111,6 +257,8 @@ $reviews = $conn->query($reviewSQL);
       line-height: 1.8;
       margin: 0 0 26px;
     }
+    .ca-left--dark .ca-desc { color: #c8b09a; }
+    .darkmode .ca-left--dark .ca-desc { color: var(--text-mid); }
 
     .ca-btn {
       align-self: flex-start;
@@ -205,8 +353,6 @@ $reviews = $conn->query($reviewSQL);
       background: var(--wine);
       border-radius: 2px;
       margin: 0 0 24px;
-      transform-origin: left center;
-      animation: growBar .6s ease .2s both;
     }
     .welcome-text p {
       font-size: 14.5px;
@@ -243,17 +389,21 @@ $reviews = $conn->query($reviewSQL);
     }
 
     .reviews {
+      display: block;
+      position: relative;
       padding: 72px 10%;
       background: var(--bg-warm);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       transition: background var(--speed);
+      overflow: hidden;
+      width: 100%; margin: 0;
     }
 
     .reviews-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
+      gap: 22px; width: 100%;
     }
 
     .review-card {
@@ -276,7 +426,7 @@ $reviews = $conn->query($reviewSQL);
     }
 
     .add-btn {
-      background-color: var(--wine);
+      background-color: rgba(107,15,26);
       border: 0;
       border-radius: 5px;
       color: white;
@@ -287,17 +437,17 @@ $reviews = $conn->query($reviewSQL);
       cursor: pointer;
     }
 
-    .reviews-grid a {
+    .reviews-grid a{
       grid-column: 1 / -1;
       text-align: center;
     }
 
-    .no-reviews {
-      text-align: center;
-      font-size: 18px;
-      color: #777;
-      grid-column: 1 / -1;
-      margin: 20px 0;
+    .no-reviews{
+      text-align:center;
+      font-size:18px;
+      color:#777;
+      grid-column:1 / -1;
+      margin:20px 0;
     }
 
     .profile-pic {
@@ -312,7 +462,10 @@ $reviews = $conn->query($reviewSQL);
       margin: 0; font-size: 14px; font-weight: 700;
       color: var(--text); flex: 1;
     }
-    .review-header .stars { color: rgb(255, 215, 0); font-size: 1.1rem; }
+    .review-header .stars {
+      color: rgb(255, 215, 0);
+      font-size: 1.1rem;
+    }
     .review-card blockquote { margin: 0; padding: 0; }
     .review-card blockquote p {
       font-size: 13.5px;
@@ -353,7 +506,9 @@ $reviews = $conn->query($reviewSQL);
       transform: translateY(16px);
       transition: transform 0.3s ease;
     }
-    .popup-container.show .pop-up { transform: translateY(0); }
+    .popup-container.show .pop-up {
+      transform: translateY(0);
+    }
     .pop-up h1 { font-size: 1.6rem; margin: 0 0 6px; }
     .pop-up h2 { font-size: 1rem; font-weight: 600; color: var(--text-mid); margin: 0 0 14px; }
     .pop-up p  { font-size: 14px; color: var(--text-mid); line-height: 1.75; margin: 0 0 20px; }
@@ -368,18 +523,21 @@ $reviews = $conn->query($reviewSQL);
       cursor: pointer;
       transition: background var(--speed), transform .18s ease;
     }
+
+    .popup-footer {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:20px;
+      color:#777;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 14px;
+    }
+
     .pop-up .btn-close-popup:hover {
       background: var(--wine-light);
       transform: translateY(-1px);
-    }
-    .popup-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 20px;
-      color: #777;
-      font-size: 1rem;
-      font-weight: 600;
     }
 
     /* ── FAQ ── */
@@ -399,6 +557,7 @@ $reviews = $conn->query($reviewSQL);
       border-left: 3px solid var(--wine);
       border-radius: var(--radius);
       padding: 22px 24px;
+      cursor: default;
       transition: background var(--speed), border-color var(--speed), transform .28s ease, box-shadow .28s ease;
     }
     .faq-item:hover {
@@ -421,6 +580,7 @@ $reviews = $conn->query($reviewSQL);
       gap: 16px;
       flex-wrap: wrap;
     }
+
     .footer-newsletter strong {
       display: block;
       font-weight: 500;
@@ -428,7 +588,11 @@ $reviews = $conn->query($reviewSQL);
       font-size: 16px;
       margin-bottom: 2px;
     }
-    .footer-newsletter p { color: #f5dde3; font-size: 15px; }
+
+    .footer-newsletter p {
+      color: #f5dde3;
+      font-size: 15px;
+    }
 
     .newsletter-form {
       display: flex;
@@ -436,36 +600,51 @@ $reviews = $conn->query($reviewSQL);
       gap: 8px;
       align-items: center;
     }
+
     .footer-newsletter .newsletter-form input {
-      padding: 7px 12px;
-      border-radius: 8px;
-      border: 0.5px solid rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.12);
-      color: #ffffff;
-      font-size: 15px;
-      width: 210px;
-      outline: none;
-      font-family: inherit;
-      box-sizing: border-box;
+      padding: 7px 12px !important;
+      border-radius: 8px !important;
+      border: 0.5px solid rgba(255, 255, 255, 0.25) !important;
+      background: rgba(255, 255, 255, 0.12) !important;
+      color: #ffffff !important;
+      font-size: 15px !important;
+      width: 210px !important;
+      max-width: 210px !important;
+      min-width: 210px !important;
+      outline: none !important;
+      font-family: inherit !important;
+      box-sizing: border-box !important;
+      margin-bottom: 0 !important;
     }
-    .footer-newsletter .newsletter-form input::placeholder { color: rgba(255,255,255,0.5); }
-    .footer-newsletter .newsletter-form input:focus { border-color: rgba(255,255,255,0.5); }
+
+    .footer-newsletter .newsletter-form input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .footer-newsletter .newsletter-form input:focus {
+      border-color: rgba(255, 255, 255, 0.5) !important;
+    }
 
     .footer-newsletter .btn-subscribe {
-      padding: 7px 16px;
-      border-radius: 8px;
-      background: #ffffff;
-      border: none;
-      color: #6b1a2e;
-      font-size: 15px;
-      font-weight: 500;
-      cursor: pointer;
-      font-family: inherit;
-      width: 210px;
-      box-sizing: border-box;
-      transition: background 0.15s;
+      padding: 7px 16px !important;
+      border-radius: 8px !important;
+      background: #ffffff !important;
+      border: none !important;
+      color: #6b1a2e !important;
+      font-size: 15px !important;
+      font-weight: 500 !important;
+      cursor: pointer !important;
+      font-family: inherit !important;
+      transition: background 0.15s !important;
+      width: 210px !important;
+      max-width: 210px !important;
+      min-width: 210px !important;
+      box-sizing: border-box !important;
     }
-    .footer-newsletter .btn-subscribe:hover { background: #f0e8ea; }
+
+    .footer-newsletter .btn-subscribe:hover {
+      background: #f0e8ea !important;
+    }
 
     .footer-main {
       background: #ffffff;
@@ -474,6 +653,7 @@ $reviews = $conn->query($reviewSQL);
       gap: 28px;
       padding: 36px 32px 28px;
     }
+
     .footer-col h4 {
       font-size: 13px;
       font-weight: 600;
@@ -483,7 +663,13 @@ $reviews = $conn->query($reviewSQL);
       margin-bottom: 14px;
       font-family: Georgia, serif;
     }
-    .footer-col p { color: #4a2a30; font-size: 15px; line-height: 1.8; }
+
+    .footer-col p {
+      color: #4a2a30;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
     .footer-col a {
       display: block;
       color: #4a2a30;
@@ -492,11 +678,25 @@ $reviews = $conn->query($reviewSQL);
       text-decoration: none;
       transition: color 0.15s;
     }
-    .footer-col a:hover { color: #6b1a2e; }
 
-    .footer-tagline { color: #8a5a60; font-style: italic; font-size: 15px; margin-bottom: 12px; }
-    .footer-contact-email { color: #6b1a2e !important; }
-    .footer-contact-muted { color: #8a5a60 !important; }
+    .footer-col a:hover {
+      color: #6b1a2e;
+    }
+
+    .footer-tagline {
+      color: #8a5a60;
+      font-style: italic;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .footer-contact-email {
+      color: #6b1a2e !important;
+    }
+
+    .footer-contact-muted {
+      color: #8a5a60 !important;
+    }
 
     .btn-browse {
       display: inline-block;
@@ -512,13 +712,39 @@ $reviews = $conn->query($reviewSQL);
       font-family: inherit;
       transition: background 0.15s;
     }
-    .btn-browse:hover { background: #f9f0f2; }
 
-    .trust-list { display: flex; flex-direction: column; gap: 10px; }
-    .trust-item { display: flex; align-items: center; gap: 9px; color: #4a2a30; font-size: 15px; }
-    .trust-item svg { flex-shrink: 0; width: 16px; height: 16px; }
+    .btn-browse:hover {
+      background: #f9f0f2;
+      color: #6b1a2e;
+    }
 
-    .payment-icons { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .trust-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: #4a2a30;
+      font-size: 15px;
+    }
+
+    .trust-item svg {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+    }
+
+    .payment-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
     .payment-icon {
       background: #6b1a2e;
       color: #f5e6c8;
@@ -530,7 +756,11 @@ $reviews = $conn->query($reviewSQL);
       letter-spacing: 0.04em;
     }
 
-    .col-divider { border: none; border-top: 0.5px solid #e8c8c8; margin: 10px 0; }
+    .col-divider {
+      border: none;
+      border-top: 0.5px solid #e8c8c8;
+      margin: 10px 0;
+    }
 
     .footer-bottom {
       border-top: 1px solid #e8c8c8;
@@ -542,7 +772,11 @@ $reviews = $conn->query($reviewSQL);
       align-items: center;
       gap: 12px;
     }
-    .footer-bottom p { font-size: 14px; color: #8a5a60; }
+
+    .footer-bottom p {
+      font-size: 14px;
+      color: #8a5a60;
+    }
 
     .age-badge {
       background: #fdf0e8;
@@ -561,29 +795,54 @@ $reviews = $conn->query($reviewSQL);
     .darkmode .footer-bottom p { color: #8a7a72; }
 
     @media (max-width: 600px) {
-      .footer-newsletter { padding: 16px 20px; flex-direction: column; align-items: flex-start; }
-      .newsletter-form { width: 100%; }
-      .newsletter-form input { flex: 1; width: auto; }
-      .footer-main { padding: 24px 20px; grid-template-columns: 1fr 1fr; }
-      .footer-bottom { padding: 14px 20px; flex-direction: column; align-items: flex-start; }
+      .footer-newsletter {
+        padding: 16px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .newsletter-form {
+        width: 100%;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        width: auto;
+      }
+
+      .footer-main {
+        padding: 24px 20px;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-bottom {
+        padding: 14px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
 
-    /* ── SCROLL ANIMATIONS ── */
+    /* ── SCROLL FADE-INS ── */
     .fade-in {
       opacity: 0;
       transform: translateY(28px);
       transition: opacity .65s ease, transform .65s ease;
     }
-    .fade-in.visible { opacity: 1; transform: none; }
-
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
     .stagger-children > * {
       opacity: 0;
       transform: translateY(24px);
       transition: opacity .55s ease, transform .55s ease;
     }
-    .stagger-children.visible > * { opacity: 1; transform: none; }
+    .stagger-children.visible > * {
+      opacity: 1;
+      transform: none;
+    }
 
-    /* ── HERO ENTRANCE ── */
+    /* ── HERO TEXT ENTRANCE ── */
     .header-content p:first-child,
     .header-content h1,
     .header-content p:last-child { opacity: 0; }
@@ -592,23 +851,36 @@ $reviews = $conn->query($reviewSQL);
     .header-content.hero-animate p:last-child  { animation: heroFadeUp .7s ease .4s  both; }
 
     @keyframes heroFadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: none; }
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:none; }
     }
 
+    /* ── DIVIDER GROW ── */
+    .section-divider,
+    .welcome-divider {
+      transform-origin: left center;
+      animation: growBar .6s ease .2s both;
+    }
+    .reviews-header .section-divider { transform-origin: center; }
+
     @keyframes growBar {
-      from { transform: scaleX(0); opacity: 0; }
-      to   { transform: scaleX(1); opacity: 1; }
+      from { transform:scaleX(0); opacity:0; }
+      to   { transform:scaleX(1); opacity:1; }
+    }
+
+    @keyframes slideInWishlist {
+      from { opacity:0; transform:translateX(16px); }
+      to   { opacity:1; transform:none; }
     }
   </style>
 </head>
 
 <body>
 
-  <?php require_once('header.php'); ?>
+  <?php include('navbar.php'); ?>
 
-  <!-- HERO -->
-  <section class="header">
+  <!-- HERO — full viewport height -->
+  <section class="header" style="min-height: calc(100vh + 62px); height: calc(100vh + 62px); margin-top: -62px;">
     <div class="header-content">
       <p>WINE EXCHANGE - ONLINE WINE SHOP</p>
       <h1><strong>THE WORLD'S PREMIUM HOME OF WINE</strong></h1>
@@ -616,7 +888,7 @@ $reviews = $conn->query($reviewSQL);
     </div>
   </section>
 
-  <main>
+  <main class="main-home">
 
     <!-- WELCOME -->
     <section class="welcome fade-in">
@@ -641,10 +913,10 @@ $reviews = $conn->query($reviewSQL);
         <div class="ca-track">
 
           <div class="ca-slide">
-            <div class="ca-left" style="background:#1a0a06; border-right-color:#3a1810;">
-              <span class="ca-label" style="color:var(--gold-light);">WINE EXCHANGE</span>
+            <div class="ca-left ca-left--dark">
+              <span class="ca-label">WINE EXCHANGE</span>
               <h2 class="ca-title" style="color:#6B0F1A;">PREMIUM WINES<br>COLLECTION</h2>
-              <p class="ca-desc" style="color:#c8b09a;">Our wines are made from carefully harvested grapes grown in respected vineyards around the world. Through traditional winemaking techniques the grapes are gently pressed and fermented to create wines rich in colour, aroma, and flavour — curated for quality, character, and craftsmanship.</p>
+              <p class="ca-desc">Our wines are made from carefully harvested grapes grown in respected vineyards around the world. Through traditional winemaking techniques the grapes are gently pressed and fermented to create wines rich in colour, aroma, and flavour — curated for quality, character, and craftsmanship.</p>
               <a href="search.php" class="ca-btn">Shop All Wines</a>
             </div>
             <div class="ca-right">
@@ -720,40 +992,48 @@ $reviews = $conn->query($reviewSQL);
       </div>
       <div class="reviews-grid stagger-children">
 
-      <?php if ($reviews && $reviews->num_rows > 0): ?>
-        <?php while ($row = $reviews->fetch_assoc()): ?>
-          <?php
-            $name    = htmlspecialchars($row['firstName'] . " " . $row['surname']);
-            $heading = htmlspecialchars($row['wReviewHeading']);
-            $text    = htmlspecialchars($row['wReviewText']);
-            $date    = $row['reviewDate'];
-            $stars   = str_repeat("★", $row['wStars']) . str_repeat("☆", 5 - $row['wStars']);
-            $image   = !empty($row['userProfileImage']) ? $row['userProfileImage'] : "../../images/guestPfp.jpg";
-          ?>
-          <div class="review-card"
-               data-name="<?= $name ?>"
-               data-title="<?= $heading ?>"
-               data-review="<?= $text ?>"
-               data-stars="<?= $stars ?>"
-               data-date="<?= $date ?>">
+      <?php
+        if ($reviews && $reviews->num_rows > 0) {
+          while ($row = $reviews->fetch_assoc()) {
+
+          $name = htmlspecialchars($row['firstName'] . " " . $row['surname']);
+          $heading = htmlspecialchars($row['wReviewHeading']);
+          $text = htmlspecialchars($row['wReviewText']);
+          $date = $row['reviewDate'];
+          $stars = str_repeat("★", $row['wStars']) . str_repeat("☆", 5 - $row['wStars']);
+
+          $image = !empty($row['userProfileImage'])
+              ? $row['userProfileImage']
+              : "../../images/guestPfp.jpg";
+      ?>      
+        <div class="review-card"
+             data-name="<?= $name ?>"
+             data-title="<?= $heading ?>"
+             data-review="<?= $text ?>"
+             data-stars="<?= $stars ?>"
+             data-date="<?= $date ?>">
+
             <div class="review-header">
-              <img src="<?= $image ?>" alt="<?= $name ?>" class="profile-pic">
-              <h3><?= $name ?></h3>
-              <span class="stars"><?= $stars ?></span>
+                <img src="<?= $image ?>" alt="<?= $name ?>" class="profile-pic">
+                <h3><?= $name ?></h3>
+                <span class="stars"><?= $stars ?></span>
             </div>
             <blockquote>
-              <h4><?= $heading ?></h4>
+                <h4><?= $heading ?></h4>
             </blockquote>
-          </div>
-        <?php endwhile; ?>
-      <?php else: ?>
-        <p class="no-reviews">No reviews yet. Be the first to write one!</p>
-      <?php endif; ?>
-
+        </div>
+      <?php
+    }
+  } else {
+?>
+  <p class="no-reviews">No reviews yet. Be the first to write one!</p>
+<?php
+}
+?> 
         <a href="reviewForm-W.php">
           <button class="add-btn">Write Your Review</button>
         </a>
-      </div>
+        </div>
 
       <!-- Review popup -->
       <div class="popup-container" id="popup">
@@ -800,6 +1080,7 @@ $reviews = $conn->query($reviewSQL);
   <!-- FOOTER -->
   <footer>
 
+    <!-- Newsletter bar -->
     <div class="footer-newsletter">
       <div>
         <strong>Join our wine newsletter</strong>
@@ -811,21 +1092,25 @@ $reviews = $conn->query($reviewSQL);
       </div>
     </div>
 
+    <!-- Main columns -->
     <div class="footer-main">
 
+      <!-- Col 1: Brand info -->
       <div class="footer-col">
         <h4>Wine Exchange</h4>
         <p class="footer-tagline">Independent wine merchant since 2010</p>
         <p>123 Vineyard Lane<br>London, UK</p>
-        <p class="footer-contact-muted" style="margin-top:8px;">+44 1234 567890</p>
+        <p class="footer-contact-muted" style="margin-top: 8px;">+44 1234 567890</p>
         <a href="mailto:contactwinexchange@gmail.com" class="footer-contact-email">contactwinexchange@gmail.com</a>
-        <p class="footer-contact-muted" style="margin-top:8px;">Mon–Fri, 9am–6pm</p>
+        <p class="footer-contact-muted" style="margin-top: 8px;">Mon–Fri, 9am–6pm</p>
         <a href="search.php" class="btn-browse">Browse all wines →</a>
       </div>
 
+      <!-- Col 2: Why shop with us -->
       <div class="footer-col">
         <h4>Why shop with us</h4>
         <div class="trust-list">
+
           <div class="trust-item">
             <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="1" y="4" width="16" height="11" rx="2" stroke="#6b1a2e" stroke-width="1.2"/>
@@ -833,6 +1118,7 @@ $reviews = $conn->query($reviewSQL);
             </svg>
             Secure payments
           </div>
+
           <div class="trust-item">
             <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="2" y="8" width="10" height="7" rx="1.2" stroke="#6b1a2e" stroke-width="1.2"/>
@@ -842,6 +1128,7 @@ $reviews = $conn->query($reviewSQL);
             </svg>
             Free standard delivery on every order
           </div>
+
           <div class="trust-item">
             <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 2v8M9 10l-3 3m3-3l3 3" stroke="#6b1a2e" stroke-width="1.2" stroke-linecap="round"/>
@@ -849,6 +1136,7 @@ $reviews = $conn->query($reviewSQL);
             </svg>
             Easy returns
           </div>
+
           <div class="trust-item">
             <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="9" cy="9" r="7" stroke="#6b1a2e" stroke-width="1.2"/>
@@ -856,15 +1144,18 @@ $reviews = $conn->query($reviewSQL);
             </svg>
             Next-day dispatch
           </div>
+
           <div class="trust-item">
             <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 2l1.8 5h5.2l-4.2 3 1.6 5L9 12l-3.4 3 1.6-5L3 7h5.2z" stroke="#6b1a2e" stroke-width="1.1" stroke-linejoin="round"/>
             </svg>
             Expert curation
           </div>
+
         </div>
       </div>
 
+      <!-- Col 3: Help -->
       <div class="footer-col">
         <h4>Help</h4>
         <a href="about.php">About us</a>
@@ -874,6 +1165,7 @@ $reviews = $conn->query($reviewSQL);
         <a href="terms.php">Terms &amp; conditions</a>
       </div>
 
+      <!-- Col 4: Legal & payments -->
       <div class="footer-col">
         <h4>Legal &amp; payments</h4>
         <a href="terms.php">Privacy policy</a>
@@ -890,6 +1182,7 @@ $reviews = $conn->query($reviewSQL);
 
     </div>
 
+    <!-- Bottom bar -->
     <div class="footer-bottom">
       <p>© 2026 Wine Exchange. All rights reserved.</p>
       <span class="age-badge">18+ only — please drink responsibly</span>
@@ -897,7 +1190,7 @@ $reviews = $conn->query($reviewSQL);
 
   </footer>
 
-  <!-- CAROUSEL -->
+  <!-- CAROUSEL SCRIPT -->
   <script>
     var caTrack = document.querySelector('.ca-track');
     var caDots  = document.querySelectorAll('.ca-dot');
@@ -924,45 +1217,62 @@ $reviews = $conn->query($reviewSQL);
     caResetTimer();
   </script>
 
-  <!-- REVIEW POPUP -->
+  <!-- REVIEW POPUP SCRIPT -->
   <script>
     var reviewCards = document.querySelectorAll('.review-card');
-    var popup       = document.getElementById('popup');
-    var popupName   = document.getElementById('popup-name');
-    var popupTitle  = document.getElementById('popup-title');
-    var popupText   = document.getElementById('popup-text');
-    var popupDate   = document.getElementById('popup-date');
-    var closeBtn    = document.getElementById('close');
+    var popup = document.getElementById('popup');
+    var popupName = document.getElementById('popup-name');
+    var popupTitle = document.getElementById('popup-title');
+    var popupText = document.getElementById('popup-text');
+    var popupDate = document.getElementById('popup-date');
+    var closeBtn = document.getElementById('close');
 
     function timeAgo(dateString) {
-      var now = new Date(), reviewDate = new Date(dateString);
-      var seconds = Math.floor((now - reviewDate) / 1000);
-      var intervals = { year:31536000, month:2592000, week:604800, day:86400, hour:3600, minute:60 };
-      for (var key in intervals) {
-        var interval = Math.floor(seconds / intervals[key]);
-        if (interval >= 1) return interval + " " + key + (interval > 1 ? "s" : "") + " ago";
+      const now = new Date();
+      const reviewDate = new Date(dateString);
+      const seconds = Math.floor((now - reviewDate) / 1000);
+
+      const intervals = {
+        year: 31536000,
+        month: 2592000,
+        week: 604800,
+        day: 86400,
+        hour: 3600,
+        minute: 60
+      };
+
+      for (let key in intervals) {
+        const interval = Math.floor(seconds / intervals[key]);
+        if (interval >= 1) {
+          return interval + " " + key + (interval > 1 ? "s" : "") + " ago";
+        }
       }
+
       return "just now";
     }
 
     reviewCards.forEach(function(card) {
       card.addEventListener('click', function() {
-        popupName.innerHTML    = card.dataset.name + ' <span class="popup-stars">' + card.dataset.stars + '</span>';
+        popupName.innerHTML  = card.dataset.name + ' <span class="popup-stars">' + card.dataset.stars + '</span>';
         popupTitle.textContent = card.dataset.title;
         popupText.textContent  = card.dataset.review;
-        popupDate.textContent  = "Review added: " + timeAgo(card.dataset.date);
+        popupDate.textContent = "Review added: " + timeAgo(card.dataset.date);
         popup.classList.add('show');
       });
     });
 
     closeBtn.addEventListener('click', function() { popup.classList.remove('show'); });
-    popup.addEventListener('click', function(e) { if (e.target === popup) popup.classList.remove('show'); });
+
+    popup.addEventListener('click', function(e) {
+      if (e.target === popup) popup.classList.remove('show');
+    });
   </script>
 
-  <!-- SCROLL ANIMATIONS & HERO ENTRANCE -->
+  <!-- SCROLL ANIMATIONS + HERO ENTRANCE -->
   <script>
+    // hero entrance
     var heroContent = document.querySelector('.header-content');
-    new IntersectionObserver(function(entries) {
+    var heroObs = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
           heroContent.classList.remove('hero-animate');
@@ -970,8 +1280,10 @@ $reviews = $conn->query($reviewSQL);
           heroContent.classList.add('hero-animate');
         }
       });
-    }, { threshold: 0.3 }).observe(document.querySelector('.header'));
+    }, { threshold: 0.3 });
+    heroObs.observe(document.querySelector('.header'));
 
+    // scroll fade-ins
     var scrollObs = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         entry.target.classList.toggle('visible', entry.isIntersecting);

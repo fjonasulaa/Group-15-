@@ -1,5 +1,7 @@
 <?php
-// Resolve account link based on session
+// navbar.php — reusable navigation header
+// Requires: $conn (db connection), session_start() must be called before including this file
+
 $accountLink = 'log-in.php';
 
 if (isset($_SESSION['customerID'])) {
@@ -17,54 +19,6 @@ if (isset($_SESSION['customerID'])) {
 ?>
 <style>
   /* ══════════════════════════════════════════
-     CSS VARIABLES
-  ══════════════════════════════════════════ */
-
-  :root {
-    --wine:       #6B0F1A;
-    --wine-dark:  #4a0912;
-    --wine-light: #8b1525;
-    --wine-nav:   #6b1a2e;
-    --gold:       #9a6b4b;
-    --gold-light: #d4a96a;
-    --text:       #1a0a06;
-    --text-mid:   #5a4a3a;
-    --text-soft:  #8a7a6a;
-    --bg:         #ffffff;
-    --bg-warm:    #faf7f4;
-    --bg-panel:   #f4ede8;
-    --border:     #e8ddd5;
-    --radius:     4px;
-    --speed:      0.22s ease;
-  }
-
-  .darkmode {
-    --text:      #f0e6de;
-    --text-mid:  #c0a898;
-    --text-soft: #8a7a72;
-    --bg:        #140a08;
-    --bg-warm:   #1c100d;
-    --bg-panel:  #221410;
-    --border:    #3a2820;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; }
-
-  html, body {
-    margin: 0; padding: 0;
-    overflow-x: hidden;
-  }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Jost', sans-serif;
-    transition: background var(--speed), color var(--speed);
-  }
-
-  a { color: inherit; }
-
-  /* ══════════════════════════════════════════
      NAVBAR
   ══════════════════════════════════════════ */
 
@@ -81,6 +35,7 @@ if (isset($_SESSION['customerID'])) {
     border-bottom: 1px solid rgba(255,255,255,0.1);
     transition: background 0.3s ease, border-color 0.3s ease;
   }
+
   .darkmode .navbar {
     background: #12060a;
     border-bottom: 1px solid rgba(255,255,255,0.07);
@@ -93,8 +48,10 @@ if (isset($_SESSION['customerID'])) {
     text-decoration: none;
     flex: 0 0 220px;
   }
+
   .navbar-logo img {
-    width: 32px; height: 32px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
     filter: brightness(0) invert(1);
     opacity: 0.9;
@@ -113,7 +70,9 @@ if (isset($_SESSION['customerID'])) {
     white-space: nowrap;
     transition: color 0.3s ease;
   }
-  .darkmode .navbar-logo-text { color: #e8c8b0; }
+  .darkmode .navbar-logo-text {
+    color: #e8c8b0;
+  }
 
   .navbar-logo-text span {
     display: block;
@@ -126,7 +85,9 @@ if (isset($_SESSION['customerID'])) {
     color: rgba(255,255,255,0.5);
     transition: color 0.3s ease;
   }
-  .darkmode .navbar-logo-text span { color: rgba(232,200,176,0.45); }
+  .darkmode .navbar-logo-text span {
+    color: rgba(232,200,176,0.45);
+  }
 
   .navbar-links {
     display: flex;
@@ -135,6 +96,7 @@ if (isset($_SESSION['customerID'])) {
     flex: 1;
     justify-content: center;
   }
+
   .navbar-links a {
     position: relative;
     display: block;
@@ -152,11 +114,14 @@ if (isset($_SESSION['customerID'])) {
     color: #ffffff;
     background: rgba(255,255,255,0.12);
   }
-  .darkmode .navbar-links a { color: rgba(232,200,176,0.65); }
+  .darkmode .navbar-links a {
+    color: rgba(232,200,176,0.65);
+  }
   .darkmode .navbar-links a:hover {
     color: #e8c8b0;
     background: rgba(255,255,255,0.07);
   }
+
   .navbar-links a::after {
     content: '';
     position: absolute;
@@ -177,10 +142,12 @@ if (isset($_SESSION['customerID'])) {
     flex: 0 0 220px;
     justify-content: flex-end;
   }
+
   .navbar-right form {
     position: relative;
     margin-right: 4px;
   }
+
   .navbar-right form input[type="text"] {
     height: 34px;
     padding: 0 10px 0 28px;
@@ -201,6 +168,7 @@ if (isset($_SESSION['customerID'])) {
     background: rgba(255,255,255,0.16);
     width: 140px;
   }
+
   .darkmode .navbar-right form input[type="text"] {
     border-color: rgba(232,200,176,0.18);
     background: rgba(255,255,255,0.06);
@@ -211,12 +179,14 @@ if (isset($_SESSION['customerID'])) {
     border-color: rgba(232,200,176,0.4);
     background: rgba(255,255,255,0.09);
   }
+
   .navbar-right form::before {
     content: '\f002';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
     position: absolute;
-    left: 10px; top: 50%;
+    left: 10px;
+    top: 50%;
     transform: translateY(-50%);
     color: rgba(255,255,255,0.42);
     font-size: 11px;
@@ -226,7 +196,8 @@ if (isset($_SESSION['customerID'])) {
   .darkmode .navbar-right form::before { color: rgba(232,200,176,0.35); }
 
   .nav-divider {
-    width: 1px; height: 22px;
+    width: 1px;
+    height: 22px;
     background: rgba(255,255,255,0.2);
     margin: 0 5px;
     flex-shrink: 0;
@@ -239,7 +210,8 @@ if (isset($_SESSION['customerID'])) {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px; height: 36px;
+    width: 36px;
+    height: 36px;
     border-radius: 4px;
     border: 1px solid transparent;
     background: transparent;
@@ -253,7 +225,9 @@ if (isset($_SESSION['customerID'])) {
     background: rgba(255,255,255,0.12);
     border-color: rgba(255,255,255,0.18);
   }
-  .darkmode .wishlist-nav-button { color: rgba(232,200,176,0.7); }
+  .darkmode .wishlist-nav-button {
+    color: rgba(232,200,176,0.7);
+  }
   .darkmode .wishlist-nav-button:hover {
     color: #e8c8b0;
     background: rgba(255,255,255,0.08);
@@ -275,7 +249,10 @@ if (isset($_SESSION['customerID'])) {
     line-height: 1.5;
     transition: background 0.3s ease, color 0.3s ease;
   }
-  .darkmode .wishlist-count { background: #e8c8b0; color: #12060a; }
+  .darkmode .wishlist-count {
+    background: #e8c8b0;
+    color: #12060a;
+  }
 
   .dark-mode-button {
     display: flex;
@@ -297,6 +274,7 @@ if (isset($_SESSION['customerID'])) {
     background: rgba(255,255,255,0.08);
     border-color: rgba(232,200,176,0.18);
   }
+
   .dark-mode-button img {
     width: 16px; height: 16px;
     object-fit: contain;
@@ -310,98 +288,14 @@ if (isset($_SESSION['customerID'])) {
     opacity: 0.75;
   }
 
-  @media (max-width: 900px) { .navbar-links { display: none; } }
+  @media (max-width: 900px) {
+    .navbar-links { display: none; }
+  }
   @media (max-width: 640px) {
     .navbar { padding: 0 16px; }
     .navbar-right form input[type="text"] { width: 110px; }
     .navbar-right form input[type="text"]:focus { width: 130px; }
     .navbar-logo-text { display: none; }
-  }
-
-  /* ══════════════════════════════════════════
-     WISHLIST SIDEBAR
-  ══════════════════════════════════════════ */
-
-  .wishlist-sidebar {
-    position: fixed;
-    top: 0; right: -420px;
-    width: 380px; height: 100%;
-    background: #f4f1f2;
-    padding: 30px;
-    box-shadow: -5px 0 20px rgba(0,0,0,.25);
-    z-index: 2000;
-    overflow-y: auto;
-    transition: right .4s ease;
-  }
-  .wishlist-sidebar.active { right: 0; }
-
-  .wishlist-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,.5);
-    display: none; z-index: 1500;
-  }
-  .wishlist-overlay.active { display: block; }
-
-  .close-wishlist {
-    font-size: 22px; cursor: pointer;
-    text-align: right; margin-bottom: 15px;
-  }
-  .close-wishlist i {
-    transition: color .2s ease, transform .2s ease;
-    display: inline-block;
-  }
-
-  #wishlist-items {
-    display: flex; flex-direction: column;
-    gap: 15px; margin-top: 20px;
-  }
-
-  .wishlist-item {
-    display: flex; gap: 12px; align-items: center;
-    background: white;
-    border-radius: 10px; padding: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,.08);
-    position: relative;
-    animation: slideInWishlist .3s ease both;
-    transition: transform .25s ease, box-shadow .25s ease;
-  }
-  .wishlist-item:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.12); }
-
-  .wishlist-img { width: 65px; height: 65px; object-fit: cover; border-radius: 8px; }
-  .wishlist-info { flex: 1; }
-  .wishlist-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
-  .wishlist-price { color: #7b1e3a; font-weight: bold; margin-bottom: 8px; }
-  .wishlist-actions { display: flex; gap: 8px; }
-  .wishlist-view {
-    padding: 4px 10px; font-size: 12px;
-    border-radius: 6px; background: #eee;
-    text-decoration: none; color: #333;
-    transition: background .2s ease;
-  }
-  .wishlist-view:hover { background: #ddd; }
-
-  .remove-wishlist {
-    position: absolute; top: 6px; right: 6px;
-    border: none; background: none;
-    font-size: 14px; cursor: pointer;
-    color: #999;
-    transition: color .2s ease, transform .2s ease;
-  }
-  .remove-wishlist:hover { color: red; transform: scale(1.2); }
-
-  html.darkmode .wishlist-sidebar { background: #121212; color: #fff; }
-  html.darkmode .wishlist-item { background: #1e1e1e; border: 1px solid #333; box-shadow: none; }
-  html.darkmode .wishlist-name { color: #fff; }
-  html.darkmode .wishlist-price { color: #ff6b6b; }
-  html.darkmode .wishlist-view { background: #2c2c2c; color: #fff; }
-  html.darkmode .wishlist-view:hover { background: #3a3a3a; }
-  html.darkmode .remove-wishlist { color: #bbb; }
-  html.darkmode .remove-wishlist:hover { color: #ff4d4d; }
-  html.darkmode #wishlist-items p { color: #ccc; }
-
-  @keyframes slideInWishlist {
-    from { opacity: 0; transform: translateX(16px); }
-    to   { opacity: 1; transform: none; }
   }
 </style>
 
@@ -417,6 +311,8 @@ if (isset($_SESSION['customerID'])) {
 
 <!-- NAVBAR -->
 <nav class="navbar">
+
+  <!-- Logo -->
   <a href="index.php" class="navbar-logo">
     <img src="../../images/icon.png" alt="Wine Exchange Logo">
     <div class="navbar-logo-text">
@@ -425,6 +321,7 @@ if (isset($_SESSION['customerID'])) {
     </div>
   </a>
 
+  <!-- Centre links -->
   <div class="navbar-links">
     <a href="index.php">Home</a>
     <a href="about.php">About Us</a>
@@ -432,6 +329,7 @@ if (isset($_SESSION['customerID'])) {
     <a href="contact-us.php">Contact Us</a>
   </div>
 
+  <!-- Right: search + icons -->
   <div class="navbar-right">
     <form method="POST" action="search.php">
       <input type="text" name="search" placeholder="Search wines…">
@@ -458,9 +356,10 @@ if (isset($_SESSION['customerID'])) {
       <img src="../../images/darkmode.png" alt="Dark Mode">
     </button>
   </div>
+
 </nav>
 
-<!-- DARK MODE -->
+<!-- DARK MODE SCRIPT -->
 <script>
   var dmBtn = document.getElementById('dark-mode');
   if (localStorage.getItem('dark_mode') === 'on') {
@@ -472,7 +371,7 @@ if (isset($_SESSION['customerID'])) {
   });
 </script>
 
-<!-- WISHLIST -->
+<!-- WISHLIST SCRIPT -->
 <script>
   var loggedIn = <?php echo isset($_SESSION['customerID']) ? 'true' : 'false'; ?>;
 
