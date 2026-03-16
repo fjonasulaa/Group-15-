@@ -46,11 +46,6 @@ $reviews = $conn->query($reviewSQL);
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <?php if (isset($_GET['review']) && $_GET['review'] === 'success'): ?>
-    <div class="review-success">
-      Thank you! Your review has been successfully added.
-    </div>
-  <?php endif; ?>
 
   <style>
     :root {
@@ -119,18 +114,6 @@ $reviews = $conn->query($reviewSQL);
       border-radius: 2px;
       margin: 0 auto 36px;
     }
-
-    .review-success{
-    width:100%;
-    text-align:center;
-    padding:15px;
-    margin:20px auto;
-    background:#e8f9f0;
-    color:#1c7c4c;
-    border:1px solid #b6e2c7;
-    border-radius:6px;
-    font-weight:600;
-  }
 
     /* ── CAROUSEL ── */
     .wine-advert {
