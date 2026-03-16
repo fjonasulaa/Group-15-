@@ -557,18 +557,7 @@ html.darkmode #wishlist-items p{
     border-color: #7b1e3a;
 }
 
-html.darkmode .sort-dropdown {
-    background-color: #1e1e1e;
-    color: #e0a0b0;
-    border-color: #9b2d52;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e0a0b0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-}
 
-html.darkmode .sort-dropdown:hover {
-    background-color: #9b2d52;
-    color: white;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-}
 
 .wishlist-count{
     position:absolute;
