@@ -228,7 +228,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     position: relative;
     overflow: hidden;
     width: 100%;
-    padding: 90px 20px;
+    padding: 45px 20px; /* reduced from 90px to make the banner slimmer */
     text-align: center;
   }
 
