@@ -34,16 +34,13 @@ $wine = $result->fetch_assoc();
     } else {
         $_SESSION['basket'][$wineId] = $quantity;
     }
-    
 
     $addMessage = "Added {$quantity} × {$wine['wineName']} to your basket.";
-    
+
     }
     echo "<script>
             alert(".json_encode($addMessage).");
           </script>";
-
-
 }
 ?>
 
@@ -70,10 +67,9 @@ $wine = $result->fetch_assoc();
         </div>
     
         <div class="navbar-right">
-          <form method= "POST" action = "search.php">
+          <form method="POST" action="search.php">
             <input type="text" name="search" placeholder="Search">
-
-            <input type= "hidden" name= "submitted" value= "true"/>
+            <input type="hidden" name="submitted" value="true"/>
           </form>
           <a href="log-in.php">Login</a>
           <a href="signup.php">Sign up</a>
@@ -82,7 +78,7 @@ $wine = $result->fetch_assoc();
             <img src="../../images/darkmode.png" alt="Dark Mode" />
           </button>
         </div>
-      </div>
+    </div>
 
     <div class="cards-cycle">
         <div class="wines-list">
@@ -91,7 +87,7 @@ $wine = $result->fetch_assoc();
                 <div class="information">
                     <div class="wine-type">DESSERT WINE</div>
                     <div class="name">ROYAL TOKAJI</div>
-                    <div class="description">Royal Tokaji Essencia is one of the rarest and most luxurious sweet wines in the world, made only in exceptional years from the free-run nectar of botrytised grapes in Hungary’s historic Tokaj region. With extraordinary concentration, incredibly high natural sugar, and astonishing aging potential, Essencia is prized for its richness, purity, and rarity, making it a true collector’s treasure.</div>
+                    <div class="description">Royal Tokaji Essencia is one of the rarest and most luxurious sweet wines in the world, made only in exceptional years from the free-run nectar of botrytised grapes in Hungary's historic Tokaj region. With extraordinary concentration, incredibly high natural sugar, and astonishing aging potential, Essencia is prized for its richness, purity, and rarity, making it a true collector's treasure.</div>
                     <div class="price">Price: £390</div>
                     <div class="buttons">
                         <a href="wineinfo.php?id=13"><button class="winebutton">SEE MORE INFO</button></a>
@@ -104,7 +100,7 @@ $wine = $result->fetch_assoc();
                 <div class="information">
                     <div class="wine-type">DESSERT WINE</div>
                     <div class="name">CONSTANTIA</div>
-                    <div class="description">Constantia Vin de Constance is a legendary South African dessert wine with centuries of prestige, famed for its luscious texture, vibrant acidity, and aromas of apricot, citrus peel, honey, and spice. Produced from naturally raisined Muscat de Frontignan grapes, it offers a balanced, expressive sweetness that made it a favorite of European nobility and continues to rank among the world’s greatest sweet wines.</div>
+                    <div class="description">Constantia Vin de Constance is a legendary South African dessert wine with centuries of prestige, famed for its luscious texture, vibrant acidity, and aromas of apricot, citrus peel, honey, and spice. Produced from naturally raisined Muscat de Frontignan grapes, it offers a balanced, expressive sweetness that made it a favorite of European nobility and continues to rank among the world's greatest sweet wines.</div>
                     <div class="price">Price: £115</div>
                     <div class="buttons">
                         <a href="wineinfo.php?id=14"><button class="winebutton">SEE MORE INFO</button></a>
@@ -117,7 +113,7 @@ $wine = $result->fetch_assoc();
                 <div class="information">
                     <div class="wine-type">DESSERT WINE</div>
                     <div class="name">AVIGNONESI OCCHIO</div>
-                    <div class="description">Avignonesi Occhio di Pernice is a rare, opulent Vin Santo di Montepulciano crafted from Sangiovese grapes slowly air-dried and aged for years in small casks, resulting in exceptional richness and depth. Intensely flavored with notes of dried fruit, caramel, spice, and roasted nuts, it is considered one of Italy’s most prestigious sweet wines, celebrated for its complexity and long-lived elegance.</div>
+                    <div class="description">Avignonesi Occhio di Pernice is a rare, opulent Vin Santo di Montepulciano crafted from Sangiovese grapes slowly air-dried and aged for years in small casks, resulting in exceptional richness and depth. Intensely flavored with notes of dried fruit, caramel, spice, and roasted nuts, it is considered one of Italy's most prestigious sweet wines, celebrated for its complexity and long-lived elegance.</div>
                     <div class="price">Price: £237</div>
                     <div class="buttons">
                         <a href="wineinfo.php?id=15"><button class="winebutton">SEE MORE INFO</button></a>
@@ -130,7 +126,7 @@ $wine = $result->fetch_assoc();
                 <div class="information">
                     <div class="wine-type">DESSERT WINE</div>
                     <div class="name">CHÂTEAU d'YQUEM</div>
-                    <div class="description">Château d’Yquem 1811 is one of the most iconic and historically significant dessert wines ever produced, revered for its incredible longevity, concentration, and the near-mythic status of this particular vintage. With its extraordinary balance of sweetness, acidity, and botrytised intensity, it has become a symbol of ultimate luxury in wine collecting, commanding some of the highest prices ever paid for a sweet wine.</div>
+                    <div class="description">Château d'Yquem 1811 is one of the most iconic and historically significant dessert wines ever produced, revered for its incredible longevity, concentration, and the near-mythic status of this particular vintage. With its extraordinary balance of sweetness, acidity, and botrytised intensity, it has become a symbol of ultimate luxury in wine collecting, commanding some of the highest prices ever paid for a sweet wine.</div>
                     <div class="price">Price: £12000</div>
                     <div class="buttons">
                         <a href="wineinfo.php?id=16"><button class="winebutton">SEE MORE INFO</button></a>
@@ -140,10 +136,10 @@ $wine = $result->fetch_assoc();
             </div>
         </div>
         <style>
-                .cards-cycle .wines-list .wine .name {
-                    color: #E8C2AB;
-                }
-            </style>
+            .cards-cycle .wines-list .wine .name {
+                color: #E8C2AB;
+            }
+        </style>
         <div class="cover">
             <div class="wine">
                 <img src="../../images/Constance.jpg">
@@ -162,7 +158,7 @@ $wine = $result->fetch_assoc();
             <div class="wine">
                 <img src="../../images/Yquem.jpg">
                 <div class="information">
-                    <div class="name">Château d’Yquem 1811 Wine</div>
+                    <div class="name">Château d'Yquem 1811 Wine</div>
                     <div class="description">Legendary sauternes vintage</div>
                 </div>
             </div>
@@ -179,6 +175,9 @@ $wine = $result->fetch_assoc();
         </div>
     </div>
 
+    <!-- FOOTER -->
+    <?php include 'footer.php'; ?>
+
     <script>
         let nextDom = document.querySelector('#next');
         let cycleDom = document.querySelector('.cards-cycle');
@@ -193,7 +192,6 @@ $wine = $result->fetch_assoc();
         let runTimeOut;
 
         function showSlider(type) {
-
             let wineSlider = document.querySelectorAll('.cards-cycle .wines-list .wine');
             let wineCover = document.querySelectorAll('.cards-cycle .cover .wine');
 
@@ -227,120 +225,4 @@ $wine = $result->fetch_assoc();
     </script>
 
 </body>
-<style>
-/* Footer styling */
-.footer {
-  background-color: #f4f4f4;
-  padding: 30px 10%;
-  color: #333;
-}
-
-.footer-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.footer-section {
-  flex: 1 1 250px;
-  margin: 10px;
-}
-
-.footer-section h3 {
-  margin-bottom: 10px;
-}
-
-.footer-links {
-  list-style: none;
-  padding: 0;
-}
-
-.footer-links li {
-  margin: 5px 0;
-}
-
-.footer-links a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.footer-links a:hover {
-  text-decoration: underline;
-}
-
-/* Contact button */
-.footer-button {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 15px;
-  background-color: #4CAF50;
-  color: white;
-  border-radius: 4px;
-  text-decoration: none;
-}
-
-.footer-button:hover {
-  opacity: 0.9;
-}
-
-/* Footer bottom bar */
-.footer-bottom {
-  text-align: center;
-  margin-top: 20px;
-  padding-top: 10px;
-  border-top: 1px solid #ccc;
-  font-size: 14px;
-}
-
-/* DARK MODE SUPPORT */
-.darkmode .footer {
-  background-color: #1e1e1e;
-  color: #eee;
-}
-
-.darkmode .footer-bottom {
-  border-top: 1px solid #555;
-}
-
-.darkmode .footer-links a {
-  color: #ddd;
-}
-</style>
-
-<footer class="footer">
-  <div class="footer-container">
-
-    <div class="footer-section">
-      <h3>Wine Exchange</h3>
-      <p>123 Vineyard Lane<br>London, UK</p>
-      <p>Phone: +44 1234 567890</p>
-      <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
-      <p>Open: Mon–Fri, 9am–6pm</p>
-    </div>
-
-    <div class="footer-section">
-      <h3>Quick Links</h3>
-      <ul class="footer-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="wines.html">Wines</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="contact-us.php">Contact</a></li>
-      </ul>
-      <a href="contact-us.php" class="footer-button">Contact Us</a>
-    </div>
-
-    <div class="footer-section">
-      <h3>Follow Us</h3>
-      <ul class="footer-links">
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Facebook</a></li>
-        <li><a href="#">Twitter</a></li>
-      </ul>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    © 2024 Wine Exchange. All rights reserved.
-  </div>
-</footer>
+</html>
