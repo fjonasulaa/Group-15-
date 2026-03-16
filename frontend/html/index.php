@@ -46,6 +46,12 @@ $reviews = $conn->query($reviewSQL);
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+  <?php if (isset($_GET['review']) && $_GET['review'] === 'success'): ?>
+    <div class="review-success">
+      Thank you! Your review has been successfully added.
+    </div>
+  <?php endif; ?>
+
   <style>
     :root {
       --wine:       #6B0F1A;
@@ -113,6 +119,18 @@ $reviews = $conn->query($reviewSQL);
       border-radius: 2px;
       margin: 0 auto 36px;
     }
+
+    .review-success{
+    width:100%;
+    text-align:center;
+    padding:15px;
+    margin:20px auto;
+    background:#e8f9f0;
+    color:#1c7c4c;
+    border:1px solid #b6e2c7;
+    border-radius:6px;
+    font-weight:600;
+  }
 
     /* ── CAROUSEL ── */
     .wine-advert {
@@ -350,6 +368,19 @@ $reviews = $conn->query($reviewSQL);
       padding: 10px 25px;
       margin-top: 10px;
       cursor: pointer;
+    }
+
+    .reviews-grid a{
+      grid-column: 1 / -1;
+      text-align: center;
+    }
+
+    .no-reviews{
+      text-align:center;
+      font-size:18px;
+      color:#777;
+      grid-column:1 / -1;
+      margin:20px 0;
     }
 
     .profile-pic {
@@ -1068,10 +1099,12 @@ $reviews = $conn->query($reviewSQL);
         </div>
       <?php
     }
-  }
-?>  
-
-
+  } else {
+?>
+  <p class="no-reviews">No reviews yet. Be the first to write one!</p>
+<?php
+}
+?> 
         <a href="reviewForm-W.php">
           <button class= "add-btn">Write Your Review</button>
         </a>
