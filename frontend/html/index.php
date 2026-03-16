@@ -877,7 +877,7 @@ $reviews = $conn->query($reviewSQL);
 
 <body>
 
-  <?php include('navbar.php'); ?>
+  <?php include('header.php'); ?>
 
   <!-- HERO — full viewport height -->
   <section class="header" style="min-height: calc(100vh + 62px); height: calc(100vh + 62px); margin-top: -62px;">
