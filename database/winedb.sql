@@ -173,3 +173,11 @@ CREATE TABLE wishlist (
 ALTER TABLE customer
 ADD reset_token VARCHAR(64),
 ADD reset_expires DATETIME;
+
+CREATE TABLE newsletter_subscribers (
+    id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    email       VARCHAR(255)        NOT NULL UNIQUE,
+    subscribed_at DATETIME          NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    confirmed   TINYINT(1)          NOT NULL DEFAULT 0,
+    confirm_token VARCHAR(64)       NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
