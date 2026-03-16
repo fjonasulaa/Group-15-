@@ -1,5 +1,5 @@
 <?php
-include '..\..\database\db_connect.php';
+include '../../database/db_connect.php';
 
 
 class Users {

@@ -154,6 +154,8 @@
         <div class="tab">
             <button class="tablinks active" onclick="openTab(event, 'profile')">Profile</button>
             <button class="tablinks" onclick="openTab(event, 'transactions')">Transactions</button>
+<button class = "tablinks" onclick="window.location.href='inventory.php'">Inventory</button>
+                    <button class = "tablinks" onclick="window.location.href='logout.php'">Logout</button>
         </div>
 
         <main>
@@ -206,7 +208,21 @@
                                 </div>
                             </div>
 
-                            <button type="submit" name="saveDetails">Save Profile</button>
+                            <div>
+                                <label for="role">ROLE</label>
+                                
+                                <select name="role" id="role">
+  <option value="customer">Customer</option>
+  <option value="admin">Admin</option>
+</select>
+
+
+                            </div>
+
+                            <div class = "row">
+                                <button type="submit" name="saveDetails">Save Profile</button>
+                                <button type="submit" name="deleteProfile">Delete Profile</button>
+        </div>
                         </form>
                     </div>
 
@@ -226,10 +242,6 @@
                             <button type="submit" name="changePassword">Change Password</button>
                         </form>
                     </div>
-
-                    <button onclick="window.location.href='inventory.php'">Inventory</button>
-                    <button onclick="window.location.href='logout.php'">Logout</button>
-
                 </div>
 
                 <!-- table -->

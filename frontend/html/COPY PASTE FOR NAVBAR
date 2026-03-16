@@ -1,25 +1,64 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home | Wine Exchange</title>
+  <link rel="icon" type="image/x-icon" href="../../images/icon.png">
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
   <div class="navbar">
     <a href="index.html"><img src="../../images/icon.png" alt="Wine Exchange Logo" style="cursor: pointer;"></a>
     <div class="navbar-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="wines.html">Wines</a>
-      <a href="basket.php">Basket</a>
-      <a href="contact-us.php">Contact Us</a>
+      <a href="about.html"><i class="fa fa-users" aria-hidden="true"></i></a>
+      <a href="wines.html"><i class="fa fa-glass" aria-hidden="true"></i></a>
     </div>
 
     <div class="navbar-right">
-      <form method="POST" action="search.php">
-        <input type="text" name="search" placeholder="Search">
+      <a href="basket.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
 
-        <input type="hidden" name="submitted" value="true" />
-      </form>
-      <a href="log-in.php">Login</a>
-      <a href="signup.php">Sign up</a>
-      <a href="account.php">Account</a>
-      <a href="admin.html"><img src="../../images/admin-pic.png" alt="Admin controls"></a>
+      <button id="wishlist-toggle" class="wishlist-nav-button">
+        <i class="fa fa-heart" aria-hidden="true"></i>
+        <span id="wishlist-count" class="wishlist-count">0</span>
+      </button>
+
+      <div class="dropdown">
+        <button class="dropbtn" onclick="window.location.href='account.php'">
+          <i class="fa fa-user" aria-hidden="true"></i>
+        </button>
+
+        <div class="dropdown-content">
+          <a href="log-in.php">Login</a>
+          <a href="signup.php">Sign Up</a>
+          <a href="admin.html">Admin</a>
+        </div>
+      </div>
+
       <button id="dark-mode" class="dark-mode-button">
-        <img src="../../images/darkmode.png" alt="Dark Mode" />
+        <i class="fa fa-moon-o" aria-hidden="true"></i>
       </button>
     </div>
   </div>
+
+  <div id="search-widget">
+    <div id="search-box">
+      <form method="POST" action="search.php">
+        <input type="text" name="query" placeholder="Search wines..." />
+        <input type="hidden" name="submitted" value="true" />
+      </form>
+    </div>
+    <button onclick="toggleSearch()">
+      <i class="fa fa-search" aria-hidden="true"></i>
+    </button>
+  </div>
+</body>
+
+<script>
+  /* SEARCH BAR */
+
+  function toggleSearch() {
+    const box = document.getElementById('search-box');
+    box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
+  }
+</script>
