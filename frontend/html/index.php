@@ -16,6 +16,25 @@ if (isset($_SESSION['customerID'])) {
         }
     }
 }
+
+$reviewSQL = "
+SELECT 
+    w.wStars,
+    w.wReviewHeading,
+    w.wReviewText,
+    w.reviewDate,
+    c.firstName,
+    c.surname,
+    c.userProfileImage
+
+FROM websiteReviews w
+JOIN customer c 
+ON w.customerId = c.customerID
+ORDER BY w.reviewDate DESC
+";
+
+$reviews = $conn->query($reviewSQL);
+?>
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -277,7 +296,7 @@ if (isset($_SESSION['customerID'])) {
       .welcome-img-wrap { width: 100%; }
     }
 
-    /* ── REVIEWS ── */
+/* ── REVIEWS ── */
     .reviews-header {
       display: block; width: 100%;
       text-align: center;
@@ -320,6 +339,19 @@ if (isset($_SESSION['customerID'])) {
       display: flex; align-items: center;
       gap: 12px; margin-bottom: 16px;
     }
+
+    .add-btn {
+      background-color: rgba(107,15,26);
+      border: 0;
+      border-radius: 5px;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 10px 25px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
     .profile-pic {
       width: 44px; height: 44px;
       border-radius: 50%; object-fit: cover;
@@ -393,10 +425,24 @@ if (isset($_SESSION['customerID'])) {
       cursor: pointer;
       transition: background var(--speed), transform .18s ease;
     }
+
+    .popup-footer {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:20px;
+    color:#777;
+    font-size: 1rem; 
+    font-weight: 600; 
+    margin: 0 0 14px;
+    }
+
+
     .pop-up .btn-close-popup:hover {
       background: var(--wine-light);
       transform: translateY(-1px);
     }
+
 
     /* ── FAQ ── */
     .faq {
@@ -994,7 +1040,9 @@ if (isset($_SESSION['customerID'])) {
              data-name="Kathy Schwabe"
              data-title="Effortless ordering and flawless delivery."
              data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It's clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it's refreshing to know I can rely on them every single time."
-             data-stars="★★★★★">
+             data-stars="★★★★★"
+             data-date="2026-03-12">
+             
           <div class="review-header">
             <img src="../../images/bd.jpg" alt="Kathy Schwabe" class="profile-pic">
             <h3>Kathy Schwabe</h3>
@@ -1009,7 +1057,8 @@ if (isset($_SESSION['customerID'])) {
              data-name="Edward Sinclair"
              data-title="My go-to site for hassle-free wine shopping."
              data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It's clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it's refreshing to know I can rely on them every single time."
-             data-stars="★★★★★">
+             data-stars="★★★★★"
+             data-date="2026-02-12">
           <div class="review-header">
             <img src="../../images/jj.jpg" alt="Edward Sinclair" class="profile-pic">
             <h3>Edward Sinclair</h3>
@@ -1024,7 +1073,8 @@ if (isset($_SESSION['customerID'])) {
              data-name="Harry Maguire"
              data-title="Exactly as described, delivered without delay!"
              data-review="Delivery was very impressive. My order arrived right on time, carefully packaged, and in perfect condition. It's clear that attention to detail and customer satisfaction are top priorities. Consistency like this is rare, and it's refreshing to know I can rely on them every single time."
-             data-stars="★★★★★">
+             data-stars="★★★★★"
+             data-date="2025-12-14">
           <div class="review-header">
             <img src="../../images/hm.jpg" alt="Harry Maguire" class="profile-pic">
             <h3>Harry Maguire</h3>
@@ -1034,8 +1084,10 @@ if (isset($_SESSION['customerID'])) {
             <h4>Exactly as described, delivered without delay!</h4>
           </blockquote>
         </div>
-
-      </div>
+        <a href="reviewForm-W.php">
+          <button class= "add-btn">Write Your Review</button>
+        </a>
+        </div>
 
       <!-- Review popup -->
       <div class="popup-container" id="popup">
@@ -1043,7 +1095,10 @@ if (isset($_SESSION['customerID'])) {
           <h1 id="popup-name"></h1>
           <h2 id="popup-title"></h2>
           <p id="popup-text"></p>
-          <button class="btn-close-popup" id="close">Close Review</button>
+          <div class="popup-footer">
+            <button class="btn-close-popup" id="close">Close Review</button>
+            <span id="popup-date"></span>
+          </div>
         </div>
       </div>
     </section>
@@ -1312,24 +1367,50 @@ if (isset($_SESSION['customerID'])) {
   <!-- REVIEW POPUP SCRIPT -->
   <script>
     var reviewCards = document.querySelectorAll('.review-card');
-    var popup       = document.getElementById('popup');
-    var popupName   = document.getElementById('popup-name');
-    var popupTitle  = document.getElementById('popup-title');
-    var popupText   = document.getElementById('popup-text');
-    var closeBtn    = document.getElementById('close');
+    var popup = document.getElementById('popup');
+    var popupName = document.getElementById('popup-name');
+    var popupTitle = document.getElementById('popup-title');
+    var popupText = document.getElementById('popup-text');
+    var popupDate = document.getElementById('popup-date');
+    var closeBtn = document.getElementById('close');
+
+    function timeAgo(dateString) {
+
+      const now = new Date();
+      const reviewDate = new Date(dateString);
+      const seconds = Math.floor((now - reviewDate) / 1000);
+
+      const intervals = {
+        year: 31536000,
+        month: 2592000,
+        week: 604800,
+        day: 86400,
+        hour: 3600,
+        minute: 60
+      };
+
+      for (let key in intervals) {
+        const interval = Math.floor(seconds / intervals[key]);
+        if (interval >= 1) {
+          return interval + " " + key + (interval > 1 ? "s" : "") + " ago";
+        }
+      }
+
+      return "just now";
+    }
 
     reviewCards.forEach(function(card) {
       card.addEventListener('click', function() {
         popupName.innerHTML  = card.dataset.name + ' <span class="popup-stars">' + card.dataset.stars + '</span>';
         popupTitle.textContent = card.dataset.title;
         popupText.textContent  = card.dataset.review;
+        popupDate.textContent = "Review added: " + timeAgo(card.dataset.date);
         popup.classList.add('show');
       });
     });
 
     closeBtn.addEventListener('click', function() { popup.classList.remove('show'); });
 
-    // also close on overlay click
     popup.addEventListener('click', function(e) {
       if (e.target === popup) popup.classList.remove('show');
     });
