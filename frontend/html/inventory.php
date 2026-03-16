@@ -214,6 +214,14 @@
     <a class="add-new" href="newWine.php">+ Add New Wine</a>
     <a class="add-new return-btn" href="admin.php">↩ Admin Dashboard</a>
 </div>
+
+<form method="GET" style="margin-bottom:20px;">
+    <input type="text" name="search" placeholder="Search wine name..."
+           value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
+           style="padding:8px; width:250px; border-radius:6px; border:1px solid #ccc;">
+    <button type="submit" class="add-new">Search</button>
+</form>
+
 <table class="stock-table">
 
 <tr>
@@ -228,7 +236,12 @@
 
 <?php
     include '..\..\database\db_connect.php';
-        $sql = "SELECT wineId, imageUrl, wineName, price, Stock, active FROM wines";
+        $sql = "SELECT wineId, imageUrl, wineName, price, Stock, active FROM wines WHERE active = 1";
+
+        if (!empty($_GET['search'])) {
+            $search = "%" . $conn->real_escape_string($_GET['search']) . "%";
+            $sql .= " AND wineName LIKE '$search'";
+    }
         $result = $conn->query($sql);
 
         
