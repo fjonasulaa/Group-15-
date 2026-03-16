@@ -19,7 +19,7 @@ function showError($errors) {
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up | Wine Exchange</title>
+    <title>Admin Sign Up | Wine Exchange</title>
 
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
@@ -221,7 +221,9 @@ function showError($errors) {
     <div class="container">
         <div class="form-box" id="signup-form">
             <form action="sign_up.php" method ="post">
-                <h2>Sign up</h2>
+                <h2>Admin Sign up</h2>
+                <p>Admin accounts are subject to verification before activation.</p>
+                <p>Customers, please sign up <a href="signup.php">here</a>.</p>
                 <?= showError($error); ?>
                 <input type="text" name="firstName" placeholder="First Name" required>
                 <input type="text" name="surname" placeholder="Surname" required>
@@ -236,7 +238,6 @@ function showError($errors) {
                 required>
                 <button type="submit" name="signup">Sign up</button>
                 <p>Already have an account? <a href="log-in.php">Login</a></p>
-                <p>Trying to sign up as an admin? <a href="admin_signup.php">Login</a></p>
 
                 <div id="g_id_onload"
                   data-client_id="966067449001-4ajt4ll22p3p2kefig7e2rj4ih7oipml.apps.googleusercontent.com"
