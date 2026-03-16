@@ -1348,12 +1348,12 @@ if (isset($_SESSION['customerID'])) {
   <!-- REVIEW POPUP SCRIPT -->
   <script>
     var reviewCards = document.querySelectorAll('.review-card');
-    var popup       = document.getElementById('popup');
-    var popupName   = document.getElementById('popup-name');
-    var popupTitle  = document.getElementById('popup-title');
-    var popupText   = document.getElementById('popup-text');
+    var popup = document.getElementById('popup');
+    var popupName = document.getElementById('popup-name');
+    var popupTitle = document.getElementById('popup-title');
+    var popupText = document.getElementById('popup-text');
     var popupDate = document.getElementById('popup-date');
-    var closeBtn    = document.getElementById('close');
+    var closeBtn = document.getElementById('close');
 
     function timeAgo(dateString) {
 
