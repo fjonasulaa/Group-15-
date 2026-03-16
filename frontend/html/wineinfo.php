@@ -1,3 +1,25 @@
+<style>
+.stock-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.stock-in {
+    background: #d4f8d4;
+    color: #1b7a1b;
+    border: 1px solid #8fd98f;
+}
+
+.stock-out {
+    background: #ffe0e0;
+    color: #b30000;
+    border: 1px solid #ff8a8a;
+}
+</style>
+
 <?php
 session_start();
 require_once("../../database/db_connect.php");
@@ -162,7 +184,11 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
                 </p>
 
                 <p class="stock">
-                    In stock: <strong><?php echo intval($wine['stock']); ?></strong>
+                    <?php if ($wine['stock'] > 0): ?>
+                        <span class="stock-badge stock-in">In Stock</span>
+                    <?php else: ?>
+                        <span class="stock-badge stock-out">Out of Stock</span>
+                    <?php endif; ?>
                 </p>
 
 
