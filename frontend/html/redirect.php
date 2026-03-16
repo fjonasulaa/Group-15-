@@ -110,14 +110,38 @@ if (isset($_GET['page'])) {
                 echo "Error: " .$stmt->error;
             }
             //Payment info
-            $order = trim($_SESSION['currentOrder']);
-            $method = trim($_POST['payment-method']);
+            $method = $_POST['payment_method'];
             $amount = $totalAmount;
-            $status=trim("Processing");
+            $status = "Processing";
 
-            $stmt = $conn->prepare("INSERT INTO payment (orderId, Method, amount, paymentStatus)
-            VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("isss", $order, $method, $amount, $status);
+            $cardName = null;
+            $cardLast4 = null;
+            $cardExpiry = null;
+
+            if ($method === "card") {
+                $cardName = trim($_POST['card_name']);
+
+                $raw = preg_replace('/\D/', '', $_POST['card_number']);
+                $cardLast4 = substr($raw, -4);
+
+                $cardExpiry = trim($_POST['card_expiry']);
+            }
+
+            $stmt = $conn->prepare("
+                INSERT INTO payment (orderId, Method, amount, paymentStatus, cardName, cardLast4, cardExpiry)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            ");
+
+            $stmt->bind_param(
+                "isdssss",
+                $order,
+                $method,
+                $amount,
+                $status,
+                $cardName,
+                $cardLast4,
+                $cardExpiry
+            );
             // Run the query
             if ($stmt->execute()) {
                 echo "New record created successfully";

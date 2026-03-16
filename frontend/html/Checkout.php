@@ -512,7 +512,7 @@ if (empty($_SESSION['basket'])) {
 
                         <div class="form-group">
                             <label for="payment-method">Pay with</label>
-                            <select id="payment-method">
+                            <select id="payment-method" name="payment_method">
                                 <option value="applepay">Apple Pay</option>
                                 <option value="card">Credit / Debit Card</option>
                             </select>
@@ -522,25 +522,25 @@ if (empty($_SESSION['basket'])) {
                         <div id="card-details" style="display:none;">
                             <div class="form-group">
                                 <label for="card-name">Cardholder Name *</label>
-                                <input id="card-name" type="text" placeholder="John Smith" autocomplete="cc-name">
+                                <input id="card-name" type="text" placeholder="John Smith" autocomplete="cc-name" name = "card_name">
                                 <div id="err-card-name" class="error-inline">Please enter the cardholder name.</div>
                             </div>
 
                             <div class="form-group">
                                 <label for="card-number">Card Number * <span style="font-weight:400;color:#999;">(16 digits)</span></label>
-                                <input id="card-number" type="text" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric" autocomplete="cc-number">
+                                <input id="card-number" type="text" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric" autocomplete="cc-number" name = "card_number">
                                 <div id="err-card-number" class="error-inline">Card number must be exactly 16 digits.</div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group" style="margin-bottom:0;">
                                     <label for="card-expiry">Expiry Date * <span style="font-weight:400;color:#999;">(MM/YY)</span></label>
-                                    <input id="card-expiry" type="text" placeholder="MM/YY" maxlength="5" inputmode="numeric" autocomplete="cc-exp">
+                                    <input id="card-expiry" type="text" placeholder="MM/YY" maxlength="5" inputmode="numeric" autocomplete="cc-exp" name = "card_expiry">
                                     <div id="err-card-expiry" class="error-inline">Enter a valid future expiry date (MM/YY).</div>
                                 </div>
                                 <div class="form-group" style="margin-bottom:0;">
                                     <label for="card-cvv">CVV * <span style="font-weight:400;color:#999;">(3 digits on back)</span></label>
-                                    <input id="card-cvv" type="text" placeholder="123" maxlength="3" inputmode="numeric" autocomplete="cc-csc">
+                                    <input id="card-cvv" type="text" placeholder="123" maxlength="3" inputmode="numeric" autocomplete="cc-csc" name = "card_cvv">
                                     <div id="err-card-cvv" class="error-inline">Enter the 3-digit CVV from the back of your card.</div>
                                 </div>
                             </div>
@@ -607,7 +607,7 @@ if (empty($_SESSION['basket'])) {
                 </div>
             </div>
 
-            <button class="confirm-btn" onclick="document.getElementById('checkoutForm').requestSubmit();">
+            <button class="confirm-btn" onclick="document.getElementById('confirmBtn').click();">
                 Proceed
             </button>
 
@@ -808,6 +808,10 @@ if (empty($_SESSION['basket'])) {
             }
 
             document.getElementById('orderModal').style.display = 'flex';
+
+            if (allGood) {
+                document.getElementById('checkoutForm').submit();
+            }
         });
 
         document.getElementById('modalOkBtn').addEventListener('click', function() {
