@@ -1,4 +1,42 @@
 <style>
+
+.img-display {
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1 / 1; 
+    border-radius: 10px;
+    background: #fff; 
+}
+
+.image-showcase {
+    display: flex;
+    width: 100%;
+    transition: transform 0.5s ease;
+}
+.image-showcase img {
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.select-image { display: flex; gap: 10px; margin-top: 10px; }
+.select-image .item { width: 25%; }
+.select-image img {
+    width: 100%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 5px;
+}
+.select-image .item:hover img { border-color: #7b1e3a; }
+
+.product-imgs {
+    width: 100%;
+    max-width: 500px; 
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+    
 .stock-badge {
     display: inline-block;
     padding: 4px 10px;
