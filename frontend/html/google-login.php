@@ -40,20 +40,16 @@ $result = $conn->query("SELECT customerID FROM customer WHERE email = '$email'")
 if ($result && $result->num_rows > 0) {
     // Existing user — log them in
     $row = $result->fetch_assoc();
-    $customerId = $row['customerID'];
+    $_SESSION['customerID'] = $row['customerID'];
+    echo json_encode(["success" => true, "redirect" => "account.php"]);
 } else {
-    // New user — insert with empty/placeholder values for required fields
-    $conn->query("INSERT INTO customer (firstName, surname, email, passwordHash, dateOfBirth, phoneNumber, addressLine, postcode) 
-                  VALUES ('$firstName', '$surname', '$email', '', '1900-01-01', '', '', '')");
-
-    if ($conn->error) {
-        echo json_encode(["success" => false, "message" => "DB error: " . $conn->error]);
-        exit;
-    }
-
-    $customerId = $conn->insert_id;
+    // New Google user — store details in session temporarily, redirect to complete profile
+    $_SESSION['google_pending'] = [
+        'firstName' => $firstName,
+        'surname'   => $surname,
+        'email'     => $email
+    ];
+    echo json_encode(["success" => true, "redirect" => "complete-profile.php"]);
 }
-
-$_SESSION['customerID'] = $customerId;
-echo json_encode(["success" => true]);
+exit;
 ?>
