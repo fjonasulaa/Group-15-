@@ -1365,7 +1365,6 @@ if (isset($_SESSION['customerID'])) {
 
     closeBtn.addEventListener('click', function() { popup.classList.remove('show'); });
 
-    // also close on overlay click
     popup.addEventListener('click', function(e) {
       if (e.target === popup) popup.classList.remove('show');
     });
