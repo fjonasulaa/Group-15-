@@ -10,87 +10,8 @@
     <link rel="stylesheet" href="../css/styles.css" />
 
     <style>
-        .footer {
-            background-color: #f4f4f4;
-            padding: 30px 10%;
-            margin-top: 40px;
-            color: #333;
-        }
-
-        .footer-container {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
-        .footer-section {
-            flex: 1 1 250px;
-            margin: 10px;
-        }
-
-        .footer-section h3 {
-            margin-bottom: 10px;
-        }
-
-        .footer-links {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-links li {
-            margin: 5px 0;
-        }
-
-        .footer-links a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
-
-        /* Contact button */
-        .footer-button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 4px;
-            text-decoration: none;
-        }
-
-        .footer-button:hover {
-            opacity: 0.9;
-        }
-
-        /* Footer bottom bar */
-        .footer-bottom {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 10px;
-            border-top: 1px solid #ccc;
-            font-size: 14px;
-        }
-
-        /* DARK MODE SUPPORT */
-        .darkmode .footer {
-            background-color: #1e1e1e;
-            color: #eee;
-        }
-
-        .darkmode .footer-bottom {
-            border-top: 1px solid #555;
-        }
-
-        .darkmode .footer-links a {
-            color: #ddd;
-        }
-
         .transaction-row select[name="paymentStatus"] {
             margin-top: 20px;
-
         }
 
         .transaction-row select {
@@ -137,7 +58,6 @@
         <div class="navbar-right">
             <form method="POST" action="search.php">
                 <input type="text" name="search" placeholder="Search">
-
                 <input type="hidden" name="submitted" value="true" />
             </form>
             <a href="log-in.php">Login</a>
@@ -155,8 +75,8 @@
             <button class="tablinks active" onclick="openTab(event, 'profile')">Profile</button>
             <button class="tablinks" onclick="openTab(event, 'transactions')">Transactions</button>
             <button class="tablinks" onclick="openTab(event, 'returns')">Returns</button>
-<button class = "tablinks" onclick="window.location.href='inventory.php'">Inventory</button>
-                    <button class = "tablinks" onclick="window.location.href='logout.php'">Logout</button>
+            <button class="tablinks" onclick="window.location.href='inventory.php'">Inventory</button>
+            <button class="tablinks" onclick="window.location.href='logout.php'">Logout</button>
         </div>
 
         <main>
@@ -168,7 +88,7 @@
 
                     <!-- profile info -->
                     <div class="profile frame">
-                        <form method="post" >
+                        <form method="post">
                             <div class="row">
                                 <div>
                                     <label for="username">Customer ID</label>
@@ -211,20 +131,17 @@
 
                             <div>
                                 <label for="role">ROLE</label>
-                                
                                 <select name="role" id="role">
                                     <option value="customer" <?= $user['role'] === 'customer' ? 'selected' : '' ?>>Customer</option>
                                     <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
                                     <option value="adminPending" <?= $user['role'] === 'adminPending' ? 'selected' : '' ?>>Admin Pending</option>
                                 </select>
-
-
                             </div>
 
-                            <div class = "row">
+                            <div class="row">
                                 <button type="submit" name="saveDetails">Save Profile</button>
                                 <button type="submit" name="deleteProfile">Delete Profile</button>
-        </div>
+                            </div>
                         </form>
                     </div>
 
@@ -237,8 +154,7 @@
 
                             <div>
                                 <label for="confirmnewpassword">CONFIRM NEW</label>
-                                <input type="password" name="confirmnewpassword" placeholder="Confirm New Password"
-                                    required>
+                                <input type="password" name="confirmnewpassword" placeholder="Confirm New Password" required>
                             </div>
 
                             <button type="submit" name="changePassword">Change Password</button>
@@ -261,7 +177,6 @@
                             <span>SHIPMENT</span>
                         </div>
 
-                        <!-- Example row -->
                         <?php if (count($transactions) == 0): ?>
                             <div class="transaction-row">
                                 <span>—</span>
@@ -304,12 +219,11 @@
                                         <button type="submit" name="updateTransactionStatus">Save</button>
                                     </span>
                                 </form>
-
-                
                             <?php endfor; ?>
                         <?php endif; ?>
                     </div>
                 </div>
+
                 <!-- returns -->
                 <div class="tabcontent" id="returns" style="display:none;">
                     <h1 class="center-title">RETURN REQUESTS</h1>
@@ -363,43 +277,8 @@
             </div>
         </main>
 
-        <!-- footer -->
-        <footer class="footer">
-            <div class="footer-container">
-                <div class="footer-section">
-                    <h3>Wine Exchange</h3>
-                    <p>123 Vineyard Lane<br>London, UK</p>
-                    <p>Phone: +44 1234 567890</p>
-                    <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
-                    <p>Open: Mon–Fri, 9am–6pm</p>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="index.php">Home</a></li>
-                        <li><a href="search.php">Wines</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="contact-us.php">Contact</a></li>
-                    </ul>
-                    <a href="contact-us.php" class="footer-button">Contact Us</a>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Follow Us</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
-                    </ul>
-                </div>
-
-            </div>
-
-            <div class="footer-bottom">
-                © 2026 Wine Exchange. All rights reserved.
-            </div>
-        </footer>
+        <!-- FOOTER -->
+        <?php include 'footer.php'; ?>
     </div>
 
     <script>
