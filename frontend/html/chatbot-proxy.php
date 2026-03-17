@@ -18,21 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // ===================================================
-//  GROQ API KEY - store in environment variable
-//  Set via: putenv("GROQ_API_KEY=your_key_here")
-//  or in your server's environment config
+//  GROQ API KEY (FREE TIER - 30 req/min)
 // ===================================================
-$API_KEY = getenv('GROQ_API_KEY');
-
-if (empty($API_KEY)) {
-    http_response_code(500);
-    echo json_encode(['error' => 'API key not configured']);
-    exit(1);
-}
+// Get your free API key from: https://console.groq.com/keys
+$API_KEY = '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';
 // ===================================================
 
 // Include database connection
-require_once('../../database/db_connect.php');
+require_once '../../database/db_connect.php';
 
 // Get request body
 $body = file_get_contents('php://input');
@@ -52,10 +45,10 @@ if (!empty($requestData['messages'])) {
     $messages = $requestData['messages'];
     foreach (array_reverse($messages) as $msg) {
         if ($msg['role'] === 'user') {
-            // ✅ FIX 1 & 2: Use assignment (=) not comparison (===)
-            $content = $msg['content'];
+            // Handle both string and array formats
+            $content = $msg['content'] ?? '';
             if (is_array($content)) {
-                $userMessage = $content[0]['text'];
+                $userMessage = $content[0]['text'] ?? '';
             } else {
                 $userMessage = $content;
             }
@@ -135,16 +128,15 @@ error_log("DEBUG: Groq HTTP Code = " . $httpCode);
 error_log("DEBUG: Groq Response = " . $response);
 
 if ($httpCode === 200 && !empty($groqResponse['choices'])) {
-    // ✅ FIX 3: Use assignment (=) not comparison (===)
-    $groqText = $groqResponse['choices'][0]['message']['content'];
-
+    $groqText = $groqResponse['choices'][0]['message']['content'] ?? '';
+    
     // Send back in Anthropic format for frontend compatibility
     $formattedResponse = [
         'content' => [
             ['type' => 'text', 'text' => $groqText]
         ]
     ];
-
+    
     http_response_code(200);
     echo json_encode($formattedResponse);
 } else {
@@ -160,17 +152,17 @@ function getWineContext($conn) {
     try {
         $query = "SELECT wineName, wineRegion, category, price, stock FROM wines WHERE active = TRUE ORDER BY category, wineName LIMIT 20";
         $result = $conn->query($query);
-
+        
         if (!$result) {
             return "Unable to fetch wine data.";
         }
-
+        
         $context = "";
         while ($row = $result->fetch_assoc()) {
             $stock = ($row['stock'] === null) ? "Available" : ($row['stock'] > 0 ? $row['stock'] . " bottles" : "Out of stock");
             $context .= "- {$row['wineName']} ({$row['wineRegion']}) - {$row['category']} - £{$row['price']} - {$stock}\n";
         }
-
+        
         return !empty($context) ? $context : "No wines currently available.";
     } catch (Exception $e) {
         return "Wine inventory unavailable.";
