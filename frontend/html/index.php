@@ -300,6 +300,177 @@ $reviews = $conn->query($reviewSQL);
       .welcome-img-wrap { width: 100%; }
     }
 
+    /* ── GIFT QUIZ PROMO ── */
+    .gift-quiz-promo {
+      display: flex;
+      align-items: stretch;
+      background: var(--bg-warm);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      min-height: 340px;
+      transition: background var(--speed);
+    }
+
+    .gq-visual-panel {
+      flex: 0 0 42%;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #2a0a14 0%, #4a0e24 45%, #7b1e3a 80%, #9e2d4f 100%);
+      display: flex;
+      align-items: center;
+      padding: 48px 6% 48px 8%;
+    }
+
+    .gq-visual-panel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 80%, rgba(255,255,255,0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,200,180,0.07) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .gq-visual-inner { position: relative; z-index: 1; }
+
+    .gq-eyebrow {
+      display: block;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+      margin-bottom: 14px;
+    }
+
+    .gq-visual-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.1;
+      margin: 0 0 10px;
+    }
+
+    .gq-visual-title em {
+      font-style: italic;
+      color: #f4b8c8;
+    }
+
+    .gq-visual-sub {
+      font-size: 13.5px;
+      font-weight: 300;
+      color: rgba(255,255,255,.65);
+      line-height: 1.7;
+      margin: 0 0 22px;
+      max-width: 280px;
+    }
+
+    .gq-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .gq-pill {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.18);
+      color: rgba(255,255,255,.8);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 99px;
+    }
+
+    .gq-cta-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: #fff;
+      color: var(--wine);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 18px rgba(0,0,0,.2);
+      transition: background var(--speed), transform .18s ease, box-shadow .18s ease;
+    }
+    .gq-cta-white:hover {
+      background: #fdf5f5;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,0,0,.28);
+      color: var(--wine-dark);
+    }
+
+    .gq-text-panel {
+      flex: 1;
+      padding: 52px 8% 52px 6%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--bg-warm);
+      transition: background var(--speed);
+    }
+
+    .gq-text-panel .section-label { text-align: left; margin-bottom: 10px; }
+    .gq-text-panel .section-divider { margin: 0 0 28px; }
+
+    .gq-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(22px, 2.8vw, 30px);
+      font-weight: 600;
+      color: var(--text);
+      margin: 0 0 14px;
+      line-height: 1.2;
+      transition: color var(--speed);
+    }
+
+    .gq-desc {
+      font-size: 13.5px;
+      color: var(--text-mid);
+      line-height: 1.85;
+      margin: 0 0 24px;
+      max-width: 400px;
+      transition: color var(--speed);
+    }
+
+    .gq-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .gq-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-mid);
+      transition: color var(--speed);
+    }
+
+    .gq-dot {
+      flex-shrink: 0;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--bg-panel);
+      border: 1.5px solid var(--wine);
+      margin-top: 1px;
+      transition: background var(--speed), border-color var(--speed);
+    }
+
+    @media (max-width: 750px) {
+      .gift-quiz-promo { flex-direction: column; }
+      .gq-visual-panel { flex: unset; min-height: 260px; padding: 40px 8%; }
+      .gq-text-panel { padding: 40px 8%; }
+    }
+
     /* ── REVIEWS ── */
     .reviews-header {
       display: block; width: 100%;
@@ -509,6 +680,12 @@ $reviews = $conn->query($reviewSQL);
       transform: none;
     }
 
+    /* stagger delay for children */
+    .stagger-children.visible > *:nth-child(1) { transition-delay: 0s; }
+    .stagger-children.visible > *:nth-child(2) { transition-delay: .08s; }
+    .stagger-children.visible > *:nth-child(3) { transition-delay: .16s; }
+    .stagger-children.visible > *:nth-child(4) { transition-delay: .24s; }
+
     /* ── HERO TEXT ENTRANCE ── */
     .header-content p:first-child,
     .header-content h1,
@@ -529,15 +706,11 @@ $reviews = $conn->query($reviewSQL);
       animation: growBar .6s ease .2s both;
     }
     .reviews-header .section-divider { transform-origin: center; }
+    .gq-text-panel .section-divider  { transform-origin: left; }
 
     @keyframes growBar {
       from { transform:scaleX(0); opacity:0; }
       to   { transform:scaleX(1); opacity:1; }
-    }
-
-    @keyframes slideInWishlist {
-      from { opacity:0; transform:translateX(16px); }
-      to   { opacity:1; transform:none; }
     }
   </style>
 </head>
@@ -649,6 +822,51 @@ $reviews = $conn->query($reviewSQL);
         <span class="ca-dot" data-index="3"></span>
         <span class="ca-dot" data-index="4"></span>
       </div>
+    </section>
+
+    <!-- GIFT QUIZ PROMO -->
+    <section class="gift-quiz-promo fade-in">
+
+      <!-- Left: dark visual panel -->
+      <div class="gq-visual-panel">
+        <div class="gq-visual-inner">
+          <span class="gq-eyebrow">Wine Exchange</span>
+          <h2 class="gq-visual-title">Find the<br><em>Perfect</em> Gift</h2>
+          <p class="gq-visual-sub">Not sure where to start? Our gift quiz hand-picks wines tailored to your recipient in under a minute.</p>
+          <div class="gq-pills">
+            <span class="gq-pill">5 quick questions</span>
+            <span class="gq-pill">Tailored picks</span>
+            <span class="gq-pill">Any budget</span>
+          </div>
+          <a href="Gift-quiz.php" class="gq-cta-white">
+            Take the Quiz &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: text panel -->
+      <div class="gq-text-panel">
+        <span class="section-label">GIFT FINDER</span>
+        <span class="section-divider"></span>
+        <h3 class="gq-heading">The smartest way to<br>gift a bottle</h3>
+        <p class="gq-desc">Tell us who you're buying for, the occasion, and your budget — and we'll match you with wines from our collection that are genuinely suited to them.</p>
+        <ul class="gq-features">
+          <li>
+            <span class="gq-dot"></span>
+            Personalised to the recipient and occasion
+          </li>
+          <li>
+            <span class="gq-dot"></span>
+            Filters by budget — no surprises at checkout
+          </li>
+          <li>
+            <span class="gq-dot"></span>
+            Matches taste level from casual drinker to connoisseur
+          </li>
+        </ul>
+        <a href="Gift-quiz.php" class="ca-btn">Start the Quiz &rarr;</a>
+      </div>
+
     </section>
 
     <!-- REVIEWS -->
