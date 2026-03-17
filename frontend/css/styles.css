@@ -1523,3 +1523,11 @@ html {
   display: flex;
   align-items: center;
 }
+
+/* GOOGLE LOGIN */
+
+.g_id_signin {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
