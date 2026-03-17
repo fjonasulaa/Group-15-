@@ -15,13 +15,15 @@ if (empty($_SESSION['basket'])) {
     <title>Checkout | Wine Exchange</title>
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <style>
     /* ── page layout ── */
     .checkout-page {
         max-width: 1200px;
-        margin: 110px auto 60px auto;
+        margin: 40px auto 60px auto;
         padding: 0 30px;
         display: flex;
         gap: 40px;
@@ -391,28 +393,8 @@ if (empty($_SESSION['basket'])) {
 </style>
 
 <body>
-    <div class="navbar">
-        <img src="../../images/icon.png" alt="Wine Exchange Logo">
-        <div class="navbar-links">
-            <a href="index.html">Home</a>
-            <a href="about.html">About Us</a>
-            <a href="search.php">Wines</a>
-            <a href="basket.php">Basket</a>
-            <a href="contact-us.php">Contact Us</a>
-        </div>
-        <div class="navbar-right">
-            <form method="POST" action="search.php">
-                <input type="text" name="search" placeholder="Search">
-                <input type="hidden" name="submitted" value="true"/>
-            </form>
-            <a href="log-in.php">Login</a>
-            <a href="signup.php">Sign up</a>
-            <a href="account.php">Account</a>
-            <button id="dark-mode" class="dark-mode-button">
-                <img src="../../images/darkmode.png" alt="Dark Mode" />
-            </button>
-        </div>
-    </div>
+
+    <?php include('header.php'); ?>
 
     <div class="checkout-page">
 
@@ -851,16 +833,6 @@ if (empty($_SESSION['basket'])) {
         }
         setInterval(tickClock, 1000);
         tickClock();
-
-        var dmBtn = document.getElementById('dark-mode');
-        if (localStorage.getItem('dark_mode') === 'on') {
-            document.documentElement.classList.add('darkmode');
-        }
-        dmBtn.addEventListener('click', function() {
-            document.documentElement.classList.toggle('darkmode');
-            var nowDark = document.documentElement.classList.contains('darkmode');
-            localStorage.setItem('dark_mode', nowDark ? 'on' : 'off');
-        });
 
     </script>
 </body>
