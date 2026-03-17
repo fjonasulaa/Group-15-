@@ -492,4 +492,6 @@ require_once('../../database/db_connect.php');
   </script>
 
 </body>
+<script src="chatbot.js"></script>
+
 </html>
