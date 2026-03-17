@@ -1,3 +1,5 @@
+<html> <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"></html>
+
 <?php
 // navbar.php — reusable navigation header
 // Requires: $conn (db connection), session_start() must be called before including this file
