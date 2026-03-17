@@ -509,4 +509,5 @@ $user = $userQuery->get_result()->fetch_assoc();
     </script>
 
 </body>
+<script src="chatbot.js"></script>
 </html>
