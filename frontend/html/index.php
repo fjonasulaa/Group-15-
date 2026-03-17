@@ -719,7 +719,7 @@ $reviews = $conn->query($reviewSQL);
     <!-- FAQ -->
     <section class="faq">
       <div class="reviews-header fade-in">
-        <h1 class="section-label">FAQ</h1>
+        <h1 class="section-label"><a href="faq.php">FAQ</a></h1>
         <span class="section-divider"></span>
       </div>
       <div class="faq-grid stagger-children">
@@ -737,7 +737,7 @@ $reviews = $conn->query($reviewSQL);
         </div>
         <div class="faq-item">
           <h3>Q: How do I find the right wine?</h3>
-          <p>A: Explore curated collections, browse by type, and use our detailed tasting notes and descriptions.</p>
+          <p>A: Explore curated collections, browse by type, or take our quiz to find the perfect gift for yourself or others.</p>
         </div>
       </div>
     </section>
