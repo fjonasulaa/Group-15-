@@ -18,9 +18,7 @@ if (isset($_SESSION['customerID'])) {
 }
 ?>
 <style>
-  /* ══════════════════════════════════════════
-     NAVBAR
-  ══════════════════════════════════════════ */
+  /* NAVBAR */
 
   .navbar {
     position: sticky;
@@ -48,6 +46,10 @@ if (isset($_SESSION['customerID'])) {
     text-decoration: none;
     flex: 0 0 220px;
   }
+
+  body.info {
+    padding-top: 0; 
+}
 
   .navbar-logo img {
     width: 32px;
