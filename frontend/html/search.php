@@ -151,18 +151,16 @@ require_once('../../database/db_connect.php');
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 480px; /* allows growth */
+    height: 480px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-/* Keep image size consistent */
 .box img {
     width: 100%;
-    height: 240px;  /* SAME IMAGE HEIGHT */
+    height: 240px;
     object-fit: cover;
 }
 
-/* Text layout */
 .box-text {
     padding: 15px;
     display: flex;
@@ -171,7 +169,7 @@ require_once('../../database/db_connect.php');
 }
 
 .price {
-    margin-top: auto; /* pushes price to bottom */
+    margin-top: auto;
     font-weight: bold;
 }
 
@@ -808,8 +806,8 @@ if ($result->num_rows > 0) {
         echo "<div class='box'>";
         echo "<img src='../../images/" . htmlspecialchars($row['imageUrl']) . "'>";
         echo "<div class='box-text'>";
-        echo "<p><strong>" . htmlspecialchars($row['category']) . "</strong></p>";
-        echo "<p>" . htmlspecialchars($row['wineName']) . "</p>";
+        echo "<p><strong>" . htmlspecialchars($row['wineName']) . "</strong></p>";
+        echo "<p>" . htmlspecialchars($row['category']) . "</p>";
         echo "<p class='price'>£ " . htmlspecialchars($row['price']) . "</p>";
         echo "</div></div></a>";
     }
@@ -1111,5 +1109,3 @@ loadWishlist();
     © 2026 Wine Exchange. All rights reserved.
   </div>
 </footer>
-
-
