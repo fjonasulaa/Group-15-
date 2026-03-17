@@ -254,20 +254,24 @@ html.darkmode .remove-wishlist:hover{
 }
 
 .place-order {
-    margin-top: 25px;
-    background: var(--primary-colour);
+    background: #7b1e3a;
     color: white;
-    padding: 14px 22px;
-    border-radius: var(--radius);
+    padding: 14px 40px;
+    border-radius: 8px;
     text-decoration: none;
     font-size: 1.1rem;
-    display: inline-block;
-    text-align: center;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+.place-order:hover {
+    background: #5e152c;
 }
 .basket-wrapper {
     width: 90%;
-    margin: 120px auto 0 auto;
-    font-family: Arial, sans-serif;
+    margin: 120px auto 40px auto; 
+    display: flex;               
+    flex-direction: column;       
+    min-height: auto;
 }
 .basket-header {
     display: grid;
@@ -305,6 +309,17 @@ html.darkmode .remove-wishlist:hover{
 }
 .remove-link { color: #444; text-decoration: underline; font-size: 0.9rem; margin-top: 8px; display: inline-block; }
 .basket-total-price { font-size: 1.2rem; font-weight: bold; }
+.checkout-button-wrapper {
+    position: relative;
+    margin-top: 100px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    clear: both;
+    z-index: 1;
+}
+
 </style>
 
 <body>
@@ -353,7 +368,7 @@ html.darkmode .remove-wishlist:hover{
     <!-- BASKET CONTENT -->
     <div class="basket-wrapper">
         <h2>Your Basket</h2>
-
+        <br>
         <div class="basket-header">
             <span>PRODUCT</span>
             <span style="text-align:center;">QUANTITY</span>
@@ -392,17 +407,18 @@ html.darkmode .remove-wishlist:hover{
                 ";
             }
         } else {
-            echo "<p>Your basket is empty.</p>";
+            echo "<br><p>Your basket is empty.</p><br>";
         }
         ?>
-    </div>
-
-    <!-- PLACE ORDER BUTTON -->
+        <!-- PLACE ORDER BUTTON -->
     <?php if (!empty($_SESSION['basket'])): ?>
-    <div style="margin-top: 50px; text-align: left; padding-left: 20px;">
+    <div class="checkout-button-wrapper">
         <a href="checkout.php" class="place-order">Place Order</a>
     </div>
     <?php endif; ?>
+    </div>
+
+    
 
     <!-- FOOTER -->
     <?php include 'footer.php'; ?>
