@@ -435,7 +435,7 @@ if (isset($_SESSION['customerID'])) {
     <a href="index.php">Home</a>
     <a href="about.php">About Us</a>
     <a href="search.php">Wines</a>
-    <a href="Gift-quiz.php" class="navbar-gift-link">Gift a Wine</a>
+    <a href="Gift-quiz.php" class="navbar-gift-link">Find a Gift</a>
     <a href="contact-us.php">Contact Us</a>
   </div>
 
