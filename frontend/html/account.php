@@ -282,14 +282,18 @@ $user = $userQuery->get_result()->fetch_assoc();
         <!-- Account Info -->
         <div class="accountinfo">
             <h2>Account Information</h2>
-            <p><strong>Name:</strong> <?= htmlspecialchars($user['firstName']); ?></p>
-            <p><strong>Surname:</strong> <?= htmlspecialchars($user['surname']); ?></p>
-            <p><strong>Address:</strong> <?= htmlspecialchars($user['addressLine']); ?></p>
-            <p><strong>Postcode:</strong> <?= htmlspecialchars($user['postcode']); ?></p>
-            <p><strong>Email:</strong> <?= htmlspecialchars($user['email']); ?></p>
-            <p><strong>Date of Birth:</strong> <?= htmlspecialchars($user['dateOfBirth']); ?></p>
-        </div>
-        <div class="account-image">
+            <div class="account-flex">
+                
+                <div class="account-text">
+                    <p><strong>Name:</strong> <?= htmlspecialchars($user['firstName']); ?></p>
+                    <p><strong>Surname:</strong> <?= htmlspecialchars($user['surname']); ?></p>
+                    <p><strong>Address:</strong> <?= htmlspecialchars($user['addressLine']); ?></p>
+                    <p><strong>Postcode:</strong> <?= htmlspecialchars($user['postcode']); ?></p>
+                    <p><strong>Email:</strong> <?= htmlspecialchars($user['email']); ?></p>
+                    <p><strong>Date of Birth:</strong> <?= htmlspecialchars($user['dateOfBirth']); ?></p>
+                </div>
+
+                <div class="account-image">
                     <form method="POST" enctype="multipart/form-data">
                         
                         <label for="profileUpload">
@@ -308,6 +312,8 @@ $user = $userQuery->get_result()->fetch_assoc();
                             style="display: none;" 
                             onchange="this.form.submit()">
                     </form>
+                </div>
+            </div>
         </div>
 
         <!-- Action buttons -->
