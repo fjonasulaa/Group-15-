@@ -32,7 +32,8 @@
 .select-image .item:hover img { border-color: #7b1e3a; }
 
 .image-showcase img:hover {
-    transform: scale(1.5); 
+    transform: scale(1.5);
+}
 
 .product-imgs {
     width: 100%;
@@ -69,14 +70,12 @@ require_once("../../database/db_connect.php");
 
 $msg = "";
 
-// need a wine ID to do anything here
 if (!isset($_GET['id'])) {
     die("No wine selected.");
 }
 
 $wineId = intval($_GET['id']);
 
-// pull wine details from DB
 $stmt = $conn->prepare("SELECT * FROM wines WHERE wineId = ?");
 $stmt->bind_param("i", $wineId);
 $stmt->execute();
@@ -88,7 +87,6 @@ if (!$wine) {
 
 $mainImage = "../../images/" . $wine['imageUrl'];
 
-// handle basket form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
 
     $wineId = intval($_POST['wineId']);
@@ -103,7 +101,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
             $_SESSION['basket'] = [];
         }
 
-        // check how many they've already got in the basket
         $alreadyInBasket = $_SESSION['basket'][$wineId] ?? 0;
 
         if ($alreadyInBasket + $qty > $stock) {
@@ -115,7 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
     }
 }
 
-// grab reviews for this wine
 $reviewStmt = $conn->prepare("
     SELECT r.*, c.firstName, c.surname
     FROM reviews r
@@ -126,7 +122,6 @@ $reviewStmt->bind_param("i", $wineId);
 $reviewStmt->execute();
 $reviewResult = $reviewStmt->get_result();
 
-// calculate average star rating
 $totalStars = 0;
 $reviewCount = $reviewResult->num_rows;
 $reviewData = [];
@@ -153,53 +148,13 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body class="info">
 
-<!-- wishlist sidebar + overlay -->
-<div class="wishlist-overlay" id="wishlistOverlay"></div>
-
-<div class="wishlist-sidebar" id="wishlistSidebar">
-    <div class="close-wishlist" id="closeWishlist">
-        <i class="fa fa-times"></i>
-    </div>
-    <h3>Your Wishlist</h3>
-    <div id="wishlist-items">
-        <p>Your wishlist is empty.</p>
-    </div>
-</div>
-
-<!-- NAV -->
-<div class="navbar">
-    <img src="../../images/icon.png" alt="Wine Exchange Logo">
-
-    <div class="navbar-links">
-        <a href="index.php">Home</a>
-        <a href="about.php">About Us</a>
-        <a href="search.php">Wines</a>
-        <a href="basket.php">Basket</a>
-        <a href="contact-us.php">Contact Us</a>
-    </div>
-
-    <div class="navbar-right">
-        <input type="text" placeholder="Search">
-        <a href="log-in.php">Login</a>
-        <a href="signup.php">Sign up</a>
-        <a href="account.php">Account</a>
-
-        <button id="dark-mode" class="dark-mode-button">
-            <img src="../../images/darkmode.png" alt="Dark Mode" />
-        </button>
-
-        <button id="wishlist-toggle" class="wishlist-nav-button">
-            <i class="fas fa-heart"></i>
-            <span id="wishlist-count" class="wishlist-count">0</span>
-        </button>
-    </div>
-</div>
+<?php include 'header.php'; ?>
 
 <?php if ($reviewJustSubmitted): ?>
-    <!-- little toast popup after submitting a review -->
     <div class="review-popup">
         Thank you for leaving a review! Your feedback helps other wine lovers 🍷
     </div>
@@ -211,37 +166,37 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
     <div class="info-card">
 
         <div class="product-imgs">
-    <div class="img-display">
-        <div class="image-showcase">
-            <img src="../../images/<?php echo htmlspecialchars($wine['imageUrl']); ?>" alt="wine 1">
-            <img src="../../images/<?php echo htmlspecialchars($wine['img2']); ?>" alt="wine 2">
-            <img src="../../images/<?php echo htmlspecialchars($wine['img3']); ?>" alt="wine 3">
-            <img src="../../images/<?php echo htmlspecialchars($wine['img4']); ?>" alt="wine 4">
-        </div>
-    </div>
-    <div class="select-image">
-        <div class="item">
-            <a href="#" data-id="1">
-                <img src="../../images/<?php echo htmlspecialchars($wine['imageUrl']); ?>" alt="wine">
-            </a>
-        </div>
-        <div class="item">
-            <a href="#" data-id="2">
-                <img src="../../images/<?php echo htmlspecialchars($wine['img2']); ?>" alt="wine">
-            </a>
-        </div>
-        <div class="item">
-            <a href="#" data-id="3">
-                <img src="../../images/<?php echo htmlspecialchars($wine['img3']); ?>" alt="wine">
-            </a>
-        </div>
-        <div class="item">
-            <a href="#" data-id="4">
-                <img src="../../images/<?php echo htmlspecialchars($wine['img4']); ?>" alt="wine">
-            </a>
+            <div class="img-display">
+                <div class="image-showcase">
+                    <img src="../../images/<?php echo htmlspecialchars($wine['imageUrl']); ?>" alt="wine 1">
+                    <img src="../../images/<?php echo htmlspecialchars($wine['img2']); ?>" alt="wine 2">
+                    <img src="../../images/<?php echo htmlspecialchars($wine['img3']); ?>" alt="wine 3">
+                    <img src="../../images/<?php echo htmlspecialchars($wine['img4']); ?>" alt="wine 4">
+                </div>
+            </div>
+            <div class="select-image">
+                <div class="item">
+                    <a href="#" data-id="1">
+                        <img src="../../images/<?php echo htmlspecialchars($wine['imageUrl']); ?>" alt="wine">
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="#" data-id="2">
+                        <img src="../../images/<?php echo htmlspecialchars($wine['img2']); ?>" alt="wine">
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="#" data-id="3">
+                        <img src="../../images/<?php echo htmlspecialchars($wine['img3']); ?>" alt="wine">
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="#" data-id="4">
+                        <img src="../../images/<?php echo htmlspecialchars($wine['img4']); ?>" alt="wine">
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
         <div class="content">
             <h2 class="title"><?php echo htmlspecialchars($wine['wineName']); ?></h2>
@@ -259,8 +214,6 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
                     <?php endif; ?>
                 </p>
 
-
-                <!-- star rating links down to reviews section -->
                 <a href="#reviews-section" class="stars-link">
                     <div class="inline-stars">
                         <?php for ($i = 1; $i <= 5; $i++): ?>
@@ -300,7 +253,6 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
                 <p><?php echo nl2br(htmlspecialchars($wine['description'])); ?></p>
             </div>
 
-            <!-- ingredients hover reveal -->
             <div class="container">
                 <div class="image-container">
                     <article class="image-article">
@@ -315,43 +267,6 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
 
     </div>
 </div>
-
-<script>
-    // used by wishlist JS below
-    const loggedIn = <?php echo isset($_SESSION['customerID']) ? "true" : "false"; ?>;
-
-    // dark mode toggle - remember preference in localStorage
-    const darkBtn = document.getElementById("dark-mode");
-
-    if (localStorage.getItem("dark_mode") === "on") {
-        document.documentElement.classList.add("darkmode");
-    }
-
-    darkBtn.addEventListener("click", () => {
-        document.documentElement.classList.toggle("darkmode");
-        const isDark = document.documentElement.classList.contains("darkmode");
-        localStorage.setItem("dark_mode", isDark ? "on" : "off");
-    });
-
-    // wishlist sidebar
-    const wishlistToggle = document.getElementById("wishlist-toggle");
-    const sidebar = document.getElementById("wishlistSidebar");
-    const overlay = document.getElementById("wishlistOverlay");
-    const closeBtn = document.getElementById("closeWishlist");
-
-    wishlistToggle.addEventListener("click", () => {
-        sidebar.classList.add("active");
-        overlay.classList.add("active");
-    });
-
-    function closeSidebar() {
-        sidebar.classList.remove("active");
-        overlay.classList.remove("active");
-    }
-
-    closeBtn.addEventListener("click", closeSidebar);
-    overlay.addEventListener("click", closeSidebar);
-</script>
 
 <hr class="reviews-divider">
 
@@ -377,22 +292,18 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
         <div class="reviews-grid">
             <?php foreach ($reviewData as $rev): ?>
                 <div class="review-card">
-
                     <div class="review-stars">
                         <?php for ($i = 1; $i <= 5; $i++): ?>
                             <?= ($i <= $rev['stars']) ? "<i class='fas fa-star'></i>" : "<i class='far fa-star'></i>"; ?>
                         <?php endfor; ?>
                     </div>
-
                     <p class="review-text">
                         <?= htmlspecialchars($rev['reviewText']) ?>
                     </p>
-
                     <p class="review-meta">
                         <strong><?= htmlspecialchars(ucfirst($rev['firstName']) . " " . ucfirst($rev['surname'])) ?></strong>
                         • <?= date("F j, Y", strtotime($rev['created_at'])) ?>
                     </p>
-
                 </div>
             <?php endforeach; ?>
         </div>
@@ -400,6 +311,7 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
 
 </div>
 
+<<<<<<< HEAD
 <!-- subtle 3D tilt effect on review cards -->
 <script>
 document.querySelectorAll('.review-card').forEach(card => {
@@ -432,10 +344,11 @@ setTimeout(() => {
 
 </body>
 </html>
+=======
+<?php include 'footer.php'; ?>
+>>>>>>> 6508b9a64b176aa971c1a2447054d68d7f8356d6
 
 <style>
-
-/* review submitted toast */
 .review-popup {
     position: fixed;
     top: 20px;
@@ -465,6 +378,7 @@ setTimeout(() => {
     to   { opacity: 0; }
 }
 
+<<<<<<< HEAD
 /* ---- wishlist items ---- */
 #wishlist-items {
     display: flex;
@@ -602,6 +516,8 @@ setTimeout(() => {
 }
 
 /* wishlist button on product page */
+=======
+>>>>>>> 6508b9a64b176aa971c1a2447054d68d7f8356d6
 .wishlist-button {
     padding: 8px 14px;
     border: 2px solid #e63946;
@@ -615,97 +531,27 @@ setTimeout(() => {
 .wishlist-button i { margin-right: 5px; }
 .wishlist-button:hover { background-color: #e63946; color: white; }
 .wishlist-button.active { background-color: #e63946; color: white; }
-
-/* dark mode wishlist */
-html.darkmode .wishlist-sidebar { background: #121212; color: #fff; }
-html.darkmode .wishlist-sidebar h3 { color: #fff; }
-html.darkmode .wishlist-item { background: #1e1e1e; border: 1px solid #333; box-shadow: none; }
-html.darkmode .wishlist-name { color: #fff; }
-html.darkmode .wishlist-price { color: #ff6b6b; }
-html.darkmode .wishlist-view { background: #2c2c2c; color: #fff; }
-html.darkmode .wishlist-view:hover { background: #3a3a3a; }
-html.darkmode .wishlist-basket { background: #e63946; }
-html.darkmode .wishlist-basket:hover { background: #c92d3a; }
-html.darkmode .remove-wishlist { color: #bbb; }
-html.darkmode .remove-wishlist:hover { color: #ff4d4d; }
-html.darkmode #wishlist-items p { color: #ccc; }
 </style>
 
 <script>
+// navbar.php already defines: loggedIn, getGuestWishlist(), saveGuestWishlist(),
+// loadWishlist(), renderWishlist() — we just handle the page button here.
 
 const wishlistButton = document.querySelector(".wishlist-button");
-const wishlistContainer = document.getElementById("wishlist-items");
-const countBadge = document.getElementById("wishlist-count");
 
-// guest wishlist is just localStorage
-function getGuestWishlist() {
-    return JSON.parse(localStorage.getItem("wishlist")) || [];
-}
-
-function saveGuestWishlist(list) {
-    localStorage.setItem("wishlist", JSON.stringify(list));
-}
-
-function loadWishlist() {
-    if (loggedIn) {
-        fetch("get_wishlist.php")
-            .then(res => res.json())
-            .then(data => {
-                renderWishlist(data);
-                syncWishlistButton(data);
-            });
+function syncWishlistButton(list) {
+    const id = wishlistButton.dataset.id;
+    const found = list.some(item => (item.wineId && item.wineId == id) || (item.id && item.id == id));
+    if (found) {
+        wishlistButton.classList.add("active");
+        wishlistButton.innerHTML = '<i class="fas fa-heart"></i> Added to Wishlist';
     } else {
-        const list = getGuestWishlist();
-        renderWishlist(list);
-        syncWishlistButton(list);
+        wishlistButton.classList.remove("active");
+        wishlistButton.innerHTML = '<i class="fas fa-heart"></i> Add to Wishlist';
     }
 }
 
-function renderWishlist(list) {
-    wishlistContainer.innerHTML = "";
-
-    if (list.length === 0) {
-        wishlistContainer.innerHTML = "<p>Your wishlist is empty.</p>";
-        countBadge.textContent = 0;
-        return;
-    }
-
-    countBadge.textContent = list.length;
-
-    list.forEach((wine, idx) => {
-
-        // image path is slightly different for logged-in vs guest
-        let img;
-        if (loggedIn) {
-            img = wine.imageUrl ? "../../images/" + wine.imageUrl : "../../images/placeholder.jpg";
-        } else {
-            img = wine.imageUrl || "../../images/placeholder.jpg";
-        }
-
-        const item = document.createElement("div");
-        item.className = "wishlist-item";
-
-        item.innerHTML = `
-            <img src="${img}" class="wishlist-img">
-            <div class="wishlist-info">
-                <div class="wishlist-name">${wine.wineName || wine.name}</div>
-                <div class="wishlist-price">£${wine.price}</div>
-                <div class="wishlist-actions">
-                    <a href="wineinfo.php?id=${wine.id || wine.wineId}" class="wishlist-view">View</a>
-                </div>
-            </div>
-            <button class="remove-wishlist" data-id="${wine.wineId || wine.id}" data-index="${idx}">
-                <i class="fas fa-times"></i>
-            </button>
-        `;
-
-        wishlistContainer.appendChild(item);
-    });
-}
-
-// add to wishlist
 wishlistButton.addEventListener("click", function() {
-
     const wine = {
         id: this.dataset.id,
         name: this.dataset.name,
@@ -718,86 +564,34 @@ wishlistButton.addEventListener("click", function() {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: "wineId=" + wine.id
-        })
-        .then(res => res.json())
-        .then(() => loadWishlist());
-
-    } else {
-        let list = getGuestWishlist();
-
-        // skip if already in there
-        if (!list.some(item => item.id === wine.id)) {
-            list.push({
-                id: wine.id,
-                wineName: wine.name,
-                price: wine.price,
-                imageUrl: wine.imageUrl
-            });
-            saveGuestWishlist(list);
-        }
-
-        renderWishlist(list);
-    }
-
-    this.classList.add("active");
-    this.innerHTML = '<i class="fas fa-heart"></i> Added to Wishlist';
-});
-
-// remove from wishlist
-document.addEventListener("click", function(e) {
-
-    const removeBtn = e.target.closest(".remove-wishlist");
-    if (!removeBtn) return;
-
-    const wineId = removeBtn.dataset.id;
-    const idx = removeBtn.dataset.index;
-
-    if (loggedIn) {
-        fetch("remove_from_wishlist.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: "wineId=" + wineId
-        }).then(() => {
+        }).then(res => res.json()).then(() => {
             loadWishlist();
-            resetWishlistButton(wineId);
+            this.classList.add("active");
+            this.innerHTML = '<i class="fas fa-heart"></i> Added to Wishlist';
         });
     } else {
         let list = getGuestWishlist();
-        list.splice(idx, 1);
-        saveGuestWishlist(list);
-        renderWishlist(list);
-        resetWishlistButton(wineId);
+        if (!list.some(item => item.id === wine.id)) {
+            list.push({ id: wine.id, wineName: wine.name, price: wine.price, imageUrl: wine.imageUrl });
+            saveGuestWishlist(list);
+            loadWishlist();
+        }
+        this.classList.add("active");
+        this.innerHTML = '<i class="fas fa-heart"></i> Added to Wishlist';
     }
 });
 
-function resetWishlistButton(wineId) {
-    if (wishlistButton.dataset.id === wineId) {
-        wishlistButton.classList.remove("active");
-        wishlistButton.innerHTML = '<i class="fas fa-heart"></i> Add to Wishlist';
-    }
-}
-
-// update the heart button state to match whether this wine is already wishlisted
-function syncWishlistButton(list) {
-    const id = wishlistButton.dataset.id;
-    const found = list.some(item =>
-        (item.wineId && item.wineId == id) ||
-        (item.id && item.id == id)
-    );
-
-    if (found) {
-        wishlistButton.classList.add("active");
-        wishlistButton.innerHTML = '<i class="fas fa-heart"></i> Added to Wishlist';
+// sync button state once navbar's loadWishlist has run
+document.addEventListener("DOMContentLoaded", () => {
+    if (loggedIn) {
+        fetch("get_wishlist.php").then(r => r.json()).then(syncWishlistButton);
     } else {
-        wishlistButton.classList.remove("active");
-        wishlistButton.innerHTML = '<i class="fas fa-heart"></i> Add to Wishlist';
+        syncWishlistButton(getGuestWishlist());
     }
-}
+});
 
-loadWishlist();
-
-const imgs = document.querySelectorAll('.select-image a');
-const imgBtns = [...imgs];
+// image carousel
+const imgBtns = [...document.querySelectorAll('.select-image a')];
 let imgId = 1;
 
 imgBtns.forEach((imgItem) => {
@@ -808,13 +602,40 @@ imgBtns.forEach((imgItem) => {
     });
 });
 
-function slideImage(){
+function slideImage() {
     const displayWidth = document.querySelector('.image-showcase img:first-child').clientWidth;
-    document.querySelector('.image-showcase').style.transform = `translateX(${- (imgId - 1) * displayWidth}px)`;
+    document.querySelector('.image-showcase').style.transform = `translateX(${-(imgId - 1) * displayWidth}px)`;
 }
 
-
 window.addEventListener('resize', slideImage);
-    
 </script>
 
+<<<<<<< HEAD
+=======
+<script>
+// review toast auto-dismiss
+setTimeout(() => {
+    const toast = document.querySelector(".review-popup");
+    if (toast) {
+        toast.style.animation = "fadeOut 0.8s forwards";
+        setTimeout(() => toast.remove(), 800);
+    }
+}, 3000);
+
+// 3D tilt on review cards
+document.querySelectorAll('.review-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        card.style.transform = `translateY(-6px) rotateX(${y / 40}deg) rotateY(${x / 40}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+    });
+});
+</script>
+
+</body>
+</html>
+>>>>>>> 6508b9a64b176aa971c1a2447054d68d7f8356d6

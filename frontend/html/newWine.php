@@ -5,8 +5,8 @@ session_start();
 $error = $_SESSION['register_error'] ?? "";
 unset($_SESSION["register_error"]);
 
-    if (isset($_SESSION['customerID'])) {
-        include '..\..\database\db_connect.php';
+if (isset($_SESSION['customerID'])) {
+    include '..\..\database\db_connect.php';
     $stmt = $conn->prepare("SELECT role FROM customer WHERE customerID = ?");
     $stmt->bind_param("i", $_SESSION['customerID']);
     $stmt->execute();
@@ -33,56 +33,54 @@ function showError($errors) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Wine | Wine Exchange</title>
-
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background-color: var(--background-colour);
-            padding-top: 100px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { background-color: var(--background-colour); }
+
         .container {
             margin: 0 15px;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: calc(100vh - 62px);
+            padding: 40px 0;
         }
+
         .form-box {
             width: 100%;
             max-width: 600px;
             padding: 30px;
             background: var(--frame-colour);
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-        h2 {
-            font-size: 34px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+        h2 { font-size: 34px; text-align: center; margin-bottom: 20px; color: var(--text-colour); }
 
-        input {
+        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-colour); }
+
+        input, textarea, select {
             width: 100%;
             padding: 12px;
             background: var(--background-colour);
             border-radius: 6px;
-            border: none;
+            border: 1px solid var(--border-colour);
             outline: none;
             font-size: 16px;
             color: var(--text-colour);
             margin-bottom: 20px;
-            border: 1px solid var(--border-colour);
+            font-family: inherit;
         }
 
-        button {
+        textarea { resize: vertical; min-height: 90px; }
+
+        button[type="submit"] {
             width: 100%;
             padding: 12px;
             background: var(--primary-colour);
@@ -96,24 +94,7 @@ function showError($errors) {
             transition: 0.5s;
         }
 
-        button:hover {
-            filter: brightness(0.8);
-        }
-
-        p {
-            font-size: 14.5px;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        p a {
-            color: var(--primary-colour);
-            text-decoration: none;
-        }
-
-        p a:hover {
-            text-decoration: underline;
-        }
+        button[type="submit"]:hover { filter: brightness(0.8); }
 
         .error-message {
             padding: 12px;
@@ -128,34 +109,11 @@ function showError($errors) {
 </head>
 <body>
 
-    <!-- NAVBAR -->
-  <div class="navbar">
-    <img src="../../images/icon.png" alt="Wine Exchange Logo">
-    <div class="navbar-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="wines.html">Wines</a>
-      <a href="basket.php">Basket</a>
-      <a href="contact-us.php">Contact Us</a>
-    </div>
+    <?php include 'header.php'; ?>
 
-    <div class="navbar-right">
-      <form method= "POST" action = "search.php">
-            <input type="text" name="search" placeholder="Search">
-
-            <input type= "hidden" name= "submitted" value= "true"/>
-      </form>
-      <a href="log-in.php">Login</a>
-      <a href="signup.php">Sign up</a>
-      <a href="account.php">Account</a>
-      <button id="dark-mode" class="dark-mode-button">
-        <img src="../../images/darkmode.png" alt="Dark Mode" />
-      </button>
-    </div>
-  </div>
     <div class="container">
         <div class="form-box" id="signup-form">
-            <form action="new_Wine.php" method ="post" enctype="multipart/form-data">
+            <form action="new_Wine.php" method="post" enctype="multipart/form-data">
                 <h2>New Wine</h2>
                 <?= showError($error); ?>
                 <label for="wineName">Wine Name:</label>
@@ -186,15 +144,16 @@ function showError($errors) {
                 <input type="number" id="price" name="price" min="0" step="0.01" placeholder="0.00" inputmode="decimal" required>
                 <label for="description">Description:</label>
                 <textarea name="description" placeholder="Description" required></textarea>
-                <label for="image">Image:</label>
+                <label for="imageUpload">Image:</label>
                 <input type="file" id="imageUpload" name="image" accept="image/*" required>
                 <label for="stock">Stock Quantity:</label>
-                <input type='number' min = '0' name = 'stock' value= '0' required>
+                <input type="number" min="0" name="stock" value="0" required>
                 <button type="submit" name="create">Create Wine</button>
             </form>
         </div>
     </div>
 
+<<<<<<< HEAD
   <?php include 'footer.php'; ?>
 
     <script>
@@ -209,5 +168,9 @@ function showError($errors) {
             localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
         });
   </script>
+=======
+    <?php include 'footer.php'; ?>
+
+>>>>>>> 6508b9a64b176aa971c1a2447054d68d7f8356d6
 </body>
 </html>
