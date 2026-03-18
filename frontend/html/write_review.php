@@ -218,38 +218,7 @@ exit();
 
 
 <body>
-
-<!-- NAVBAR -->
-
-<div class="navbar">
-
-<img src="../../images/icon.png" alt="Wine Exchange Logo">
-
-<div class="navbar-links">
-<a href="index.html">Home</a>
-<a href="about.html">About Us</a>
-<a href="wines.html">Wines</a>
-<a href="basket.php">Basket</a>
-<a href="contact-us.php">Contact Us</a>
-<a href="reviews.html">Feedback</a>
-</div>
-
-<div class="navbar-right">
-
-<form method="POST" action="search.php">
-<input type="text" name="search" placeholder="Search">
-<input type="hidden" name="submitted" value="true">
-</form>
-
-<a href="log-in.php">Login</a>
-<a href="signup.php">Sign up</a>
-<a href="account.php">Account</a>
-
-<button id="dark-mode" class="dark-mode-button">
-<img src="../../images/darkmode.png">
-</button>
-
-</div>
+<?php include 'header.php'; ?>
 
 </div>
 
