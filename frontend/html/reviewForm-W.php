@@ -55,83 +55,56 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Add Review | Wine Exchange</title>
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
-    <div class="navbar">
-        <img src="../../images/icon.png" alt="Wine Exchange Logo">
-        <div class="navbar-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="wines.html">Wines</a>
-      <a href="basket.php">Basket</a>
-      <a href="contact-us.php">Contact Us</a>
-      <a href="reviews.html">Feedback</a>
 
-    </div>
-    
-        <div class="navbar-right">
-          <form method= "POST" action = "search.php">
-            <input type="text" name="search" placeholder="Search">
+<?php include 'navbar.php'; ?>
 
-            <input type= "hidden" name= "submitted" value= "true"/>
-          </form>
-          <a href="log-in.php">Login</a>
-          <a href="signup.php">Sign up</a>
-          <a href="account.php">Account</a>
-          <button id="dark-mode" class="dark-mode-button">
-            <img src="../../images/darkmode.png" alt="Dark Mode" />
-          </button>
-        </div>
+<main>
+  <div class="checkout-container" style="max-width: 500px;">
+    <h1>Tell Us What You Think</h1>
+
+    <form class="review-heading" method="post" action="">
+
+      <div class="rating">
+        <input type="radio" name="rating" value="5" id="star5" required>
+        <label for="star5">★</label>
+
+        <input type="radio" name="rating" value="4" id="star4">
+        <label for="star4">★</label>
+
+        <input type="radio" name="rating" value="3" id="star3">
+        <label for="star3">★</label>
+
+        <input type="radio" name="rating" value="2" id="star2">
+        <label for="star2">★</label>
+
+        <input type="radio" name="rating" value="1" id="star1">
+        <label for="star1">★</label>
       </div>
-      
-      <main>
-      <div class="checkout-container" style="max-width: 500px;">
-        <h1>Tell Us What You Think</h1>
 
-        <form class="review-heading" method="post" action="">
+      <label for="heading">Review Heading</label>
+      <input
+        type="text"
+        id="heading"
+        name="heading"
+        required
+      />
 
-          <div class="rating">
-            <input type="radio" name="rating" value="5" id="star5" required>
-            <label for="star5">★</label>
+      <label for="message">Review Text</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
 
-            <input type="radio" name="rating" value="4" id="star4">
-            <label for="star4">★</label>
-
-            <input type="radio" name="rating" value="3" id="star3">
-            <label for="star3">★</label>
-
-            <input type="radio" name="rating" value="2" id="star2">
-            <label for="star2">★</label>
-
-            <input type="radio" name="rating" value="1" id="star1">
-            <label for="star1">★</label>
-          </div>
-
-          <label for="heading">Review Heading</label>
-          <input
-            type="text"
-            id="heading"
-            name="heading"
-            required
-          />
-
-          <label for="message">Review Text</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
-
-          <button type="submit" name="review" class="submit-review">
-            Submit Review
-          </button>
-        </form>
-      </div>
-      <style>
-
-
-  </main>
-  
+      <button type="submit" name="review" class="submit-review">
+        Submit Review
+      </button>
+    </form>
+  </div>
+</main>
 
 <?php include 'footer.php'; ?>
 
 </body>
-
-
+</html>
