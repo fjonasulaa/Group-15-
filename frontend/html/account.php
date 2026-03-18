@@ -473,8 +473,8 @@ $user = $userQuery->get_result()->fetch_assoc();
                 </tr>
                 <?php while ($row = $transactions->fetch_assoc()): ?>
                     <tr>
-                        <td><?= htmlspecialchars($row['trackingNumber']); ?></td>
-                        <td><?= htmlspecialchars($row['carrier']); ?></td>
+                        <td><?= !empty($row['trackingNumber']) ? htmlspecialchars($row['trackingNumber']) : 'Awaiting'; ?></td>
+                        <td><?= !empty($row['carrier']) ? htmlspecialchars($row['carrier']) : 'Awaiting'; ?></td>
                         <td><?= htmlspecialchars($row['orderId']); ?></td>
                         <td><?= htmlspecialchars($row['amount']); ?></td>
                         <td><?= htmlspecialchars($row['method']); ?></td>
