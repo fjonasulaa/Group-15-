@@ -84,6 +84,23 @@ $user = $userQuery->get_result()->fetch_assoc();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        .account-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .account-text {
+            flex: 1;
+        }
+
+        .account-image {
+            flex: 0 0 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         .orderstable td {
             vertical-align: middle;
             height: 60px;
