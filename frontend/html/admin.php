@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/styles.css" />
 
     <style>
+        
         .transaction-row select[name="paymentStatus"] {
             margin-top: 20px;
         }
@@ -29,6 +30,100 @@
             border: none;
             outline: none;
         }
+
+        .btn-danger {
+            background: #c0392b !important;
+            color: #fff !important;
+        }
+
+        .btn-secondary {
+            background: #555 !important;
+            color: #fff !important;
+        }
+
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-backdrop.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--frame-colour, #fff);
+            color: var(--text-colour, #111);
+            border-radius: 10px;
+            padding: 30px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--text-colour, #111);
+            font-size: 28px;
+        }
+
+        .modal p {
+            color: var(--text-colour, #111);
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .modal .close-btn {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: none !important;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-colour, #111) !important;
+            width: auto;
+            padding: 0;
+            margin: 0;
+        }
+
+        .delete-warning {
+            color: #c0392b !important;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            width: 100%;
+            padding: 12px !important;
+            margin: 0 !important;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 15px !important;
+            font-weight: 500;
+            color: #fff !important;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+
     </style>
 </head>
 
@@ -140,8 +235,8 @@
 
                             <div class="row">
                                 <button type="submit" name="saveDetails">Save Profile</button>
-                                <button type="submit" name="deleteuSER"
-                                    onclick="return confirm('ALL USER DATA WILL BE DELETED!!')"> Delete Profile
+                                <button type="button" name="deleteuSER"
+                                    onclick="openModal('deleteModal')"> Delete Account
                                 </button>
                             </div>
                         </form>
@@ -291,6 +386,23 @@
 
         <?php endif; ?>
 
+        <div class="modal-backdrop" id="deleteModal">
+            <div class="modal">
+                <button class="close-btn" onclick="closeModal('deleteModal')">&times;</button>
+                <h2>Delete Account</h2>
+                <p class="delete-warning">⚠ This action is permanent and cannot be undone.</p>
+                <p style="text-align:center; margin-bottom: 20px;">
+                    Are you sure you want to delete this account?
+                </p>
+                <form method="post">
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeModal('deleteModal')">Cancel</button>
+                        <button type="submit" name="deleteuSER" class="btn-danger">Yes, Delete Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <!-- FOOTER -->
         <?php include 'footer.php'; ?>
     </div>
@@ -339,6 +451,23 @@
             });
         });
     </script>
+
+    <script>
+        function openModal(id) {
+            document.getElementById(id).classList.add("open");
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove("open");
+        }
+
+        document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
+            backdrop.addEventListener("click", e => {
+                if (e.target === backdrop) closeModal(backdrop.id);
+            });
+        });
+    </script>
+
 </body>
 
 </html>

@@ -106,6 +106,20 @@ CREATE TABLE refund (
 -- INSERT QUERIES --
 -- (If import does not work, copy and paste each query into the database) --
 
+-- DUMMY ACCOUNTS FOR TESTING INSERT IF NEEDED PASSWORD IS "Password123!" --
+/*
+INSERT INTO customer (firstName, surname, dateOfBirth, addressLine, postcode, email, phoneNumber, passwordHash, role) VALUES
+('John', 'Doe', '1995-01-01', '1 Test Street', 'SW1A 1AA', 'doe1@gmail.com', '07111111111', '$2y$10$K7eDdVTqOgmhC9zVvYucMeAMG8hbuPK7auijkp75SbWAkLPgyS18y', 'customer'),
+
+('Jane', 'Doe', '1996-02-02', '2 Test Street', 'SW1A 1AB', 'doe2@gmail.com', '07222222222', '$2y$10$K7eDdVTqOgmhC9zVvYucMeAMG8hbuPK7auijkp75SbWAkLPgyS18y', 'customer'),
+
+('Mike', 'Doe', '1997-03-03', '3 Test Street', 'SW1A 1AC', 'doe3@gmail.com', '07333333333', '$2y$10$K7eDdVTqOgmhC9zVvYucMeAMG8hbuPK7auijkp75SbWAkLPgyS18y', 'admin'),
+
+('Lucy', 'Doe', '1998-04-04', '4 Test Street', 'SW1A 1AD', 'doe4@gmail.com', '07444444444', '$2y$10$K7eDdVTqOgmhC9zVvYucMeAMG8hbuPK7auijkp75SbWAkLPgyS18y', 'adminPending'),
+
+('Tom', 'Doe', '1999-05-05', '5 Test Street', 'SW1A 1AE', 'doe5@gmail.com', '07555555555', '$2y$10$K7eDdVTqOgmhC9zVvYucMeAMG8hbuPK7auijkp75SbWAkLPgyS18y', 'customer');
+*/
+
 -- PASSWORD IS "dU13V{1#0IjS" AND EMAIL IS "admin@wineexchange.co.uk" ADMIN ACCOUNT--
 INSERT INTO customer (firstName, surname, dateOfBirth, addressLine, postcode, email, phoneNumber, passwordHash, role) VALUES
 ('John', 'Admin', '1990-01-01', '1 Admin Street', 'SW1A 1AA', 'admin@wineexchange.co.uk', '07000000000', '$2y$10$5sZwFQNA1Q8KkUgc92qje.oXyuHD7vPl4gqy4.Q5veBN9y.x1kgLu', 'admin');
