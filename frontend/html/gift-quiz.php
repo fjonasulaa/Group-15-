@@ -16,40 +16,7 @@ require_once('../../database/db_connect.php');
 
 <body class="info">
 
-  <div class="wishlist-overlay" id="wishlistOverlay"></div>
-  <div class="wishlist-sidebar" id="wishlistSidebar">
-    <div class="close-wishlist" id="closeWishlist"><i class="fa fa-times"></i></div>
-    <h3>Your Wishlist</h3>
-    <div id="wishlist-items"><p>Your wishlist is empty.</p></div>
-  </div>
-
-  <div class="navbar">
-    <img src="../../images/icon.png" alt="Wine Exchange Logo">
-    <div class="navbar-links">
-      <a href="index.php">Home</a>
-      <a href="about.php">About Us</a>
-      <a href="search.php">Wines</a>
-      <a href="basket.php">Basket</a>
-      <a href="Gift-quiz.php" class="navbar-gift-link">🎁 Gift a Wine</a>
-      <a href="contact-us.php">Contact Us</a>
-    </div>
-    <div class="navbar-right">
-      <form method="POST" action="search.php">
-        <input type="text" name="search" placeholder="Search">
-        <input type="hidden" name="submitted" value="true"/>
-      </form>
-      <a href="log-in.php">Login</a>
-      <a href="signup.php">Sign up</a>
-      <a href="account.php">Account</a>
-      <button id="dark-mode" class="dark-mode-button">
-        <img src="../../images/darkmode.png" alt="Dark Mode" />
-      </button>
-      <button id="wishlist-toggle" class="wishlist-nav-button">
-        <i class="fas fa-heart"></i>
-        <span id="wishlist-count" class="wishlist-count">0</span>
-      </button>
-    </div>
-  </div>
+  <?php include 'header.php'; ?>
 
   <div class="gq-page">
 
@@ -111,21 +78,13 @@ require_once('../../database/db_connect.php');
   <?php include 'footer.php'; ?>
 
   <style>
-  .navbar-gift-link {
-    background: #7b1e3a !important; color: #ffffff !important;
-    padding: 6px 14px !important; border-radius: 20px; font-weight: 600;
-    font-size: 13.5px; transition: background 0.2s, transform 0.15s; text-decoration: none;
-  }
-  .navbar-gift-link:hover { background: #5e152c !important; transform: translateY(-1px); color: #fff !important; }
-  html.darkmode .navbar-gift-link { background: #9e2d4f !important; }
-  html.darkmode .navbar-gift-link:hover { background: #c03a60 !important; }
-
   .gq-page { min-height: calc(100vh - 70px); font-family: 'Jost', sans-serif; position: relative; }
   .gq-screen { display: none; min-height: calc(100vh - 70px); }
   .gq-screen.active { display: flex; align-items: center; justify-content: center; }
+  #screen-intro { position: relative; }
 
   .gq-intro-bg {
-    position: fixed; inset: 0; z-index: 0;
+    position: absolute; inset: 0; z-index: 0;
     background: linear-gradient(135deg, #2a0a14 0%, #4a0e24 40%, #7b1e3a 70%, #9e2d4f 100%);
   }
   .gq-intro-bg::after {
@@ -236,86 +195,9 @@ require_once('../../database/db_connect.php');
   .gq-no-results { text-align: center; padding: 60px 20px; color: #9e7080; grid-column: 1/-1; }
   .gq-no-results i { font-size: 40px; margin-bottom: 16px; display: block; }
   @media (max-width: 600px) { .gq-results-grid { grid-template-columns: 1fr; } .gq-quiz-wrap { padding: 0 4px; } }
-
-  #wishlist-items{display:flex;flex-direction:column;gap:15px;margin-top:20px;}
-  .wishlist-item{display:flex;gap:12px;align-items:center;background:white;border-radius:10px;padding:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08);position:relative;}
-  .wishlist-img{width:65px;height:65px;object-fit:cover;border-radius:8px;}
-  .wishlist-info{flex:1;}
-  .wishlist-name{font-weight:600;font-size:14px;margin-bottom:4px;}
-  .wishlist-price{color:#7b1e3a;font-weight:bold;margin-bottom:8px;}
-  .wishlist-actions{display:flex;gap:8px;}
-  .wishlist-view{padding:4px 10px;font-size:12px;border-radius:6px;background:#eee;text-decoration:none;color:#333;}
-  .wishlist-view:hover{background:#ddd;}
-  .remove-wishlist{position:absolute;top:6px;right:6px;border:none;background:none;font-size:14px;cursor:pointer;color:#999;}
-  .remove-wishlist:hover{color:red;}
-  .wishlist-nav-button{background:none;border:none;font-size:20px;cursor:pointer;color:#e63946;margin-left:10px;position:relative;}
-  .wishlist-count{position:absolute;top:-6px;right:-8px;background:#e63946;color:white;font-size:11px;font-weight:bold;padding:2px 6px;border-radius:50px;min-width:18px;text-align:center;}
-  .wishlist-sidebar{position:fixed;top:0;right:-420px;width:380px;height:100%;background:#f4f1f2;padding:30px;box-shadow:-5px 0 20px rgba(0,0,0,0.25);transition:right 0.4s ease;z-index:2000;overflow-y:auto;}
-  .wishlist-sidebar.active{right:0;}
-  .wishlist-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;z-index:1500;}
-  .wishlist-overlay.active{display:block;}
-  .close-wishlist{font-size:22px;cursor:pointer;text-align:right;margin-bottom:15px;}
-  html.darkmode .wishlist-sidebar{background:#121212;color:#ffffff;}
-  html.darkmode .wishlist-item{background:#1e1e1e;border:1px solid #333;box-shadow:none;}
-  html.darkmode .wishlist-name{color:#ffffff;}
-  html.darkmode .wishlist-price{color:#ff6b6b;}
-  html.darkmode .wishlist-view{background:#2c2c2c;color:#ffffff;}
-  html.darkmode .wishlist-view:hover{background:#3a3a3a;}
-  html.darkmode .remove-wishlist{color:#bbbbbb;}
-  html.darkmode .remove-wishlist:hover{color:#ff4d4d;}
-  html.darkmode #wishlist-items p{color:#cccccc;}
   </style>
 
   <script>
-  const darkButton = document.getElementById("dark-mode");
-  if (localStorage.getItem("dark_mode") === "on") document.documentElement.classList.add("darkmode");
-  darkButton.addEventListener("click", () => {
-    document.documentElement.classList.toggle("darkmode");
-    localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-  });
-
-  const loggedIn = <?php echo isset($_SESSION['customerID']) ? "true" : "false"; ?>;
-  document.getElementById("wishlist-toggle").addEventListener("click", () => {
-    document.getElementById("wishlistSidebar").classList.add("active");
-    document.getElementById("wishlistOverlay").classList.add("active");
-  });
-  document.getElementById("closeWishlist").addEventListener("click", () => {
-    document.getElementById("wishlistSidebar").classList.remove("active");
-    document.getElementById("wishlistOverlay").classList.remove("active");
-  });
-  document.getElementById("wishlistOverlay").addEventListener("click", () => {
-    document.getElementById("wishlistSidebar").classList.remove("active");
-    document.getElementById("wishlistOverlay").classList.remove("active");
-  });
-  const wishlistContainer = document.getElementById("wishlist-items");
-  const wishlistCount     = document.getElementById("wishlist-count");
-  function getGuestWishlist(){ return JSON.parse(localStorage.getItem("wishlist")) || []; }
-  function saveGuestWishlist(l){ localStorage.setItem("wishlist", JSON.stringify(l)); }
-  function loadWishlist(){
-    if(loggedIn){ fetch("get_wishlist.php").then(r=>r.json()).then(d=>renderWishlist(d)); }
-    else { renderWishlist(getGuestWishlist()); }
-  }
-  function renderWishlist(list){
-    wishlistContainer.innerHTML = "";
-    if(!list.length){ wishlistContainer.innerHTML="<p>Your wishlist is empty.</p>"; wishlistCount.textContent=0; return; }
-    wishlistCount.textContent = list.length;
-    list.forEach((w,i)=>{
-      const img = loggedIn ? (w.imageUrl?"../../images/"+w.imageUrl:"../../images/placeholder.jpg") : (w.imageUrl||"../../images/placeholder.jpg");
-      const el = document.createElement("div"); el.className="wishlist-item";
-      el.innerHTML=`<img src="${img}" class="wishlist-img"><div class="wishlist-info"><div class="wishlist-name">${w.wineName||w.name}</div><div class="wishlist-price">£${w.price}</div><div class="wishlist-actions"><a href="wineinfo.php?id=${w.id||w.wineId}" class="wishlist-view">View</a></div></div><button class="remove-wishlist" data-id="${w.wineId||w.id}" data-index="${i}"><i class="fas fa-times"></i></button>`;
-      wishlistContainer.appendChild(el);
-    });
-  }
-  document.addEventListener("click", e => {
-    const btn = e.target.closest(".remove-wishlist"); if(!btn) return;
-    if(loggedIn){ fetch("remove_from_wishlist.php",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"wineId="+btn.dataset.id}).then(()=>loadWishlist()); }
-    else { let l=getGuestWishlist(); l.splice(btn.dataset.index,1); saveGuestWishlist(l); renderWishlist(l); }
-  });
-  loadWishlist();
-
-  // ════════════════════════════════════════
-  //  QUIZ
-  // ════════════════════════════════════════
   const questions = [
     {
       id: "recipient", title: "Who are you gifting to?",
@@ -456,7 +338,6 @@ require_once('../../database/db_connect.php');
     document.getElementById("resultsSubtitle").textContent =
       `Tailored for ${rLabel[recipient]||"them"} — perfect for ${oLabel[occasion]||"the occasion"}.`;
 
-    // ── Pass ALL 4 answers to backend ──
     const params = new URLSearchParams({ budget, preference, experience, recipient, occasion });
     fetch("Gift-quiz-results.php?" + params.toString())
       .then(r => r.json())
