@@ -161,7 +161,7 @@
                         <form method="post">
                             <div class="row">
                                 <div>
-                                    <label for="username">Customer ID</label>
+                                    <label for="username">CUSTOMER ID</label>
                                     <input type="text" name="customerID" value="<?= $user['customerID'] ?>" readonly>
                                 </div>
                                 <div>
@@ -234,13 +234,14 @@
                     <div class="transaction-table">
                         <div class="transaction-header">
                             <span>SHIPPING NUMBER</span>
+                            <span>CARRIER</span>
                             <span>ORDER ID</span>
                             <span>AMOUNT</span>
                             <span>CUSTOMER</span>
                             <span>PAYMENT METHOD</span>
                             <span>PAYMENT STATUS</span>
-                            <span>TRANSACTION DATE</span>
                             <span>SHIPMENT</span>
+                            <span>TRANSACTION DATE</span>
                         </div>
 
                         <?php if (count($transactions) == 0): ?>
@@ -259,6 +260,7 @@
                                 <form method="post" class="transaction-row">
                                     <input type="hidden" name="orderId" value="<?= $transactions[$i]['orderId'] ?>">
                                     <input type="text" name="trackingNumber" value="<?= $transactions[$i]['trackingNumber'] ?>" style="width:120px; height:24px; margin-top: 20px; font-size:14px;">
+                                    <input type="text" name="carrier" value="<?= $transactions[$i]['carrier'] ?>" style="width:120px; height:24px; margin-top: 20px; font-size:14px;">
                                     <span><?= $transactions[$i]['orderId'] ?></span>
                                     <span>£<?= number_format((float)$transactions[$i]['amount'], 2) ?></span>
                                     <span><?= $user['firstName'] . ' ' . $user['surname'] ?></span>
@@ -269,7 +271,7 @@
                                             <option value="Paid" <?= $transactions[$i]['paymentStatus'] == 'Paid' ? 'selected' : '' ?>>Paid</option>
                                         </select>
                                     </span>
-                                    <span><?= $transactions[$i]['transactionTimestamp'] ?></span>
+                                    
                                     <span>
                                         <select name="shippingStatus">
                                             <option value="Preparing" <?= $transactions[$i]['shippingStatus'] == 'Preparing' ? 'selected' : '' ?>>Preparing</option>
@@ -278,6 +280,8 @@
                                         </select>
                                         <button type="submit" name="updateTransactionStatus">Save</button>
                                     </span>
+
+                                    <span style="display:inline-block; margin-top:-38px;"><?= $transactions[$i]['transactionTimestamp'] ?></span>
                                 </form>
                             <?php endfor; ?>
                         <?php endif; ?>

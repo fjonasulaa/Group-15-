@@ -670,8 +670,8 @@ $reviews = $conn->query($reviewSQL);
           $stars = str_repeat("★", $row['wStars']) . str_repeat("☆", 5 - $row['wStars']);
 
           $image = !empty($row['userProfileImage'])
-              ? $row['userProfileImage']
-              : "../../images/guestPfp.jpg";
+          ? "../../" . $row['userProfileImage']
+          : "../../images/guestPfp.jpg";
       ?>      
         <div class="review-card"
              data-name="<?= $name ?>"

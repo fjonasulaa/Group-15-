@@ -110,6 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateTransactionStat
     $paymentStatus = $_POST['paymentStatus'];
     $shippingStatus = $_POST['shippingStatus'];
     $trackingNumber = $_POST['trackingNumber'];
+    $carrier = $_POST['carrier'];
 
     $PaymentStatu = ['Pending', 'Paid'];
     $ShippingStatu = ['Preparing', 'In Transit', 'Delivered'];
@@ -127,10 +128,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateTransactionStat
 
         $stmt = $conn->prepare("
             UPDATE shipping
-            SET shippingStatus=?, trackingNumber=?
+            SET shippingStatus=?, trackingNumber=?, carrier=?
             WHERE orderId=?");
 
-        $stmt->bind_param("ssi", $shippingStatus, $trackingNumber, $orderId);
+        $stmt->bind_param("sssi", $shippingStatus, $trackingNumber, $carrier, $orderId);
         $stmt->execute();
         $stmt->close();
     }
@@ -199,6 +200,7 @@ $stmt = $conn->prepare("
 
     SELECT
     shipping.trackingNumber,
+    shipping.carrier,
     orders.orderId,
     payment.amount,
     payment.method,
