@@ -1,46 +1,67 @@
 <style>
 
-.img-display {
-    overflow: hidden;
-    width: 100%;
-    aspect-ratio: 1 / 1; 
-    border-radius: 10px;
-    background: #fff; 
-}
-
-.image-showcase {
-    display: flex;
-    width: 100%;
-    transition: transform 0.5s ease;
-}
-.image-showcase img {
-    min-width: 100%;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    transition: transform 0.3s ease; 
-    cursor: zoom-in;
-}
-.select-image { display: flex; gap: 10px; margin-top: 10px; }
-.select-image .item { width: 25%; }
-.select-image img {
-    width: 100%;
-    cursor: pointer;
-    border: 2px solid transparent;
-    border-radius: 5px;
-}
-.select-image .item:hover img { border-color: #7b1e3a; }
-
-.image-showcase img:hover {
-    transform: scale(1.5);
-}
-
 .product-imgs {
     width: 100%;
     max-width: 500px; 
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+}
+
+.img-display {
+    overflow: hidden; 
+    width: 100%;
+    aspect-ratio: 1 / 1; 
+    border-radius: 10px;
+    background: #fff;
+    position: relative;
+}
+
+.image-showcase {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.image-showcase img {
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    cursor: zoom-in;
+    transform-origin: center; 
+}
+
+.image-showcase img:hover {
+    transform: scale(1.5);
+    position: relative;
+    z-index: 10;
+}
+
+.select-image { 
+    display: flex; 
+    gap: 10px; 
+    margin-top: 10px; 
+}
+
+.select-image .item { 
+    width: 25%; 
+}
+
+.select-image img {
+    width: 100%;
+    aspect-ratio: 1 / 1; 
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+.select-image .item:hover img { 
+    border-color: #7b1e3a; 
 }
     
 .stock-badge {
@@ -591,7 +612,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // image carousel
-const imgBtns = [...document.querySelectorAll('.select-image a')];
+const imgs = document.querySelectorAll('.select-image a');
+const imgBtns = [...imgs];
 let imgId = 1;
 
 imgBtns.forEach((imgItem) => {
@@ -602,12 +624,45 @@ imgBtns.forEach((imgItem) => {
     });
 });
 
-function slideImage() {
-    const displayWidth = document.querySelector('.image-showcase img:first-child').clientWidth;
-    document.querySelector('.image-showcase').style.transform = `translateX(${-(imgId - 1) * displayWidth}px)`;
+function slideImage(){
+    display.classList.remove('zoomed');
+    showcase.classList.remove('no-transition');
+    display.scrollTo(0, 0);
+
+    const displayWidth = document.querySelector('.img-display').clientWidth;
+    showcase.style.transform = `translateX(${- (imgId - 1) * displayWidth}px)`;
 }
 
 window.addEventListener('resize', slideImage);
+
+const display = document.querySelector('.img-display');
+const showcase = document.querySelector('.image-showcase');
+const allImages = document.querySelectorAll('.image-showcase img');
+
+display.addEventListener('click', (e) => {
+    const activeImg = allImages[imgId - 1];
+
+    if (display.classList.contains('zoomed')) {
+        if (!isDown) {
+            display.classList.remove('zoomed');
+            activeImg.classList.remove('active-zoom');
+            showcase.style.transition = "transform 0.5s ease";
+            display.scrollTo(0, 0);
+        }
+    } else {
+        display.classList.add('zoomed');
+        activeImg.classList.add('active-zoom');
+        showcase.style.transition = "none"; 
+    }
+});
+
+function slideImage(){
+    display.classList.remove('zoomed');
+    allImages.forEach(img => img.classList.remove('active-zoom'));
+    
+    const displayWidth = display.clientWidth;
+    showcase.style.transform = `translateX(${- (imgId - 1) * displayWidth}px)`;
+}
 </script>
 
 <<<<<<< HEAD
@@ -638,4 +693,5 @@ document.querySelectorAll('.review-card').forEach(card => {
 
 </body>
 </html>
+
 >>>>>>> 6508b9a64b176aa971c1a2447054d68d7f8356d6
