@@ -279,6 +279,18 @@
             </div>
         </main>
 
+        <?php if (!empty($deleteError)): ?>
+
+        <script>
+            window.addEventListener("load", function () {
+                setTimeout(function () {
+                    alert("<?= htmlspecialchars($deleteError, ENT_QUOTES) ?>");
+                }, 100); 
+            });
+        </script>
+
+        <?php endif; ?>
+
         <!-- FOOTER -->
         <?php include 'footer.php'; ?>
     </div>

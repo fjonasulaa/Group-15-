@@ -7,6 +7,7 @@ ob_start();
 require_once('users.php');
 ob_end_clean();
 
+$deleteError = '';
 
 if (!isset($_SESSION['customerID'])) {
     header("Location: log-in.php");
@@ -234,18 +235,23 @@ $returns = $returnQuery->get_result()->fetch_all(MYSQLI_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteuSER'])) {
 
-    if ($customerID == $_SESSION['customerID']) exit("You cannot delete your own account!!!");
+    if ($customerID == $_SESSION['customerID']){
+
+        $deleteError = "Own account cannot be deleted!!";
+
+    }
+    else
+    {
+    
+        $stmt = $conn->prepare("DELETE FROM customer WHERE customerID = ?");
+        $stmt->bind_param("i", $customerID);
+        $stmt->execute();
+        $stmt->close();
 
 
 
-    $stmt = $conn->prepare("DELETE FROM customer WHERE customerID = ?");
-    $stmt->bind_param("i", $customerID);
-    $stmt->execute();
-    $stmt->close();
+        header("Location: admin.php?customerID=" . $_SESSION['customerID']);
 
-
-
-    header("Location: admin.php?customerID=" . $_SESSION['customerID']);
-
-    exit();
+        exit();
+    }
 }
