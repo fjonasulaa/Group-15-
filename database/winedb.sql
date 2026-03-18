@@ -9,7 +9,7 @@ CREATE TABLE customer (
   userProfileImage VARCHAR(500),
   phoneNumber VARCHAR(20),
   passwordHash VARCHAR(255) NOT NULL,
-  role ENUM("customer", "admin", "adminPending") NOT NULL DEFAULT "customer"
+  role ENUM("customer", "admin", "adminPending") NOT NULL DEFAULT "customer" 
 );
 
 CREATE TABLE wines (
@@ -35,7 +35,7 @@ CREATE TABLE orders (
   customerId INT NOT NULL,
   orderDate DATE NOT NULL DEFAULT CURRENT_DATE,
   totalAmount DECIMAL(7,2) NOT NULL,
-  FOREIGN KEY (customerId) REFERENCES customer(customerID)
+  FOREIGN KEY (customerId) REFERENCES customer(customerID) ON DELETE CASCADE
 );
 
 CREATE TABLE orderswines (
@@ -43,7 +43,7 @@ CREATE TABLE orderswines (
   orderId INT NOT NULL,
   wineId INT NOT NULL,
   quantity INT NOT NULL,
-  FOREIGN KEY (orderId) REFERENCES orders(orderId),
+  FOREIGN KEY (orderId) REFERENCES orders(orderId) ON DELETE CASCADE,
   FOREIGN KEY (wineId) REFERENCES wines(wineId)
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE payment (
   amount DECIMAL(7,2) NOT NULL,
   paymentStatus VARCHAR(100) NOT NULL,
   transactionTimestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (orderId) REFERENCES orders(orderId),
+  FOREIGN KEY (orderId) REFERENCES orders(orderId) ON DELETE CASCADE,
   cardName VARCHAR(255),
   cardLast4 VARCHAR(4),
   cardExpiry VARCHAR(5)
@@ -67,7 +67,7 @@ CREATE TABLE reviews (
   stars INT NOT NULL,
   reviewText TEXT,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (customerId) REFERENCES customer(customerID),
+  FOREIGN KEY (customerId) REFERENCES customer(customerID) ON DELETE CASCADE,
   FOREIGN KEY (wineId) REFERENCES wines(wineId)
 );
 
@@ -78,7 +78,7 @@ CREATE TABLE websiteReviews (
   wReviewHeading TEXT,
   wReviewText TEXT,
   reviewDate DATE,
-  FOREIGN KEY (customerId) REFERENCES customer(customerID)
+  FOREIGN KEY (customerId) REFERENCES customer(customerID) ON DELETE CASCADE
 );
 
 CREATE TABLE shipping (
@@ -90,7 +90,7 @@ CREATE TABLE shipping (
   shippingStatus VARCHAR(100) NOT NULL,
   shippingDate DATE,
   estimatedDelivery DATE,
-  FOREIGN KEY (orderId) REFERENCES orders(orderId)
+  FOREIGN KEY (orderId) REFERENCES orders(orderId) ON DELETE CASCADE
 );
 
 CREATE TABLE refund (
@@ -99,7 +99,7 @@ CREATE TABLE refund (
   reason ENUM('wrong', 'broken', 'inaccurate', 'duplicate', 'gift', 'other') NOT NULL,
   description TEXT NOT NULL,
   status ENUM('pending', 'accepted', 'denied') NOT NULL DEFAULT 'pending',
-  FOREIGN KEY (orderId) REFERENCES orders(orderId)
+  FOREIGN KEY (orderId) REFERENCES orders(orderId) ON DELETE CASCADE
 );
 
 
@@ -171,7 +171,8 @@ CREATE TABLE wishlist (
     customerID INT NOT NULL,
     wineId INT NOT NULL,
     addedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(customerID, wineId)
+    UNIQUE(customerID, wineId),
+    FOREIGN KEY (customerID) REFERENCES customer(customerID) ON DELETE CASCADE
 );
 ALTER TABLE customer
 ADD reset_token VARCHAR(64),

@@ -34,7 +34,7 @@ if (isset($_GET['customerID'])) {
 } 
 else 
 {
-    $customerID = 1;
+    $customerID = $_SESSION['customerID'];
 }
 
 
@@ -231,3 +231,21 @@ $returnQuery = $conn->prepare("
 ");
 $returnQuery->execute();
 $returns = $returnQuery->get_result()->fetch_all(MYSQLI_ASSOC);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deleteuSER'])) {
+
+    if ($customerID == $_SESSION['customerID']) exit("You cannot delete your own account!!!");
+
+
+
+    $stmt = $conn->prepare("DELETE FROM customer WHERE customerID = ?");
+    $stmt->bind_param("i", $customerID);
+    $stmt->execute();
+    $stmt->close();
+
+
+
+    header("Location: admin.php?customerID=" . $_SESSION['customerID']);
+
+    exit();
+}

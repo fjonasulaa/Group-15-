@@ -140,7 +140,9 @@
 
                             <div class="row">
                                 <button type="submit" name="saveDetails">Save Profile</button>
-                                <button type="submit" name="deleteProfile">Delete Profile</button>
+                                <button type="submit" name="deleteuSER"
+                                    onclick="return confirm('ALL USER DATA WILL BE DELETED!!')"> Delete Profile
+                                </button>
                             </div>
                         </form>
                     </div>
