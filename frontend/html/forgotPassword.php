@@ -66,18 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-<<<<<<< HEAD
-    darkButton.addEventListener("click", () => {
-      document.documentElement.classList.toggle("darkmode");
-      localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-    });
-  </script>
-
-<?php include 'footer.php'; ?>
-
-</body>
-</html>
-=======
         body { background-color: var(--background-colour); }
 
         .container {
@@ -180,4 +168,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </body>
 </html>
->>>>>>> 6508b9a64b176aa971c1a2447054d68d7f8356d6
