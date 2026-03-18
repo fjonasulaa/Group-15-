@@ -3,6 +3,8 @@
 include '..\..\database\db_connect.php';
 include 'users.php';
 
+session_start();
+
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -12,15 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $customerId = $u->getCustomerIdByEmail($email);
 
     if ($customerId) {
-        // Generate secure token
-        $token = bin2hex(random_bytes(32));
+        $token   = bin2hex(random_bytes(32));
         $expires = date("Y-m-d H:i:s", strtotime("+1 hour"));
 
-        // Save token in database
         $u->savePasswordResetToken($email, $token, $expires);
 
         $resetLink = "http://localhost/Group-15-/frontend/html/resetPassword.php?token=$token";
-        
+
         require '..\..\vendor\autoload.php';
         $mail = new PHPMailer\PHPMailer\PHPMailer(true);
 
@@ -45,10 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (Exception $e) {
             $message = "Mailer Error: {$mail->ErrorInfo}";
         }
-        
 
     } else {
-        // Don't reveal if email exists
         $message = "If that email exists, a reset link has been sent.";
     }
 }
@@ -57,77 +55,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<body>
-  <!-- NAVBAR -->
-  <div class="navbar">
-    <img src="../../images/icon.png" alt="Wine Exchange Logo">
-    <div class="navbar-links">
-      <a href="index.php">Home</a>
-      <a href="about.php">About Us</a>
-      <a href="search.php">Wines</a>
-      <a href="basket.php">Basket</a>
-      <a href="contact-us.php">Contact Us</a>
-      <a href="websiteReviews.html">Reviews</a>
-    </div>
-
-    <div class="navbar-right">
-      <form method="POST" action="search.php">
-        <input type="text" name="search" placeholder="Search">
-
-        <input type="hidden" name="submitted" value="true" />
-      </form>
-      <a href="log-in.php">Login</a>
-      <a href="signup.php">Sign up</a>
-      <a href="account.php">Account</a>
-      <button id="dark-mode" class="dark-mode-button">
-        <img src="../../images/darkmode.png" alt="Dark Mode" />
-      </button>
-    </div>
-  </div>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot Password | Wine Exchange</title>
+    <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css">
-</head>
-<body class="info">
-    <div class="checkout-container" style="max-width: 500px;">
-        <h1>Forgot Password</h1>
-        <?php if ($message): ?>
-            <p><?php echo $message; ?></p>
-        <?php endif; ?>
-        <form method="post">
-            <label for="email">Enter your email</label>
-            <input type="email" name="email" id="email" required placeholder="you@example.com">
-            <button type="submit">Send Reset Link</button>
-        </form>
-        <p style="margin-top: 15px;">
-            <a href="log-in.php">Back to Login</a>
-        </p>
-    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <script>
-    // DARK MODE
-    const darkButton = document.getElementById("dark-mode");
-    if (localStorage.getItem("dark_mode") === "on") {
-      document.documentElement.classList.add("darkmode");
-    }
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    darkButton.addEventListener("click", () => {
-      document.documentElement.classList.toggle("darkmode");
-      localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-    });
-  </script>
-</body>
+        body { background-color: var(--background-colour); }
 
-<style>
-/* Footer styling */
-.footer {
-  background-color: #f4f4f4;
-  padding: 30px 10%;
-  color: #333;
-}
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 62px);
+            padding: 40px 16px;
+        }
 
-button {
+        .form-box {
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            background: var(--frame-colour);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .form-box h1 {
+            font-size: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--text-colour);
+        }
+
+        .form-box label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-colour);
+        }
+
+        .form-box input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            background: var(--background-colour);
+            border-radius: 6px;
+            border: 1px solid var(--border-colour);
+            outline: none;
+            font-size: 16px;
+            color: var(--text-colour);
+            margin-bottom: 20px;
+            font-family: inherit;
+        }
+
+        .form-box button[type="submit"] {
             width: 100%;
             padding: 12px;
             background: var(--primary-colour);
@@ -141,117 +127,44 @@ button {
             transition: 0.5s;
         }
 
-        button:hover {
-            filter: brightness(0.8);
+        .form-box button[type="submit"]:hover { filter: brightness(0.8); }
+
+        .form-box p {
+            font-size: 14.5px;
+            text-align: center;
+            color: var(--text-colour);
         }
 
-.footer-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
+        .form-box p a {
+            color: var(--primary-colour);
+            text-decoration: none;
+        }
 
-.footer-section {
-  flex: 1 1 250px;
-  margin: 10px;
-}
+        .form-box p a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body class="info">
 
-.footer-section h3 {
-  margin-bottom: 10px;
-}
+    <?php include 'header.php'; ?>
 
-.footer-links {
-  list-style: none;
-  padding: 0;
-}
-
-.footer-links li {
-  margin: 5px 0;
-}
-
-.footer-links a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.footer-links a:hover {
-  text-decoration: underline;
-}
-
-/* Contact button */
-.footer-button {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 15px;
-  background-color: #4CAF50;
-  color: white;
-  border-radius: 4px;
-  text-decoration: none;
-}
-
-.footer-button:hover {
-  opacity: 0.9;
-}
-
-/* Footer bottom bar */
-.footer-bottom {
-  text-align: center;
-  margin-top: 20px;
-  padding-top: 10px;
-  border-top: 1px solid #ccc;
-  font-size: 14px;
-}
-
-/* DARK MODE SUPPORT */
-.darkmode .footer {
-  background-color: #1e1e1e;
-  color: #eee;
-}
-
-.darkmode .footer-bottom {
-  border-top: 1px solid #555;
-}
-
-.darkmode .footer-links a {
-  color: #ddd;
-}
-</style>
-
-<footer class="footer">
-  <div class="footer-container">
-
-    <div class="footer-section">
-      <h3>Wine Exchange</h3>
-      <p>123 Vineyard Lane<br>London, UK</p>
-      <p>Phone: +44 1234 567890</p>
-      <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
-      <p>Open: Mon–Fri, 9am–6pm</p>
+    <div class="container">
+        <div class="form-box">
+            <h1>Forgot Password</h1>
+            <?php if ($message): ?>
+                <p style="margin-bottom:16px;"><?php echo htmlspecialchars($message); ?></p>
+            <?php endif; ?>
+            <form method="post">
+                <label for="email">Enter your email</label>
+                <input type="email" name="email" id="email" required placeholder="you@example.com">
+                <button type="submit">Send Reset Link</button>
+            </form>
+            <p style="margin-top: 15px;">
+                <a href="log-in.php">Back to Login</a>
+            </p>
+        </div>
     </div>
 
-    <div class="footer-section">
-      <h3>Quick Links</h3>
-      <ul class="footer-links">
-        <li><a href="index.php">Home</a></li>
-        <li><a href="search.php">Wines</a></li>
-        <li><a href="about.php">About Us</a></li>
-        <li><a href="contact-us.php">Contact</a></li>
-      </ul>
-      <a href="contact-us.php" class="footer-button">Contact Us</a>
-    </div>
+    <?php include 'footer.php'; ?>
 
-    <div class="footer-section">
-      <h3>Follow Us</h3>
-      <ul class="footer-links">
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Facebook</a></li>
-        <li><a href="#">Twitter</a></li>
-      </ul>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    © 2026 Wine Exchange. All rights reserved.
-  </div>
-</footer>
+</body>
 </html>
