@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 $stmt = $conn->prepare("
     SELECT
         shipping.trackingNumber,
+        shipping.carrier,
         orders.orderId,
         orders.orderDate,
         payment.amount,
@@ -141,7 +142,7 @@ $user = $userQuery->get_result()->fetch_assoc();
         }
 
         .accountcontainer {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 40px auto;
             padding: 30px;
             background: var(--frame-colour);
@@ -461,6 +462,7 @@ $user = $userQuery->get_result()->fetch_assoc();
             <table>
                 <tr>
                     <th>Tracking Number</th>
+                    <th>Carrier</th>
                     <th>Order ID</th>
                     <th>£ Total</th>
                     <th>Payment Method</th>
@@ -472,6 +474,7 @@ $user = $userQuery->get_result()->fetch_assoc();
                 <?php while ($row = $transactions->fetch_assoc()): ?>
                     <tr>
                         <td><?= htmlspecialchars($row['trackingNumber']); ?></td>
+                        <td><?= htmlspecialchars($row['carrier']); ?></td>
                         <td><?= htmlspecialchars($row['orderId']); ?></td>
                         <td><?= htmlspecialchars($row['amount']); ?></td>
                         <td><?= htmlspecialchars($row['method']); ?></td>
