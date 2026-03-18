@@ -4,6 +4,7 @@
 // navbar.php — reusable navigation header
 // Requires: $conn (db connection), session_start() must be called before including this file
 
+$conn = new mysqli("localhost", "root", "", "winedb");
 $accountLink = 'log-in.php';
 
 if (isset($_SESSION['customerID'])) {
