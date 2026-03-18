@@ -437,7 +437,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // image carousel
-const imgBtns = [...document.querySelectorAll('.select-image a')];
+const imgs = document.querySelectorAll('.select-image a');
+const imgBtns = [...imgs];
 let imgId = 1;
 
 imgBtns.forEach((imgItem) => {
@@ -448,12 +449,45 @@ imgBtns.forEach((imgItem) => {
     });
 });
 
-function slideImage() {
-    const displayWidth = document.querySelector('.image-showcase img:first-child').clientWidth;
-    document.querySelector('.image-showcase').style.transform = `translateX(${-(imgId - 1) * displayWidth}px)`;
+function slideImage(){
+    display.classList.remove('zoomed');
+    showcase.classList.remove('no-transition');
+    display.scrollTo(0, 0);
+
+    const displayWidth = document.querySelector('.img-display').clientWidth;
+    showcase.style.transform = `translateX(${- (imgId - 1) * displayWidth}px)`;
 }
 
 window.addEventListener('resize', slideImage);
+
+const display = document.querySelector('.img-display');
+const showcase = document.querySelector('.image-showcase');
+const allImages = document.querySelectorAll('.image-showcase img');
+
+display.addEventListener('click', (e) => {
+    const activeImg = allImages[imgId - 1];
+
+    if (display.classList.contains('zoomed')) {
+        if (!isDown) {
+            display.classList.remove('zoomed');
+            activeImg.classList.remove('active-zoom');
+            showcase.style.transition = "transform 0.5s ease";
+            display.scrollTo(0, 0);
+        }
+    } else {
+        display.classList.add('zoomed');
+        activeImg.classList.add('active-zoom');
+        showcase.style.transition = "none"; 
+    }
+});
+
+function slideImage(){
+    display.classList.remove('zoomed');
+    allImages.forEach(img => img.classList.remove('active-zoom'));
+    
+    const displayWidth = display.clientWidth;
+    showcase.style.transform = `translateX(${- (imgId - 1) * displayWidth}px)`;
+}
 </script>
 
 <script>
