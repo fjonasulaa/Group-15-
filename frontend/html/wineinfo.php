@@ -428,6 +428,7 @@ setTimeout(() => {
     }
 }, 3000);
 </script>
+<?php include 'footer.php'; ?>
 
 </body>
 </html>
@@ -463,66 +464,6 @@ setTimeout(() => {
     from { opacity: 1; }
     to   { opacity: 0; }
 }
-
-/* ---- footer ---- */
-.footer {
-    background-color: #f4f4f4;
-    padding: 30px 10%;
-    margin-top: 40px;
-    color: #333;
-}
-
-.footer-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.footer-section {
-    flex: 1 1 250px;
-    margin: 10px;
-}
-
-.footer-section h3 { margin-bottom: 10px; }
-
-.footer-links {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-links li { margin: 5px 0; }
-
-.footer-links a {
-    text-decoration: none;
-    color: inherit;
-}
-
-.footer-links a:hover { text-decoration: underline; }
-
-.footer-button {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 15px;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 4px;
-    text-decoration: none;
-}
-
-.footer-button:hover { opacity: 0.9; }
-
-.footer-bottom {
-    text-align: center;
-    margin-top: 20px;
-    padding-top: 10px;
-    border-top: 1px solid #ccc;
-    font-size: 14px;
-}
-
-/* dark mode footer */
-.darkmode .footer { background-color: #1e1e1e; color: #eee; }
-.darkmode .footer-bottom { border-top: 1px solid #555; }
-.darkmode .footer-links a { color: #ddd; }
 
 /* ---- wishlist items ---- */
 #wishlist-items {
@@ -877,40 +818,3 @@ window.addEventListener('resize', slideImage);
     
 </script>
 
-<footer class="footer">
-    <div class="footer-container">
-
-        <div class="footer-section">
-            <h3>Wine Exchange</h3>
-            <p>123 Vineyard Lane<br>London, UK</p>
-            <p>Phone: +44 1234 567890</p>
-            <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
-            <p>Open: Mon–Fri, 9am–6pm</p>
-        </div>
-
-        <div class="footer-section">
-            <h3>Quick Links</h3>
-            <ul class="footer-links">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="search.php">Wines</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="contact-us.php">Contact</a></li>
-            </ul>
-            <a href="contact-us.php" class="footer-button">Contact Us</a>
-        </div>
-
-        <div class="footer-section">
-            <h3>Follow Us</h3>
-            <ul class="footer-links">
-                <li><a href="#">Instagram</a></li>
-                <li><a href="#">Facebook</a></li>
-                <li><a href="#">Twitter</a></li>
-            </ul>
-        </div>
-
-    </div>
-
-    <div class="footer-bottom">
-        © 2026 Wine Exchange. All rights reserved.
-    </div>
-</footer>
