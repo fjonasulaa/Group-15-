@@ -18,6 +18,8 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+    transition: transform 0.3s ease; 
+    cursor: zoom-in;
 }
 .select-image { display: flex; gap: 10px; margin-top: 10px; }
 .select-image .item { width: 25%; }
@@ -28,6 +30,9 @@
     border-radius: 5px;
 }
 .select-image .item:hover img { border-color: #7b1e3a; }
+
+.image-showcase img:hover {
+    transform: scale(1.5); 
 
 .product-imgs {
     width: 100%;
