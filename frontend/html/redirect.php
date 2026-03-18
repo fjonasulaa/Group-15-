@@ -170,40 +170,13 @@ if (isset($_GET['page'])) {
             if ($action === 'update') {
                 //Update wine details
                 header("Location: editWine.php?id=" . $_POST['wineId'] );
-                //Update wine stock - LEGACY
-                /*$wineId = intval($_POST['wineId']);
-                $stock = intval($_POST['stock']);
-
-                $sql = "UPDATE wines SET stock = ? WHERE wineId = ?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ii", $stock, $wineId);
-
-                if ($stmt->execute()) {
-                    header("Location: inventory.php");
-                    exit;
-                } else {
-                    echo "Error updating stock.";
-                }
-                */
+                
             }
 
             if ($action === 'remove') {
                 $wineId = intval($_POST['wineId']);
 
-                /*
-                ///delete wine - LEGACY
-                $wineId = intval($_POST['wineId']);
-                $sql = "UPDATE wines SET active = FALSE WHERE wineId = ?;";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("i", $wineId);
-
-                if ($stmt->execute()) {
-                    header("Location: inventory.php");
-                    exit;
-                } else {
-                    echo "Error deleting wine.";
-                }
-                */
+                
                 if ($action === 'remove' && !isset($_POST['confirm'])) {
                     echo "
                         <h3>Confirm deletion</h3>
@@ -240,56 +213,34 @@ if (isset($_GET['page'])) {
         case 'return':
             include '../../database/db_connect.php';
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $orderId = intval($_POST['orderId']);
+            $orderId = intval($_POST['orderId']);
+            $reason = trim($_POST['reason']);
+            $description = trim($_POST['description']);
 
-$sql = "SELECT w.wineId, w.wineName, w.stock, ow.quantity
-        FROM orderswines ow
-        JOIN wines w ON ow.wineId = w.wineId
-        WHERE ow.orderId = ?";
+            // Insert return request as pending
+            $sql = "INSERT INTO refund (orderId, reason, description, status)
+                    VALUES (?, ?, ?, 'Pending')";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("iss", $orderId, $reason, $description);
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $orderId);
-$stmt->execute();
-$result = $stmt->get_result();
-
-$wines = [];
-while ($row = $result->fetch_assoc()) {
-    $wines[] = $row;
-}
-
-// Example: iterate and print stock
-foreach ($wines as $wine) {
-    $wineId   = (int)$wine['wineId'];
-    $quantity = (int)$wine['quantity'];
-
-    $updateSql = "UPDATE wines SET stock = stock + ? WHERE wineId = ?";
-    $updateStmt = $conn->prepare($updateSql);
-    $updateStmt->bind_param("ii", $quantity, $wineId);
-    $updateStmt->execute();
-
-}
-                $reason = trim($_POST['reason']);
-                $description = trim($_POST['description']);
-
-                $sql = "INSERT INTO refund (orderId, reason, description) VALUES (?, ?, ?)";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("iss", $orderId, $reason, $description);
-
-                if ($stmt->execute()) {
-                    header("Location: return-confirm.html");
-                    exit;
-                } else {
-                    echo "Error processing return.";
-                }
+            if ($stmt->execute()) {
+                header("Location: return-confirm.html");
+                exit;
+            } else {
+                echo "Error processing return.";
             }
+        } else {
+            header("Location: index.php");
+            exit;
+        }
         default:
             header("Location: index.php");
             break;
+        }
+            exit;
+    } else {
+        header("Location: index.php");
+        exit;
     }
-    exit;
-} else {
-    header("Location: index.php");
-    exit;
-}
 
 ?>

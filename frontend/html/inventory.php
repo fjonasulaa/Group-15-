@@ -342,6 +342,8 @@ document.querySelectorAll(".stock-controls").forEach(control => {
 
 </script>
 
+<?php include 'footer.php'; ?>
+
 </body>
 
 </html>

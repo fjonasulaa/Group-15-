@@ -2,6 +2,8 @@
 session_start();
 require_once("../../database/db_connect.php");
 
+
+
 /* -------------------------
    USER MUST BE LOGGED IN
 ------------------------- */
@@ -212,87 +214,13 @@ exit();
     background:#5e1717;
 }
 
-/* -------------------------
-   FOOTER
-------------------------- */
-
-.footer{
-    background:#f4f4f4;
-    padding:30px 10%;
-    margin-top:40px;
-    color:#333;
-}
-
-.footer-container{
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-}
-
-.footer-section{
-    flex:1 1 250px;
-    margin:10px;
-}
-
-.footer-links{
-    list-style:none;
-    padding:0;
-}
-
-.footer-links li{
-    margin:5px 0;
-}
-
-.footer-links a{
-    text-decoration:none;
-    color:inherit;
-}
-
-.footer-bottom{
-    text-align:center;
-    margin-top:20px;
-    padding-top:10px;
-    border-top:1px solid #ccc;
-}
-
 </style>
 
 </head>
 
 
 <body>
-
-<!-- NAVBAR -->
-
-<div class="navbar">
-
-<img src="../../images/icon.png" alt="Wine Exchange Logo">
-
-<div class="navbar-links">
-<a href="index.html">Home</a>
-<a href="about.html">About Us</a>
-<a href="wines.html">Wines</a>
-<a href="basket.php">Basket</a>
-<a href="contact-us.php">Contact Us</a>
-<a href="reviews.html">Feedback</a>
-</div>
-
-<div class="navbar-right">
-
-<form method="POST" action="search.php">
-<input type="text" name="search" placeholder="Search">
-<input type="hidden" name="submitted" value="true">
-</form>
-
-<a href="log-in.php">Login</a>
-<a href="signup.php">Sign up</a>
-<a href="account.php">Account</a>
-
-<button id="dark-mode" class="dark-mode-button">
-<img src="../../images/darkmode.png">
-</button>
-
-</div>
+<?php include 'header.php'; ?>
 
 </div>
 
@@ -351,52 +279,7 @@ Submit Review
 </div>
 
 </main>
-
-
-<!-- FOOTER -->
-
-<footer class="footer">
-
-<div class="footer-container">
-
-<div class="footer-section">
-<h3>Wine Exchange</h3>
-<p>123 Vineyard Lane<br>London, UK</p>
-<p>Phone: +44 1234 567890</p>
-<p>Email: contactwinexchange@gmail.com</p>
-<p>Open: Mon–Fri, 9am–6pm</p>
-</div>
-
-<div class="footer-section">
-<h3>Quick Links</h3>
-
-<ul class="footer-links">
-<li><a href="index.html">Home</a></li>
-<li><a href="wines.html">Wines</a></li>
-<li><a href="about.html">About Us</a></li>
-<li><a href="contact-us.php">Contact</a></li>
-</ul>
-
-</div>
-
-<div class="footer-section">
-<h3>Follow Us</h3>
-
-<ul class="footer-links">
-<li><a href="#">Instagram</a></li>
-<li><a href="#">Facebook</a></li>
-<li><a href="#">Twitter</a></li>
-</ul>
-
-</div>
-
-</div>
-
-<div class="footer-bottom">
-© 2026 Wine Exchange. All rights reserved.
-</div>
-
-</footer>
+<?php include 'footer.php'; ?>
 
 </body>
 </html>

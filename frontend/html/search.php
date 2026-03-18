@@ -16,22 +16,12 @@ require_once('../../database/db_connect.php');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            padding-top: 65px;
+            padding: 0;
         }
 
-
-
-        
         .top-filter-bar {
             position: fixed;
             top: 0;
@@ -45,6 +35,8 @@ require_once('../../database/db_connect.php');
             z-index: 2000;
             overflow-y: auto;
         }
+
+        
 
         .top-filter-bar.active {
             right: 0;
@@ -62,12 +54,12 @@ require_once('../../database/db_connect.php');
             display: block;
         }
 
-    .close-filter {
-        font-size: 22px;
-        cursor: pointer;
-        text-align: right;
-        margin-bottom: 15px;
-    }
+        .close-filter {
+            font-size: 22px;
+            cursor: pointer;
+            text-align: right;
+            margin-bottom: 15px;
+        }
 
         .filter-title {
             font-size: 20px;
@@ -108,21 +100,21 @@ require_once('../../database/db_connect.php');
         }
 
         .filter-btn {
-    background: #7b1e3a;
-    color: white;
-    padding: 10px 16px;
-    border-radius: 10px;
-    border: 2px solid #7b1e3a;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    box-sizing: border-box;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    line-height: 1;
-    height: 42px;
-}
+            background: #7b1e3a;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 2px solid #7b1e3a;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            line-height: 1;
+            height: 42px;
+        }
 
         .reset-btn {
             background: #e0e0e0;
@@ -134,50 +126,46 @@ require_once('../../database/db_connect.php');
         }
 
         .results-header {
-    padding: 20px 40px 10px;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+            padding: 20px 40px 10px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
         .box-container {
             padding: 10px 40px 40px;
         }
 
         .box {
-    background: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 480px; /* allows growth */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 480px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
 
-/* Keep image size consistent */
-.box img {
-    width: 100%;
-    height: 240px;  /* SAME IMAGE HEIGHT */
-    object-fit: cover;
-}
+        .box img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
 
-/* Text layout */
-.box-text {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
+        .box-text {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
 
-.price {
-    margin-top: auto; /* pushes price to bottom */
-    font-weight: bold;
-}
+        .price {
+            margin-top: auto;
+            font-weight: bold;
+        }
 
-
-
-
+        /* DARK MODE */
         .darkmode body {
             background: #121212;
             color: #ffffff;
@@ -228,412 +216,57 @@ require_once('../../database/db_connect.php');
             color: #ffffff;
         }
 
-        /* WISHLIST ITEMS */
+        .darkmode .sort-select,
+        .darkmode select[name="sort"] {
+            background: #2a2a2a;
+            color: #ffffff;
+            border: 1px solid #444;
+        }
 
-#wishlist-items{
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-    margin-top:20px;
-}
+        .sort-dropdown {
+            appearance: none;
+            -webkit-appearance: none;
+            padding: 10px 40px 10px 16px;
+            border-radius: 10px;
+            border: 2px solid #7b1e3a;
+            font-size: 14px;
+            font-weight: 600;
+            background-color: white;
+            color: #7b1e3a;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237b1e3a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+            outline: none;
+            display: block;
+            margin: 0;
+            height: 42px;
+        }
 
-.wishlist-item{
-    display:flex;
-    gap:12px;
-    align-items:center;
-    background:white;
-    border-radius:10px;
-    padding:12px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    position:relative;
-}
+        .sort-dropdown:hover {
+            background-color: #7b1e3a;
+            color: white;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+        }
 
-.wishlist-img{
-    width:65px;
-    height:65px;
-    object-fit:cover;
-    border-radius:8px;
-}
-
-.wishlist-info{
-    flex:1;
-}
-
-.wishlist-name{
-    font-weight:600;
-    font-size:14px;
-    margin-bottom:4px;
-}
-
-.wishlist-price{
-    color:#7b1e3a;
-    font-weight:bold;
-    margin-bottom:8px;
-}
-
-.wishlist-actions{
-    display:flex;
-    gap:8px;
-}
-
-.wishlist-view{
-    padding:4px 10px;
-    font-size:12px;
-    border-radius:6px;
-    background:#eee;
-    text-decoration:none;
-    color:#333;
-}
-
-.wishlist-view:hover{
-    background:#ddd;
-}
-
-.wishlist-basket{
-    border:none;
-    background:#7b1e3a;
-    color:white;
-    padding:4px 8px;
-    border-radius:6px;
-    cursor:pointer;
-}
-
-.wishlist-basket:hover{
-    background:#5e152c;
-}
-
-.remove-wishlist{
-    position:absolute;
-    top:6px;
-    right:6px;
-    border:none;
-    background:none;
-    font-size:14px;
-    cursor:pointer;
-    color:#999;
-}
-
-.remove-wishlist:hover{
-    color:red;
-}
-
-/* Footer bottom bar */
-.footer-bottom {
-  text-align: center;
-  margin-top: 20px;
-  padding-top: 10px;
-  border-top: 1px solid #ccc;
-  font-size: 14px;
-}
-
-/* DARK MODE SUPPORT */
-.darkmode .footer {
-  background-color: #1e1e1e;
-  color: #eee;
-}
-
-.darkmode .footer-bottom {
-  border-top: 1px solid #555;
-}
-
-.darkmode .footer-links a {
-  color: #ddd;
-}
-.wishlist-button {
-    padding: 8px 14px;
-    border: 2px solid #e63946;
-    background: white;
-    color: #e63946;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.wishlist-button i {
-    margin-right: 5px;
-}
-
-.wishlist-button:hover {
-    background-color: #e63946;
-    color: white;
-}
-.wishlist-button.active {
-    background-color: #e63946;
-    color: white;
-}
-
-/* WISHLIST NAV HEART */
-
-.wishlist-nav-button{
-    background:none;
-    border:none;
-    font-size:20px;
-    cursor:pointer;
-    color:#e63946;
-    margin-left:10px;
-}
-
-/* SIDEBAR */
-
-.wishlist-sidebar{
-    position:fixed;
-    top:0;
-    right:-420px;
-    width:380px;
-    height:100%;
-    background:#f4f1f2;
-    padding:30px;
-    box-shadow:-5px 0 20px rgba(0,0,0,0.25);
-    transition:right 0.4s ease;
-    z-index:2000;
-    overflow-y:auto;
-}
-
-.wishlist-sidebar.active{
-    right:0;
-}
-
-.wishlist-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.5);
-    display:none;
-    z-index:1500;
-}
-
-.wishlist-overlay.active{
-    display:block;
-}
-
-.close-wishlist{
-    font-size:22px;
-    cursor:pointer;
-    text-align:right;
-    margin-bottom:15px;
-}
-/* DARK MODE WISHLIST */
-
-html.darkmode .wishlist-sidebar{
-    background:#141414;
-    color:#ffffff;
-}
-
-html.darkmode .wishlist-sidebar h3{
-    color:#ffffff;
-}
-
-html.darkmode #wishlist-items p{
-    color:#dddddd;
-}
-
-html.darkmode .wishlist-item{
-    background:#1f1f1f;
-    border:1px solid #333;
-}
-
-html.darkmode .wishlist-name{
-    color:#ffffff;
-}
-
-html.darkmode .wishlist-price{
-    color:#ff6b6b;
-}
-
-html.darkmode .wishlist-view{
-    background:#333;
-    color:#ffffff;
-}
-
-html.darkmode .wishlist-view:hover{
-    background:#444;
-}
-
-html.darkmode .remove-wishlist{
-    color:#bbbbbb;
-}
-
-html.darkmode .remove-wishlist:hover{
-    color:#ff4d4d;
-}
-
-/* DARK MODE WISHLIST STYLES */
-
-html.darkmode .wishlist-sidebar{
-    background:#121212;
-    color:#ffffff;
-}
-
-/* cards */
-html.darkmode .wishlist-item{
-    background:#1e1e1e;
-    border:1px solid #333;
-    box-shadow:none;
-}
-
-/* wine name */
-html.darkmode .wishlist-name{
-    color:#ffffff;
-}
-
-/* price */
-html.darkmode .wishlist-price{
-    color:#ff6b6b;
-}
-
-/* buttons */
-html.darkmode .wishlist-view{
-    background:#2c2c2c;
-    color:#ffffff;
-}
-
-html.darkmode .wishlist-view:hover{
-    background:#3a3a3a;
-}
-
-html.darkmode .wishlist-basket{
-    background:#e63946;
-}
-
-html.darkmode .wishlist-basket:hover{
-    background:#c92d3a;
-}
-
-/* remove X */
-html.darkmode .remove-wishlist{
-    color:#bbbbbb;
-}
-
-html.darkmode .remove-wishlist:hover{
-    color:#ff4d4d;
-}
-
-/* empty text */
-html.darkmode #wishlist-items p{
-    color:#cccccc;
-}
-
-.darkmode .sort-select,
-.darkmode select[name="sort"] {
-    background: #2a2a2a;
-    color: #ffffff;
-    border: 1px solid #444;
-}
-
-/* WISHLIST COUNTER BADGE */
-
-.wishlist-nav-button{
-    position:relative;
-}
-
-.sort-dropdown {
-    appearance: none;
-    -webkit-appearance: none;
-    padding: 10px 40px 10px 16px;
-    border-radius: 10px;
-    border: 2px solid #7b1e3a;
-    font-size: 14px;
-    font-weight: 600;
-    background-color: white;
-    color: #7b1e3a;
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237b1e3a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
-    outline: none;
-    display: block;
-    margin: 0;
-    height: 42px;
-}
-
-.sort-dropdown:hover {
-    background-color: #7b1e3a;
-    color: white;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-}
-
-.sort-dropdown:focus {
-    box-shadow: 0 0 0 3px rgba(123, 30, 58, 0.2);
-    border-color: #7b1e3a;
-}
-
-
-
-.wishlist-count{
-    position:absolute;
-    top:-6px;
-    right:-8px;
-    background:#e63946;
-    color:white;
-    font-size:11px;
-    font-weight:bold;
-    padding:2px 6px;
-    border-radius:50px;
-    min-width:18px;
-    text-align:center;
-}
-
+        .sort-dropdown:focus {
+            box-shadow: 0 0 0 3px rgba(123, 30, 58, 0.2);
+            border-color: #7b1e3a;
+        }
     </style>
 </head>
 
-<body>
-
 <body class="info">
-    <div class="wishlist-overlay" id="wishlistOverlay"></div>
 
-<div class="wishlist-sidebar" id="wishlistSidebar">
-
-    <div class="close-wishlist" id="closeWishlist">
-        <i class="fa fa-times"></i>
-    </div>
-
-    <h3>Your Wishlist</h3>
-
-    <div id="wishlist-items">
-        <p>Your wishlist is empty.</p>
-    </div>
-
-</div>
+<?php require_once('header.php'); ?>
 
 <div class="filter-overlay" id="filterOverlay"></div>
-<div class="navbar">
-    <a href="index.php"><img src="../../images/icon.png" alt="Logo"></a>
-
-    <div class="navbar-links">
-        <a href="index.php">Home</a>
-        <a href="about.php">About Us</a>
-        <a href="search.php">Wines</a>
-        <a href="basket.php">Basket</a>
-        <a href="contact-us.php">Contact Us</a>
-        
-    </div>
-
-    <div class="navbar-right">
-        
-        <form method="POST" action="">
-            <input type="text" name="search" placeholder="Search"
-                value="<?= isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '' ?>">
-        </form>
-
-        <a href="log-in.php">Login</a>
-        <a href="signup.php">Sign up</a>
-        <a href="account.php">Account</a>
-        <button id="dark-mode" class="dark-mode-button">
-        <img src="../../images/darkmode.png" alt="Dark Mode" />
-      </button>
-
-      <button id="wishlist-toggle" class="wishlist-nav-button">
-                <i class="fas fa-heart"></i>
-                <span id="wishlist-count" class="wishlist-count">0</span>
-            </button>
-    </div>
-</div>
-
 
 <div class="top-filter-bar">
     <div class="close-filter" id="closeFilter">
-    <i class="fa fa-times"></i>
-</div>
+        <i class="fa fa-times"></i>
+    </div>
     <div class="filter-title">Filter & Sort Wines</div>
 
     <form method="POST" class="filter-form">
@@ -670,17 +303,15 @@ html.darkmode #wishlist-items p{
 
         <div class="filter-group">
             <label>Min Price (£)</label>
-            <input type="number" name="min_price" min = '0'
+            <input type="number" name="min_price" min="0"
                 value="<?= isset($_POST['min_price']) ? htmlspecialchars($_POST['min_price']) : '' ?>">
         </div>
 
         <div class="filter-group">
             <label>Max Price (£)</label>
-            <input type="number" name="max_price" min = '0'
+            <input type="number" name="max_price" min="0"
                 value="<?= isset($_POST['max_price']) ? htmlspecialchars($_POST['max_price']) : '' ?>">
         </div>
-
-       
 
         <div class="filter-buttons">
             <button type="submit" class="filter-btn">Apply</button>
@@ -692,17 +323,9 @@ html.darkmode #wishlist-items p{
 
 
 <?php
-require_once('../../database/db_connect.php');
-
-
 if (isset($_POST['reset'])) {
-
-    // Save search value
     $searchValue = isset($_POST['search']) ? $_POST['search'] : '';
-
     $_POST = [];
-
-    // Restore search after resetting filter
     if (!empty($searchValue)) {
         $_POST['search'] = $searchValue;
     }
@@ -712,7 +335,6 @@ $query = "SELECT * FROM wines WHERE 1=1";
 $params = [];
 $types = "";
 
-// search bar
 if (!empty($_POST['search'])) {
     $query .= " AND (wineName LIKE ? OR category LIKE ? OR country LIKE ?)";
     $searchTerm = "%" . $_POST['search'] . "%";
@@ -722,7 +344,6 @@ if (!empty($_POST['search'])) {
     $types .= "sss";
 }
 
-// filters
 if (!empty($_POST['category'])) {
     $query .= " AND category = ?";
     $params[] = $_POST['category'];
@@ -747,10 +368,8 @@ if (!empty($_POST['max_price'])) {
     $types .= "d";
 }
 
-//Excludes deleted wines from search results
 $query .= " AND active = TRUE";
 
-// sort
 if (!empty($_POST['sort'])) {
     switch ($_POST['sort']) {
         case "price_asc":
@@ -808,8 +427,8 @@ if ($result->num_rows > 0) {
         echo "<div class='box'>";
         echo "<img src='../../images/" . htmlspecialchars($row['imageUrl']) . "'>";
         echo "<div class='box-text'>";
-        echo "<p><strong>" . htmlspecialchars($row['category']) . "</strong></p>";
-        echo "<p>" . htmlspecialchars($row['wineName']) . "</p>";
+        echo "<p><strong>" . htmlspecialchars($row['wineName']) . "</strong></p>";
+        echo "<p>" . htmlspecialchars($row['category']) . "</p>";
         echo "<p class='price'>£ " . htmlspecialchars($row['price']) . "</p>";
         echo "</div></div></a>";
     }
@@ -824,22 +443,8 @@ $stat->close();
 $conn->close();
 ?>
 
-
 <script>
-const loggedIn = <?php echo isset($_SESSION['customerID']) ? "true" : "false"; ?>;
-
-    // DARK MODE
-    const darkButton = document.getElementById("dark-mode");
-    if (localStorage.getItem("dark_mode") === "on") {
-      document.documentElement.classList.add("darkmode");
-    }
-
-    darkButton.addEventListener("click", () => {
-      document.documentElement.classList.toggle("darkmode");
-      localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-    });
-
-    // filter side bar script
+    // Filter sidebar
     const openBtn = document.getElementById("openFilter");
     const closeBtn = document.getElementById("closeFilter");
     const sidebar = document.querySelector(".top-filter-bar");
@@ -859,257 +464,8 @@ const loggedIn = <?php echo isset($_SESSION['customerID']) ? "true" : "false"; ?
         sidebar.classList.remove("active");
         overlay.classList.remove("active");
     });
-
-
-    const wishlistBtn = document.getElementById("wishlist-toggle");
-        const wishlistSidebar = document.getElementById("wishlistSidebar");
-        const closeWishlist = document.getElementById("closeWishlist");
-        const wishlistOverlay = document.getElementById("wishlistOverlay");
-
-        wishlistBtn.addEventListener("click", () => {
-            wishlistSidebar.classList.add("active");
-            wishlistOverlay.classList.add("active");
-        });
-
-        closeWishlist.addEventListener("click", () => {
-            wishlistSidebar.classList.remove("active");
-            wishlistOverlay.classList.remove("active");
-        });
-
-        wishlistOverlay.addEventListener("click", () => {
-            wishlistSidebar.classList.remove("active");
-            wishlistOverlay.classList.remove("active");
-        });
-
-        const wishlistContainer = document.getElementById("wishlist-items");
-const wishlistCount = document.getElementById("wishlist-count");
-
-function getGuestWishlist(){
-    return JSON.parse(localStorage.getItem("wishlist")) || [];
-}
-
-function saveGuestWishlist(list){
-    localStorage.setItem("wishlist",JSON.stringify(list));
-}
-
-function loadWishlist(){
-
-    if(loggedIn){
-
-        fetch("get_wishlist.php")
-        .then(res => res.json())
-        .then(data => {
-            renderWishlist(data);
-        });
-
-    }else{
-
-        const list = getGuestWishlist();
-        renderWishlist(list);
-
-    }
-
-}
-
-function renderWishlist(list){
-
-    wishlistContainer.innerHTML="";
-
-    if(list.length===0){
-        wishlistContainer.innerHTML="<p>Your wishlist is empty.</p>";
-        wishlistCount.textContent=0;
-        return;
-    }
-
-    wishlistCount.textContent=list.length;
-
-    list.forEach((wine,index)=>{
-
-        let image;
-
-        if(loggedIn){
-            image = wine.imageUrl
-                ? "../../images/" + wine.imageUrl
-                : "../../images/placeholder.jpg";
-        }else{
-            image = wine.imageUrl || "../../images/placeholder.jpg";
-        }
-
-        const item=document.createElement("div");
-        item.className="wishlist-item";
-
-        item.innerHTML=`
-        <img src="${image}" class="wishlist-img">
-
-        <div class="wishlist-info">
-            <div class="wishlist-name">${wine.wineName || wine.name}</div>
-            <div class="wishlist-price">£${wine.price}</div>
-
-            <div class="wishlist-actions">
-                <a href="wineinfo.php?id=${wine.id || wine.wineId}" class="wishlist-view">View</a>
-            </div>
-        </div>
-
-        <button class="remove-wishlist" data-id="${wine.wineId || wine.id}" data-index="${index}">
-            <i class="fas fa-times"></i>
-        </button>
-        `;
-
-        wishlistContainer.appendChild(item);
-    });
-
-}
-
-document.addEventListener("click",function(e){
-
-    const removeBtn=e.target.closest(".remove-wishlist");
-    if(!removeBtn) return;
-
-    const wineId=removeBtn.dataset.id;
-    const index=removeBtn.dataset.index;
-
-    if(loggedIn){
-
-        fetch("remove_from_wishlist.php",{
-            method:"POST",
-            headers:{"Content-Type":"application/x-www-form-urlencoded"},
-            body:"wineId="+wineId
-        })
-        .then(()=> loadWishlist());
-
-    }else{
-
-        let list=getGuestWishlist();
-        list.splice(index,1);
-        saveGuestWishlist(list);
-        renderWishlist(list);
-
-    }
-
-});
-loadWishlist();
-  </script>
+</script>
+<?php include 'footer.php'; ?>
 
 </body>
 </html>
-
-<style>
-/* Footer styling */
-.footer {
-  background-color: #f4f4f4;
-  padding: 30px 10%;
-  margin-top: 40px;
-  color: #333;
-}
-
-.footer-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.footer-section {
-  flex: 1 1 250px;
-  margin: 10px;
-}
-
-.footer-section h3 {
-  margin-bottom: 10px;
-}
-
-.footer-links {
-  list-style: none;
-  padding: 0;
-}
-
-.footer-links li {
-  margin: 5px 0;
-}
-
-.footer-links a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.footer-links a:hover {
-  text-decoration: underline;
-}
-
-/* Contact button */
-.footer-button {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 15px;
-  background-color: #4CAF50;
-  color: white;
-  border-radius: 4px;
-  text-decoration: none;
-}
-
-.footer-button:hover {
-  opacity: 0.9;
-}
-
-/* Footer bottom bar */
-.footer-bottom {
-  text-align: center;
-  margin-top: 20px;
-  padding-top: 10px;
-  border-top: 1px solid #ccc;
-  font-size: 14px;
-}
-
-/* DARK MODE SUPPORT */
-.darkmode .footer {
-  background-color: #1e1e1e;
-  color: #eee;
-}
-
-.darkmode .footer-bottom {
-  border-top: 1px solid #555;
-}
-
-.darkmode .footer-links a {
-  color: #ddd;
-}
-</style>
-
-<footer class="footer">
-  <div class="footer-container">
-
-    <div class="footer-section">
-      <h3>Wine Exchange</h3>
-      <p>123 Vineyard Lane<br>London, UK</p>
-      <p>Phone: +44 1234 567890</p>
-      <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
-      <p>Open: Mon–Fri, 9am–6pm</p>
-    </div>
-
-    <div class="footer-section">
-      <h3>Quick Links</h3>
-      <ul class="footer-links">
-        <li><a href="index.php">Home</a></li>
-        <li><a href="search.phpl">Wines</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="contact-us.php">Contact</a></li>
-      </ul>
-      <a href="contact-us.php" class="footer-button">Contact Us</a>
-    </div>
-
-    <div class="footer-section">
-      <h3>Follow Us</h3>
-      <ul class="footer-links">
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Facebook</a></li>
-        <li><a href="#">Twitter</a></li>
-      </ul>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    © 2026 Wine Exchange. All rights reserved.
-  </div>
-</footer>
-
-

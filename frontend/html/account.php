@@ -33,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 // ── Handle Delete Account 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete') {
-    // Delete in dependency order (children before parents)
     $conn->query("DELETE FROM refund      WHERE orderId IN (SELECT orderId FROM orders WHERE customerId = $cid)");
     $conn->query("DELETE FROM shipping    WHERE orderId IN (SELECT orderId FROM orders WHERE customerId = $cid)");
     $conn->query("DELETE FROM payment     WHERE orderId IN (SELECT orderId FROM orders WHERE customerId = $cid)");
@@ -50,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 $stmt = $conn->prepare("
     SELECT
         shipping.trackingNumber,
+        shipping.carrier,
         orders.orderId,
         orders.orderDate,
         payment.amount,
@@ -85,6 +85,33 @@ $user = $userQuery->get_result()->fetch_assoc();
     <link rel="stylesheet" href="../css/styles.css" />
 
     <style>
+        .account-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .account-text {
+            flex: 1;
+        }
+
+        .account-image {
+            flex: 0 0 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .account-image img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 4px solid var(--primary-colour);
+            padding: 3px;
+            background-color: var(--frame-colour); 
+        }
+
         .orderstable td {
             vertical-align: middle;
             height: 60px;
@@ -92,7 +119,16 @@ $user = $userQuery->get_result()->fetch_assoc();
         .status-returned {
             color: green;
             font-weight: bold;
-            text-align: center;
+        }
+
+        .status-pending {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .status-rejected {
+            color: #b33;
+            font-weight: bold;
         }
         .status-not-eligible {
             color: grey;
@@ -106,7 +142,7 @@ $user = $userQuery->get_result()->fetch_assoc();
         }
 
         .accountcontainer {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 40px auto;
             padding: 30px;
             background: var(--frame-colour);
@@ -120,7 +156,6 @@ $user = $userQuery->get_result()->fetch_assoc();
             background-color: var(--background-colour);
         }
 
-        /* ── Buttons below the info box */
         .accountinfo-actions {
             display: flex;
             gap: 0;
@@ -170,7 +205,6 @@ $user = $userQuery->get_result()->fetch_assoc();
             color: #fff;
         }
 
-        /* ── Button row  */
         .action-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -207,7 +241,6 @@ $user = $userQuery->get_result()->fetch_assoc();
             background: #555;
         }
 
-        /* ── Success banner  */
         .alert-success {
             background: #d4edda;
             color: #155724;
@@ -218,7 +251,6 @@ $user = $userQuery->get_result()->fetch_assoc();
             text-align: center;
         }
 
-        /* ── Modal backdrop*/
         .modal-backdrop {
             display: none;
             position: fixed;
@@ -259,7 +291,6 @@ $user = $userQuery->get_result()->fetch_assoc();
             padding: 0;
         }
 
-        /* ── Edit form  */
         .edit-form label {
             display: block;
             margin-bottom: 4px;
@@ -283,7 +314,6 @@ $user = $userQuery->get_result()->fetch_assoc();
             width: 100%;
         }
 
-        /* ── Delete confirmation modal  */
         .delete-warning {
             color: #c0392b;
             font-weight: 600;
@@ -313,49 +343,8 @@ $user = $userQuery->get_result()->fetch_assoc();
             .accountinfo-actions button:last-child {
                 border-bottom: none;
             }
+            
         }
-
-        /* ── Footer  */
-        .footer {
-            background-color: #f4f4f4;
-            padding: 30px 10%;
-            margin-top: 40px;
-            color: #333;
-        }
-        .footer-container {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .footer-section {
-            flex: 1 1 250px;
-            margin: 10px;
-        }
-        .footer-section h3 { margin-bottom: 10px; }
-        .footer-links { list-style: none; padding: 0; }
-        .footer-links li { margin: 5px 0; }
-        .footer-links a { text-decoration: none; color: inherit; }
-        .footer-links a:hover { text-decoration: underline; }
-        .footer-button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 4px;
-            text-decoration: none;
-        }
-        .footer-button:hover { opacity: 0.9; }
-        .footer-bottom {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 10px;
-            border-top: 1px solid #ccc;
-            font-size: 14px;
-        }
-        .darkmode .footer { background-color: #1e1e1e; color: #eee; }
-        .darkmode .footer-bottom { border-top: 1px solid #555; }
-        .darkmode .footer-links a { color: #ddd; }
     </style>
 </head>
 <body>
@@ -392,18 +381,75 @@ $user = $userQuery->get_result()->fetch_assoc();
             <div class="alert-success">✓ Your details have been updated successfully.</div>
         <?php endif; ?>
 
+        <?php
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profileImage'])) {
+                $userID = $_SESSION['customerID'];
+                $file = $_FILES['profileImage'];
+
+                if ($file['error'] === 0) {
+                    $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+
+                    if (in_array($file['type'], $allowedTypes)) {
+
+                        if ($file['size'] <= 2 * 1024 * 1024) {
+                            $fileName = uniqid() . "_" . basename($file['name']);
+                            $uploadPath = "../../uploads/" . $fileName;
+
+                            if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
+                                $dbPath = "uploads/" . $fileName;
+                                $stmt = $conn->prepare("UPDATE customer SET userProfileImage = ? WHERE customerID = ?");
+                                $stmt->bind_param("si", $dbPath, $userID);
+                                $stmt->execute();
+                            }
+                        }
+                    }
+                }
+            }
+            $stmt = $conn->prepare("SELECT * FROM customer WHERE customerID = ?");
+            $stmt->bind_param("i", $_SESSION['customerID']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $user = $result->fetch_assoc();
+        ?>
+
         <!-- Account Info -->
         <div class="accountinfo">
             <h2>Account Information</h2>
-            <p><strong>Name:</strong> <?= htmlspecialchars($user['firstName']); ?></p>
-            <p><strong>Surname:</strong> <?= htmlspecialchars($user['surname']); ?></p>
-            <p><strong>Address:</strong> <?= htmlspecialchars($user['addressLine']); ?></p>
-            <p><strong>Postcode:</strong> <?= htmlspecialchars($user['postcode']); ?></p>
-            <p><strong>Email:</strong> <?= htmlspecialchars($user['email']); ?></p>
-            <p><strong>Date of Birth:</strong> <?= htmlspecialchars($user['dateOfBirth']); ?></p>
-        </div>
+            <div class="account-flex">
+                
+                <div class="account-text">
+                    <p><strong>Name:</strong> <?= htmlspecialchars($user['firstName']); ?></p>
+                    <p><strong>Surname:</strong> <?= htmlspecialchars($user['surname']); ?></p>
+                    <p><strong>Address:</strong> <?= htmlspecialchars($user['addressLine']); ?></p>
+                    <p><strong>Postcode:</strong> <?= htmlspecialchars($user['postcode']); ?></p>
+                    <p><strong>Email:</strong> <?= htmlspecialchars($user['email']); ?></p>
+                    <p><strong>Date of Birth:</strong> <?= htmlspecialchars($user['dateOfBirth']); ?></p>
+                </div>
 
-        <!-- Action buttons — flush below info box -->
+                <div class="account-image">
+                    <form method="POST" enctype="multipart/form-data">
+                        
+                        <label for="profileUpload">
+                            <img 
+                                src="../../<?= htmlspecialchars($user['userProfileImage'] ?? 'images/guestPfp.jpg'); ?>" 
+                                alt="Profile Image" 
+                                id="profilePreview"
+                                style="cursor: pointer;">
+                        </label>
+
+                        <input 
+                            type="file" 
+                            name="profileImage" 
+                            id="profileUpload" 
+                            accept="image/*" 
+                            style="display: none;" 
+                            onchange="this.form.submit()">
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Action buttons -->
         <div class="accountinfo-actions">
             <button onclick="openModal('editModal')">✏️ Edit My Details</button>
             <button class="btn-secondary" onclick="window.location.href='logout.php'">🚪 Logout</button>
@@ -416,8 +462,9 @@ $user = $userQuery->get_result()->fetch_assoc();
             <table>
                 <tr>
                     <th>Tracking Number</th>
+                    <th>Carrier</th>
                     <th>Order ID</th>
-                    <th>£ Total</th>
+                    <th>Total</th>
                     <th>Payment Method</th>
                     <th>Payment Status</th>
                     <th>Shipping Status</th>
@@ -426,9 +473,10 @@ $user = $userQuery->get_result()->fetch_assoc();
                 </tr>
                 <?php while ($row = $transactions->fetch_assoc()): ?>
                     <tr>
-                        <td><?= htmlspecialchars($row['trackingNumber']); ?></td>
+                        <td><?= !empty($row['trackingNumber']) ? htmlspecialchars($row['trackingNumber']) : 'Awaiting'; ?></td>
+                        <td><?= !empty($row['carrier']) ? htmlspecialchars($row['carrier']) : 'Awaiting'; ?></td>
                         <td><?= htmlspecialchars($row['orderId']); ?></td>
-                        <td><?= htmlspecialchars($row['amount']); ?></td>
+                        <td>£<?= number_format((float)$row['amount'], 2); ?></td>
                         <td><?= htmlspecialchars($row['method']); ?></td>
                         <td><?= htmlspecialchars($row['paymentStatus']); ?></td>
                         <td><?= htmlspecialchars($row['shippingStatus']); ?></td>
@@ -436,12 +484,17 @@ $user = $userQuery->get_result()->fetch_assoc();
                         <td>
                             <?php
                                 $oid = (int)$row['orderId'];
-                                $checkRefund = $conn->query("SELECT 1 FROM refund WHERE orderId = $oid LIMIT 1");
-                                $hasRefund   = $checkRefund->num_rows > 0;
+                                $refundQuery = $conn->query("SELECT status FROM refund WHERE orderId = $oid LIMIT 1");
+                                $refund      = $refundQuery->fetch_assoc();
+                                $refundStatus = $refund['status'] ?? null;
                                 $within30    = $row['orderDate'] > date('Y-m-d', strtotime('-30 days'));
 
-                                if ($hasRefund) {
-                                    echo "<span class='status-returned'>Returned</span>";
+                                if ($refundStatus === 'accepted') {                             
+                                    echo "<span class='status-returned'>Return Approved</span>";
+                                } elseif ($refundStatus === 'pending') {
+                                    echo "<span class='status-not-eligible'>Return Pending Approval</span>";
+                                } elseif ($refundStatus === 'denied') {
+                                    echo "<span class='status-not-eligible' style='color:#b33;'>Return Rejected</span>";
                                 } elseif ($within30) {
                                     echo "<button onclick=\"window.location.href='return.php?orderId=$oid'\">Return</button>";
                                 } else {
@@ -454,10 +507,9 @@ $user = $userQuery->get_result()->fetch_assoc();
             </table>
         </div>
 
-
     </div>
 
-    <!-- ── EDIT DETAILS MODAL  -->
+    <!-- ── EDIT DETAILS MODAL -->
     <div class="modal-backdrop" id="editModal">
         <div class="modal">
             <button class="close-btn" onclick="closeModal('editModal')">&times;</button>
@@ -494,7 +546,7 @@ $user = $userQuery->get_result()->fetch_assoc();
         </div>
     </div>
 
-    <!-- ── DELETE ACCOUNT MODAL  -->
+    <!-- ── DELETE ACCOUNT MODAL -->
     <div class="modal-backdrop" id="deleteModal">
         <div class="modal">
             <button class="close-btn" onclick="closeModal('deleteModal')">&times;</button>
@@ -515,38 +567,7 @@ $user = $userQuery->get_result()->fetch_assoc();
     </div>
 
     <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3>Wine Exchange</h3>
-                <p>123 Vineyard Lane<br>London, UK</p>
-                <p>Phone: +44 1234 567890</p>
-                <p>Email: <a href="mailto:contactwinexchange@gmail.com">contactwinexchange@gmail.com</a></p>
-                <p>Open: Mon–Fri, 9am–6pm</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="search.php">Wines</a></li>
-                    <li><a href="about.php">About Us</a></li>
-                    <li><a href="contact-us.php">Contact</a></li>
-                </ul>
-                <a href="contact-us.php" class="footer-button">Contact Us</a>
-            </div>
-            <div class="footer-section">
-                <h3>Follow Us</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Twitter</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            &copy; <?= date('Y'); ?> Wine Exchange. All rights reserved.
-        </div>
-    </footer>
+    <?php include 'footer.php'; ?>
 
     <script>
         // Dark mode
@@ -576,4 +597,5 @@ $user = $userQuery->get_result()->fetch_assoc();
     </script>
 
 </body>
+<script src="chatbot.js"></script>
 </html>

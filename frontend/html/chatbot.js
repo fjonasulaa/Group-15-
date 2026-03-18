@@ -12,6 +12,9 @@
 
 Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list is helpful). Use light wine-related language naturally. Never make up specific prices or listings — tell users to browse the website for live stock.`;
 
+  const STORAGE_KEY = 'wineExchange_chatHistory';
+  const MAX_STORED_MESSAGES = 40; // cap so localStorage doesn't grow too large
+
   const QUICK_CHIPS = [
     { label: "How it works",       msg: "How does the wine exchange work?" },
     { label: "Returns policy",     msg: "What is your returns policy?" },
@@ -20,6 +23,32 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
     { label: "Sell my wine",       msg: "How do I sell my wine on the exchange?" },
     { label: "Shipping & storage", msg: "How is wine stored and shipped?" },
   ];
+
+  // ── localStorage helpers ───────────────────────────────────────────────────
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveHistory(history) {
+    try {
+      // Keep only the most recent messages to avoid bloat
+      const trimmed = history.slice(-MAX_STORED_MESSAGES);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
+    } catch (e) {
+      // localStorage might be full or unavailable — fail silently
+    }
+  }
+
+  function clearHistory() {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {}
+  }
 
   // ── Inject styles ──────────────────────────────────────────────────────────
   const style = document.createElement("style");
@@ -98,8 +127,23 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
       background: #5DCAA5; border-radius: 50%;
       display: inline-block; margin-right: 3px;
     }
-    .wc-close {
+    .wc-header-actions {
       margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .wc-clear {
+      background: none; border: none;
+      color: rgba(255,255,255,0.55);
+      cursor: pointer; font-size: 11px;
+      font-family: 'DM Sans', sans-serif;
+      padding: 3px 6px;
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .wc-clear:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .wc-close {
       background: none; border: none;
       color: rgba(255,255,255,0.7);
       cursor: pointer; font-size: 20px; line-height: 1;
@@ -200,7 +244,7 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
   // ── Build DOM ──────────────────────────────────────────────────────────────
   const toggle = document.createElement("button");
   toggle.id = "wc-toggle";
-  toggle.innerHTML = `<img src="../../images/icon.png" alt="Edward" style="width:34px;height:34px;object-fit:contain;border-radius:50%;">`;
+  toggle.innerHTML = <img src="../../images/icon.png" alt="Edward" style="width:34px;height:34px;object-fit:contain;border-radius:50%;">;
   toggle.title = "Chat with Edward";
   document.body.appendChild(toggle);
 
@@ -214,15 +258,13 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
         <h3>Edward</h3>
         <p><span class="wc-dot"></span>Wine Exchange — always available</p>
       </div>
-      <button class="wc-close" id="wc-close-btn" title="Close">&#x2715;</button>
-    </div>
-    <div class="wc-chips" id="wc-chips"></div>
-    <div class="wc-messages" id="wc-messages">
-      <div class="wc-msg wc-bot">
-        <div class="wc-avatar"><img src="../../images/icon.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div>
-        <div class="wc-bubble">Welcome to Wine Exchange! 🍷<br><br>I'm Edward, your personal wine assistant. Ask me anything — recommendations, how the exchange works, returns, food pairings, or selling your bottles. How can I help?</div>
+      <div class="wc-header-actions">
+        <button class="wc-clear" id="wc-clear-btn" title="Clear chat history">Clear</button>
+        <button class="wc-close" id="wc-close-btn" title="Close">&#x2715;</button>
       </div>
     </div>
+    <div class="wc-chips" id="wc-chips"></div>
+    <div class="wc-messages" id="wc-messages"></div>
     <div class="wc-input-row">
       <textarea class="wc-input" id="wc-input" placeholder="Ask about wines, returns, how to sell…" rows="1"></textarea>
       <button class="wc-send" id="wc-send">
@@ -252,14 +294,28 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
   const messagesEl = document.getElementById("wc-messages");
   const inputEl    = document.getElementById("wc-input");
   const sendBtn    = document.getElementById("wc-send");
-  const history    = [];
+
+  // Load persisted history from localStorage
+  const history = loadHistory();
+
+  // ── Render helpers ─────────────────────────────────────────────────────────
+  function escHtml(s) {
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  function fmt(text) {
+    return escHtml(text)
+      .replace(/\\(.?)\\*/g, "<strong>$1</strong>")
+      .replace(/\n\n/g, "<br><br>")
+      .replace(/\n/g, "<br>");
+  }
 
   function addMessage(role, html) {
     const div = document.createElement("div");
     div.className = "wc-msg wc-" + role;
     div.innerHTML = role === "bot"
-      ? `<div class="wc-avatar"><img src="../../images/icon.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div><div class="wc-bubble">${html}</div>`
-      : `<div class="wc-bubble">${html}</div>`;
+      ? <div class="wc-avatar"><img src="../../images/icon.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div><div class="wc-bubble">${html}</div>
+      : <div class="wc-bubble">${html}</div>;
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
@@ -267,7 +323,7 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
   function showTyping() {
     const div = document.createElement("div");
     div.className = "wc-msg wc-bot"; div.id = "wc-typing";
-    div.innerHTML = `<div class="wc-avatar"><img src="../../images/.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div><div class="wc-bubble wc-typing"><span></span><span></span><span></span></div>`;
+    div.innerHTML = <div class="wc-avatar"><img src="../../images/icon.png" alt="Edward" style="width:26px;height:26px;object-fit:contain;border-radius:50%;"></div><div class="wc-bubble wc-typing"><span></span><span></span><span></span></div>;
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
@@ -277,36 +333,61 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
     if (t) t.remove();
   }
 
-  function escHtml(s) {
-    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  // ── Restore previous messages on page load ────────────────────────────────
+  function renderHistory() {
+    if (history.length === 0) {
+      // Show welcome message if no history
+      addMessage("bot", Welcome to Wine Exchange! 🍷<br><br>I'm Edward, your personal wine assistant. Ask me anything — recommendations, how the exchange works, returns, food pairings, or selling your bottles. How can I help?);
+    } else {
+      history.forEach(msg => {
+        if (msg.role === "user") {
+          addMessage("user", escHtml(msg.content));
+        } else if (msg.role === "assistant") {
+          addMessage("bot", fmt(msg.content));
+        }
+      });
+    }
   }
 
-  function fmt(text) {
-    return escHtml(text)
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      .replace(/\n\n/g, "<br><br>")
-      .replace(/\n/g, "<br>");
-  }
+  renderHistory();
 
-  async function callClaude(userMsg) {
+  // ── Clear history ──────────────────────────────────────────────────────────
+  document.getElementById("wc-clear-btn").addEventListener("click", () => {
+    if (confirm("Clear your chat history with Edward?")) {
+      clearHistory();
+      history.length = 0;
+      messagesEl.innerHTML = "";
+      addMessage("bot", Chat cleared! 🍷 I'm Edward — how can I help you today?);
+    }
+  });
+
+  // ── API call ───────────────────────────────────────────────────────────────
+  async function callGroq(userMsg) {
     history.push({ role: "user", content: userMsg });
+    saveHistory(history);
+
     const res = await fetch("chatbot-proxy.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
         system: SYSTEM_PROMPT,
         messages: history
       })
     });
+
     const data = await res.json();
+
+    // Proxy returns Anthropic-style format: { content: [ { type: "text", text: "..." } ] }
     const text = data.content?.find(b => b.type === "text")?.text
       || "Sorry, I couldn't get a response — please try again!";
+
     history.push({ role: "assistant", content: text });
+    saveHistory(history);
+
     return text;
   }
 
+  // ── Send message ───────────────────────────────────────────────────────────
   async function send(text) {
     text = text.trim();
     if (!text) return;
@@ -314,7 +395,7 @@ Keep responses warm, knowledgeable, and concise (2-4 sentences max unless a list
     inputEl.value = ""; inputEl.style.height = "auto";
     showTyping();
     try {
-      const reply = await callClaude(text);
+      const reply = await callGroq(text);
       removeTyping();
       addMessage("bot", fmt(reply));
     } catch (e) {

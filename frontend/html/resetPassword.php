@@ -13,8 +13,14 @@ if (!$user) {
 $success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $newPassword = $_POST['password'] ?? '';
-    if ($newPassword) {
+
+    $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/';
+
+    if (!preg_match($pattern, $newPassword)) {
+        echo "<script>alert('Password must be at least 6 characters and contain at least one uppercase letter, one lowercase letter, and one special character.');</script>";
+    } else {
         $u->updatePassword($user['customerId'], $newPassword);
         $success = true;
     }
@@ -198,7 +204,10 @@ body {
     <form method="post">
         <div class="input-group">
             <label>New Password</label>
-            <input type="password" name="password" required>
+            <input type="password" name="password"
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}"
+                title="Must contain at least one uppercase letter, one lowercase letter, one special character, and be at least 6 characters long."
+            required>
         </div>
 
         <button type="submit" class="reset-btn">Update Password</button>

@@ -15,13 +15,15 @@ if (empty($_SESSION['basket'])) {
     <title>Checkout | Wine Exchange</title>
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <style>
     /* ── page layout ── */
     .checkout-page {
         max-width: 1200px;
-        margin: 110px auto 60px auto;
+        margin: 40px auto 60px auto;
         padding: 0 30px;
         display: flex;
         gap: 40px;
@@ -391,28 +393,8 @@ if (empty($_SESSION['basket'])) {
 </style>
 
 <body>
-    <div class="navbar">
-        <img src="../../images/icon.png" alt="Wine Exchange Logo">
-        <div class="navbar-links">
-            <a href="index.html">Home</a>
-            <a href="about.html">About Us</a>
-            <a href="search.php">Wines</a>
-            <a href="basket.php">Basket</a>
-            <a href="contact-us.php">Contact Us</a>
-        </div>
-        <div class="navbar-right">
-            <form method="POST" action="search.php">
-                <input type="text" name="search" placeholder="Search">
-                <input type="hidden" name="submitted" value="true"/>
-            </form>
-            <a href="log-in.php">Login</a>
-            <a href="signup.php">Sign up</a>
-            <a href="account.php">Account</a>
-            <button id="dark-mode" class="dark-mode-button">
-                <img src="../../images/darkmode.png" alt="Dark Mode" />
-            </button>
-        </div>
-    </div>
+
+    <?php include('header.php'); ?>
 
     <div class="checkout-page">
 
@@ -518,29 +500,28 @@ if (empty($_SESSION['basket'])) {
                             </select>
                         </div>
 
-                        <!-- card fields - only shown if they pick card -->
                         <div id="card-details" style="display:none;">
                             <div class="form-group">
                                 <label for="card-name">Cardholder Name *</label>
-                                <input id="card-name" type="text" placeholder="John Smith" autocomplete="cc-name" name = "card_name">
+                                <input id="card-name" type="text" placeholder="John Smith" autocomplete="cc-name" name="card_name">
                                 <div id="err-card-name" class="error-inline">Please enter the cardholder name.</div>
                             </div>
 
                             <div class="form-group">
                                 <label for="card-number">Card Number * <span style="font-weight:400;color:#999;">(16 digits)</span></label>
-                                <input id="card-number" type="text" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric" autocomplete="cc-number" name = "card_number">
+                                <input id="card-number" type="text" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric" autocomplete="cc-number" name="card_number">
                                 <div id="err-card-number" class="error-inline">Card number must be exactly 16 digits.</div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group" style="margin-bottom:0;">
                                     <label for="card-expiry">Expiry Date * <span style="font-weight:400;color:#999;">(MM/YY)</span></label>
-                                    <input id="card-expiry" type="text" placeholder="MM/YY" maxlength="5" inputmode="numeric" autocomplete="cc-exp" name = "card_expiry">
+                                    <input id="card-expiry" type="text" placeholder="MM/YY" maxlength="5" inputmode="numeric" autocomplete="cc-exp" name="card_expiry">
                                     <div id="err-card-expiry" class="error-inline">Enter a valid future expiry date (MM/YY).</div>
                                 </div>
                                 <div class="form-group" style="margin-bottom:0;">
                                     <label for="card-cvv">CVV * <span style="font-weight:400;color:#999;">(3 digits on back)</span></label>
-                                    <input id="card-cvv" type="text" placeholder="123" maxlength="3" inputmode="numeric" autocomplete="cc-csc" name = "card_cvv">
+                                    <input id="card-cvv" type="text" placeholder="123" maxlength="3" inputmode="numeric" autocomplete="cc-csc" name="card_cvv">
                                     <div id="err-card-cvv" class="error-inline">Enter the 3-digit CVV from the back of your card.</div>
                                 </div>
                             </div>
@@ -645,9 +626,11 @@ if (empty($_SESSION['basket'])) {
         </div>
     </div>
 
+    <!-- FOOTER -->
+    <?php include 'footer.php'; ?>
+
     <script>
 
-        // red border + show the little error message under a field
         function markBad(el, errId) {
             el.classList.add('invalid');
             var msg = document.getElementById(errId);
@@ -660,19 +643,15 @@ if (empty($_SESSION['basket'])) {
             if (msg) msg.style.display = 'none';
         }
 
-        // postcode regex - covers most UK formats, good enough for our purposes
         function checkPostcode(p) {
             return /^([A-Z]{1,2}\d{1,2}[A-Z]?)\s*(\d[A-Z]{2})$/i.test(p.trim());
         }
 
-        // phone - 07xxx or +447xxx
         function checkPhone(p) {
             var stripped = p.replace(/\s+/g, '');
             return /^(?:0?7\d{9}|\+447\d{9}|00447\d{9})$/.test(stripped);
         }
 
-        // card expiry - needs to be MM/YY and not already expired
-        // cards expire at end of the month so we check against the 1st of the month after
         function checkExpiry(raw) {
             var m = raw.trim().match(/^(0[1-9]|1[0-2])\/?(\d{2})$/);
             if (!m) return false;
@@ -682,7 +661,6 @@ if (empty($_SESSION['basket'])) {
             return expiresAfter > new Date();
         }
 
-        // card number input - strip non-digits and reformat as groups of 4
         var numField = document.getElementById('card-number');
         if (numField) {
             numField.addEventListener('input', function() {
@@ -696,7 +674,6 @@ if (empty($_SESSION['basket'])) {
             });
         }
 
-        // expiry field - shove in the slash automatically after they type the month
         var expField = document.getElementById('card-expiry');
         if (expField) {
             expField.addEventListener('input', function() {
@@ -714,7 +691,6 @@ if (empty($_SESSION['basket'])) {
                 cardSection.style.display = 'block';
             } else {
                 cardSection.style.display = 'none';
-                // clear card errors when switching back to apple pay etc
                 var cardFields = ['card-name', 'card-number', 'card-expiry', 'card-cvv'];
                 cardFields.forEach(function(fid) {
                     var f = document.getElementById(fid);
@@ -723,7 +699,6 @@ if (empty($_SESSION['basket'])) {
             }
         });
 
-        // clear each field's error as soon as the user starts typing again
         var fieldPairs = [
             ['fname', 'err-fname'],
             ['lname', 'err-lname'],
@@ -748,7 +723,6 @@ if (empty($_SESSION['basket'])) {
 
             var allGood = true;
 
-            // only shown to guests - logged in users already have their address saved
             var firstNameField = document.getElementById('fname');
             if (firstNameField) {
                 var fn = document.getElementById('fname');
@@ -769,7 +743,6 @@ if (empty($_SESSION['basket'])) {
                 if (!checkPhone(ph.value)) { markBad(ph, 'err-phone'); allGood = false; }
             }
 
-            // age check
             var dobField = document.getElementById('dob');
             if (dobField) {
                 if (!dobField.value) {
@@ -819,7 +792,6 @@ if (empty($_SESSION['basket'])) {
             window.location.href = 'index.html';
         });
 
-        // update the delivery + total in the sidebar when shipping option changes
         var basePrice = <?= number_format($subtotal, 2, '.', '') ?>;
         var shipDrop  = document.getElementById('shipping');
         var deliveryLabel = document.getElementById('summary-delivery');
@@ -837,13 +809,11 @@ if (empty($_SESSION['basket'])) {
             totalLabel.textContent = '£' + (basePrice + extra).toFixed(2);
         });
 
-        // accordion panels
         document.querySelectorAll('.accordion-toggle').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var panel = btn.nextElementSibling;
                 var wasOpen = panel.classList.contains('open');
 
-                // close everything first
                 document.querySelectorAll('.accordion-body').forEach(function(b) { b.classList.remove('open'); });
                 document.querySelectorAll('.accordion-toggle').forEach(function(b) { b.classList.remove('open'); });
 
@@ -854,7 +824,6 @@ if (empty($_SESSION['basket'])) {
             });
         });
 
-        // live clock in the corner
         function tickClock() {
             var now = new Date();
             var pad = function(n) { return String(n).padStart(2, '0'); };
@@ -864,17 +833,6 @@ if (empty($_SESSION['basket'])) {
         }
         setInterval(tickClock, 1000);
         tickClock();
-
-        // dark mode
-        var dmBtn = document.getElementById('dark-mode');
-        if (localStorage.getItem('dark_mode') === 'on') {
-            document.documentElement.classList.add('darkmode');
-        }
-        dmBtn.addEventListener('click', function() {
-            document.documentElement.classList.toggle('darkmode');
-            var nowDark = document.documentElement.classList.contains('darkmode');
-            localStorage.setItem('dark_mode', nowDark ? 'on' : 'off');
-        });
 
     </script>
 </body>

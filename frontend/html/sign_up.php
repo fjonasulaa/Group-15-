@@ -23,7 +23,15 @@ if (isset($_POST['signup'])) {
         exit();
     }
 
-    $password = $_POST['password'];
+    $password = $_POST['password'] ?? '';
+
+    $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+$/';
+
+    if (!preg_match($pattern, $password)) {
+        $_SESSION['register_error'] = "Password must contain at least one uppercase letter, one lowercase letter, and one special character.";
+        header("Location: signup.php");
+        exit;
+    }
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
     $checkEmail = $conn->query("SELECT email FROM customer WHERE email = '$email'");
@@ -41,6 +49,9 @@ if (isset($_POST['signup'])) {
         $_SESSION["dob"] = $dob;
         $_SESSION["address"] = $addressline;
         $_SESSION["postcode"] = $postcode;
+    }
+    if (isset($_GET['admin']) && $_GET['admin'] === 'true') {
+        $conn->query("UPDATE customer SET role = 'adminPending' WHERE customerID = $customerID");
     }
 
     header("Location: account.php");
