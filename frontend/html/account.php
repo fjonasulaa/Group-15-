@@ -101,6 +101,15 @@ $user = $userQuery->get_result()->fetch_assoc();
             justify-content: center;
             align-items: center;
         }
+        .account-image img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 4px solid var(--primary-colour);
+            padding: 3px;
+            background-color: var(--frame-colour); 
+        }
+
         .orderstable td {
             vertical-align: middle;
             height: 60px;
