@@ -133,8 +133,10 @@
     <div class="sidebar">
         <?php for ($i = 0; $i < count($customers); $i++): ?>
             <li>
-                <a href="admin.php?customerID=<?= (int)$customers[$i]['customerID'] ?>">
+                <a href="admin.php?customerID=<?= (int)$customers[$i]['customerID'] ?>"
+                    style="<?= ($customers[$i]['role']) === 'adminPending' ? 'color:#c0392b; font-weight:bold;' : '' ?>">
                     <?= $customers[$i]['email'] ?>
+                    <?php if (($customers[$i]['role']) === 'adminPending') echo ' (Admin Pending)'; ?>
                 </a>
             </li>
         <?php endfor; ?>

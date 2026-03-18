@@ -176,7 +176,7 @@ if (isset($_POST['rejectReturn'])) {
 
 
 
-$result1 = $conn->query("SELECT customerID, email FROM customer ORDER BY customerID DESC");
+$result1 = $conn->query("SELECT customerID, email, role FROM customer ORDER BY customerID DESC");
 while ($row = $result1->fetch_assoc()) {
     $customers[] = $row;
 }
