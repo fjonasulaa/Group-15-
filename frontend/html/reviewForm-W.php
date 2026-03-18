@@ -129,16 +129,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   </main>
   
-<script>
-    const darkButton = document.getElementById("dark-mode");
-    if (localStorage.getItem("dark_mode") === "on") {
-        document.documentElement.classList.add("darkmode");
-    }
-    darkButton.addEventListener("click", () => {
-        document.documentElement.classList.toggle("darkmode");
-        localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-    });
-</script>
+
 <?php include 'footer.php'; ?>
 
 </body>
+
+
