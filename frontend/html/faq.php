@@ -1,21 +1,6 @@
 <?php
 session_start();
 require_once('../../database/db_connect.php');
-
-$accountLink = 'log-in.php';
-
-if (isset($_SESSION['customerID'])) {
-    $accountLink = 'account.php';
-
-    $cid = (int) $_SESSION['customerID'];
-    $result = $conn->query("SELECT role FROM customer WHERE customerID = $cid");
-
-    if ($result && $row = $result->fetch_assoc()) {
-        if ($row['role'] === 'admin') {
-            $accountLink = 'admin.php';
-        }
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -27,9 +12,9 @@ if (isset($_SESSION['customerID'])) {
   <link rel="icon" type="image/x-icon" href="../../images/icon.png">
   <link rel="stylesheet" href="../css/styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-
     :root {
       --wine:       #6B0F1A;
       --wine-dark:  #4a0912;
@@ -57,50 +42,12 @@ if (isset($_SESSION['customerID'])) {
       color: var(--text);
     }
 
-    /* ── WISHLIST SIDEBAR ── */
-    .wishlist-sidebar {
-      position: fixed; top: 0; right: -420px; width: 380px; height: 100%;
-      background: #f4f1f2; padding: 30px;
-      box-shadow: -5px 0 20px rgba(0,0,0,0.25);
-      transition: right 0.4s ease; z-index: 2000; overflow-y: auto;
-    }
-    .wishlist-sidebar.active { right: 0; }
-    .wishlist-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-      display: none; z-index: 1500;
-    }
-    .wishlist-overlay.active { display: block; }
-    .close-wishlist { font-size: 22px; cursor: pointer; text-align: right; margin-bottom: 15px; }
-    #wishlist-items { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
-    .wishlist-item {
-      display: flex; gap: 12px; align-items: center; background: white;
-      border-radius: 10px; padding: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08); position: relative;
-    }
-    .wishlist-img { width: 65px; height: 65px; object-fit: cover; border-radius: 8px; }
-    .wishlist-info { flex: 1; }
-    .wishlist-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
-    .wishlist-price { color: #7b1e3a; font-weight: bold; margin-bottom: 8px; }
-    .wishlist-actions { display: flex; gap: 8px; }
-    .wishlist-view { padding: 4px 10px; font-size: 12px; border-radius: 6px; background: #eee; text-decoration: none; color: #333; }
-    .wishlist-view:hover { background: #ddd; }
-    .remove-wishlist { position: absolute; top: 6px; right: 6px; border: none; background: none; font-size: 14px; cursor: pointer; color: #999; }
-    .remove-wishlist:hover { color: red; }
-    .wishlist-nav-button { position: relative; background: none; border: none; font-size: 20px; cursor: pointer; color: #e63946; margin-left: 10px; }
-    .wishlist-count {
-      position: absolute; top: -6px; right: -8px; background: #e63946;
-      color: white; font-size: 11px; font-weight: bold; padding: 2px 6px;
-      border-radius: 50px; min-width: 18px; text-align: center;
-    }
-
-    /* ── PAGE WRAPPER ── */
     .faq-page {
       max-width: 860px;
       margin: 0 auto;
-      padding: 120px 24px 80px;
+      padding: 60px 24px 80px;
     }
 
-    /* ── PAGE TITLE ── */
     .faq-page-title {
       text-align: center;
       margin-bottom: 40px;
@@ -129,10 +76,7 @@ if (isset($_SESSION['customerID'])) {
       margin: 14px auto 0;
     }
 
-    /* ── SEARCH ── */
-    .faq-search-wrap {
-      margin-bottom: 40px;
-    }
+    .faq-search-wrap { margin-bottom: 40px; }
 
     .faq-search-wrap input {
       width: 100% !important;
@@ -149,15 +93,9 @@ if (isset($_SESSION['customerID'])) {
       transition: border-color 0.2s;
     }
 
-    .faq-search-wrap input:focus {
-      border-color: var(--wine) !important;
-    }
+    .faq-search-wrap input:focus { border-color: var(--wine) !important; }
+    .faq-search-wrap input::placeholder { color: var(--text-soft); }
 
-    .faq-search-wrap input::placeholder {
-      color: var(--text-soft);
-    }
-
-    /* ── CATEGORY TABS ── */
     .faq-categories {
       display: flex;
       flex-wrap: wrap;
@@ -184,10 +122,7 @@ if (isset($_SESSION['customerID'])) {
       border-color: var(--wine);
     }
 
-    /* ── ACCORDION ── */
-    .faq-group {
-      margin-bottom: 36px;
-    }
+    .faq-group { margin-bottom: 36px; }
 
     .faq-group-title {
       font-size: 13px;
@@ -200,13 +135,8 @@ if (isset($_SESSION['customerID'])) {
       border-bottom: 1px solid var(--border);
     }
 
-    .faq-item {
-      border-bottom: 1px solid var(--border);
-    }
-
-    .faq-item:last-child {
-      border-bottom: none;
-    }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-item:last-child { border-bottom: none; }
 
     .faq-question {
       width: 100%;
@@ -226,13 +156,8 @@ if (isset($_SESSION['customerID'])) {
       transition: color 0.18s;
     }
 
-    .faq-question:hover {
-      color: var(--wine);
-    }
-
-    .faq-question.open {
-      color: var(--wine);
-    }
+    .faq-question:hover { color: var(--wine); }
+    .faq-question.open  { color: var(--wine); }
 
     .faq-icon {
       flex-shrink: 0;
@@ -275,7 +200,6 @@ if (isset($_SESSION['customerID'])) {
       margin: 0;
     }
 
-    /* ── NO RESULTS ── */
     .faq-no-results {
       text-align: center;
       padding: 40px 0;
@@ -284,7 +208,6 @@ if (isset($_SESSION['customerID'])) {
       display: none;
     }
 
-    /* ── CONTACT CTA ── */
     .faq-cta {
       margin-top: 56px;
       background: #fff;
@@ -316,57 +239,19 @@ if (isset($_SESSION['customerID'])) {
       transition: background 0.18s;
     }
 
-    .faq-cta a:hover {
-      background: var(--wine-light);
-    }
+    .faq-cta a:hover { background: var(--wine-light); }
 
     @media (max-width: 600px) {
-      .faq-page { padding: 100px 16px 60px; }
+      .faq-page { padding: 40px 16px 60px; }
       .faq-page-title h1 { font-size: 1.8rem; }
     }
-
   </style>
 </head>
 
 <body>
 
-  <!-- WISHLIST OVERLAY & SIDEBAR -->
-  <div class="wishlist-overlay" id="wishlistOverlay"></div>
-  <div class="wishlist-sidebar" id="wishlistSidebar">
-    <div class="close-wishlist" id="closeWishlist"><i class="fa fa-times"></i></div>
-    <h3>Your Wishlist</h3>
-    <div id="wishlist-items"><p>Your wishlist is empty.</p></div>
-  </div>
+  <?php include 'header.php'; ?>
 
-  <!-- NAVBAR -->
-  <div class="navbar">
-    <a href="index.php"><img src="../../images/icon.png" alt="Wine Exchange Logo" style="cursor:pointer;"></a>
-    <div class="navbar-links">
-      <a href="index.php">Home</a>
-      <a href="about.php">About Us</a>
-      <a href="search.php">Wines</a>
-      <a href="basket.php">Basket</a>
-      <a href="contact-us.php">Contact Us</a>
-    </div>
-    <div class="navbar-right">
-      <form method="POST" action="search.php">
-        <input type="text" name="search" placeholder="Search">
-        <input type="hidden" name="submitted" value="true" />
-      </form>
-      <button onclick="location.href='<?= $accountLink ?>'" class="wishlist-nav-button">
-        <i class="fas fa-user"></i>
-      </button>
-      <button id="wishlist-toggle" class="wishlist-nav-button">
-        <i class="fas fa-heart"></i>
-        <span id="wishlist-count" class="wishlist-count">0</span>
-      </button>
-      <button id="dark-mode" class="dark-mode-button">
-        <img src="../../images/darkmode.png" alt="Dark Mode" />
-      </button>
-    </div>
-  </div>
-
-  <!-- FAQ PAGE -->
   <div class="faq-page">
 
     <div class="faq-page-title">
@@ -529,7 +414,6 @@ if (isset($_SESSION['customerID'])) {
       </div>
     </div>
 
-    <!-- Contact CTA -->
     <div class="faq-cta">
       <p>Still have questions? We'd love to hear from you — our team is on hand Monday to Friday, 9am–6pm.</p>
       <a href="contact-us.php">Contact Us</a>
@@ -537,78 +421,8 @@ if (isset($_SESSION['customerID'])) {
 
   </div>
 
-  <!-- FOOTER -->
   <?php include 'footer.php'; ?>
 
-  <!-- DARK MODE -->
-  <script>
-    (function () {
-      const btn = document.getElementById('dark-mode');
-      if (localStorage.getItem('dark_mode') === 'on') {
-        document.documentElement.classList.add('darkmode');
-      }
-      btn.addEventListener('click', function () {
-        document.documentElement.classList.toggle('darkmode');
-        localStorage.setItem('dark_mode', document.documentElement.classList.contains('darkmode') ? 'on' : 'off');
-      });
-    })();
-  </script>
-
-  <!-- WISHLIST -->
-  <script>
-    const loggedIn = <?php echo isset($_SESSION['customerID']) ? "true" : "false"; ?>;
-    const wishlistBtn     = document.getElementById("wishlist-toggle");
-    const wishlistSidebar = document.getElementById("wishlistSidebar");
-    const closeWishlist   = document.getElementById("closeWishlist");
-    const wishlistOverlay = document.getElementById("wishlistOverlay");
-
-    wishlistBtn.addEventListener("click", () => { wishlistSidebar.classList.add("active"); wishlistOverlay.classList.add("active"); });
-    closeWishlist.addEventListener("click", () => { wishlistSidebar.classList.remove("active"); wishlistOverlay.classList.remove("active"); });
-    wishlistOverlay.addEventListener("click", () => { wishlistSidebar.classList.remove("active"); wishlistOverlay.classList.remove("active"); });
-
-    const wishlistContainer = document.getElementById("wishlist-items");
-    const wishlistCount     = document.getElementById("wishlist-count");
-
-    function getGuestWishlist() { return JSON.parse(localStorage.getItem("wishlist")) || []; }
-    function saveGuestWishlist(list) { localStorage.setItem("wishlist", JSON.stringify(list)); }
-
-    function loadWishlist() {
-      if (loggedIn) {
-        fetch("get_wishlist.php").then(res => res.json()).then(data => renderWishlist(data));
-      } else {
-        renderWishlist(getGuestWishlist());
-      }
-    }
-
-    function renderWishlist(list) {
-      wishlistContainer.innerHTML = "";
-      if (list.length === 0) { wishlistContainer.innerHTML = "<p>Your wishlist is empty.</p>"; wishlistCount.textContent = 0; return; }
-      wishlistCount.textContent = list.length;
-      list.forEach((wine, index) => {
-        const image = loggedIn ? (wine.imageUrl ? "../../images/" + wine.imageUrl : "../../images/placeholder.jpg") : (wine.imageUrl || "../../images/placeholder.jpg");
-        const item = document.createElement("div");
-        item.className = "wishlist-item";
-        item.innerHTML = `<img src="${image}" class="wishlist-img"><div class="wishlist-info"><div class="wishlist-name">${wine.wineName || wine.name}</div><div class="wishlist-price">£${wine.price}</div><div class="wishlist-actions"><a href="wineinfo.php?id=${wine.id || wine.wineId}" class="wishlist-view">View</a></div></div><button class="remove-wishlist" data-id="${wine.wineId || wine.id}" data-index="${index}"><i class="fas fa-times"></i></button>`;
-        wishlistContainer.appendChild(item);
-      });
-    }
-
-    document.addEventListener("click", function (e) {
-      const removeBtn = e.target.closest(".remove-wishlist");
-      if (!removeBtn) return;
-      const wineId = removeBtn.dataset.id;
-      const index  = removeBtn.dataset.index;
-      if (loggedIn) {
-        fetch("remove_from_wishlist.php", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: "wineId=" + wineId }).then(() => loadWishlist());
-      } else {
-        let list = getGuestWishlist(); list.splice(index, 1); saveGuestWishlist(list); renderWishlist(list);
-      }
-    });
-
-    loadWishlist();
-  </script>
-
-  <!-- FAQ ACCORDION + SEARCH + CATEGORIES -->
   <script>
     document.querySelectorAll('.faq-question').forEach(btn => {
       btn.addEventListener('click', () => {
