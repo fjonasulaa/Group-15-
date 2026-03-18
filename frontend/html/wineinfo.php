@@ -332,7 +332,6 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
 
 </div>
 
-<<<<<<< HEAD
 <!-- subtle 3D tilt effect on review cards -->
 <script>
 document.querySelectorAll('.review-card').forEach(card => {
@@ -365,9 +364,6 @@ setTimeout(() => {
 
 </body>
 </html>
-=======
-<?php include 'footer.php'; ?>
->>>>>>> 6508b9a64b176aa971c1a2447054d68d7f8356d6
 
 <style>
 .review-popup {
@@ -399,146 +395,6 @@ setTimeout(() => {
     to   { opacity: 0; }
 }
 
-<<<<<<< HEAD
-/* ---- wishlist items ---- */
-#wishlist-items {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.wishlist-item {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    background: white;
-    border-radius: 10px;
-    padding: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    position: relative;
-}
-
-.wishlist-img {
-    width: 65px;
-    height: 65px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.wishlist-info { flex: 1; }
-
-.wishlist-name {
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 4px;
-}
-
-.wishlist-price {
-    color: #7b1e3a;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.wishlist-actions { display: flex; gap: 8px; }
-
-.wishlist-view {
-    padding: 4px 10px;
-    font-size: 12px;
-    border-radius: 6px;
-    background: #eee;
-    text-decoration: none;
-    color: #333;
-}
-
-.wishlist-view:hover { background: #ddd; }
-
-.wishlist-basket {
-    border: none;
-    background: #7b1e3a;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.wishlist-basket:hover { background: #5e152c; }
-
-.remove-wishlist {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    border: none;
-    background: none;
-    font-size: 14px;
-    cursor: pointer;
-    color: #999;
-}
-
-.remove-wishlist:hover { color: red; }
-
-/* ---- wishlist sidebar ---- */
-.wishlist-sidebar {
-    position: fixed;
-    top: 0;
-    right: -420px;
-    width: 380px;
-    height: 100%;
-    background: #f4f1f2;
-    padding: 30px;
-    box-shadow: -5px 0 20px rgba(0,0,0,0.25);
-    transition: right 0.4s ease;
-    z-index: 2000;
-    overflow-y: auto;
-}
-
-.wishlist-sidebar.active { right: 0; }
-
-.wishlist-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    z-index: 1500;
-}
-
-.wishlist-overlay.active { display: block; }
-
-.close-wishlist {
-    font-size: 22px;
-    cursor: pointer;
-    text-align: right;
-    margin-bottom: 15px;
-}
-
-/* wishlist heart + badge in nav */
-.wishlist-nav-button {
-    position: relative;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: #e63946;
-    margin-left: 10px;
-}
-
-.wishlist-count {
-    position: absolute;
-    top: -6px;
-    right: -8px;
-    background: #e63946;
-    color: white;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 50px;
-    min-width: 18px;
-    text-align: center;
-}
-
-/* wishlist button on product page */
-=======
->>>>>>> 6508b9a64b176aa971c1a2447054d68d7f8356d6
 .wishlist-button {
     padding: 8px 14px;
     border: 2px solid #e63946;
@@ -665,8 +521,6 @@ function slideImage(){
 }
 </script>
 
-<<<<<<< HEAD
-=======
 <script>
 // review toast auto-dismiss
 setTimeout(() => {
@@ -694,4 +548,3 @@ document.querySelectorAll('.review-card').forEach(card => {
 </body>
 </html>
 
->>>>>>> 6508b9a64b176aa971c1a2447054d68d7f8356d6
