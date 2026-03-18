@@ -290,7 +290,24 @@ $user = $userQuery->get_result()->fetch_assoc();
             <p><strong>Date of Birth:</strong> <?= htmlspecialchars($user['dateOfBirth']); ?></p>
         </div>
         <div class="account-image">
-            <img src="../../'images/guestPfp.jpg'" alt="Profile Image">
+                    <form method="POST" enctype="multipart/form-data">
+                        
+                        <label for="profileUpload">
+                            <img 
+                                src="../../<?= htmlspecialchars($user['userProfileImage'] ?? 'images/guestPfp.jpg'); ?>" 
+                                alt="Profile Image" 
+                                id="profilePreview"
+                                style="cursor: pointer;">
+                        </label>
+
+                        <input 
+                            type="file" 
+                            name="profileImage" 
+                            id="profileUpload" 
+                            accept="image/*" 
+                            style="display: none;" 
+                            onchange="this.form.submit()">
+                    </form>
         </div>
 
         <!-- Action buttons -->
