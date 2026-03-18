@@ -464,7 +464,7 @@ $user = $userQuery->get_result()->fetch_assoc();
                     <th>Tracking Number</th>
                     <th>Carrier</th>
                     <th>Order ID</th>
-                    <th>£ Total</th>
+                    <th>Total</th>
                     <th>Payment Method</th>
                     <th>Payment Status</th>
                     <th>Shipping Status</th>
@@ -476,7 +476,7 @@ $user = $userQuery->get_result()->fetch_assoc();
                         <td><?= !empty($row['trackingNumber']) ? htmlspecialchars($row['trackingNumber']) : 'Awaiting'; ?></td>
                         <td><?= !empty($row['carrier']) ? htmlspecialchars($row['carrier']) : 'Awaiting'; ?></td>
                         <td><?= htmlspecialchars($row['orderId']); ?></td>
-                        <td><?= htmlspecialchars($row['amount']); ?></td>
+                        <td>£<?= number_format((float)$row['amount'], 2); ?></td>
                         <td><?= htmlspecialchars($row['method']); ?></td>
                         <td><?= htmlspecialchars($row['paymentStatus']); ?></td>
                         <td><?= htmlspecialchars($row['shippingStatus']); ?></td>
