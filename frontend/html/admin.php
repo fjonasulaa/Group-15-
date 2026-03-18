@@ -8,9 +8,10 @@
     <title>User | Wine Exchange</title>
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        
         .transaction-row select[name="paymentStatus"] {
             margin-top: 20px;
         }
@@ -122,12 +123,12 @@
             text-align: center;
             box-sizing: border-box;
         }
-
-
     </style>
 </head>
 
 <body class="admin">
+
+    <?php include 'header.php'; ?>
 
     <div class="sidebar">
         <?php for ($i = 0; $i < count($customers); $i++): ?>
@@ -137,32 +138,6 @@
                 </a>
             </li>
         <?php endfor; ?>
-    </div>
-
-    <!-- NAVBAR -->
-    <div class="navbar">
-        <a href="index.php"><img src="../../images/icon.png" alt="Wine Exchange Logo"></a>
-        <div class="navbar-links">
-            <a href="index.php">Home</a>
-            <a href="about.php">About Us</a>
-            <a href="wines.html">Wines</a>
-            <a href="basket.php">Basket</a>
-            <a href="contact-us.php">Contact Us</a>
-        </div>
-
-        <div class="navbar-right">
-            <form method="POST" action="search.php">
-                <input type="text" name="search" placeholder="Search">
-                <input type="hidden" name="submitted" value="true" />
-            </form>
-            <a href="log-in.php">Login</a>
-            <a href="signup.php">Sign up</a>
-            <a href="account.php">Account</a>
-            <a href="admin.html"><img src="../../images/admin-pic.png" alt="Admin controls"></a>
-            <button id="dark-mode" class="dark-mode-button">
-                <img src="../../images/darkmode.png" alt="Dark Mode" />
-            </button>
-        </div>
     </div>
 
     <div class="sidebar-container">
@@ -189,7 +164,6 @@
                                     <label for="username">Customer ID</label>
                                     <input type="text" name="customerID" value="<?= $user['customerID'] ?>" readonly>
                                 </div>
-
                                 <div>
                                     <label for="email">EMAIL</label>
                                     <input type="email" name="email" value="<?= $user['email'] ?>">
@@ -201,7 +175,6 @@
                                     <label for="firstName">FIRST NAME</label>
                                     <input id="firstName" type="text" name="firstName" value="<?= $user['firstName'] ?>">
                                 </div>
-
                                 <div>
                                     <label for="surname">SURNAME</label>
                                     <input id="surname" type="text" name="surname" value="<?= $user['surname'] ?>">
@@ -235,9 +208,7 @@
 
                             <div class="row">
                                 <button type="submit" name="saveDetails">Save Profile</button>
-                                <button type="button" name="deleteuSER"
-                                    onclick="openModal('deleteModal')"> Delete Account
-                                </button>
+                                <button type="button" name="deleteuSER" onclick="openModal('deleteModal')">Delete Account</button>
                             </div>
                         </form>
                     </div>
@@ -248,12 +219,10 @@
                                 <label for="newpassword">NEW PASSWORD</label>
                                 <input type="password" name="newpassword" placeholder="Enter New Password" required>
                             </div>
-
                             <div>
                                 <label for="confirmnewpassword">CONFIRM NEW</label>
                                 <input type="password" name="confirmnewpassword" placeholder="Confirm New Password" required>
                             </div>
-
                             <button type="submit" name="changePassword">Change Password</button>
                         </form>
                     </div>
@@ -285,9 +254,7 @@
                                 <span>—</span>
                                 <span>—</span>
                             </div>
-
                         <?php else: ?>
-
                             <?php for ($i = 0; $i < count($transactions); $i++): ?>
                                 <form method="post" class="transaction-row">
                                     <input type="hidden" name="orderId" value="<?= $transactions[$i]['orderId'] ?>">
@@ -296,23 +263,19 @@
                                     <span>£<?= number_format((float)$transactions[$i]['amount'], 2) ?></span>
                                     <span><?= $user['firstName'] . ' ' . $user['surname'] ?></span>
                                     <span><?= $transactions[$i]['method'] ?></span>
-
                                     <span>
                                         <select name="paymentStatus">
                                             <option value="Pending" <?= $transactions[$i]['paymentStatus'] == 'Pending' ? 'selected' : '' ?>>Pending</option>
                                             <option value="Paid" <?= $transactions[$i]['paymentStatus'] == 'Paid' ? 'selected' : '' ?>>Paid</option>
                                         </select>
                                     </span>
-
                                     <span><?= $transactions[$i]['transactionTimestamp'] ?></span>
-
                                     <span>
                                         <select name="shippingStatus">
                                             <option value="Preparing" <?= $transactions[$i]['shippingStatus'] == 'Preparing' ? 'selected' : '' ?>>Preparing</option>
                                             <option value="In Transit" <?= $transactions[$i]['shippingStatus'] == 'In Transit' ? 'selected' : '' ?>>In Transit</option>
                                             <option value="Delivered" <?= $transactions[$i]['shippingStatus'] == 'Delivered' ? 'selected' : '' ?>>Delivered</option>
                                         </select>
-
                                         <button type="submit" name="updateTransactionStatus">Save</button>
                                     </span>
                                 </form>
@@ -324,7 +287,6 @@
                 <!-- returns -->
                 <div class="tabcontent" id="returns" style="display:none;">
                     <h1 class="center-title">RETURN REQUESTS</h1>
-
                     <div class="transaction-table">
                         <div class="transaction-header">
                             <span>REFUND ID</span>
@@ -345,18 +307,15 @@
                                 <span>—</span>
                             </div>
                         <?php else: ?>
-                        
                             <?php foreach ($returns as $r): ?>
                                 <form method="post" class="transaction-row">
                                     <input type="hidden" name="refundId" value="<?= $r['refundId'] ?>">
                                     <input type="hidden" name="orderId" value="<?= $r['orderId'] ?>">
-                            
                                     <span><?= $r['refundId'] ?></span>
                                     <span><?= $r['orderId'] ?></span>
                                     <span><?= htmlspecialchars($r['reason']) ?></span>
                                     <span><?= htmlspecialchars($r['description']) ?></span>
                                     <span><?= $r['status'] ?></span>
-                            
                                     <span>
                                         <?php if ($r['status'] === 'pending'): ?>
                                             <button name="approveReturn">Approve</button>
@@ -367,7 +326,6 @@
                                     </span>
                                 </form>
                             <?php endforeach; ?>
-                                        
                         <?php endif; ?>
                     </div>
                 </div>
@@ -375,15 +333,13 @@
         </main>
 
         <?php if (!empty($deleteError)): ?>
-
         <script>
             window.addEventListener("load", function () {
                 setTimeout(function () {
                     alert("<?= htmlspecialchars($deleteError, ENT_QUOTES) ?>");
-                }, 100); 
+                }, 100);
             });
         </script>
-
         <?php endif; ?>
 
         <div class="modal-backdrop" id="deleteModal">
@@ -403,38 +359,20 @@
             </div>
         </div>
 
-        <!-- FOOTER -->
         <?php include 'footer.php'; ?>
     </div>
 
     <script>
-        // DARK MODE
-        const darkButton = document.getElementById("dark-mode");
-        if (localStorage.getItem("dark_mode") === "on") {
-            document.documentElement.classList.add("darkmode");
-        }
-
-        darkButton.addEventListener("click", () => {
-            document.documentElement.classList.toggle("darkmode");
-            localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-        });
-    </script>
-
-    <script>
-        // OPEN TAB
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
-
             tabcontent = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
             }
-
             tablinks = document.getElementsByClassName("tablinks");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-
             document.getElementById(tabName).style.display = "block";
             evt.currentTarget.className += " active";
             document.documentElement.scrollTop = 0;
@@ -443,7 +381,6 @@
 
     <script>
         const links = document.querySelectorAll('.sidebar a');
-
         links.forEach(link => {
             link.addEventListener('click', function() {
                 links.forEach(l => l.classList.remove('active'));
@@ -453,14 +390,8 @@
     </script>
 
     <script>
-        function openModal(id) {
-            document.getElementById(id).classList.add("open");
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove("open");
-        }
-
+        function openModal(id) { document.getElementById(id).classList.add("open"); }
+        function closeModal(id) { document.getElementById(id).classList.remove("open"); }
         document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
             backdrop.addEventListener("click", e => {
                 if (e.target === backdrop) closeModal(backdrop.id);
@@ -469,5 +400,4 @@
     </script>
 
 </body>
-
 </html>
