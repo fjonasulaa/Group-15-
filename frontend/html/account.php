@@ -289,6 +289,9 @@ $user = $userQuery->get_result()->fetch_assoc();
             <p><strong>Email:</strong> <?= htmlspecialchars($user['email']); ?></p>
             <p><strong>Date of Birth:</strong> <?= htmlspecialchars($user['dateOfBirth']); ?></p>
         </div>
+        <div class="account-image">
+            <img src="../../'images/guestPfp.jpg'" alt="Profile Image">
+        </div>
 
         <!-- Action buttons -->
         <div class="accountinfo-actions">
