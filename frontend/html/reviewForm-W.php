@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
 
-<?php include 'navbar.php'; ?>
+<?php include 'header.php'; ?>
 
 <main>
   <div class="checkout-container" style="max-width: 500px;">
