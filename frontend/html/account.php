@@ -79,10 +79,10 @@ $user = $userQuery->get_result()->fetch_assoc();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Account</title>
+
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <style>
         .account-flex {
             display: flex;
@@ -101,6 +101,7 @@ $user = $userQuery->get_result()->fetch_assoc();
             justify-content: center;
             align-items: center;
         }
+
         .account-image img {
             width: 150px;
             height: 150px;
@@ -114,12 +115,30 @@ $user = $userQuery->get_result()->fetch_assoc();
             vertical-align: middle;
             height: 60px;
         }
-        .status-returned { color: green; font-weight: bold; }
-        .status-pending { color: orange; font-weight: bold; }
-        .status-rejected { color: #b33; font-weight: bold; }
-        .status-not-eligible { color: grey; font-style: italic; text-align: center; }
+        .status-returned {
+            color: green;
+            font-weight: bold;
+        }
 
-        body { background-color: var(--background-colour); }
+        .status-pending {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .status-rejected {
+            color: #b33;
+            font-weight: bold;
+        }
+        .status-not-eligible {
+            color: grey;
+            font-style: italic;
+            text-align: center;
+        }
+
+        body {
+            background-color: var(--background-colour);
+            padding-top: 100px;
+        }
 
         .accountcontainer {
             max-width: 1200px;
@@ -152,11 +171,19 @@ $user = $userQuery->get_result()->fetch_assoc();
             padding: 11px 8px;
         }
 
-        .accountinfo-actions button:last-child { border-right: none; }
+        .accountinfo-actions button:last-child {
+            border-right: none;
+        }
 
-        h1, h2 { text-align: center; margin-bottom: 20px; }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-        .accountinfo p { font-size: 16px; margin: 8px 0; }
+        .accountinfo p {
+            font-size: 16px;
+            margin: 8px 0;
+        }
 
         table {
             width: 100%;
@@ -172,7 +199,10 @@ $user = $userQuery->get_result()->fetch_assoc();
             border-bottom: 1px solid var(--border-colour);
         }
 
-        th { background: var(--primary-colour); color: #fff; }
+        th {
+            background: var(--primary-colour);
+            color: #fff;
+        }
 
         .action-buttons {
             display: flex;
@@ -198,10 +228,17 @@ $user = $userQuery->get_result()->fetch_assoc();
             box-sizing: border-box;
         }
 
-        button:hover, .btn:hover { filter: brightness(0.8); }
+        button:hover, .btn:hover {
+            filter: brightness(0.8);
+        }
 
-        .btn-danger { background: #c0392b; }
-        .btn-secondary { background: #555; }
+        .btn-danger {
+            background: #c0392b;
+        }
+
+        .btn-secondary {
+            background: #555;
+        }
 
         .alert-success {
             background: #d4edda;
@@ -222,7 +259,9 @@ $user = $userQuery->get_result()->fetch_assoc();
             align-items: center;
             justify-content: center;
         }
-        .modal-backdrop.open { display: flex; }
+        .modal-backdrop.open {
+            display: flex;
+        }
 
         .modal {
             background: var(--frame-colour, #fff);
@@ -234,11 +273,14 @@ $user = $userQuery->get_result()->fetch_assoc();
             position: relative;
         }
 
-        .modal h2 { margin-bottom: 20px; }
+        .modal h2 {
+            margin-bottom: 20px;
+        }
 
         .modal .close-btn {
             position: absolute;
-            top: 14px; right: 18px;
+            top: 14px;
+            right: 18px;
             background: none;
             border: none;
             font-size: 22px;
@@ -267,7 +309,9 @@ $user = $userQuery->get_result()->fetch_assoc();
             box-sizing: border-box;
         }
 
-        .edit-form button[type="submit"] { width: 100%; }
+        .edit-form button[type="submit"] {
+            width: 100%;
+        }
 
         .delete-warning {
             color: #c0392b;
@@ -276,8 +320,14 @@ $user = $userQuery->get_result()->fetch_assoc();
             text-align: center;
         }
 
-        .modal-actions { display: flex; gap: 10px; }
-        .modal-actions button { flex: 1; }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+        }
 
         @media (max-width: 600px) {
             .accountinfo-actions {
@@ -289,13 +339,38 @@ $user = $userQuery->get_result()->fetch_assoc();
                 border-bottom: 1px solid rgba(255,255,255,0.15);
                 border-radius: 0;
             }
-            .accountinfo-actions button:last-child { border-bottom: none; }
+            .accountinfo-actions button:last-child {
+                border-bottom: none;
+            }
+            
         }
     </style>
 </head>
 <body>
 
-    <?php include 'header.php'; ?>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <img src="../../images/icon.png" alt="Wine Exchange Logo">
+        <div class="navbar-links">
+            <a href="index.php">Home</a>
+            <a href="about.php">About Us</a>
+            <a href="search.php">Wines</a>
+            <a href="basket.php">Basket</a>
+            <a href="contact-us.php">Contact Us</a>
+        </div>
+        <div class="navbar-right">
+            <form method="POST" action="search.php">
+                <input type="text" name="search" placeholder="Search">
+                <input type="hidden" name="submitted" value="true" />
+            </form>
+            <a href="log-in.php">Login</a>
+            <a href="signup.php">Sign up</a>
+            <a href="account.php">Account</a>
+            <button id="dark-mode" class="dark-mode-button">
+                <img src="../../images/darkmode.png" alt="Dark Mode" />
+            </button>
+        </div>
+    </div>
 
     <div class="accountcontainer">
 
@@ -304,6 +379,37 @@ $user = $userQuery->get_result()->fetch_assoc();
         <?php if (isset($_GET['updated'])): ?>
             <div class="alert-success">✓ Your details have been updated successfully.</div>
         <?php endif; ?>
+
+        <?php
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profileImage'])) {
+                $userID = $_SESSION['customerID'];
+                $file = $_FILES['profileImage'];
+
+                if ($file['error'] === 0) {
+                    $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+
+                    if (in_array($file['type'], $allowedTypes)) {
+
+                        if ($file['size'] <= 2 * 1024 * 1024) {
+                            $fileName = uniqid() . "_" . basename($file['name']);
+                            $uploadPath = "../../uploads/" . $fileName;
+
+                            if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
+                                $dbPath = "uploads/" . $fileName;
+                                $stmt = $conn->prepare("UPDATE customer SET userProfileImage = ? WHERE customerID = ?");
+                                $stmt->bind_param("si", $dbPath, $userID);
+                                $stmt->execute();
+                            }
+                        }
+                    }
+                }
+            }
+            $stmt = $conn->prepare("SELECT * FROM customer WHERE customerID = ?");
+            $stmt->bind_param("i", $_SESSION['customerID']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $user = $result->fetch_assoc();
+        ?>
 
         <!-- Account Info -->
         <div class="accountinfo">
@@ -341,7 +447,7 @@ $user = $userQuery->get_result()->fetch_assoc();
                 </div>
             </div>
         </div>
-
+        
         <!-- Action buttons -->
         <div class="accountinfo-actions">
             <button onclick="openModal('editModal')">✏️ Edit My Details</button>
@@ -380,7 +486,7 @@ $user = $userQuery->get_result()->fetch_assoc();
                                 $refundStatus = $refund['status'] ?? null;
                                 $within30    = $row['orderDate'] > date('Y-m-d', strtotime('-30 days'));
 
-                                if ($refundStatus === 'accepted') {
+                                if ($refundStatus === 'accepted') {                             
                                     echo "<span class='status-returned'>Return Approved</span>";
                                 } elseif ($refundStatus === 'pending') {
                                     echo "<span class='status-not-eligible'>Return Pending Approval</span>";
@@ -407,24 +513,31 @@ $user = $userQuery->get_result()->fetch_assoc();
             <h2>Edit My Details</h2>
             <form class="edit-form" method="POST" action="account.php">
                 <input type="hidden" name="action" value="edit">
+
                 <label for="firstName">First Name</label>
                 <input type="text" id="firstName" name="firstName"
                        value="<?= htmlspecialchars($user['firstName']); ?>" required>
+
                 <label for="surname">Surname</label>
                 <input type="text" id="surname" name="surname"
                        value="<?= htmlspecialchars($user['surname']); ?>" required>
+
                 <label for="addressLine">Address</label>
                 <input type="text" id="addressLine" name="addressLine"
                        value="<?= htmlspecialchars($user['addressLine']); ?>" required>
+
                 <label for="postcode">Postcode</label>
                 <input type="text" id="postcode" name="postcode"
                        value="<?= htmlspecialchars($user['postcode']); ?>" required>
+
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email"
                        value="<?= htmlspecialchars($user['email']); ?>" required>
+
                 <label for="dateOfBirth">Date of Birth</label>
                 <input type="date" id="dateOfBirth" name="dateOfBirth"
                        value="<?= htmlspecialchars($user['dateOfBirth']); ?>" required>
+
                 <button type="submit">Save Changes</button>
             </form>
         </div>
@@ -450,12 +563,29 @@ $user = $userQuery->get_result()->fetch_assoc();
         </div>
     </div>
 
+    <!-- FOOTER -->
     <?php include 'footer.php'; ?>
 
     <script>
-        function openModal(id) { document.getElementById(id).classList.add("open"); }
-        function closeModal(id) { document.getElementById(id).classList.remove("open"); }
+        // Dark mode
+        const darkButton = document.getElementById("dark-mode");
+        if (localStorage.getItem("dark_mode") === "on") {
+            document.documentElement.classList.add("darkmode");
+        }
+        darkButton.addEventListener("click", () => {
+            document.documentElement.classList.toggle("darkmode");
+            localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
+        });
 
+        // Modal helpers
+        function openModal(id) {
+            document.getElementById(id).classList.add("open");
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove("open");
+        }
+
+        // Close modal when clicking outside the box
         document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
             backdrop.addEventListener("click", e => {
                 if (e.target === backdrop) closeModal(backdrop.id);
@@ -463,7 +593,6 @@ $user = $userQuery->get_result()->fetch_assoc();
         });
     </script>
 
-    <script src="chatbot.js"></script>
-
 </body>
+<script src="chatbot.js"></script>
 </html>
