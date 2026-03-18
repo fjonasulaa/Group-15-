@@ -44,6 +44,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($customerId !== null) {
         $_SESSION['customerID'] = $customerId;
         $_SESSION['login_attempts'] = 0;
+
+        $customerId = (int)$customerId;
+        $result = $conn->query("SELECT role FROM customer WHERE customerID = $customerId");
+
+        if ($result && $row = $result->fetch_assoc()) {
+            if ($row['role'] === 'admin') {
+                echo '<script>window.location="admin.php";</script>';
+                exit;
+            }
+        }
+        
         echo '<script>window.location="account.php";</script>';
         exit;
     } else {
