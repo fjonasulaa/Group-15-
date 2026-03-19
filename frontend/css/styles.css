@@ -865,7 +865,7 @@ textarea {
 
 .tab {
   position: fixed;
-  top: var(--navbar-height);
+  top: 62px;
   height: var(--tabs-height);
   display: flex;
   width: calc(100% - var(--sidebar-width));
@@ -1531,3 +1531,7 @@ html {
     justify-content: center;
     margin-bottom: 20px;
 }
+
+
+
+
