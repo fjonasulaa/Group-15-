@@ -158,7 +158,7 @@ function showError($errors) {
             <div class="signupWine">
                 <img src="../../images/icon.png" alt="Wine Exchange Logo">
             </div>
-            <h2>Register Account</h2>
+            <h2>Sign Up</h2>
             <?= showError($error); ?>
 
             <div class="input">
@@ -225,7 +225,7 @@ function showError($errors) {
 
             <p>Already have an account? <a href="log-in.php">Login</a></p>
             <p>Trying to sign up as an admin? <a href="admin_signup.php">Click here</a></p>
-            
+
         </form>
     </div>
 </div>
