@@ -67,6 +67,30 @@ $stmt->bind_param("i", $cid);
 $stmt->execute();
 $transactions = $stmt->get_result();
 
+
+// -- fetch wines
+$orderItems = [];
+
+$itemStmt = $conn->prepare("
+    SELECT
+        ow.orderId,
+        ow.quantity,
+        w.wineName,
+        w.imageUrl
+    FROM orderswines ow
+    INNER JOIN wines w ON ow.wineId = w.wineId
+    INNER JOIN orders o ON ow.orderId = o.orderId
+    WHERE o.customerId = ?
+    ORDER BY ow.orderId DESC, w.wineName ASC
+");
+
+$itemStmt->bind_param("i", $cid);
+$itemStmt->execute();
+$itemResult = $itemStmt->get_result();
+
+while ($item = $itemResult->fetch_assoc()) {
+    $orderItems[$item['orderId']][] = $item;
+}
 // ── Fetch User 
 $userQuery = $conn->prepare("SELECT * FROM customer WHERE customerID = ?");
 $userQuery->bind_param("i", $cid);
@@ -422,22 +446,6 @@ if ($result && $row = $result->fetch_assoc()) {
 
         .account-text { flex: 1; }
 
-        .account-image {
-            flex: 0 0 200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .account-image img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border: 4px solid var(--primary-colour);
-            padding: 3px;
-            background-color: var(--frame-colour); 
-        }
-
         .orderstable td { vertical-align: middle; height: 60px; }
         .status-returned { color: green; font-weight: bold; }
         .status-pending { color: orange; font-weight: bold; }
@@ -453,20 +461,6 @@ if ($result && $row = $result->fetch_assoc()) {
             background: var(--frame-colour);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        .accountinfo {
-            padding: 20px 24px;
-            border-radius: 6px 6px 0 0;
-            background-color: var(--background-colour);
-        }
-
-        .accountinfo-actions {
-            display: flex;
-            gap: 0;
-            border-radius: 0 0 6px 6px;
-            overflow: hidden;
-            margin-bottom: 30px;
         }
 
         .accountinfo-actions button {
@@ -593,6 +587,264 @@ if ($result && $row = $result->fetch_assoc()) {
             .accountinfo-actions button { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.15); border-radius: 0; }
             .accountinfo-actions button:last-child { border-bottom: none; }
         }
+
+        .order-products-row td {
+            background: var(--background-colour);
+            padding: 14px 12px 18px;
+        }
+
+        .order-products-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .order-product {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 12px;
+            background: var(--frame-colour);
+            border: 1px solid var(--border-colour);
+            border-radius: 8px;
+        }
+
+        .order-product img {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 6px;
+            flex-shrink: 0;
+            background: #f3f3f3;
+        }
+
+        .order-product-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .order-product-name {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .order-product-qty {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        .accountcontainer {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 30px;
+            background: transparent;
+            border-radius: 10px;
+            box-shadow: none;
+        }
+
+        .welcome-banner {
+            background:#6b1a2e;
+            color: #fff;
+            padding: 28px 32px;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            margin-bottom: 24px;
+        }
+
+        .welcome-kicker,
+        .section-kicker {
+            margin: 0 0 8px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .welcome-banner h1 {
+            text-align: left;
+            margin: 0 0 8px;
+            color: #fff;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 42px;
+            line-height: 1.05;
+        }
+
+        .welcome-subtext {
+            margin: 0;
+            color: rgba(255,255,255,0.88);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .accountinfo,
+        .orderstable {
+            background: var(--frame-colour);
+            border-radius: 16px;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.04);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .accountinfo {
+            padding: 26px;
+        }
+
+        .accountinfo-header,
+        .orderstable-header {
+            margin-bottom: 18px;
+        }
+
+        .accountinfo-header h2,
+        .orderstable-header h2 {
+            text-align: left;
+            margin: 0;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 32px;
+            line-height: 1.1;
+        }
+
+        .account-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            gap: 28px;
+        }
+
+        .account-text {
+            flex: 1;
+        }
+
+        .account-details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(220px, 1fr));
+            gap: 14px;
+        }
+
+        .detail-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: var(--background-colour);
+            border: 1px solid var(--border-colour);
+            border-radius: 12px;
+            padding: 16px 18px;
+        }
+
+        .detail-box-wide {
+            grid-column: span 2;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            font-weight: 600;
+            opacity: 0.65;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .account-image {
+            flex: 0 0 220px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--background-colour);
+            border: 1px solid var(--border-colour);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .profile-upload-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .account-image img {
+            width: 165px;
+            height: 165px;
+            object-fit: cover;
+            border: 4px solid var(--primary-colour);
+            padding: 4px;
+            border-radius: 50%;
+            background-color: var(--frame-colour);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .upload-text {
+            font-size: 13px;
+            opacity: 0.72;
+        }
+
+        .accountinfo-actions {
+            display: flex;
+            gap: 12px;
+            border-radius: 0;
+            overflow: visible;
+            margin-bottom: 30px;
+        }
+
+        .accountinfo-actions button {
+            flex: 1;
+            border-radius: 12px;
+            border-right: none;
+            font-size: 14px;
+            padding: 13px 12px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+        }
+
+        .orderstable {
+            padding: 26px;
+        }
+
+        .orderstable table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: transparent;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+
+        .orderstable th,
+        .orderstable td {
+            padding: 14px 14px;
+        }
+
+        .orderstable th {
+            background: var(--primary-colour);
+            color: #fff;
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        button, .btn {
+            border-radius: 10px;
+        }
+
+        .products-inline-title {
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.16em;
+                font-weight: 700;
+                opacity: 0.65;
+                margin-bottom: 12px;
+        }    
+    
     </style>
 </head>
 <body>
@@ -660,7 +912,11 @@ if ($result && $row = $result->fetch_assoc()) {
 
     <div class="accountcontainer">
 
-        <h1>Welcome, <span><?= htmlspecialchars($user['firstName']); ?></span></h1>
+        <div class="welcome-banner">
+            <p class="welcome-kicker">My Account</p>
+            <h1>Welcome back, <span><?= htmlspecialchars($user['firstName']); ?></span></h1>
+            <p class="welcome-subtext">Manage your account details and review your orders.</p>
+        </div>
 
         <?php if (isset($_GET['updated'])): ?>
             <div class="alert-success">✓ Your details have been updated successfully.</div>
@@ -699,27 +955,56 @@ if ($result && $row = $result->fetch_assoc()) {
 
         <!-- Account Info -->
         <div class="accountinfo">
-            <h2>Account Information</h2>
+            <div class="accountinfo-header">
+                <p class="section-kicker">Your Details</p>
+                <h2>Account Information</h2>
+            </div>
             <div class="account-flex">
                 
                 <div class="account-text">
-                    <p><strong>Name:</strong> <?= htmlspecialchars($user['firstName']); ?></p>
-                    <p><strong>Surname:</strong> <?= htmlspecialchars($user['surname']); ?></p>
-                    <p><strong>Address:</strong> <?= htmlspecialchars($user['addressLine']); ?></p>
-                    <p><strong>Postcode:</strong> <?= htmlspecialchars($user['postcode']); ?></p>
-                    <p><strong>Email:</strong> <?= htmlspecialchars($user['email']); ?></p>
-                    <p><strong>Date of Birth:</strong> <?= htmlspecialchars($user['dateOfBirth']); ?></p>
+                    <div class="account-details-grid">
+                        <div class="detail-box">
+                            <span class="detail-label">First Name</span>
+                            <span class="detail-value"><?= htmlspecialchars($user['firstName']); ?></span>
+                        </div>
+
+                        <div class="detail-box">
+                            <span class="detail-label">Surname</span>
+                            <span class="detail-value"><?= htmlspecialchars($user['surname']); ?></span>
+                        </div>
+
+                        <div class="detail-box detail-box-wide">
+                            <span class="detail-label">Address</span>
+                            <span class="detail-value"><?= htmlspecialchars($user['addressLine']); ?></span>
+                        </div>
+
+                        <div class="detail-box">
+                            <span class="detail-label">Postcode</span>
+                            <span class="detail-value"><?= htmlspecialchars($user['postcode']); ?></span>
+                        </div>
+
+                        <div class="detail-box">
+                            <span class="detail-label">Date of Birth</span>
+                            <span class="detail-value"><?= htmlspecialchars($user['dateOfBirth']); ?></span>
+                        </div>
+
+                        <div class="detail-box detail-box-wide">
+                            <span class="detail-label">Email</span>
+                            <span class="detail-value"><?= htmlspecialchars($user['email']); ?></span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="account-image">
                     <form method="POST" enctype="multipart/form-data">
                         
-                        <label for="profileUpload">
+                        <label for="profileUpload" class="profile-upload-wrap">
                             <img 
                                 src="../../<?= htmlspecialchars($user['userProfileImage'] ?? 'images/guestPfp.jpg'); ?>" 
                                 alt="Profile Image" 
                                 id="profilePreview"
                                 style="cursor: pointer;">
+                            <span class="upload-text">Click image to change</span>
                         </label>
 
                         <input 
@@ -743,7 +1028,10 @@ if ($result && $row = $result->fetch_assoc()) {
 
         <!-- Order History -->
         <div class="orderstable">
-            <h2>Order History</h2>
+            <div class="orderstable-header">
+                <p class="section-kicker">Purchases</p>
+                <h2>Order History</h2>
+            </div>
             <table>
                 <tr>
                     <th>Tracking Number</th>
@@ -756,39 +1044,74 @@ if ($result && $row = $result->fetch_assoc()) {
                     <th>Transaction Date</th>
                     <th>Actions</th>
                 </tr>
-                <?php while ($row = $transactions->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= !empty($row['trackingNumber']) ? htmlspecialchars($row['trackingNumber']) : 'Awaiting'; ?></td>
-                        <td><?= !empty($row['carrier']) ? htmlspecialchars($row['carrier']) : 'Awaiting'; ?></td>
-                        <td><?= htmlspecialchars($row['orderId']); ?></td>
-                        <td>£<?= number_format((float)$row['amount'], 2); ?></td>
-                        <td><?= htmlspecialchars($row['method']); ?></td>
-                        <td><?= htmlspecialchars($row['paymentStatus']); ?></td>
-                        <td><?= htmlspecialchars($row['shippingStatus']); ?></td>
-                        <td><?= htmlspecialchars($row['transactionTimestamp']); ?></td>
-                        <td>
-                            <?php
-                                $oid = (int)$row['orderId'];
-                                $refundQuery = $conn->query("SELECT status FROM refund WHERE orderId = $oid LIMIT 1");
-                                $refund      = $refundQuery->fetch_assoc();
-                                $refundStatus = $refund['status'] ?? null;
-                                $within30    = $row['orderDate'] > date('Y-m-d', strtotime('-30 days'));
 
-                                if ($refundStatus === 'accepted') {                             
-                                    echo "<span class='status-returned'>Return Approved</span>";
-                                } elseif ($refundStatus === 'pending') {
-                                    echo "<span class='status-not-eligible'>Return Pending Approval</span>";
-                                } elseif ($refundStatus === 'denied') {
-                                    echo "<span class='status-not-eligible' style='color:#b33;'>Return Rejected</span>";
-                                } elseif ($within30) {
-                                    echo "<button onclick=\"window.location.href='return.php?orderId=$oid'\">Return</button>";
-                                } else {
-                                    echo "<span class='status-not-eligible'>Not eligible</span>";
-                                }
-                            ?>
+                <?php if ($transactions->num_rows > 0): ?>
+
+                    <?php while ($row = $transactions->fetch_assoc()): ?>
+                        <tr>
+                            <td><?= !empty($row['trackingNumber']) ? htmlspecialchars($row['trackingNumber']) : 'Awaiting'; ?></td>
+                            <td><?= !empty($row['carrier']) ? htmlspecialchars($row['carrier']) : 'Awaiting'; ?></td>
+                            <td><?= htmlspecialchars($row['orderId']); ?></td>
+                            <td>£<?= number_format((float)$row['amount'], 2); ?></td>
+                            <td><?= htmlspecialchars($row['method']); ?></td>
+                            <td><?= htmlspecialchars($row['paymentStatus']); ?></td>
+                            <td><?= htmlspecialchars($row['shippingStatus']); ?></td>
+                            <td><?= htmlspecialchars($row['transactionTimestamp']); ?></td>
+                            <td>
+                                <?php
+                                    $oid = (int)$row['orderId'];
+                                    $refundQuery = $conn->query("SELECT status FROM refund WHERE orderId = $oid LIMIT 1");
+                                    $refund      = $refundQuery->fetch_assoc();
+                                    $refundStatus = $refund['status'] ?? null;
+                                    $within30    = $row['orderDate'] > date('Y-m-d', strtotime('-30 days'));
+
+                                    if ($refundStatus === 'accepted') {                             
+                                        echo "<span class='status-returned'>Return Approved</span>";
+                                    } elseif ($refundStatus === 'pending') {
+                                        echo "<span class='status-not-eligible'>Return Pending Approval</span>";
+                                    } elseif ($refundStatus === 'denied') {
+                                        echo "<span class='status-not-eligible' style='color:#b33;'>Return Rejected</span>";
+                                    } elseif ($within30) {
+                                        echo "<button onclick=\"window.location.href='return.php?orderId=$oid'\">Return</button>";
+                                    } else {
+                                        echo "<span class='status-not-eligible'>Not eligible</span>";
+                                    }
+                                ?>
+                            </td>
+                        </tr>
+
+                    
+
+                    <tr class="order-products-row">
+                        <td colspan="9">
+                            <div class="products-inline-title">Products in this order</div>
+                            <div class="order-products-wrap">
+                                <?php if (!empty($orderItems[$oid])): ?>
+                                    <?php foreach ($orderItems[$oid] as $wine): ?>
+                                        <div class="order-product">
+                                            <img src="../../images/<?= htmlspecialchars($wine['imageUrl'] ?: 'red-wine.jpg'); ?>" alt="<?= htmlspecialchars($wine['wineName']); ?>">
+                                            <div class="order-product-info">
+                                                <div class="order-product-name"><?= htmlspecialchars($wine['wineName']); ?></div>
+                                                <div class="order-product-qty">Quantity: <?= (int)$wine['quantity']; ?></div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                        <div class="order-product-info">
+                                            <div class="order-product-name">No product information available for this order.</div>
+                                        </div>
+                                <?php endif; ?>
+                            </div>
                         </td>
                     </tr>
                 <?php endwhile; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="9" style="text-align:center; padding: 30px 20px; color: grey;">
+                        You have no previous orders
+                    </td>
+                </tr>
+            <?php endif; ?>
             </table>
         </div>
 
