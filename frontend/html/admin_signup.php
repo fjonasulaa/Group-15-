@@ -39,7 +39,7 @@ function showError($errors) {
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h2 { font-size: 20px; text-align: center; margin-bottom: 20px; color: var(--text-colour); }
+        h2 { font-size: 30px; text-align: center; margin-bottom: 20px; color: var(--text-colour); }
 
         .signupWine {
             text-align: center;
@@ -157,7 +157,6 @@ function showError($errors) {
         <form action="sign_up.php?admin=true" method="post">
             <div class="signupWine">
                 <img src="../../images/icon.png" alt="Wine Exchange Logo">
-                <h3>Wine Exchange</h3>
             </div>
             <h2>Admin Sign Up</h2>
             <p>Admin accounts are subject to verification before activation.</p>
