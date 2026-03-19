@@ -13,12 +13,27 @@ Currently hosted on: https://cs2team15.cs2410-web01pvm.aston.ac.uk/frontend/html
 
 Features:
 - 
+- Wine Catalogue
+- Basket Feature
+- Wishlist
+- Product Reviews
+- User Registration
+- Account Dashboard
+- Edit/Delete Acoount
+- Admin Roles
+- Guest Checkout
+- Age Verification
+- Stock Management
+- Gift Finder Quiz
+- Dark Mode
 
 Tech Stack:
+- 
 - HTML/CSS/JS
 - PHP
 
 Credits:
+- 
 - Brandon Ryan-Izzard - 240117751
 - Dezel Doherty - 240106102
 - Fjona Sula - 240368515
