@@ -95,7 +95,7 @@ require_once('../../database/db_connect.php');
 
 <body>
 
-  <?php include 'navbar.php'; ?>
+  <?php include 'header.php'; ?>
 
   <div class="tc-wrapper">
 
