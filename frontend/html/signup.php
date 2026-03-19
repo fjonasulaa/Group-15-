@@ -39,14 +39,14 @@ function showError($errors) {
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h2 { font-size: 34px; text-align: center; margin-bottom: 20px; color: var(--text-colour); }
+        h2 { font-size: 20px; text-align: center; margin-bottom: 20px; color: var(--text-colour); }
 
-        .signup-brand {
+        .signupWine {
             text-align: center;
             margin-bottom: 10px;
         }
 
-        .signup-brand img {
+        .signupWine img {
             width: 60px;
             height: 60px;
             object-fit: contain;
@@ -113,6 +113,39 @@ function showError($errors) {
             text-align: center;
             margin-bottom: 20px;
         }
+
+        .signupWine h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            color: var(--text-colour);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: var(--text-colour);
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border-colour);
+        }
+
+        .divider span {
+            margin: 0 10px;
+            white-space: nowrap;
+        }
+
+        .darkmode .divider::before,
+        .darkmode .divider::after {
+            background: var(--background-colour);
+        }
     </style>
 </head>
 <body>
@@ -122,10 +155,11 @@ function showError($errors) {
 <div class="container">
     <div class="form-box" id="signup-form">
         <form action="sign_up.php" method="post">
-            <div class="signup-brand">
+            <div class="signupWine">
                 <img src="../../images/icon.png" alt="Wine Exchange Logo">
+                <h3>Wine Exchange</h3>
             </div>
-            <h2>Sign up</h2>
+            <h2>Register Account</h2>
             <?= showError($error); ?>
 
             <div class="input">
@@ -160,7 +194,7 @@ function showError($errors) {
 
             <div class="input">
                 <i class="fas fa-calendar-days"></i>
-                <input type="date" name="dob" autocomplete="bday">
+                <input type="date" name="dob" autocomplete="bday" required>
             </div>
             <div class="input">
                 <i class="fas fa-lock"></i>
@@ -178,6 +212,9 @@ function showError($errors) {
             <div id="g_id_onload"
                  data-client_id="966067449001-4ajt4ll22p3p2kefig7e2rj4ih7oipml.apps.googleusercontent.com"
                  data-callback="handleGoogleSignup">
+            </div>
+            <div class="divider">
+                <span>or continue with</span>
             </div>
             <div class="g_id_signin"
                  data-type="standard"
