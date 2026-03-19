@@ -34,13 +34,32 @@ if (isset($_POST['signup'])) {
     }
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-    $checkEmail = $conn->query("SELECT email FROM customer WHERE email = '$email'");
-    if ($checkEmail->num_rows > 0) {
+    $checkEmail = $conn->prepare("SELECT email FROM customer WHERE email = ?");
+    $checkEmail->bind_param("s", $email);
+    $checkEmail->execute();
+    $result = $checkEmail->get_result();
+
+    if ($result->num_rows > 0) {
         $_SESSION['register_error'] = 'Email is already registered';
         header("Location: signup.php");
         exit();
     } else {
-        $conn->query("INSERT INTO customer (firstName, surname, dateOfBirth, addressLine, postcode, email, phoneNumber, passwordHash) VALUES ('$name', '$surname', '$dob', '$addressline', '$postcode', '$email', '$pnumber', '$passwordHash')");
+        
+        $stmt = $conn->prepare("INSERT INTO customer 
+            (firstName, surname, dateOfBirth, addressLine, postcode, email, phoneNumber, passwordHash) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param(
+            "ssssssss",
+            $name,
+            $surname,
+            $dob,
+            $addressline,
+            $postcode,
+            $email,
+            $pnumber,
+            $passwordHash
+        );
+        $stmt->execute();
+
         $customerID = $conn->insert_id;
         $_SESSION["customerID"] = $customerID;
         $_SESSION["firstname"] = $name;
