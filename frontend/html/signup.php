@@ -40,17 +40,53 @@ function showError($errors) {
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         h2 { font-size: 34px; text-align: center; margin-bottom: 20px; color: var(--text-colour); }
-        input {
+
+        .signup-brand {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .signup-brand img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .input {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-colour);
+            opacity: 0.6;
+            font-size: 14px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input input {
             width: 100%;
-            padding: 12px;
+            padding: 12px 12px 12px 40px;
             background: var(--background-colour);
             border-radius: 6px;
             border: 1px solid var(--border-colour);
             outline: none;
             font-size: 16px;
             color: var(--text-colour);
-            margin-bottom: 20px;
+            margin-bottom: 0;
         }
+
+        .input:focus-within i {
+            color: var(--primary-colour);
+            opacity: 1;
+        }
+
         button[type="submit"] {
             width: 100%;
             padding: 12px;
@@ -86,20 +122,55 @@ function showError($errors) {
 <div class="container">
     <div class="form-box" id="signup-form">
         <form action="sign_up.php" method="post">
+            <div class="signup-brand">
+                <img src="../../images/icon.png" alt="Wine Exchange Logo">
+            </div>
             <h2>Sign up</h2>
             <?= showError($error); ?>
-            <input type="text" name="firstName" placeholder="First Name" autocomplete="given-name" required>
-            <input type="text" name="surname" placeholder="Surname" autocomplete="family-name" required>
-            <input type="email" name="email" placeholder="Email" autocomplete="email" required>
-            <input type="tel" name="pnumber" placeholder="Phone Number" autocomplete="tel">
-            <input type="text" name="addressline" placeholder="Address Line" autocomplete="street-address">
-            <input type="text" name="postcode" placeholder="Postcode" autocomplete="postal-code">
-            <input type="date" name="dob" placeholder="Date of Birth" autocomplete="bday">
-            <input type="password" name="password" placeholder="Password"
-                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}"
-                title="Must contain at least one uppercase letter, one lowercase letter, one special character, and be at least 6 characters long."
-                autocomplete="new-password"
-                required>
+
+            <div class="input">
+                <i class="fas fa-user"></i>
+                <input type="text" name="firstName" placeholder="First Name" autocomplete="given-name" required>
+            </div>
+
+            <div class="input">
+                <i class="fas fa-user"></i>
+                <input type="text" name="surname" placeholder="Surname" autocomplete="family-name" required>
+            </div>
+
+            <div class="input">
+                <i class="fas fa-envelope"></i>
+                <input type="email" name="email" placeholder="Email" autocomplete="email" required>
+            </div>
+
+            <div class="input">
+                <i class="fas fa-phone"></i>
+                <input type="tel" name="pnumber" placeholder="Phone Number" autocomplete="tel">
+            </div>
+
+            <div class="input">
+                <i class="fas fa-location-dot"></i>
+                <input type="text" name="addressline" placeholder="Address Line" autocomplete="street-address">
+            </div>
+
+            <div class="input">
+                <i class="fas fa-map-pin"></i>
+                <input type="text" name="postcode" placeholder="Postcode" autocomplete="postal-code">
+            </div>
+
+            <div class="input">
+                <i class="fas fa-calendar-days"></i>
+                <input type="date" name="dob" autocomplete="bday">
+            </div>
+            <div class="input">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="Password"
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}"
+                    title="Must contain at least one uppercase letter, one lowercase letter, one special character, and be at least 6 characters long."
+                    autocomplete="new-password"
+                    required>
+            </div>
+
             <button type="submit" name="signup">Sign up</button>
             <p>Already have an account? <a href="log-in.php">Login</a></p>
             <p>Trying to sign up as an admin? <a href="admin_signup.php">Click here</a></p>
