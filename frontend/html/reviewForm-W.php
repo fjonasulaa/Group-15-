@@ -22,19 +22,18 @@ $customerName = ucfirst($nameResult['firstName']) . " " . ucfirst($nameResult['s
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $stars = isset($_POST['rating']) ? intval($_POST['rating']) : 0;
-    $wReviewHeading = isset($_POST['heading']) ? trim($_POST['heading']) : '';
     $rwReviewText = isset($_POST['message']) ? trim($_POST['message']) : '';
 
-    if ($stars == 0 || $wReviewHeading === '' || $rwReviewText === '') {
+    if ($stars == 0 || $rwReviewText === '') {
         die("Rating and review text are required.");
     }
 
     $query = $conn->prepare("
-        INSERT INTO websiteReviews (customerId, wStars, wReviewHeading, wReviewText, reviewDate)
-        VALUES (?, ?, ?, ?, CURRENT_DATE)
+        INSERT INTO websiteReviews (customerId, wStars, wReviewText, reviewDate)
+        VALUES (?, ?, ?, CURRENT_DATE)
     ");
 
-    $query->bind_param("iiss", $customerId, $stars, $wReviewHeading, $rwReviewText);
+    $query->bind_param("iis", $customerId, $stars, $rwReviewText);
 
     if ($query->execute()) {
         header("Location: index.php?review=success");
@@ -85,14 +84,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <input type="radio" name="rating" value="1" id="star1">
         <label for="star1">★</label>
       </div>
-
-      <label for="heading">Review Heading</label>
-      <input
-        type="text"
-        id="heading"
-        name="heading"
-        required
-      />
 
       <label for="message">Review Text</label>
       <textarea id="message" name="message" rows="5" required></textarea>
