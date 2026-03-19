@@ -123,6 +123,112 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         p { font-size: 14.5px; text-align: center; margin-bottom: 10px; color: var(--text-colour); }
         p a { color: var(--primary-colour); text-decoration: none; }
         p a:hover { text-decoration: underline; }
+
+        .signupWine {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .signupWine img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .input {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-colour);
+            opacity: 0.6;
+            font-size: 14px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            background: var(--background-colour);
+            border-radius: 6px;
+            border: 1px solid var(--border-colour);
+            outline: none;
+            font-size: 16px;
+            color: var(--text-colour);
+            margin-bottom: 0;
+        }
+
+        .input:focus-within i {
+            color: var(--primary-colour);
+            opacity: 1;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-colour);
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #fff;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: 0.5s;
+        }
+        button[type="submit"]:hover { filter: brightness(0.8); }
+        p { font-size: 14.5px; text-align: center; margin-bottom: 10px; color: var(--text-colour); }
+        p a { color: var(--primary-colour); text-decoration: none; }
+        p a:hover { text-decoration: underline; }
+        .error-message {
+            padding: 12px;
+            background: red;
+            border-radius: 6px;
+            font-size: 16px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .signupWine h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            color: var(--text-colour);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: var(--text-colour);
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border-colour);
+        }
+
+        .divider span {
+            margin: 0 10px;
+            white-space: nowrap;
+        }
+
+        .darkmode .divider::before,
+        .darkmode .divider::after {
+            background: var(--background-colour);
+        }
     </style>
 </head>
 <body>
@@ -133,15 +239,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="container">
     <div class="form-box">
         <form method="post" action="">
-            <h1>Login</h1>
-            <input type="email" name="email" placeholder="Enter your email" autocomplete="email" required>
-            <input type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+            <div class="signupWine">
+                <img src="../../images/icon.png" alt="Wine Exchange Logo">
+            </div>
+            <h2>Login</h2>
+
+            <div class="input">
+                <i class="fas fa-envelope"></i>
+                <input type="email" name="email" placeholder="Enter your email" autocomplete="email" required>
+            </div>
+
+            <div class="input">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+            </div>
+
             <button type="submit" name="login">Log In</button>
-            <p style="text-align:center; margin: 10px 0;">or</p>
 
             <div id="g_id_onload"
                  data-client_id="966067449001-4ajt4ll22p3p2kefig7e2rj4ih7oipml.apps.googleusercontent.com"
                  data-callback="handleGoogleLogin">
+            </div>
+            <div class="divider">
+                <span>or continue with</span>
             </div>
             <div class="g_id_signin"
                  data-type="standard"
