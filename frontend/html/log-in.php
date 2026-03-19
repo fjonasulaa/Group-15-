@@ -34,29 +34,49 @@ if ($_SESSION['login_attempts'] >= $maxAttempts) {
 }
 
 require_once("users.php");
+require_once("generate-2fa-code.php"); // ← ADD THIS
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['last_attempt_time'] = time();
 
-    $u = new Users();
+    $u          = new Users();
     $customerId = $u->login($_POST["email"], $_POST["password"]);
 
     if ($customerId !== null) {
-        $_SESSION['customerID'] = $customerId;
+        // ── Password correct — do NOT log them in yet ──────────────────────
+        // Reset failed attempts
         $_SESSION['login_attempts'] = 0;
 
         $customerId = (int)$customerId;
-        $result = $conn->query("SELECT role FROM customer WHERE customerID = $customerId");
 
-        if ($result && $row = $result->fetch_assoc()) {
-            if ($row['role'] === 'admin') {
-                echo '<script>window.location="admin.php";</script>';
-                exit;
-            }
+        // Work out where to send them after 2FA succeeds
+        $result = $conn->query("SELECT role, email, first_name FROM customer WHERE customerID = $customerId");
+        $row    = ($result) ? $result->fetch_assoc() : null;
+
+        $redirect_after = 'account.php'; // default
+        if ($row && $row['role'] === 'admin') {
+            $redirect_after = 'admin.php';
         }
-        
-        echo '<script>window.location="account.php";</script>';
+
+        // Store the destination so verify-2fa.php knows where to send them
+        $_SESSION['2fa_redirect'] = $redirect_after;
+
+        // Use email from DB if available, otherwise fall back to POST value
+        $email = $row['email']      ?? $_POST['email'];
+        $name  = $row['first_name'] ?? 'User';
+
+        // Generate code, save to session, send email
+        $sent = send_2fa_code($customerId, $email, $name);
+
+        if ($sent) {
+            // Redirect to 2FA page — user is NOT yet authenticated
+            echo '<script>window.location="2FA.php";</script>';
+        } else {
+            // Email failed — log the error and show a friendly message
+            echo '<script>alert("We could not send your verification code. Please try again.");</script>';
+        }
         exit;
+
     } else {
         $_SESSION['login_attempts']++;
         echo '<script>alert("Login Failed");</script>';
@@ -170,23 +190,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             opacity: 1;
         }
 
-        button[type="submit"] {
-            width: 100%;
-            padding: 12px;
-            background: var(--primary-colour);
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            color: #fff;
-            font-weight: 500;
-            margin-bottom: 20px;
-            transition: 0.5s;
-        }
-        button[type="submit"]:hover { filter: brightness(0.8); }
-        p { font-size: 14.5px; text-align: center; margin-bottom: 10px; color: var(--text-colour); }
-        p a { color: var(--primary-colour); text-decoration: none; }
-        p a:hover { text-decoration: underline; }
         .error-message {
             padding: 12px;
             background: red;
