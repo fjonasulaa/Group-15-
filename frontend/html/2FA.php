@@ -11,10 +11,6 @@ $error   = $_SESSION['2fa_error']   ?? '';
 $success = $_SESSION['2fa_success'] ?? '';
 unset($_SESSION['2fa_error'], $_SESSION['2fa_success']);
 
-// Dev helper: show code on localhost so you can test without a mail server
-$is_local = in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']);
-$dev_code = ($is_local && isset($_SESSION['2fa_code'])) ? $_SESSION['2fa_code'] : '';
-
 $expires_in = max(0, (int)(($_SESSION['2fa_expires'] ?? time()) - time()));
 ?>
 <!DOCTYPE html>
@@ -104,22 +100,8 @@ $expires_in = max(0, (int)(($_SESSION['2fa_expires'] ?? time()) - time()));
     .subtitle {
       font-size:0.82rem;font-weight:300;
       color:var(--text-mid);text-align:center;
-      line-height:1.65;margin-bottom:26px;
+      line-height:1.65;margin-bottom:28px;
     }
-
-    /* Dev banner — only visible on localhost */
-    .dev-banner {
-      background:#fff8e1;
-      border:1px dashed #C9A84C;
-      border-radius:4px;
-      padding:10px 14px;
-      margin-bottom:18px;
-      text-align:center;
-      font-size:0.78rem;
-      color:#7A5A10;
-    }
-
-    .dev-banner strong { font-size:1.3rem;letter-spacing:0.2em;color:var(--burgundy); }
 
     .message {
       font-size:0.78rem;text-align:center;
@@ -231,13 +213,6 @@ $expires_in = max(0, (int)(($_SESSION['2fa_expires'] ?? time()) - time()));
       <strong style="color:var(--text-dark);"><?= htmlspecialchars($_SESSION['2fa_email'] ?? '') ?></strong>
     </p>
 
-    <?php if ($dev_code): ?>
-      <div class="dev-banner">
-        🛠 <strong>Dev mode</strong> — your code is: <strong><?= $dev_code ?></strong><br/>
-        <span style="font-size:0.72rem;opacity:0.7;">(This banner only shows on localhost)</span>
-      </div>
-    <?php endif; ?>
-
     <?php if ($error): ?>
       <div class="message error"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
@@ -267,7 +242,7 @@ $expires_in = max(0, (int)(($_SESSION['2fa_expires'] ?? time()) - time()));
 
     <div class="resend-row">
       <span>Didn't receive it?</span>
-      <a href="resend-2fa.php" class="resend-link" id="resend-link">Resend Code</a>
+      <a href="resend-2fa.php" class="resend-link">Resend Code</a>
     </div>
 
   </div>
@@ -276,10 +251,10 @@ $expires_in = max(0, (int)(($_SESSION['2fa_expires'] ?? time()) - time()));
 <?php include 'footer.php'; ?>
 
 <script>
-  const inputs     = Array.from(document.querySelectorAll('.otp-input'));
-  const combined   = document.getElementById('combined-code');
-  const submitBtn  = document.getElementById('submit-btn');
-  const timerEl    = document.getElementById('timer-display');
+  const inputs    = Array.from(document.querySelectorAll('.otp-input'));
+  const combined  = document.getElementById('combined-code');
+  const submitBtn = document.getElementById('submit-btn');
+  const timerEl   = document.getElementById('timer-display');
 
   // ── OTP input behaviour ───────────────────────────────────────────────
   inputs.forEach((input, i) => {
@@ -309,7 +284,7 @@ $expires_in = max(0, (int)(($_SESSION['2fa_expires'] ?? time()) - time()));
     });
   });
 
-  // ── Combine on submit ─────────────────────────────────────────────────
+  // ── Combine digits on submit ──────────────────────────────────────────
   document.getElementById('twofa-form').addEventListener('submit', e => {
     const code = inputs.map(i => i.value).join('');
     if (code.length < 6) { e.preventDefault(); alert('Please enter all 6 digits.'); return; }
@@ -318,11 +293,11 @@ $expires_in = max(0, (int)(($_SESSION['2fa_expires'] ?? time()) - time()));
     submitBtn.disabled = true;
   });
 
-  // ── Countdown ─────────────────────────────────────────────────────────
+  // ── Countdown timer ───────────────────────────────────────────────────
   let seconds = <?= $expires_in ?>;
 
   function fmt(s) {
-    return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+    return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
   }
 
   timerEl.textContent = fmt(seconds);
