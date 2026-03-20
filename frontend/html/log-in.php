@@ -28,9 +28,10 @@ if ($_SESSION['login_attempts'] >= $maxAttempts) {
 }
 
 require_once("users.php");
+require '..\..\vendor\autoload.php'; // same autoload as forgotPassword.php
 
-// ── Generate & store 2FA code ─────────────────────────────────────────────
-function setup_2fa(int $userId, string $email, string $name, string $redirect): void
+// ── Generate & store 2FA code, send via Gmail SMTP ───────────────────────
+function setup_2fa(int $userId, string $email, string $name, string $redirect): bool
 {
     $code = str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
@@ -44,30 +45,46 @@ function setup_2fa(int $userId, string $email, string $name, string $redirect): 
     $_SESSION['2fa_redirect']  = $redirect;
     $_SESSION['csrf_token']    = bin2hex(random_bytes(32));
 
-    // Send email via PHP mail() — works on live hosting automatically.
-    // On local XAMPP without a mail server this silently fails,
-    // but the code is shown on the 2FA page so you can still test.
-    $subject  = 'Your Wine Exchange Verification Code';
-    $headers  = "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-    $headers .= "From: Wine Exchange <noreply@wineexchange.com>\r\n";
-    $body = "
-    <div style='font-family:Georgia,serif;background:#FDFAF5;padding:40px 20px;'>
-      <div style='max-width:480px;margin:0 auto;background:#fff;border:1px solid #E8D5A3;
-                  border-top:3px solid #6B1E30;border-radius:4px;padding:36px 40px;text-align:center;'>
-        <h2 style='color:#2A1018;font-size:1.5rem;margin-bottom:8px;'>Verify Your Identity</h2>
-        <p style='color:#7A4A55;margin-bottom:24px;'>
-          Hi {$name}, use the code below to complete your sign-in.<br/>
-          It expires in <strong style='color:#6B1E30;'>10 minutes</strong>.
-        </p>
-        <div style='background:#F5EDD8;border:1.5px solid #C9A84C;border-radius:4px;padding:20px;
-                    letter-spacing:0.35em;font-size:2.2rem;font-family:Courier New,monospace;
-                    color:#2A1018;font-weight:700;margin-bottom:24px;'>{$code}</div>
-        <p style='font-size:0.78rem;color:#7A4A55;'>If you didn't request this, ignore this email.</p>
-      </div>
-    </div>";
+    $mail = new PHPMailer\PHPMailer\PHPMailer(true);
 
-    @mail($email, $subject, $body, $headers);
+    try {
+        // Same SMTP credentials as forgotPassword.php
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'wineexchangereset@gmail.com';
+        $mail->Password   = 'ddhfcwjvdkvcpfei';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port       = 587;
+
+        $mail->setFrom('wineexchangereset@gmail.com', 'Wine Exchange');
+        $mail->addAddress($email, $name);
+        $mail->isHTML(true);
+        $mail->Subject = 'Your Wine Exchange Verification Code';
+        $mail->Body    = "
+        <div style='font-family:Georgia,serif;background:#FDFAF5;padding:40px 20px;'>
+          <div style='max-width:480px;margin:0 auto;background:#fff;border:1px solid #E8D5A3;
+                      border-top:3px solid #6B1E30;border-radius:4px;padding:36px 40px;text-align:center;'>
+            <h2 style='color:#2A1018;font-size:1.5rem;margin-bottom:8px;'>Verify Your Identity</h2>
+            <p style='color:#7A4A55;margin-bottom:24px;'>
+              Hi {$name}, use the code below to complete your sign-in.<br/>
+              It expires in <strong style='color:#6B1E30;'>10 minutes</strong>.
+            </p>
+            <div style='background:#F5EDD8;border:1.5px solid #C9A84C;border-radius:4px;padding:20px;
+                        letter-spacing:0.35em;font-size:2.2rem;font-family:Courier New,monospace;
+                        color:#2A1018;font-weight:700;margin-bottom:24px;'>{$code}</div>
+            <p style='font-size:0.78rem;color:#7A4A55;'>If you didn't request this, ignore this email.</p>
+          </div>
+        </div>";
+        $mail->AltBody = "Hi {$name},\n\nYour verification code is: {$code}\n\nIt expires in 10 minutes.";
+
+        $mail->send();
+        return true;
+
+    } catch (Exception $e) {
+        error_log('2FA mail error: ' . $mail->ErrorInfo);
+        return false;
+    }
 }
 
 // ── Handle POST ───────────────────────────────────────────────────────────
@@ -88,9 +105,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email    = $row['email']     ?? $_POST['email'];
         $name     = $row['firstName'] ?? 'User';
 
-        setup_2fa($customerId, $email, $name, $redirect);
+        $sent = setup_2fa($customerId, $email, $name, $redirect);
 
-        echo '<script>window.location="2FA.php";</script>';
+        if ($sent) {
+            echo '<script>window.location="2FA.php";</script>';
+        } else {
+            echo '<script>alert("Could not send verification email. Please try again.");</script>';
+        }
         exit;
 
     } else {
