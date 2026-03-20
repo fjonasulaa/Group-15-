@@ -148,6 +148,7 @@
             <button class="tablinks" onclick="openTab(event, 'transactions')">Transactions</button>
             <button class="tablinks" onclick="openTab(event, 'returns')">Returns</button>
             <button class="tablinks" onclick="window.location.href='inventory.php'">Inventory</button>
+            <button class="tablinks" onclick="window.location.href='account.php'">Account</button>
             <button class="tablinks" onclick="window.location.href='logout.php'">Logout</button>
         </div>
 
