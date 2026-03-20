@@ -56,32 +56,10 @@ if (!hash_equals($stored, $submitted)) {
     fail($left > 0 ? "Invalid code. {$left} attempt(s) remaining." : 'Invalid code.');
 }
 
-// ── Code is correct — check age before granting access ───────────────────
+// ── Code correct — log the user in ───────────────────────────────────────
 $user_id  = $_SESSION['2fa_user_id'];
 $redirect = $_SESSION['2fa_redirect'] ?? 'account.php';
 
-$result = $conn->query("SELECT dateOfBirth FROM customer WHERE customerID = $user_id");
-$row    = $result ? $result->fetch_assoc() : null;
-
-if ($row && !empty($row['dateOfBirth'])) {
-    $dob = new DateTime($row['dateOfBirth']);
-    $age = (new DateTime())->diff($dob)->y;
-
-    if ($age < 18) {
-        // Clean up session completely — do not log them in
-        unset(
-            $_SESSION['2fa_code'], $_SESSION['2fa_expires'], $_SESSION['2fa_user_id'],
-            $_SESSION['2fa_attempts'], $_SESSION['csrf_token'], $_SESSION['2fa_redirect'],
-            $_SESSION['2fa_email'], $_SESSION['2fa_name'], $_SESSION['2fa_last_sent']
-        );
-        // Send to a blocked page or back to login with a message
-        $_SESSION['login_error'] = 'You must be 18 or older to access this site.';
-        header('Location: log-in.php');
-        exit;
-    }
-}
-
-// ── All checks passed — log the user in ──────────────────────────────────
 unset(
     $_SESSION['2fa_code'], $_SESSION['2fa_expires'], $_SESSION['2fa_user_id'],
     $_SESSION['2fa_attempts'], $_SESSION['csrf_token'], $_SESSION['2fa_redirect'],
@@ -94,5 +72,35 @@ $_SESSION['customerID']    = $user_id;
 $_SESSION['authenticated'] = true;
 $_SESSION['auth_time']     = time();
 
+// ── Check if profile is complete ──────────────────────────────────────────
+// Always require a real DOB + address — even if they filled it in before,
+// we re-verify so fake/missing data can be corrected.
+$result = $conn->query("SELECT dateOfBirth, addressLine, postcode FROM customer WHERE customerID = $user_id");
+$row    = $result ? $result->fetch_assoc() : null;
+
+$dob_missing     = empty($row['dateOfBirth']);
+$address_missing = empty($row['addressLine']) || empty($row['postcode']);
+
+if ($dob_missing || $address_missing) {
+    // Mark session so complete-profile.php knows this is a returning user
+    $_SESSION['needs_profile_completion'] = true;
+    header('Location: complete-profile.php');
+    exit;
+}
+
+// ── Profile complete — check age ──────────────────────────────────────────
+$dob = new DateTime($row['dateOfBirth']);
+$age = (new DateTime())->diff($dob)->y;
+
+if ($age < 18) {
+    // Destroy session and block access
+    session_destroy();
+    session_start();
+    $_SESSION['login_error'] = 'You must be 18 or older to access this site.';
+    header('Location: log-in.php');
+    exit;
+}
+
+// ── All good ──────────────────────────────────────────────────────────────
 header('Location: ' . $redirect);
 exit;
