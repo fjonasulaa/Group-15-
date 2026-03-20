@@ -446,7 +446,6 @@ if (isset($_SESSION['customerID'])) {
   <div class="navbar-right">
     <form method="GET" action="search.php">
       <input type="text" name="search" placeholder="Search wines…" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-      <input type="hidden" name="submitted" value="true">
     </form>
 
     <div class="nav-divider"></div>
@@ -563,4 +562,16 @@ if (isset($_SESSION['customerID'])) {
   });
 
   loadWishlist();
+
+
+  // highlight active nav link
+
+  var currentPage = window.location.pathname.split('/').pop();
+  document.querySelectorAll('.navbar-links a').forEach(function(link) {
+    var linkPage = link.getAttribute('href').split('/').pop();
+    if (currentPage === linkPage) {
+      link.style.background = 'rgba(255,255,255,0.18)';
+      link.style.color = '#ffffff';
+    }
+  });
 </script>
