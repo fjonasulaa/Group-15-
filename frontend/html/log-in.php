@@ -35,13 +35,13 @@ if ($_SESSION['login_attempts'] >= $maxAttempts) {
 
 require_once("users.php");
 
-// PHPMailer — adjust path if your vendor folder is elsewhere
+// PHPMailer — loaded directly (no Composer needed)
+require_once __DIR__ . '/PHPMailer/src/Exception.php';
+require_once __DIR__ . '/PHPMailer/src/PHPMailer.php';
+require_once __DIR__ . '/PHPMailer/src/SMTP.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception as MailException;
-
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-    require_once __DIR__ . '/vendor/autoload.php';
-}
 
 /**
  * Generates a 6-digit OTP, saves it to the session, and emails it.
