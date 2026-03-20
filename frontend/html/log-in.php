@@ -1,8 +1,16 @@
 <?php
 session_start();
 
+$error = $_SESSION['login_error'] ?? "";
+unset($_SESSION["login_error"]);
+
+function showError($errors) {
+    return !empty($errors) ? "<p class='error-message'>" . htmlspecialchars($errors) . "</p>" : '';
+}
+
+
 $lockoutTime = 30;
-$maxAttempts = 2;
+$maxAttempts = 3;
 
 if (!isset($_SESSION['login_attempts']))    $_SESSION['login_attempts']    = 0;
 if (!isset($_SESSION['last_attempt_time'])) $_SESSION['last_attempt_time'] = 0;
@@ -116,7 +124,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } else {
         $_SESSION['login_attempts']++;
-        echo '<script>alert("Login Failed");</script>';
+        $_SESSION['login_error'] = "Incorrect email or password.";
+        header("Location: log-in.php");
+        exit;
     }
 }
 ?>
@@ -188,6 +198,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border-colour); }
         .divider span { margin: 0 10px; white-space: nowrap; }
         .darkmode .divider::before, .darkmode .divider::after { background: var(--background-colour); }
+
+        .error-message {
+            padding: 12px;
+            background: red;
+            border-radius: 6px;
+            font-size: 16px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -201,6 +221,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <img src="../../images/icon.png" alt="Wine Exchange Logo">
             </div>
             <h2>Login</h2>
+
+            <?= showError($error); ?>
 
             <div class="input">
                 <i class="fas fa-envelope"></i>
