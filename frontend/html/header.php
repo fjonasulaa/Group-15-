@@ -3,8 +3,8 @@
 <?php
 // navbar.php — reusable navigation header
 // Requires: $conn (db connection), session_start() must be called before including this file
+// NOTE: $conn is provided by the including page via db_connect.php — do NOT create a new connection here.
 
-$conn = new mysqli("localhost", "root", "", "winedb");
 $accountLink = 'log-in.php';
 
 if (isset($_SESSION['customerID'])) {
@@ -47,7 +47,7 @@ if (isset($_SESSION['customerID'])) {
     align-items: center;
     gap: 10px;
     text-decoration: none;
-    flex: 0 0 220px;
+    flex: 0 0 260px;
   }
 
   body.info {
@@ -141,15 +141,15 @@ if (isset($_SESSION['customerID'])) {
   .darkmode .navbar-links a::after { background: rgba(232,200,176,0.5); }
 
   /* ── GIFT LINK PILL ── */
-  .navbar-gift-link {
-    background: rgba(255,255,255,0.15) !important;
-    border: 1px solid rgba(255,255,255,0.3) !important;
-    border-radius: 20px !important;
-    padding: 5px 14px !important;
-    color: #ffffff !important;
-    font-weight: 600 !important;
-    transition: background 0.2s ease, transform 0.15s ease, border-color 0.2s ease !important;
-  }
+.navbar-gift-link {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 3px !important;
+  padding: 8px 13px !important;
+  color: rgba(255,255,255,0.78) !important;
+  font-weight: 500 !important;
+  transition: background 0.2s ease !important;
+}
   .navbar-gift-link:hover {
     background: rgba(255,255,255,0.26) !important;
     border-color: rgba(255,255,255,0.55) !important;
@@ -174,7 +174,7 @@ if (isset($_SESSION['customerID'])) {
     display: flex;
     align-items: center;
     gap: 3px;
-    flex: 0 0 220px;
+    flex: 0 0 260px;
     justify-content: flex-end;
   }
 
@@ -438,7 +438,7 @@ if (isset($_SESSION['customerID'])) {
     <a href="index.php">Home</a>
     <a href="about.php">About Us</a>
     <a href="search.php">Wines</a>
-    <a href="Gift-quiz.php" class="navbar-gift-link">Find a Gift</a>
+    <a href="gift-quiz.php" class="navbar-gift-link">Find a Gift</a>
     <a href="contact-us.php">Contact Us</a>
   </div>
 
@@ -480,6 +480,28 @@ if (isset($_SESSION['customerID'])) {
   dmBtn.addEventListener('click', function() {
     document.documentElement.classList.toggle('darkmode');
     localStorage.setItem('dark_mode', document.documentElement.classList.contains('darkmode') ? 'on' : 'off');
+  });
+                                        
+    document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.remove-wishlist');
+    if (!btn) return;
+    var id = btn.dataset.id, idx = btn.dataset.index;
+    if (loggedIn) {
+      fetch('remove_from_wishlist.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'wineId=' + id
+      }).then(function() {
+        loadWishlist();
+        window.dispatchEvent(new CustomEvent('wishlistUpdated'));
+      });
+    } else {
+      var wl = getGuestWishlist();
+      wl.splice(idx, 1);
+      saveGuestWishlist(wl);
+      renderWishlist(wl);
+      window.dispatchEvent(new CustomEvent('wishlistUpdated'));
+    }
   });
 </script>
 

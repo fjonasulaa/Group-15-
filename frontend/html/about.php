@@ -42,12 +42,11 @@ require_once('../../database/db_connect.php');
       font-size: 18px;
       color: var(--ink);
     }
-
-    .about {
-      padding-top: 120px;
-      padding-bottom: 80px;
-      background: var(--white);
-    }
+.about {
+  padding-top: 50px;
+  padding-bottom: 80px;
+  background: var(--white);
+}
 
     /* ─── PAGE HEADING ──────────────────────────────────────── */
     .center-title {
@@ -101,11 +100,16 @@ require_once('../../database/db_connect.php');
     }
 
     /* ─── SLOGAN ────────────────────────────────────────────── */
-    .slogan-section {
-      text-align: center;
-      max-width: 100%;
-      position: relative;
-    }
+.slogan-section {
+  text-align: center;
+  max-width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
 
     .slogan {
       font-family: 'Cormorant Garamond', Georgia, serif;
@@ -384,6 +388,33 @@ require_once('../../database/db_connect.php');
       filter: sepia(20%) saturate(0.7) brightness(0.85);
     }
 
+    .about-btn {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 12px 28px;
+  background: #7b1e3a;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 2px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: background 0.2s;
+}
+
+.about-btn:hover {
+  background: #5e152c;
+}
+
+html.darkmode .about-btn {
+  background: #9e2d4f;
+}
+
+html.darkmode .about-btn:hover {
+  background: #c03a60;
+}
+
   </style>
 </head>
 
@@ -392,8 +423,6 @@ require_once('../../database/db_connect.php');
   <?php include('header.php'); ?>
 
   <section class="about">
-
-    <h1 class="center-title">About Us</h1>
 
     <!-- SLOGAN -->
     <div class="slogan-section frame">
@@ -471,6 +500,7 @@ require_once('../../database/db_connect.php');
           character. From bold reds to crisp whites and sparkling delights, every bottle is chosen to delight your
           senses and elevate your dining experience. Discover wines crafted with passion, tradition, and a touch of
           innovation in every sip.</p>
+          <a href="search.php" class="about-btn">Explore Our Wines</a>
       </div>
     </div>
 
@@ -479,17 +509,7 @@ require_once('../../database/db_connect.php');
   <!-- FOOTER -->
   <?php include 'footer.php'; ?>
 
-  <script>
-    // DARK MODE
-    const darkButton = document.getElementById("dark-mode");
-    if (localStorage.getItem("dark_mode") === "on") {
-      document.documentElement.classList.add("darkmode");
-    }
-    darkButton.addEventListener("click", () => {
-      document.documentElement.classList.toggle("darkmode");
-      localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-    });
-  </script>
+  
 
 </body>
 <script src="chatbot.js"></script>
