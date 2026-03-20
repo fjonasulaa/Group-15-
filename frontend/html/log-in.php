@@ -4,13 +4,16 @@ session_start();
 $error = $_SESSION['login_error'] ?? "";
 unset($_SESSION["login_error"]);
 
+$emailValue = $_SESSION['login_email'] ?? "";
+unset($_SESSION["login_email"]);
+
 function showError($errors) {
     return !empty($errors) ? "<p class='error-message'>" . htmlspecialchars($errors) . "</p>" : '';
 }
 
 
 $lockoutTime = 30;
-$maxAttempts = 3;
+$maxAttempts = 5;
 
 if (!isset($_SESSION['login_attempts']))    $_SESSION['login_attempts']    = 0;
 if (!isset($_SESSION['last_attempt_time'])) $_SESSION['last_attempt_time'] = 0;
@@ -123,10 +126,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
 
     } else {
+
         $_SESSION['login_attempts']++;
-        $_SESSION['login_error'] = "Incorrect email or password.";
+        
+        $remainAttempt = $maxAttempts - $_SESSION['login_attempts'];
+        $attemptors = ($remainAttempt === 1) ? "attempt" : "attempts";
+        $_SESSION['login_error'] = "Incorrect email or password, {$remainAttempt} login {$attemptors} remaining";
+        $_SESSION['login_email'] = $_POST['email'] ?? '';
         header("Location: log-in.php");
         exit;
+
     }
 }
 ?>
@@ -226,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="input">
                 <i class="fas fa-envelope"></i>
-                <input type="email" name="email" placeholder="Enter your email" autocomplete="email" required>
+                <input type="email" name="email" placeholder="Enter your email" autocomplete="email"  value="<?= htmlspecialchars($emailValue) ?>" required>
             </div>
             <div class="input">
                 <i class="fas fa-lock"></i>
