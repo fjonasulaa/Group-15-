@@ -445,7 +445,7 @@ if (isset($_SESSION['customerID'])) {
   <!-- Right: search + icons -->
   <div class="navbar-right">
     <form method="POST" action="search.php">
-      <input type="text" name="search" placeholder="Search wines…">
+      <input type="text" name="search" placeholder="Search wines…" value="<?= htmlspecialchars($_POST['search'] ?? '') ?>">
       <input type="hidden" name="submitted" value="true">
     </form>
 

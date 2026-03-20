@@ -269,22 +269,21 @@ require_once('../../database/db_connect.php');
     </div>
     <div class="filter-title">Filter & Sort Wines</div>
 
-    <form method="POST" class="filter-form">
-
+    <form method="GET" class="filter-form">
         <!-- remembers the search value after filtering -->
         <input type="hidden" name="search"
-            value="<?= isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '' ?>">
+            value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
 
         <div class="filter-group">
             <label>Wine Type</label>
             <select name="category">
                 <option value="">All Types</option>
-                <option value="Red Wine" <?= (isset($_POST['category']) && $_POST['category']=="Red Wine") ? "selected" : "" ?>>Red</option>
-                <option value="White Wine" <?= (isset($_POST['category']) && $_POST['category']=="White Wine") ? "selected" : "" ?>>White</option>
-                <option value="Rosé Wine" <?= (isset($_POST['category']) && $_POST['category']=="Rosé Wine") ? "selected" : "" ?>>Rosé</option>
-                <option value="Dessert Wine" <?= (isset($_POST['category']) && $_POST['category']=="Dessert Wine") ? "selected" : "" ?>>Dessert</option>
-                <option value="Sparkling Wine" <?= (isset($_POST['category']) && $_POST['category']=="Sparkling Wine") ? "selected" : "" ?>>Sparkling</option>
-                <option value="Fortified Wine" <?= (isset($_POST['category']) && $_POST['category']=="Fortified Wine") ? "selected" : "" ?>>Fortified</option>
+                <option value="Red Wine" <?= (isset($_GET['category']) && $_GET['category']=="Red Wine") ? "selected" : "" ?>>Red</option>
+                <option value="White Wine" <?= (isset($_GET['category']) && $_GET['category']=="White Wine") ? "selected" : "" ?>>White</option>
+                <option value="Rosé Wine" <?= (isset($_GET['category']) && $_GET['category']=="Rosé Wine") ? "selected" : "" ?>>Rosé</option>
+                <option value="Dessert Wine" <?= (isset($_GET['category']) && $_GET['category']=="Dessert Wine") ? "selected" : "" ?>>Dessert</option>
+                <option value="Sparkling Wine" <?= (isset($_GET['category']) && $_GET['category']=="Sparkling Wine") ? "selected" : "" ?>>Sparkling</option>
+                <option value="Fortified Wine" <?= (isset($_GET['category']) && $_GET['category']=="Fortified Wine") ? "selected" : "" ?>>Fortified</option>
             </select>
         </div>
 
@@ -292,25 +291,25 @@ require_once('../../database/db_connect.php');
             <label>Country</label>
             <select name="region">
                 <option value="">All Countries</option>
-                <option value="France" <?= (isset($_POST['region']) && $_POST['region']=="France") ? "selected" : "" ?>>France</option>
-                <option value="Italy" <?= (isset($_POST['region']) && $_POST['region']=="Italy") ? "selected" : "" ?>>Italy</option>
-                <option value="Portugal" <?= (isset($_POST['region']) && $_POST['region']=="Portugal") ? "selected" : "" ?>>Portugal</option>
-                <option value="South Africa" <?= (isset($_POST['region']) && $_POST['region']=="South Africa") ? "selected" : "" ?>>South Africa</option>
-                <option value="Australia" <?= (isset($_POST['region']) && $_POST['region']=="Australia") ? "selected" : "" ?>>Australia</option>
-                <option value="United States" <?= (isset($_POST['region']) && $_POST['region']=="United States") ? "selected" : "" ?>>United States</option>
+                <option value="France" <?= (isset($_GET['region']) && $_GET['region']=="France") ? "selected" : "" ?>>France</option>
+                <option value="Italy" <?= (isset($_GET['region']) && $_GET['region']=="Italy") ? "selected" : "" ?>>Italy</option>
+                <option value="Portugal" <?= (isset($_GET['region']) && $_GET['region']=="Portugal") ? "selected" : "" ?>>Portugal</option>
+                <option value="South Africa" <?= (isset($_GET['region']) && $_GET['region']=="South Africa") ? "selected" : "" ?>>South Africa</option>
+                <option value="Australia" <?= (isset($_GET['region']) && $_GET['region']=="Australia") ? "selected" : "" ?>>Australia</option>
+                <option value="United States" <?= (isset($_GET['region']) && $_GET['region']=="United States") ? "selected" : "" ?>>United States</option>
             </select>
         </div>
 
         <div class="filter-group">
             <label>Min Price (£)</label>
             <input type="number" name="min_price" min="0"
-                value="<?= isset($_POST['min_price']) ? htmlspecialchars($_POST['min_price']) : '' ?>">
+                value="<?= isset($_GET['min_price']) ? htmlspecialchars($_GET['min_price']) : '' ?>">
         </div>
 
         <div class="filter-group">
             <label>Max Price (£)</label>
             <input type="number" name="max_price" min="0"
-                value="<?= isset($_POST['max_price']) ? htmlspecialchars($_POST['max_price']) : '' ?>">
+                value="<?= isset($_GET['max_price']) ? htmlspecialchars($_GET['max_price']) : '' ?>">
         </div>
 
         <div class="filter-buttons">
@@ -323,11 +322,11 @@ require_once('../../database/db_connect.php');
 
 
 <?php
-if (isset($_POST['reset'])) {
-    $searchValue = isset($_POST['search']) ? $_POST['search'] : '';
-    $_POST = [];
+if (isset($_GET['reset'])) {
+    $searchValue = isset($_GET['search']) ? $_GET['search'] : '';
+    $_GET = [];
     if (!empty($searchValue)) {
-        $_POST['search'] = $searchValue;
+        $_GET['search'] = $searchValue;
     }
 }
 
@@ -335,43 +334,43 @@ $query = "SELECT * FROM wines WHERE 1=1";
 $params = [];
 $types = "";
 
-if (!empty($_POST['search'])) {
+if (!empty($_GET['search'])) {
     $query .= " AND (wineName LIKE ? OR category LIKE ? OR country LIKE ?)";
-    $searchTerm = "%" . $_POST['search'] . "%";
+    $searchTerm = "%" . $_GET['search'] . "%";
     $params[] = $searchTerm;
     $params[] = $searchTerm;
     $params[] = $searchTerm;
     $types .= "sss";
 }
 
-if (!empty($_POST['category'])) {
+if (!empty($_GET['category'])) {
     $query .= " AND category = ?";
-    $params[] = $_POST['category'];
+    $params[] = $_GET['category'];
     $types .= "s";
 }
 
-if (!empty($_POST['region'])) {
+if (!empty($_GET['region'])) {
     $query .= " AND country = ?";
-    $params[] = $_POST['region'];
+    $params[] = $_GET['region'];
     $types .= "s";
 }
 
-if (!empty($_POST['min_price'])) {
+if (!empty($_GET['min_price'])) {
     $query .= " AND price >= ?";
-    $params[] = $_POST['min_price'];
+    $params[] = $_GET['min_price'];
     $types .= "d";
 }
 
-if (!empty($_POST['max_price'])) {
+if (!empty($_GET['max_price'])) {
     $query .= " AND price <= ?";
-    $params[] = $_POST['max_price'];
+    $params[] = $_GET['max_price'];
     $types .= "d";
 }
 
 $query .= " AND active = TRUE";
 
-if (!empty($_POST['sort'])) {
-    switch ($_POST['sort']) {
+if (!empty($_GET['sort'])) {
+    switch ($_GET['sort']) {
         case "price_asc":
             $query .= " ORDER BY price ASC";
             break;
@@ -383,6 +382,13 @@ if (!empty($_POST['sort'])) {
             break;
     }
 }
+
+// pagination variables
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$offset = ($page - 1) * 10;
+$query .= " LIMIT 10 OFFSET ?";
+$params[] = $offset;
+$types .= "i";
 
 $stat = $conn->prepare($query);
 
@@ -402,18 +408,18 @@ $result = $stat->get_result();
             <i class="fa fa-sliders"></i> Filter
         </button>
 
-        <form method="POST" style="margin:0;">
-            <input type="hidden" name="search"    value="<?= isset($_POST['search'])    ? htmlspecialchars($_POST['search'])    : '' ?>">
-            <input type="hidden" name="category"  value="<?= isset($_POST['category'])  ? htmlspecialchars($_POST['category'])  : '' ?>">
-            <input type="hidden" name="region"    value="<?= isset($_POST['region'])    ? htmlspecialchars($_POST['region'])    : '' ?>">
-            <input type="hidden" name="min_price" value="<?= isset($_POST['min_price']) ? htmlspecialchars($_POST['min_price']) : '' ?>">
-            <input type="hidden" name="max_price" value="<?= isset($_POST['max_price']) ? htmlspecialchars($_POST['max_price']) : '' ?>">
+        <form method="GET" style="margin:0;">
+            <input type="hidden" name="search"    value="<?= isset($_GET['search'])    ? htmlspecialchars($_GET['search'])    : '' ?>">
+            <input type="hidden" name="category"  value="<?= isset($_GET['category'])  ? htmlspecialchars($_GET['category'])  : '' ?>">
+            <input type="hidden" name="region"    value="<?= isset($_GET['region'])    ? htmlspecialchars($_GET['region'])    : '' ?>">
+            <input type="hidden" name="min_price" value="<?= isset($_GET['min_price']) ? htmlspecialchars($_GET['min_price']) : '' ?>">
+            <input type="hidden" name="max_price" value="<?= isset($_GET['max_price']) ? htmlspecialchars($_GET['max_price']) : '' ?>">
 
             <select name="sort" onchange="this.form.submit()" class="sort-dropdown">
                 <option value="">Sort By</option>
-                <option value="price_asc"  <?= (isset($_POST['sort']) && $_POST['sort']=="price_asc")  ? "selected" : "" ?>>Price: Low to High</option>
-                <option value="price_desc" <?= (isset($_POST['sort']) && $_POST['sort']=="price_desc") ? "selected" : "" ?>>Price: High to Low</option>
-                <option value="name_asc"   <?= (isset($_POST['sort']) && $_POST['sort']=="name_asc")   ? "selected" : "" ?>>Name: A to Z</option>
+                <option value="price_asc"  <?= (isset($_GET['sort']) && $_GET['sort']=="price_asc")  ? "selected" : "" ?>>Price: Low to High</option>
+                <option value="price_desc" <?= (isset($_GET['sort']) && $_GET['sort']=="price_desc") ? "selected" : "" ?>>Price: High to Low</option>
+                <option value="name_asc"   <?= (isset($_GET['sort']) && $_GET['sort']=="name_asc")   ? "selected" : "" ?>>Name: A to Z</option>
             </select>
         </form>
     </div>
@@ -438,10 +444,33 @@ if ($result->num_rows > 0) {
 ?>
 </div>
 
+
 <?php
+// get filtered total for accurate pagination
+$countQuery = str_replace("SELECT *", "SELECT COUNT(*)", $query);
+$countQuery = preg_replace('/LIMIT.+$/s', '', $countQuery);
+$countStmt = $conn->prepare($countQuery);
+$countParams = array_slice($params, 0, -1);
+$countTypes = substr($types, 0, -1);
+
+// if there are no filters then skip
+if (!empty($countParams)) $countStmt->bind_param($countTypes, ...$countParams);
+
+$countStmt->execute();
+$countStmt->bind_result($totalWines);
+$countStmt->fetch();
+$countStmt->close();
+
+include 'pagination.php';
+
+// call pagination function
+renderPagination($totalWines, 10, $_GET);
+
 $stat->close();
 $conn->close();
 ?>
+
+
 
 <script>
     // Filter sidebar
@@ -465,6 +494,7 @@ $conn->close();
         overlay.classList.remove("active");
     });
 </script>
+
 <?php include 'footer.php'; ?>
 
 </body>
