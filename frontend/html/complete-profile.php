@@ -2,8 +2,11 @@
 session_start();
 require_once('../../database/db_connect.php');
 
-// If no pending Google session, send them away
-if (!isset($_SESSION['google_pending'])) {
+// ── Allow access if: new Google signup OR logged-in user with incomplete profile
+$is_new_google  = isset($_SESSION['google_pending']);
+$is_returning   = isset($_SESSION['customerID'], $_SESSION['needs_profile_completion']);
+
+if (!$is_new_google && !$is_returning) {
     header("Location: log-in.php");
     exit;
 }
@@ -11,12 +14,12 @@ if (!isset($_SESSION['google_pending'])) {
 $error = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $dob         = $_POST['dob'] ?? '';
+    $dob         = $_POST['dob']         ?? '';
     $addressline = trim($_POST['addressline'] ?? '');
-    $postcode    = trim($_POST['postcode'] ?? '');
-    $pnumber     = trim($_POST['pnumber'] ?? '');
+    $postcode    = trim($_POST['postcode']    ?? '');
+    $pnumber     = trim($_POST['pnumber']     ?? '');
 
-    // Age check
+    // ── Age check ─────────────────────────────────────────────────────────
     $birth = new DateTime($dob);
     $today = new DateTime();
     $age   = $today->diff($birth)->y;
@@ -26,30 +29,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (empty($addressline) || empty($postcode)) {
         $error = "Address and postcode are required.";
     } else {
-        $firstName   = $conn->real_escape_string($_SESSION['google_pending']['firstName']);
-        $surname     = $conn->real_escape_string($_SESSION['google_pending']['surname']);
-        $email       = $conn->real_escape_string($_SESSION['google_pending']['email']);
-        $addressline = $conn->real_escape_string($addressline);
-        $postcode    = $conn->real_escape_string($postcode);
-        $pnumber     = $conn->real_escape_string($pnumber);
-        $dob         = $conn->real_escape_string($dob);
 
-        $conn->query("INSERT INTO customer (firstName, surname, email, passwordHash, dateOfBirth, phoneNumber, addressLine, postcode)
-                      VALUES ('$firstName', '$surname', '$email', '', '$dob', '$pnumber', '$addressline', '$postcode')");
+        if ($is_new_google) {
+            // ── New Google user — INSERT into DB ──────────────────────────
+            $firstName   = $conn->real_escape_string($_SESSION['google_pending']['firstName']);
+            $surname     = $conn->real_escape_string($_SESSION['google_pending']['surname']);
+            $email       = $conn->real_escape_string($_SESSION['google_pending']['email']);
+            $addressline = $conn->real_escape_string($addressline);
+            $postcode    = $conn->real_escape_string($postcode);
+            $pnumber     = $conn->real_escape_string($pnumber);
+            $dob         = $conn->real_escape_string($dob);
 
-        if ($conn->error) {
-            $error = "Database error: " . $conn->error;
+            $conn->query("INSERT INTO customer (firstName, surname, email, passwordHash, dateOfBirth, phoneNumber, addressLine, postcode)
+                          VALUES ('$firstName', '$surname', '$email', '', '$dob', '$pnumber', '$addressline', '$postcode')");
+
+            if ($conn->error) {
+                $error = "Database error: " . $conn->error;
+            } else {
+                $customerId = $conn->insert_id;
+                $_SESSION['customerID']    = $customerId;
+                $_SESSION['authenticated'] = true;
+                $_SESSION['auth_time']     = time();
+                unset($_SESSION['google_pending']);
+                header("Location: account.php");
+                exit;
+            }
+
         } else {
-            $customerId = $conn->insert_id;
-            $_SESSION['customerID'] = $customerId;
-            unset($_SESSION['google_pending']);
-            header("Location: account.php");
-            exit;
+            // ── Returning user — UPDATE their existing record ─────────────
+            $customerId  = (int)$_SESSION['customerID'];
+            $addressline = $conn->real_escape_string($addressline);
+            $postcode    = $conn->real_escape_string($postcode);
+            $pnumber     = $conn->real_escape_string($pnumber);
+            $dob         = $conn->real_escape_string($dob);
+
+            $conn->query("UPDATE customer
+                          SET dateOfBirth = '$dob',
+                              addressLine = '$addressline',
+                              postcode    = '$postcode',
+                              phoneNumber = '$pnumber'
+                          WHERE customerID = $customerId");
+
+            if ($conn->error) {
+                $error = "Database error: " . $conn->error;
+            } else {
+                unset($_SESSION['needs_profile_completion']);
+                header("Location: account.php");
+                exit;
+            }
         }
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -121,15 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .footer-links li { margin: 5px 0; }
         .footer-links a { text-decoration: none; color: inherit; }
         .footer-links a:hover { text-decoration: underline; }
-        .footer-button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 4px;
-            text-decoration: none;
-        }
+        .footer-button { display: inline-block; margin-top: 10px; padding: 8px 15px; background-color: #4CAF50; color: white; border-radius: 4px; text-decoration: none; }
         .footer-button:hover { opacity: 0.9; }
         .footer-bottom { text-align: center; margin-top: 20px; padding-top: 10px; border-top: 1px solid #ccc; font-size: 14px; }
         .darkmode .footer { background-color: #1e1e1e; color: #eee; }
@@ -139,7 +162,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
     <img src="../../images/icon.png" alt="Wine Exchange Logo">
     <div class="navbar-links">
@@ -161,8 +183,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="container">
     <div class="form-box">
-        <h2>Almost there!</h2>
-        <p class="subtitle">We just need a few more details to complete your account.</p>
+        <h2><?= $is_new_google ? 'Almost there!' : 'Complete Your Profile' ?></h2>
+        <p class="subtitle">
+            <?= $is_new_google
+                ? 'We just need a few more details to complete your account.'
+                : 'Please verify your details to continue.' ?>
+        </p>
 
         <?php if ($error): ?>
             <p class="error-message"><?= htmlspecialchars($error) ?></p>
@@ -181,12 +207,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Phone Number (optional)</label>
             <input type="tel" name="pnumber" placeholder="+44 7000 000000" autocomplete="tel">
 
-            <button type="submit">Complete Sign Up</button>
+            <button type="submit"><?= $is_new_google ? 'Complete Sign Up' : 'Continue to Account' ?></button>
         </form>
     </div>
 </div>
 
-<!-- FOOTER -->
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-section">
@@ -215,9 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </ul>
         </div>
     </div>
-    <div class="footer-bottom">
-        © 2024 Wine Exchange. All rights reserved.
-    </div>
+    <div class="footer-bottom">© 2024 Wine Exchange. All rights reserved.</div>
 </footer>
 
 <script>
@@ -230,6 +253,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
     });
 </script>
-
 </body>
 </html>
