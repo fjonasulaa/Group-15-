@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $customerId = (int)$customerId;
 
         // Work out where to send them after 2FA succeeds
-        $result = $conn->query("SELECT role, email, first_name FROM customer WHERE customerID = $customerId");
+        $result = $conn->query("SELECT role, email, firstName FROM customer WHERE customerID = $customerId");
         $row    = ($result) ? $result->fetch_assoc() : null;
 
         $redirect_after = 'account.php'; // default
@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Use email from DB if available, otherwise fall back to POST value
         $email = $row['email']      ?? $_POST['email'];
-        $name  = $row['first_name'] ?? 'User';
+        $name  = $row['firstName']  ?? 'User';
 
         // Generate code, save to session, send email
         $sent = send_2fa_code($customerId, $email, $name);
