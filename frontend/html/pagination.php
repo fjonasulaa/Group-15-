@@ -4,6 +4,9 @@ function renderPagination($totalWines, $perPage, $params) {
     $totalPages = ceil($totalWines / $perPage);
     
     if ($totalPages <= 1) return;
+
+    // avoid duplicates
+    unset($params['page']);
     ?>
     <div style="text-align:center; padding: 20px 40px;">
         <?php for ($i = 1; $i <= $totalPages; $i++): ?>

@@ -383,7 +383,16 @@ if (!empty($_GET['sort'])) {
     }
 }
 
-// pagination variables
+// count filtered results before adding limit to search options
+$countQuery = str_replace("SELECT *", "SELECT COUNT(*)", $query);
+$countStmt = $conn->prepare($countQuery);
+if (!empty($params)) $countStmt->bind_param($types, ...$params);
+$countStmt->execute();
+$countStmt->bind_result($totalWines);
+$countStmt->fetch();
+$countStmt->close();
+
+// add limit after count
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($page - 1) * 10;
 $query .= " LIMIT 10 OFFSET ?";
