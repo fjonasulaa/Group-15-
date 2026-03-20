@@ -455,21 +455,6 @@ if ($result->num_rows > 0) {
 
 
 <?php
-// get filtered total for accurate pagination
-$countQuery = str_replace("SELECT *", "SELECT COUNT(*)", $query);
-$countQuery = preg_replace('/LIMIT.+$/s', '', $countQuery);
-$countStmt = $conn->prepare($countQuery);
-$countParams = array_slice($params, 0, -1);
-$countTypes = substr($types, 0, -1);
-
-// if there are no filters then skip
-if (!empty($countParams)) $countStmt->bind_param($countTypes, ...$countParams);
-
-$countStmt->execute();
-$countStmt->bind_result($totalWines);
-$countStmt->fetch();
-$countStmt->close();
-
 include 'pagination.php';
 
 // call pagination function
