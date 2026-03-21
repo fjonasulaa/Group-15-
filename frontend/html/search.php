@@ -471,14 +471,39 @@ $result = $stat->get_result();
 <?php
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        echo "<a class='box-link' href='wineinfo.php?id=" . $row['wineId'] . "'>";
+        $isAdded = ($addedWineId === (int)$row['wineId']);
+
+        echo "<div class='box-link'>";
         echo "<div class='box'>";
-        echo "<img src='../../images/" . htmlspecialchars($row['imageUrl']) . "'>";
+
+        echo "<a class='card-main-link' href='wineinfo.php?id=" . $row['wineId'] . "'>";
+        echo "<img src='../../images/" . htmlspecialchars($row['imageUrl']) . "' alt='" . htmlspecialchars($row['wineName']) . "'>";
+
         echo "<div class='box-text'>";
         echo "<p><strong>" . htmlspecialchars($row['wineName']) . "</strong></p>";
         echo "<p>" . htmlspecialchars($row['category']) . "</p>";
         echo "<p class='price'>£ " . htmlspecialchars($row['price']) . "</p>";
-        echo "</div></div></a>";
+        echo "</div>";
+        echo "</a>";
+
+        echo "<form method='POST' action='" . htmlspecialchars($_SERVER['REQUEST_URI']) . "' class='add-to-basket-form'>";
+        echo "<input type='hidden' name='add_to_basket' value='1'>";
+        echo "<input type='hidden' name='wineId' value='" . (int)$row['wineId'] . "'>";
+        echo "<input type='hidden' name='quantity' value='1'>";
+
+        if ($isAdded) {
+            echo "<button type='submit' class='add-basket-btn added-temp'>";
+            echo "<i class='fa fa-check'></i> Added to Basket";
+        } else {
+            echo "<button type='submit' class='add-basket-btn'>";
+            echo "<i class='fa fa-basket-shopping'></i> Add to Basket";
+        }
+
+        echo "</button>";
+        echo "</form>";
+
+        echo "</div>";
+        echo "</div>";
     }
 } else {
     echo "No wines found.";
@@ -520,6 +545,17 @@ $conn->close();
         sidebar.classList.remove("active");
         overlay.classList.remove("active");
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const addedButton = document.querySelector(".add-basket-btn.added-temp");
+
+    if (addedButton) {
+        setTimeout(() => {
+            addedButton.innerHTML = "<i class='fa fa-basket-shopping'></i> Add to Basket";
+            addedButton.classList.remove("added-temp");
+        }, 1500);
+    }
+});
 </script>
 
 <?php include 'footer.php'; ?>
