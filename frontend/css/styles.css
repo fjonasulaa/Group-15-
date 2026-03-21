@@ -11,7 +11,7 @@
   --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.12);
   --dm-button-colour: #000;
   --sidebar-width: 15%;
-  --navbar-height: 90px;
+  --navbar-height: 62px;
   --tabs-height: 55px;
 
   --white: #ffffff;
@@ -836,7 +836,7 @@ textarea {
 
 .sidebar-container {
   margin-left: var(--sidebar-width);
-  width: calc(100% - var(--sidebar-width))
+  width: calc(100% - var(--sidebar-width));
 }
 
 .tab-container {
@@ -949,6 +949,18 @@ textarea {
   text-decoration: none;
 }
 
+.sidebar a {
+  color: var(--text-colour);
+}
+
+.sidebar a:visited {
+  color: var(--text-colour);
+}
+
+.sidebar a:hover {
+  color: var(--primary-colour);
+}
+
 .sidebar a.active {
   color: var(--white);
   background-color: var(--primary-colour);
@@ -1054,6 +1066,7 @@ textarea {
   letter-spacing: 1px;
   color: var(--dark-grey);
   font-size: 0.85rem;
+  gap: 10px;
 }
 
 .transaction-row {
@@ -1066,9 +1079,9 @@ textarea {
 .transaction-header,
 .transaction-row {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   width: 100%;
-  align-items: center;
+  align-items: start;
 }
 
 .transaction-status {

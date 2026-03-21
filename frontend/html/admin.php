@@ -12,9 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        .transaction-row select[name="paymentStatus"] {
-            margin-top: 20px;
-        }
 
         .transaction-row select {
             width: 120px;
@@ -123,6 +120,40 @@
             text-align: center;
             box-sizing: border-box;
         }
+        
+        .transaction-row > span {
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .transaction-row input[type="text"],
+        .transaction-row select {
+            width: 90%;
+            max-width: 90%;
+            box-sizing: border-box;
+            min-width: 0;
+            height: 30px;
+            font-size: 13px;
+        }
+
+        .transaction-row > span,
+        .transaction-row > input,
+        .transaction-row > select {
+            min-width: 0;
+        }
+
+        .transaction-row span {
+            padding-top: 0px;
+        }
+
+        .transaction-row > span:nth-child(4),
+        .transaction-row > span:nth-child(5),
+        .transaction-row > span:nth-child(6),
+        .transaction-row > span:nth-child(9) {
+            position: relative;
+            top: 3px;
+        }
+
     </style>
 </head>
 
@@ -148,7 +179,7 @@
             <button class="tablinks" onclick="openTab(event, 'transactions')">Transactions</button>
             <button class="tablinks" onclick="openTab(event, 'returns')">Returns</button>
             <button class="tablinks" onclick="window.location.href='inventory.php'">Inventory</button>
-            <button class="tablinks" onclick="window.location.href='account.php'">Account</button>
+            <button class="tablinks" onclick="window.location.href='account.php'">My Account</button>
             <button class="tablinks" onclick="window.location.href='logout.php'">Logout</button>
         </div>
 
@@ -234,15 +265,14 @@
                     <h1 class="center-title">TRANSACTION HISTORY</h1>
                     <div class="transaction-table">
                         <div class="transaction-header">
-                            <span>SHIPPING NUMBER</span>
+                            <span>SHIPPING<br> NUMBER</span>
                             <span>CARRIER</span>
                             <span>ORDER ID</span>
                             <span>AMOUNT</span>
-                            <span>CUSTOMER</span>
-                            <span>PAYMENT METHOD</span>
-                            <span>PAYMENT STATUS</span>
-                            <span>SHIPMENT</span>
-                            <span>TRANSACTION DATE</span>
+                            <span>PAYMENT<br> METHOD</span>
+                            <span>PAYMENT<br> STATUS</span>
+                            <span>SHIPMENT<br> STATUS</span>
+                            <span>TRANSACTION<br> DATE</span>
                         </div>
 
                         <?php if (count($transactions) == 0): ?>
@@ -251,7 +281,6 @@
                                 <span>—</span>
                                 <span>—</span>
                                 <span class="transaction-amount">£0.00</span>
-                                <span><?= $user['firstName'] . ' ' . $user['surname'] ?></span>
                                 <span>—</span>
                                 <span>—</span>
                                 <span>—</span>
@@ -261,11 +290,14 @@
                             <?php for ($i = 0; $i < count($transactions); $i++): ?>
                                 <form method="post" class="transaction-row">
                                     <input type="hidden" name="orderId" value="<?= $transactions[$i]['orderId'] ?>">
-                                    <input type="text" name="trackingNumber" value="<?= $transactions[$i]['trackingNumber'] ?>" style="width:120px; height:24px; margin-top: 20px; font-size:14px;">
-                                    <input type="text" name="carrier" value="<?= $transactions[$i]['carrier'] ?>" style="width:120px; height:24px; margin-top: 20px; font-size:14px;">
+                                    <span>
+                                        <input type="text" name="trackingNumber" value="<?= $transactions[$i]['trackingNumber'] ?>">
+                                        <br>
+                                        <button type="submit" name="updateTransactionStatus">Save</button>
+                                    </span>
+                                    <span><input type="text" name="carrier" value="<?= $transactions[$i]['carrier'] ?>"></span>
                                     <span><?= $transactions[$i]['orderId'] ?></span>
                                     <span>£<?= number_format((float)$transactions[$i]['amount'], 2) ?></span>
-                                    <span><?= $user['firstName'] . ' ' . $user['surname'] ?></span>
                                     <span><?= $transactions[$i]['method'] ?></span>
                                     <span>
                                         <select name="paymentStatus">
@@ -280,10 +312,9 @@
                                             <option value="In Transit" <?= $transactions[$i]['shippingStatus'] == 'In Transit' ? 'selected' : '' ?>>In Transit</option>
                                             <option value="Delivered" <?= $transactions[$i]['shippingStatus'] == 'Delivered' ? 'selected' : '' ?>>Delivered</option>
                                         </select>
-                                        <button type="submit" name="updateTransactionStatus">Save</button>
                                     </span>
 
-                                    <span style="display:inline-block; margin-top:-38px;"><?= $transactions[$i]['transactionTimestamp'] ?></span>
+                                    <span><?= $transactions[$i]['transactionTimestamp'] ?></span>
                                 </form>
                             <?php endfor; ?>
                         <?php endif; ?>
