@@ -1532,6 +1532,71 @@ html {
     margin-bottom: 20px;
 }
 
+/* RECENTLY VIEWED */
 
+.recently-viewed {
+    padding: 72px 10%;
+    background: var(--bg);
+    transition: background var(--speed);
+}
 
+.rv-track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: #7b1e3a transparent;
+}
 
+.recent-box-link {
+    text-decoration: none;
+    color: inherit;
+    flex: 0 0 200px;
+}
+
+.recent-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    height: 300px;
+}
+
+.recent-box img {
+    padding-top: 20px;
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+}
+
+.recent-box-text {
+    text-align: left;
+}
+
+/* TOOLTIP FOR BASKET PRICE */
+
+.basket-tooltip {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    color: #6b1a2e;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 999;
+}
+
+.basket-nav-button:hover .basket-tooltip {
+    display: block !important;
+}
