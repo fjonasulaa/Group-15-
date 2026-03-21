@@ -413,19 +413,28 @@ setTimeout(() => {
     to   { opacity: 0; }
 }
 
+.button,
 .wishlist-button {
-    padding: 8px 14px;
-    border: 2px solid #e63946;
-    background: white;
-    color: #e63946;
+    background-color: #7b1e3a !important;
+    border: 2px solid #7b1e3a !important;
+    color: white !important;
     border-radius: 6px;
+    padding: 8px 14px;
     cursor: pointer;
     font-size: 14px;
+    transition: all 0.3s ease;
 }
 
-.wishlist-button i { margin-right: 5px; }
-.wishlist-button:hover { background-color: #e63946; color: white; }
-.wishlist-button.active { background-color: #e63946; color: white; }
+.button:hover,
+.wishlist-button:hover {
+    background-color: #5f172d !important;
+    border-color: #5f172d !important;
+}
+
+.wishlist-button.active {
+    background-color: #7b1e3a !important;
+    color: white !important;
+}
 </style>
 
 <script>
