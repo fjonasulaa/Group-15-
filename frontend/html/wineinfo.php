@@ -65,23 +65,26 @@
 }
     
 .stock-badge {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
     font-size: 13px;
     font-weight: 600;
+    letter-spacing: 0.3px;
 }
 
 .stock-in {
-    background: #d4f8d4;
-    color: #1b7a1b;
-    border: 1px solid #8fd98f;
+    color: #2e7d32;
+    background: transparent;
+    border-radius: 0;
 }
 
 .stock-out {
-    background: #ffe0e0;
-    color: #b30000;
-    border: 1px solid #ff8a8a;
+    color: #7b1e3a;
+    background: transparent;
+    border-radius: 0;
 }
 </style>
 
@@ -243,9 +246,13 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
 
                 <p class="stock">
                     <?php if ($wine['stock'] > 0): ?>
-                        <span class="stock-badge stock-in">In Stock</span>
+                        <span class="stock-badge stock-in">
+                            <i class="fas fa-check-circle"></i> In Stock
+                        </span>
                     <?php else: ?>
-                        <span class="stock-badge stock-out">Out of Stock</span>
+                        <span class="stock-badge stock-out">
+                            <i class="fas fa-times-circle"></i> Out of Stock
+                        </span>
                     <?php endif; ?>
                 </p>
 
