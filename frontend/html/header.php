@@ -115,6 +115,12 @@ if (isset($_SESSION['customerID'])) {
     color: rgba(255,255,255,0.78);
     transition: color 0.2s ease, background 0.2s ease;
   }
+
+  .navbar-links a.active {
+    background: rgba(255,255,255,0.18);
+    color: #ffffff;
+  }
+
   .navbar-links a:hover {
     color: #ffffff;
     background: rgba(255,255,255,0.12);
@@ -142,7 +148,7 @@ if (isset($_SESSION['customerID'])) {
 
   /* ── GIFT LINK PILL ── */
 .navbar-gift-link {
-  background: transparent !important;
+  background: transparent;
   border: none !important;
   border-radius: 3px !important;
   padding: 8px 13px !important;
@@ -588,12 +594,11 @@ if (isset($_SESSION['customerID'])) {
 
   // highlight active nav link
 
-  var currentPage = window.location.pathname.split('/').pop();
-  document.querySelectorAll('.navbar-links a').forEach(function(link) {
+var currentPage = window.location.pathname.split('/').pop();
+document.querySelectorAll('.navbar-links a').forEach(function(link) {
     var linkPage = link.getAttribute('href').split('/').pop();
     if (currentPage === linkPage) {
-      link.style.background = 'rgba(255,255,255,0.18)';
-      link.style.color = '#ffffff';
+        link.classList.add('active');
     }
-  });
+});
 </script>
