@@ -111,8 +111,9 @@ require_once('../../database/db_connect.php');
         <li><a href="#intellectual-property">Intellectual property</a></li>
         <li><a href="#liability">Limitation of liability</a></li>
         <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#cookies">Cookie policy</a></li>
         <li><a href="#changes">Changes to these terms</a></li>
-        <li><a href="#contact">Contact us</a></li>
+        <li><a href="#contact">Governing law & contact</a></li>
       </ul>
     </nav>
 
@@ -210,6 +211,21 @@ require_once('../../database/db_connect.php');
         <h2>9. Privacy</h2>
         <p>Your use of our website is also governed by our Privacy Policy, which is incorporated into these terms by reference. By using our website, you consent to the processing of your personal data as described in our Privacy Policy.</p>
         <p>We comply fully with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018. Your personal data is never sold or shared with third parties for marketing purposes.</p>
+      </div>
+
+      <div class="tc-section" id="cookies">
+        <h2>10. Cookie Policy</h2>
+        <p>Wine Exchange uses cookies to improve your browsing experience and ensure the website functions correctly. By continuing to use our website, you consent to our use of cookies in accordance with this policy.</p>
+        
+        <p>We use the following types of cookies:</p>
+        <ul>
+            <li><strong>Essential cookies</strong> — required for the website to function. These include session cookies that keep you logged in and maintain your basket between pages.</li>
+            <li><strong>Preference cookies</strong> — remember your settings such as dark mode preference.</li>
+            <li><strong>Analytics cookies</strong> — help us understand how visitors use our site so we can improve it.</li>
+        </ul>
+
+        <p>You can control and manage cookies through your browser settings. Please note that disabling essential cookies may affect the functionality of the website, including your ability to log in or maintain a basket.</p>
+        <p>Our website uses <code>localStorage</code> to store your dark mode preference and guest wishlist. This data is stored locally on your device and is not transmitted to our servers.</p>
       </div>
 
       <div class="tc-section" id="changes">

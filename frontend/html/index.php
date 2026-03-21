@@ -651,6 +651,44 @@ $reviews = $conn->query($reviewSQL);
       </div>
     </section>
 
+    <!-- RECENTLY VIEWED -->
+    <?php if (!empty($_SESSION['recently_viewed'])): ?>
+    <section class="recently-viewed fade-in">
+        <div class="reviews-header">
+            <h1 class="section-label">RECENTLY VIEWED</h1>
+            <span class="section-divider"></span>
+        </div>
+
+        <div class="rv-track">
+            <?php
+            // newest wine viewed to oldest
+            $viewed = array_reverse($_SESSION['recently_viewed']);
+
+            // load wine card for every recently viewwed wine
+            foreach ($viewed as $wineId):
+                $stmt = $conn->prepare("SELECT wineId, wineName, price, imageUrl, category FROM wines WHERE wineId = ? AND active = TRUE");
+                $stmt->bind_param("i", $wineId);
+                $stmt->execute();
+                $wine = $stmt->get_result()->fetch_assoc();
+                if (!$wine) continue;
+            ?>
+
+            <!-- card -->
+              <a href="wineinfo.php?id=<?= $wine['wineId'] ?>" class="recent-box-link">
+                  <div class="recent-box">
+                      <img src="../../images/<?= htmlspecialchars($wine['imageUrl']) ?>" alt="<?= htmlspecialchars($wine['wineName']) ?>">
+                      <div class="recent-box-text">
+                          <p><strong><?= htmlspecialchars($wine['wineName']) ?></strong></p>
+                          <p><?= htmlspecialchars($wine['category']) ?></p>
+                          <p>£<?= number_format($wine['price'], 2) ?></p>
+                      </div>
+                  </div>
+              </a>
+            <?php endforeach; ?>
+        </div>
+    </section>
+    <?php endif; ?>
+
     <!-- REVIEWS -->
     <section class="reviews">
       <div class="reviews-header fade-in">
