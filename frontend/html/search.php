@@ -16,6 +16,39 @@ require_once('../../database/db_connect.php');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
+
+        .add-to-basket-form {
+            padding: 10px 18px 14px;
+            margin-top: 0;
+        }
+
+
+        .add-basket-btn {
+            width: 100%;
+            background: transparent;
+            color: #6b1a2e;
+            padding: 9px;
+            border: 1px solid rgba(107,26,46,0.4);
+            border-radius: 2px;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .add-basket-btn:hover {
+            background: #6b1a2e;
+            color: #ffffff;
+            opacity: 1;
+        }
+
+        .darkmode .add-basket-btn {
+            background: #9b2d52;
+        } 
+
+        
         body {
             margin: 0;
             font-family: Arial, sans-serif;
