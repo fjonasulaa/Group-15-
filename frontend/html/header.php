@@ -19,6 +19,18 @@ if (isset($_SESSION['customerID'])) {
         }
     }
 }
+
+// calculate basket total
+$basketTotal = 0;
+if (!empty($_SESSION['basket']) && isset($conn)) {
+    foreach ($_SESSION['basket'] as $id => $qty) {
+        $result = $conn->query("SELECT price FROM wines WHERE wineId = " . intval($id));
+        if ($result && $row = $result->fetch_assoc()) {
+            $basketTotal += $row['price'] * $qty;
+        }
+    }
+}
+
 ?>
 <style>
   /* NAVBAR */
@@ -459,10 +471,15 @@ if (isset($_SESSION['customerID'])) {
     <button onclick="location.href='<?= $accountLink ?>'" class="wishlist-nav-button" aria-label="Account">
       <i class="fas fa-user"></i>
     </button>
-    <button onclick="location.href='basket.php'" class="wishlist-nav-button" aria-label="Basket">
-      <i class="fas fa-shopping-basket"></i>
-      <span id="basket-count" class="wishlist-count" style="display:none;">0</span>
+
+    <!-- tooltip basket total -->
+    <button onclick="location.href='basket.php'" class="wishlist-nav-button basket-nav-button" aria-label="Basket">
+        <i class="fas fa-shopping-basket"></i>
+        <span id="basket-count" class="wishlist-count" style="display:none;">0</span>
+        <span class="basket-tooltip" id="basket-tooltip" style="display:none;">£<?= number_format($basketTotal, 2) ?></span>
     </button>
+
+
     <button id="wishlist-toggle" class="wishlist-nav-button" aria-label="Wishlist">
       <i class="fas fa-heart"></i>
       <span id="wishlist-count" class="wishlist-count">0</span>
@@ -590,8 +607,9 @@ if (isset($_SESSION['customerID'])) {
   });
 
   loadWishlist();
+</script>
 
-
+<script>
   // highlight active nav link
 
 var currentPage = window.location.pathname.split('/').pop();
@@ -601,4 +619,16 @@ document.querySelectorAll('.navbar-links a').forEach(function(link) {
         link.classList.add('active');
     }
 });
+</script>
+
+<script>
+  // basket price indicator
+  var basketCount = <?= $basketCount ?>;
+  var basketTotal = <?= number_format($basketTotal, 2, '.', '') ?>;
+
+  if (basketCount > 0) {
+      var countEl = document.getElementById('basket-count');
+      countEl.style.display = 'block';
+      countEl.textContent = '£' + basketTotal;
+  }
 </script>
