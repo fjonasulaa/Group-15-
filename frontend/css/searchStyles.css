@@ -31,9 +31,20 @@
     padding-top: 20px;
     width: 100%;
     max-width: 140px;
+    display: block;
+    margin: 0 auto;
 }
 
 
 .box-text {
     text-align: left;
+}
+
+.card-main-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex: 1;
 }
