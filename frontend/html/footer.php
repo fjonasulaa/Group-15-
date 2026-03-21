@@ -376,9 +376,9 @@
       <!-- Col 4: Legal & payments -->
       <div class="footer-col">
         <h4>Legal &amp; payments</h4>
-        <a href="terms.php">Privacy policy</a>
-        <a href="terms.php">Cookie policy</a>
-        <a href="terms.php">Accessibility</a>
+        <a href="terms.php#privacy">Privacy Policy</a>
+        <a href="terms.php#cookies">Cookie Policy</a>
+        <a href="terms.php#eligibility">Age & Eligibility</a>
         <hr class="col-divider" />
         <div class="payment-icons">
           <span class="payment-icon">VISA</span>
