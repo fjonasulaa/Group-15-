@@ -236,7 +236,6 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
 
         <div class="content">
             <h2 class="title"><?php echo htmlspecialchars($wine['wineName']); ?></h2>
-
             <div class="price">
                 <p class="price">
                     Price: <span>£<?= $wine['price'] ?></span>
@@ -280,6 +279,10 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
                         data-price="<?php echo number_format($wine['price'], 2); ?>"
                         data-image="<?php echo htmlspecialchars($mainImage); ?>">
                         <i class="fas fa-heart"></i> Add to Wishlist
+                    </button>
+
+                    <button type="button" class="button share-button" onclick="shareWine()">
+                        <i class="fa-solid fa-share"></i> Copy Link
                     </button>
                 </form>
             </div>
@@ -558,6 +561,23 @@ document.querySelectorAll('.review-card').forEach(card => {
         card.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
     });
 });
+
+// add to clipboard
+function shareWine() {
+    navigator.clipboard.writeText(window.location.href).then(function() {
+        var btn = document.querySelector('.share-button');
+        var original = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-share"></i> Copied!';
+        btn.style.background = '#27ae60';
+        btn.style.color = 'white';
+        setTimeout(function() {
+            btn.innerHTML = original;
+            btn.style.background = '';
+            btn.style.color = '';
+        }, 2000);
+    });
+}
+
 </script>
 
 </body>
