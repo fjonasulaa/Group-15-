@@ -1,4 +1,8 @@
-<html> <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"></html>
+<html> 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+</html>
 
 <?php
 // navbar.php — reusable navigation header
@@ -20,13 +24,14 @@ if (isset($_SESSION['customerID'])) {
     }
 }
 
-// calculate basket total
 $basketTotal = 0;
+$basketCount = 0;
 if (!empty($_SESSION['basket']) && isset($conn)) {
     foreach ($_SESSION['basket'] as $id => $qty) {
         $result = $conn->query("SELECT price FROM wines WHERE wineId = " . intval($id));
         if ($result && $row = $result->fetch_assoc()) {
             $basketTotal += $row['price'] * $qty;
+            $basketCount += $qty;
         }
     }
 }
@@ -91,6 +96,11 @@ if (!empty($_SESSION['basket']) && isset($conn)) {
     color: #e8c8b0;
   }
 
+.darkmode .dark-mode-button {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.18);
+}
+
   .navbar-logo-text span {
     display: block;
     font-size: 9px;
@@ -128,10 +138,23 @@ if (!empty($_SESSION['basket']) && isset($conn)) {
     transition: color 0.2s ease, background 0.2s ease;
   }
 
-  .navbar-links a.active {
+.navbar-links a.active {
     background: rgba(255,255,255,0.18);
     color: #ffffff;
-  }
+}
+
+.navbar-links a.active::after {
+    transform: scaleX(1);
+}
+
+.navbar-gift-link.active {
+    background: transparent !important;
+    color: rgba(255,255,255,0.78) !important;
+}
+
+.navbar-gift-link.active::after {
+    transform: scaleX(0) !important;
+}
 
   .navbar-links a:hover {
     color: #ffffff;
@@ -159,15 +182,15 @@ if (!empty($_SESSION['basket']) && isset($conn)) {
   .darkmode .navbar-links a::after { background: rgba(232,200,176,0.5); }
 
   /* ── GIFT LINK PILL ── */
-.navbar-gift-link {
-  background: transparent;
-  border: none !important;
-  border-radius: 3px !important;
-  padding: 8px 13px !important;
-  color: rgba(255,255,255,0.78) !important;
-  font-weight: 500 !important;
-  transition: background 0.2s ease !important;
-}
+  .navbar-gift-link {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 3px !important;
+    padding: 8px 13px !important;
+    color: rgba(255,255,255,0.78) !important;
+    font-weight: 500 !important;
+    transition: background 0.2s ease !important;
+  }
   .navbar-gift-link:hover {
     background: rgba(255,255,255,0.26) !important;
     border-color: rgba(255,255,255,0.55) !important;
@@ -471,15 +494,13 @@ if (!empty($_SESSION['basket']) && isset($conn)) {
     <button onclick="location.href='<?= $accountLink ?>'" class="wishlist-nav-button" aria-label="Account">
       <i class="fas fa-user"></i>
     </button>
-
-    <!-- tooltip basket total -->
-    <button onclick="location.href='basket.php'" class="wishlist-nav-button basket-nav-button" aria-label="Basket">
-        <i class="fas fa-shopping-basket"></i>
-        <span id="basket-count" class="wishlist-count" style="display:none;">0</span>
-        <span class="basket-tooltip" id="basket-tooltip" style="display:none;">£<?= number_format($basketTotal, 2) ?></span>
-    </button>
-
-
+  
+<button onclick="location.href='basket.php'" class="wishlist-nav-button basket-nav-button" aria-label="Basket">
+    <i class="fas fa-shopping-basket"></i>
+    <span id="basket-count" class="wishlist-count">0</span>
+    <span class="basket-tooltip" id="basket-tooltip">£<?= number_format($basketTotal, 2) ?></span>
+</button>
+  
     <button id="wishlist-toggle" class="wishlist-nav-button" aria-label="Wishlist">
       <i class="fas fa-heart"></i>
       <span id="wishlist-count" class="wishlist-count">0</span>
@@ -504,8 +525,8 @@ if (!empty($_SESSION['basket']) && isset($conn)) {
     document.documentElement.classList.toggle('darkmode');
     localStorage.setItem('dark_mode', document.documentElement.classList.contains('darkmode') ? 'on' : 'off');
   });
-                                        
-    document.addEventListener('click', function(e) {
+
+  document.addEventListener('click', function(e) {
     var btn = e.target.closest('.remove-wishlist');
     if (!btn) return;
     var id = btn.dataset.id, idx = btn.dataset.index;
@@ -528,7 +549,7 @@ if (!empty($_SESSION['basket']) && isset($conn)) {
   });
 </script>
 
-<!-- WISHLIST SCRIPT -->
+<!-- WISHLIST & BASKET SCRIPT -->
 <script>
   var loggedIn = <?php echo isset($_SESSION['customerID']) ? 'true' : 'false'; ?>;
 
@@ -607,28 +628,66 @@ if (!empty($_SESSION['basket']) && isset($conn)) {
   });
 
   loadWishlist();
-</script>
 
-<script>
-  // highlight active nav link
+  // ── BASKET COUNT ──
+  var basketCount = document.getElementById('basket-count');
 
-var currentPage = window.location.pathname.split('/').pop();
-document.querySelectorAll('.navbar-links a').forEach(function(link) {
-    var linkPage = link.getAttribute('href').split('/').pop();
-    if (currentPage === linkPage) {
-        link.classList.add('active');
-    }
-});
-</script>
+function updateBasketBadge(n) {
+    basketCount.textContent = n;
+    basketCount.style.display = '';
+}
 
-<script>
-  // basket price indicator
-  var basketCount = <?= $basketCount ?>;
-  var basketTotal = <?= number_format($basketTotal, 2, '.', '') ?>;
-
-  if (basketCount > 0) {
-      var countEl = document.getElementById('basket-count');
-      countEl.style.display = 'block';
-      countEl.textContent = '£' + basketTotal;
+  function loadBasketCount() {
+    fetch('get-basket-count.php', { credentials: 'include' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) { updateBasketBadge(data.count || 0); })
+      .catch(function() { updateBasketBadge(0); });
   }
+
+  loadBasketCount();
+
+  window.addEventListener('basketUpdated', loadBasketCount);
+</script>
+
+<script>
+  // basket tooltip
+  function updateBasketTooltip() {
+    fetch('get-basket-count.php', { credentials: 'include' })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var tooltip = document.getElementById('basket-tooltip');
+        if (tooltip && data.total !== undefined) {
+          tooltip.textContent = '£' + parseFloat(data.total).toFixed(2);
+        }
+      });
+  }
+
+  updateBasketTooltip();
+  window.addEventListener('basketUpdated', updateBasketTooltip);
+</script>
+
+<script>
+  var currentPage = window.location.pathname.split('/').pop();
+
+  // nav links
+  document.querySelectorAll('.navbar-links a').forEach(function(link) {
+      if (link.classList.contains('navbar-gift-link')) return;
+      var linkPage = link.getAttribute('href').split('/').pop();
+      if (currentPage === linkPage) {
+          link.classList.add('active');
+      }
+  });
+
+  // icon buttons (account + basket)
+  document.querySelectorAll('.wishlist-nav-button').forEach(function(btn) {
+      var href = btn.getAttribute('onclick');
+      if (!href) return;
+      var match = href.match(/location\.href='([^']+)'/);
+      if (!match) return;
+      var btnPage = match[1].split('/').pop();
+      if (currentPage === btnPage) {
+          btn.style.background = 'rgba(255,255,255,0.12)';
+          btn.style.borderColor = 'rgba(255,255,255,0.18)';
+      }
+  });
 </script>
