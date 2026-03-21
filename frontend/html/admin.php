@@ -249,6 +249,7 @@
                             <div class="transaction-row">
                                 <span>—</span>
                                 <span>—</span>
+                                <span>—</span>
                                 <span class="transaction-amount">£0.00</span>
                                 <span><?= $user['firstName'] . ' ' . $user['surname'] ?></span>
                                 <span>—</span>
