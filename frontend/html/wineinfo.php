@@ -106,6 +106,21 @@ if (!$wine) {
     die("Wine not found.");
 }
 
+
+
+
+// add to recently viewed
+if (!isset($_SESSION['recently_viewed'])) {
+    $_SESSION['recently_viewed'] = [];
+}
+
+$_SESSION['recently_viewed'] = array_filter($_SESSION['recently_viewed'], fn($id) => $id != $wineId);
+array_unshift($_SESSION['recently_viewed'], $wineId);
+$_SESSION['recently_viewed'] = array_slice($_SESSION['recently_viewed'], 0, 10);
+
+
+
+
 $mainImage = "../../images/" . $wine['imageUrl'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
