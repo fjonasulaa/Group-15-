@@ -7,6 +7,23 @@ ob_start();
 require_once('users.php');
 ob_end_clean();
 
+if (isset($_GET['checkCustomerID'])) {
+    $checkId = (int)$_GET['checkCustomerID'];
+
+    $stmt = $conn->prepare("SELECT customerID FROM customer WHERE customerID = ?");
+    $stmt->bind_param("i", $checkId);
+    $stmt->execute();
+    $stmt->store_result();
+
+    header('Content-Type: application/json');
+    echo json_encode([
+        'exists' => $stmt->num_rows > 0
+    ]);
+
+    $stmt->close();
+    exit();
+}
+
 $deleteError = '';
 
 if (!isset($_SESSION['customerID'])) {

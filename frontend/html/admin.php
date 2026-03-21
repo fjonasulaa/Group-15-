@@ -154,6 +154,60 @@
             top: 3px;
         }
 
+        .sidebar-filter {
+            padding: 0px 10px 0px 10px;
+        }
+
+        .sidebar-filter select {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .sidebar-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-search {
+            padding: 10px 10px 0px 10px;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 5px;
+        }
+
+        .search-row input {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .search-row button {
+            padding: 0px 10px;
+            margin-left: 5px;
+            background-color: #57af4c;
+            color: white;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .sidebar-search label,
+        .sidebar-filter label {
+            display: block;
+            font-size: 14px;
+        }
+
+        .search-row input,
+        .search-row button {
+            height: 36px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
     </style>
 </head>
 
@@ -162,15 +216,38 @@
     <?php include 'header.php'; ?>
 
     <div class="sidebar">
-        <?php for ($i = 0; $i < count($customers); $i++): ?>
-            <li>
-                <a href="admin.php?customerID=<?= (int)$customers[$i]['customerID'] ?>"
+
+        <div class="sidebar-search">
+            <label for="customerSearch">Enter Customer ID</label>
+            <div class="search-row">
+                <input type="number" id="customerSearch" placeholder="Enter ID" min="1">
+                <button onclick="gotoCustomer()">Go</button>
+            </div>
+        </div>
+
+        <div class="sidebar-filter">
+            <label for="roleFilter">Filter users</label>
+            <select id="roleFilter">
+                <option value="all">All</option>
+                <option value="customer">Customer</option>
+                <option value="adminPending">Admin Pending</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+
+        <ul class="sidebar-list">
+            <?php for ($i = 0; $i < count($customers); $i++): ?>
+                <li class="sidebar-item" data-role="<?= htmlspecialchars($customers[$i]['role']) ?>">
+                    <a href="admin.php?customerID=<?= (int)$customers[$i]['customerID'] ?>"
                     style="<?= ($customers[$i]['role']) === 'adminPending' ? 'color:#c0392b; font-weight:bold;' : '' ?>">
-                    <?= $customers[$i]['email'] ?>
-                    <?php if (($customers[$i]['role']) === 'adminPending') echo ' (Admin Pending)'; ?>
-                </a>
-            </li>
-        <?php endfor; ?>
+                        <?= htmlspecialchars($customers[$i]['email']) ?>
+                        <?php if (($customers[$i]['role']) === 'adminPending') echo ' (Admin Pending)'; ?>
+                        <?php if (($customers[$i]['role']) === 'admin') echo ' (Admin)'; ?>
+                        <?php if (($customers[$i]['role']) === 'customer') echo ' (Customer)'; ?>
+                    </a>
+                </li>
+            <?php endfor; ?>
+        </ul>
     </div>
 
     <div class="sidebar-container">
@@ -433,6 +510,59 @@
             backdrop.addEventListener("click", e => {
                 if (e.target === backdrop) closeModal(backdrop.id);
             });
+        });
+    </script>
+
+    <script>
+        const roleFilter = document.getElementById('roleFilter');
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+
+
+        roleFilter.addEventListener('change', function () {
+            const selectedRole = this.value;
+
+            sidebarItems.forEach(item => {
+                const itemRole = item.getAttribute('data-role');
+
+                if (selectedRole === 'all' || itemRole === selectedRole) 
+                {
+                    item.style.display = '';
+                } else 
+                {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    
+    <script>
+        function gotoCustomer() {
+            const input = document.getElementById('customerSearch');
+            const id = input.value.trim();
+
+            if (!Number.isInteger(Number(id)) || Number(id) <= 0) {
+                alert("Please enter a valid customer ID");
+                return;
+            }
+
+            fetch("admin.php?checkCustomerID=" + encodeURIComponent(id))
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) 
+                    {
+                        window.location.href = "admin.php?customerID=" + encodeURIComponent(id);
+                    } 
+                    else 
+                    {
+                        alert("Customer ID does not exist");
+                    }
+                })
+        }
+        document.getElementById('customerSearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                gotoCustomer();
+            }
         });
     </script>
 
