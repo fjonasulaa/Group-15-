@@ -276,7 +276,15 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
             <div class="purchase">
                 <form method="post" style="display:flex; gap:10px; align-items:center;">
                     <input type="hidden" name="wineId" value="<?php echo intval($wineId); ?>">
-                    <input type="number" name="quantity" min="1" value="1" style="width:70px;">
+                    <input 
+                        type="number" 
+                        name="quantity" 
+                        min="1" 
+                        max="<?php echo max(0, $remainingStock); ?>" 
+                        value="1" 
+                        style="width:70px;"
+                        <?php if ($remainingStock <= 0) echo 'disabled'; ?>
+                    >
 
                     <button 
                         type="submit" 
@@ -692,6 +700,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1500);
     }
 });
+
+const qtyInput = document.querySelector('input[name="quantity"]');
+
+if (qtyInput) {
+    const max = parseInt(qtyInput.max);
+
+    qtyInput.addEventListener("input", () => {
+        let value = parseInt(qtyInput.value);
+
+        if (value > max) {
+            qtyInput.value = max;
+        }
+
+        if (value < 1 || isNaN(value)) {
+            qtyInput.value = 1;
+        }
+    });
+}
     
 </script>
 
