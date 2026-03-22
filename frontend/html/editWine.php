@@ -201,13 +201,18 @@ function showError($errors) {
                 <textarea name="description" placeholder="Description" required><?= htmlspecialchars($wine['description']) ?></textarea>
                 <input type="hidden" name="existingImage" value="<?= htmlspecialchars($wine['imageUrl']) ?>">
                 <label for="image">Image:</label>
-                <?php if (!empty($wine['imageUrl'])): ?>
-                  <p>Current Image:</p>
-                  <img src="../../images/<?= htmlspecialchars($wine['imageUrl']) ?>"
-                        alt="Current Wine Image"
-                        style="width:150px; border-radius:6px; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
-                <?php endif; ?>
-                <input type="file" id="imageUpload" name="image" accept="image/*">
+                <label>Images:</label>
+
+<?php for ($i = 1; $i <= 4; $i++): ?>
+    <?php $field = ($i === 1) ? 'imageUrl' : 'img' . $i; ?>
+
+    <p>Current Image <?= $i ?>:</p>
+    <img src="../../images/<?= htmlspecialchars($wine[$field]) ?>"
+         style="width:150px; border-radius:6px; display:block; margin:0 auto 10px;">
+
+    <input type="hidden" name="existingImage<?= $i ?>" value="<?= htmlspecialchars($wine[$field]) ?>">
+    <input type="file" name="image<?= $i ?>" accept="image/*">
+<?php endfor; ?>
                 <label for="stock">Stock Quantity:</label>
                 <input type="number" min="0" name="stock" value="<?= htmlspecialchars($wine['stock']) ?>" required>
                 <button type="submit" name="create">Edit Wine</button>

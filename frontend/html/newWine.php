@@ -144,8 +144,11 @@ function showError($errors) {
                 <input type="number" id="price" name="price" min="0" step="0.01" placeholder="0.00" inputmode="decimal" required>
                 <label for="description">Description:</label>
                 <textarea name="description" placeholder="Description" required></textarea>
-                <label for="imageUpload">Image:</label>
-                <input type="file" id="imageUpload" name="image" accept="image/*" required>
+                <label>Images (4 required):</label>
+                <input type="file" name="image1" accept="image/*" required>
+                <input type="file" name="image2" accept="image/*" required>
+                <input type="file" name="image3" accept="image/*" required>
+                <input type="file" name="image4" accept="image/*" required>
                 <label for="stock">Stock Quantity:</label>
                 <input type="number" min="0" name="stock" value="0" required>
                 <button type="submit" name="create">Create Wine</button>
@@ -153,24 +156,7 @@ function showError($errors) {
         </div>
     </div>
 
-<<<<<<< HEAD
-  <?php include 'footer.php'; ?>
-
-    <script>
-        // DARK MODE
-        const darkButton = document.getElementById("dark-mode");
-        if (localStorage.getItem("dark_mode") === "on") {
-            document.documentElement.classList.add("darkmode");
-        }
-
-        darkButton.addEventListener("click", () => {
-            document.documentElement.classList.toggle("darkmode");
-            localStorage.setItem("dark_mode", document.documentElement.classList.contains("darkmode") ? "on" : "off");
-        });
-  </script>
-=======
     <?php include 'footer.php'; ?>
 
->>>>>>> 6508b9a64b176aa971c1a2447054d68d7f8356d6
 </body>
 </html>
