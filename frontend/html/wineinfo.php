@@ -94,6 +94,8 @@ require_once("../../database/db_connect.php");
 
 $msg = "";
 
+$basketAdded = false;
+
 if (!isset($_GET['id'])) {
     die("No wine selected.");
 }
@@ -147,6 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_basket'])) {
         } else {
             $_SESSION['basket'][$wineId] = $alreadyInBasket + $qty;
             $msg = $qty . "x " . $wine['wineName'] . " added to basket!";
+            $basketAdded = true;
         }
     }
 }
@@ -266,17 +269,22 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
                 </a>
             </div>
 
-            <?php if ($msg): ?>
-                <p style="color:green;"><?php echo htmlspecialchars($msg); ?></p>
-            <?php endif; ?>
 
             <div class="purchase">
                 <form method="post" style="display:flex; gap:10px; align-items:center;">
                     <input type="hidden" name="wineId" value="<?php echo intval($wineId); ?>">
                     <input type="number" name="quantity" min="1" value="1" style="width:70px;">
 
-                    <button type="submit" name="add_to_basket" class="button">
-                        Add to Basket <i class="fas fa-shopping-cart"></i>
+                    <button 
+                        type="submit" 
+                        name="add_to_basket" 
+                        class="button basket-button <?php echo $basketAdded ? 'added' : ''; ?>"
+                    >
+                        <?php if ($basketAdded): ?>
+                            <span class="btn-text"><i class="fas fa-check"></i> Added</span>
+                        <?php else: ?>
+                            <span class="btn-text">Add to Basket <i class="fas fa-shopping-cart"></i></span>
+                        <?php endif; ?>
                     </button>
 
                     <button type="button"
@@ -442,6 +450,57 @@ setTimeout(() => {
     background-color: #7b1e3a !important;
     color: white !important;
 }
+
+.basket-button {
+    width: 145px;              
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.basket-button .btn-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.basket-button.added {
+    background-color: #7b1e3a !important;
+    border-color: #7b1e3a !important;
+    color: white !important;
+    animation: basketPop 0.45s ease;
+}
+
+.basket-button.added .fa-check {
+    animation: tickPop 0.4s ease;
+}
+
+@keyframes basketPop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes tickPop {
+    0% {
+        transform: scale(0) rotate(-20deg);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.2) rotate(10deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+    }
+}
 </style>
 
 <script>
@@ -593,7 +652,17 @@ function shareWine() {
         }, 2000);
     });
 }
-
+    
+document.addEventListener("DOMContentLoaded", () => {
+    const basketBtn = document.querySelector(".basket-button.added");
+    if (basketBtn) {
+        setTimeout(() => {
+            basketBtn.classList.remove("added");
+            basketBtn.innerHTML = '<span class="btn-text">Add to Basket <i class="fas fa-shopping-cart"></i></span>';
+        }, 1500);
+    }
+});
+    
 </script>
 
 </body>
