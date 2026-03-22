@@ -167,6 +167,96 @@
     opacity: 0.8;
 }
 
+.btn-danger {
+    background: #c0392b !important;
+    color: #fff !important;
+}
+
+.btn-secondary {
+    background: #555 !important;
+    color: #fff !important;
+}
+
+.modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-backdrop.open {
+    display: flex;
+}
+
+.modal {
+    background: white;
+    color: #111;
+    border-radius: 10px;
+    padding: 30px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    position: relative;
+    box-sizing: border-box;
+}
+
+.modal h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 28px;
+}
+
+.modal p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.modal .close-btn {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    background: none !important;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #111 !important;
+    width: auto;
+    padding: 0;
+    margin: 0;
+}
+
+.delete-warning {
+    color: #c0392b !important;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    flex: 1;
+    width: 100%;
+    padding: 12px !important;
+    margin: 0 !important;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px !important;
+    font-weight: 500;
+    color: #fff !important;
+    text-align: center;
+    box-sizing: border-box;
+}
+
 </style>
 
 </head>
@@ -265,10 +355,14 @@
             echo "<td>". htmlspecialchars($row['Stock']) ."</td>";
             
             echo "<td>
-                    <input type='hidden' name='wineId' value='" . $row['wineId'] . "'>
-                    <button type = 'submit' name = 'action' value = 'update' class='stock-btn update-btn'>Update</button>
-                    <button type = 'submit' name = 'action' value = 'remove' class='stock-btn remove-btn'>Remove</button>
-                </td>";
+                        <input type='hidden' name='wineId' value='" . $row['wineId'] . "'>
+                        <button type = 'submit' name = 'action' value = 'update' class='stock-btn update-btn'>Update</button>
+                        <button type='button'
+                                class='stock-btn remove-btn'
+                                onclick=\"openDeleteModal('" . (int)$row['wineId'] . "', '" . htmlspecialchars($row['wineName'], ENT_QUOTES) . "')\">
+                            Remove
+                        </button>
+                    </td>";
             
             echo "</form>";
 
@@ -279,6 +373,28 @@
 
 </table>
 
+</div>
+
+<div class="modal-backdrop" id="deleteWineModal">
+    <div class="modal">
+        <button class="close-btn" onclick="closeDeleteModal()">&times;</button>
+        <h2>Delete Wine</h2>
+        <p class="delete-warning">⚠ This action is permanent and cannot be undone.</p>
+        <p style="text-align:center; margin-bottom: 20px;">
+            Are you sure you want to remove <strong id="deleteWineName"></strong> from inventory?
+        </p>
+
+        <form method="POST" action="redirect.php?page=inventory">
+            <input type="hidden" name="wineId" id="deleteWineId">
+            <input type="hidden" name="action" value="remove">
+            <input type="hidden" name="confirm" value="yes">
+
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                <button type="submit" class="btn-danger">Yes, Delete Wine</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 
@@ -340,6 +456,24 @@ document.querySelectorAll(".stock-controls").forEach(control => {
 
 });
 
+</script>
+
+<script>
+function openDeleteModal(wineId, wineName) {
+    document.getElementById('deleteWineId').value = wineId;
+    document.getElementById('deleteWineName').textContent = wineName;
+    document.getElementById('deleteWineModal').classList.add('open');
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteWineModal').classList.remove('open');
+}
+
+document.getElementById('deleteWineModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeDeleteModal();
+    }
+});
 </script>
 
 <?php include 'footer.php'; ?>
