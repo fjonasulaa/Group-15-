@@ -434,11 +434,6 @@
                 <!-- returns -->
                 <div class="tabcontent" id="returns" style="display:none;">
                     <h1 class="center-title">RETURN REQUESTS</h1>
-                    <form method="get" style="margin-bottom: 15px;">
-                        <label for="filterReturnUser">Filter by Customer ID:</label>
-                        <input type="number" name="filterReturnUser" id="filterReturnUser"  min="0" value="<?= isset($_GET['filterReturnUser']) ? (int)$_GET['filterReturnUser'] : '' ?>">
-                        <button class = "filterBtn" type="submit">Filter</button>
-                    </form>
                     <div class="transaction-table">
                         <div class="transaction-header">
                             <span>REFUND ID</span>
@@ -449,6 +444,12 @@
                             <span>ACTION</span>
                         </div>
 
+                        <?php
+                        $returns = array_filter($returns, function($r) use ($user) {
+                            return (int)$r['customerId'] === (int)$user['customerID'];
+                        });
+                        ?>
+
                         <?php if (count($returns) === 0): ?>
                             <div class="transaction-row">
                                 <span>—</span>
@@ -458,14 +459,7 @@
                                 <span>—</span>
                                 <span>—</span>
                             </div>
-                        <?php else: 
-                            if (isset($_GET['filterReturnUser']) && is_numeric($_GET['filterReturnUser'])) {
-                                $filterId = (int)$_GET['filterReturnUser'];
-                                $returns = array_filter($returns, function($r) use ($filterId) {
-                                return (int)$r['customerId'] === $filterId;
-                            });
-                        }?>
-                            
+                        <?php else: ?>
                             <?php foreach ($returns as $r): ?>
                                 <form method="post" class="transaction-row">
                                     <input type="hidden" name="refundId" value="<?= $r['refundId'] ?>">
