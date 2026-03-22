@@ -86,6 +86,71 @@
     background: transparent;
     border-radius: 0;
 }
+
+ #share-btn { position: relative; }
+
+        #share-popover {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            border: 1px solid #e0d6d0;
+            border-radius: 10px;
+            padding: 12px 16px;
+            width: 200px;
+            z-index: 100;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        #share-popover.open { display: block; }
+
+        #share-popover p {
+            font-size: 12px;
+            color: #7a5c5c;
+            margin: 0 0 10px;
+            text-align: center;
+        }
+
+        #share-popover a,
+        #share-popover button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #e0d6d0;
+            background: transparent;
+            color: #2a1a1e;
+            font-size: 13px;
+            text-decoration: none;
+            cursor: pointer;
+            margin-bottom: 6px;
+            box-sizing: border-box;
+            transition: background 0.15s;
+        }
+
+        #share-popover a:last-child,
+        #share-popover button:last-child { margin-bottom: 0; }
+
+        #share-popover a:hover,
+        #share-popover button:hover { background: #f4ede8; }
+
+        .darkmode #share-popover {
+            background: #2a1a1e;
+            border-color: #3a2820;
+        }
+
+        .darkmode #share-popover a,
+        .darkmode #share-popover button {
+            color: #f0e6de;
+            border-color: #3a2820;
+        }
+
+        .darkmode #share-popover a:hover,
+        .darkmode #share-popover button:hover { background: #3a2820; }
 </style>
 
 <?php
@@ -321,24 +386,26 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
                         <i class="fas fa-heart"></i> Add to Wishlist
                     </button>
 
-                    <button type="button" class="button share-button" id="share-btn">
-                        <i class="fa-solid fa-share"></i> Share
-                    </button>
-
-                    <div id="share-popover">
-                        <p>Share this wine</p>
-                        <a id="share-whatsapp" href="#" target="_blank">
-                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                        </a>
-                        <a id="share-twitter" href="#" target="_blank">
-                            <i class="fa-brands fa-x-twitter"></i> X (Twitter)
-                        </a>
-                        <a id="share-email" href="#">
-                            <i class="fa-solid fa-envelope"></i> Email
-                        </a>
-                        <button type="button" id="share-copy">
-                            <i class="fa-solid fa-copy"></i> <span id="share-copy-label">Copy link</span>
+                    <div style="position:relative;">
+                        <button type="button" class="button share-button" id="share-btn">
+                            <i class="fa-solid fa-share"></i> Share
                         </button>
+
+                        <div id="share-popover">
+                            <p>Share this wine</p>
+                            <a id="share-whatsapp" href="#" target="_blank">
+                                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                            </a>
+                            <a id="share-twitter" href="#" target="_blank">
+                                <i class="fa-brands fa-x-twitter"></i> X (Twitter)
+                            </a>
+                            <a id="share-email" href="#">
+                                <i class="fa-solid fa-envelope"></i> Email
+                            </a>
+                            <button type="button" id="share-copy">
+                                <i class="fa-solid fa-copy"></i> <span id="share-copy-label">Copy link</span>
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
