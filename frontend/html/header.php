@@ -183,9 +183,9 @@ if (!empty($_SESSION['basket']) && isset($conn)) {
 
   /* ── GIFT LINK PILL ── */
   .navbar-gift-link {
-    background: transparent !important;
-    border: none !important;
-    border-radius: 3px !important;
+    background: rgba(255,255,255,0.12) !important;
+    border: 1px solid rgba(255,255,255,0.45) !important;
+    border-radius: 20px !important;  /* rounder pill shape */
     padding: 8px 13px !important;
     color: rgba(255,255,255,0.78) !important;
     font-weight: 500 !important;
@@ -210,6 +210,8 @@ if (!empty($_SESSION['basket']) && isset($conn)) {
     border-color: rgba(232,200,176,0.5) !important;
     color: #e8c8b0 !important;
   }
+
+
 
   .navbar-right {
     display: flex;
@@ -671,7 +673,6 @@ function updateBasketBadge(n) {
 
   // nav links
   document.querySelectorAll('.navbar-links a').forEach(function(link) {
-      if (link.classList.contains('navbar-gift-link')) return;
       var linkPage = link.getAttribute('href').split('/').pop();
       if (currentPage === linkPage) {
           link.classList.add('active');
