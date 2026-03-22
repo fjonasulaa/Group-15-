@@ -107,6 +107,9 @@ $stmt->bind_param("i", $wineId);
 $stmt->execute();
 $wine = $stmt->get_result()->fetch_assoc();
 
+$inBasket = $_SESSION['basket'][$wineId] ?? 0;
+$remainingStock = $wine['stock'] - $inBasket;
+
 if (!$wine) {
     die("Wine not found.");
 }
@@ -248,7 +251,7 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
                 </p>
 
                 <p class="stock">
-                    <?php if ($wine['stock'] > 0): ?>
+                    <?php if ($remainingStock > 0): ?>
                         <span class="stock-badge stock-in">
                             <i class="fas fa-check-circle"></i> In Stock
                         </span>
@@ -273,18 +276,40 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
             <div class="purchase">
                 <form method="post" style="display:flex; gap:10px; align-items:center;">
                     <input type="hidden" name="wineId" value="<?php echo intval($wineId); ?>">
-                    <input type="number" name="quantity" min="1" value="1" style="width:70px;">
+                    <input 
+                        type="number" 
+                        name="quantity" 
+                        min="1" 
+                        max="<?php echo max(0, $remainingStock); ?>" 
+                        value="1" 
+                        style="width:70px;"
+                        <?php if ($remainingStock <= 0) echo 'disabled'; ?>
+                    >
 
                     <button 
                         type="submit" 
                         name="add_to_basket" 
-                        class="button basket-button <?php echo $basketAdded ? 'added' : ''; ?>"
+                        class="button basket-button 
+                        <?php echo $basketAdded ? 'added' : ''; ?>
+                        <?php echo ($remainingStock <= 0) ? 'out-of-stock' : ''; ?>"
+    
+                        <?php if ($remainingStock <= 0) echo 'disabled'; ?>
                     >
-                        <?php if ($basketAdded): ?>
-                            <span class="btn-text"><i class="fas fa-check"></i> Added</span>
+                        <?php if ($remainingStock <= 0): ?>
+                            <span class="btn-text">
+                                <i class="fas fa-times"></i> Out of Stock
+                            </span>
+
+                            <?php elseif ($basketAdded): ?>
+                                <span class="btn-text">
+                                    <i class="fas fa-check"></i> Added
+                            </span>
+
                         <?php else: ?>
-                            <span class="btn-text">Add to Basket <i class="fas fa-shopping-cart"></i></span>
-                        <?php endif; ?>
+                            <span class="btn-text">
+                                Add to Basket <i class="fas fa-shopping-cart"></i>
+                            </span>
+                            <?php endif; ?>
                     </button>
 
                     <button type="button"
@@ -501,6 +526,19 @@ setTimeout(() => {
         opacity: 1;
     }
 }
+
+.basket-button.out-of-stock {
+    background-color: #555 !important;
+    border-color: #555 !important;
+    color: #ccc !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.basket-button.out-of-stock:hover {
+    background-color: #555 !important;
+    border-color: #555 !important;
+}
 </style>
 
 <script>
@@ -662,6 +700,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1500);
     }
 });
+
+const qtyInput = document.querySelector('input[name="quantity"]');
+
+if (qtyInput) {
+    const max = parseInt(qtyInput.max);
+
+    qtyInput.addEventListener("input", () => {
+        let value = parseInt(qtyInput.value);
+
+        if (value > max) {
+            qtyInput.value = max;
+        }
+
+        if (value < 1 || isNaN(value)) {
+            qtyInput.value = 1;
+        }
+    });
+}
     
 </script>
 
