@@ -464,6 +464,11 @@ $result = $stat->get_result();
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $isAdded = ($addedWineId === (int)$row['wineId']);
+		$wineId = (int)$row['wineId'];
+        $stock = (int)$row['stock'];
+        $inBasket = $_SESSION['basket'][$wineId] ?? 0;
+        $remainingStock = $stock - $inBasket;
+        $isOutOfStock = ($remainingStock <= 0);
 
         echo "<div class='box-link'>";
         echo "<div class='box'>";
@@ -483,13 +488,16 @@ if ($result->num_rows > 0) {
         echo "<input type='hidden' name='wineId' value='" . (int)$row['wineId'] . "'>";
         echo "<input type='hidden' name='quantity' value='1'>";
 
-        if ($isAdded) {
+        if ($isOutOfStock) {
+            echo "<button type='submit' class='add-basket-btn out-of-stock' disabled>";
+            echo "<i class='fa fa-times'></i> Out of Stock";
+    } elseif ($isAdded) {
             echo "<button type='submit' class='add-basket-btn added-temp'>";
             echo "<i class='fa fa-check'></i> Added to Basket";
-        } else {
+    } else {
             echo "<button type='submit' class='add-basket-btn'>";
             echo "<i class='fa fa-basket-shopping'></i> Add to Basket";
-        }
+    }
 
         echo "</button>";
         echo "</form>";
