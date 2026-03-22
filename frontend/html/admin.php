@@ -224,6 +224,23 @@
         font-size: 14px;
         }
 
+        .filterBtn {
+            background: #7b1e3a;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 2px solid #7b1e3a;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            line-height: 1;
+            height: 42px;
+        }
+
     </style>
 </head>
 
@@ -419,8 +436,8 @@
                     <h1 class="center-title">RETURN REQUESTS</h1>
                     <form method="get" style="margin-bottom: 15px;">
                         <label for="filterReturnUser">Filter by Customer ID:</label>
-                        <input type="number" name="filterReturnUser" id="filterReturnUser" value="<?= isset($_GET['filterReturnUser']) ? (int)$_GET['filterReturnUser'] : '' ?>">
-                        <button type="submit">Filter</button>
+                        <input type="number" name="filterReturnUser" id="filterReturnUser"  min="0" value="<?= isset($_GET['filterReturnUser']) ? (int)$_GET['filterReturnUser'] : '' ?>">
+                        <button class = "filterBtn" type="submit">Filter</button>
                     </form>
                     <div class="transaction-table">
                         <div class="transaction-header">
