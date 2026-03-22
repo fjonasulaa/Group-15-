@@ -22,7 +22,7 @@
 :root.darkmode {
   --background-colour: #252525;
   --text-colour: #fff;
-  --primary-colour: #ff4d00;
+ --primary-colour: #a01020;
   --frame-colour: #424242;
   --frame-text-colour: #e0e0e0;
   --border-colour: #424242;
@@ -859,6 +859,7 @@ textarea {
   box-shadow: none;
 }
 
+
 /* ===========================
    TABS
    =========================== */
@@ -941,11 +942,12 @@ textarea {
   border-right: 1px solid var(--border-colour);
 }
 
+
 .sidebar a {
   cursor: pointer;
-  width:100%;
+  width: 100%;
   display: block;
-  padding: 12px;
+  padding: 16px;
   text-decoration: none;
 }
 
@@ -1049,14 +1051,14 @@ textarea {
    =========================== */
 
 .transaction-wrapper {
-  width: 100%;
-  margin: 0;
-  overflow-x: auto;
-  display: none;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .transaction-table {
-  width: 100%;
+    width: 100%;
+    overflow-x: auto;
 }
 
 .transaction-header {
@@ -1545,6 +1547,7 @@ html {
     margin-bottom: 20px;
 }
 
+
 /* RECENTLY VIEWED */
 
 .recently-viewed {
@@ -1562,33 +1565,13 @@ html {
     scrollbar-color: #7b1e3a transparent;
 }
 
-.recent-box-link {
-    text-decoration: none;
-    color: inherit;
-    flex: 0 0 200px;
+.rv-track .box-link {
+    display: block;
+    flex: 0 0 220px;
 }
 
-.recent-box {
-    border: 1px solid #ccc;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    height: 300px;
-}
-
-.recent-box img {
-    padding-top: 20px;
-    width: 140px;
-    height: 140px;
-    object-fit: contain;
-}
-
-.recent-box-text {
-    text-align: left;
+.rv-track .box {
+    width: 100%;
 }
 
 /* TOOLTIP FOR BASKET PRICE */
@@ -1608,8 +1591,16 @@ html {
     pointer-events: none;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     z-index: 999;
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
 .basket-nav-button:hover .basket-tooltip {
-    display: block !important;
+    opacity: 1;
 }
+
+.basket-nav-button {
+    position: relative;
+}
+
+
