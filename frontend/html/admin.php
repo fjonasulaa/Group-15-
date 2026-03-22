@@ -13,6 +13,18 @@
 
     <style>
 
+#returns .transaction-header,
+#returns .transaction-row {
+    display: grid;
+    grid-template-columns: 80px 80px 100px 1fr 100px 140px;
+    align-items: center;
+    gap: 10px;
+}
+#returns .transaction-row span:nth-child(6) {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
         .transaction-row select {
             width: 120px;
             padding: 4px;
