@@ -1,6 +1,10 @@
 <?php
 session_start();
 require_once('../../database/db_connect.php');
+
+$columns = 4;
+$rows = 4;
+$perPage = $columns * $rows;
 ?>
 
 <!DOCTYPE html>
@@ -9,51 +13,33 @@ require_once('../../database/db_connect.php');
     <meta charset="UTF-8">
     <title>Wine Exchange</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="icon" type="image/x-icon" href="../../images/icon.png">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/searchStyles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 
     <style>
 
-        .add-to-basket-form {
-            padding: 10px 18px 14px;
-            margin-top: 0;
-        }
+    :root {
+        --grid-columns: <?= $columns ?>;
+        --grid-rows: <?= $rows ?>;
+    }
 
-
-        .add-basket-btn {
-            width: 100%;
-            background: transparent;
-            color: #6b1a2e;
-            padding: 9px;
-            border: 1px solid rgba(107,26,46,0.4);
-            border-radius: 2px;
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 14px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: background 0.2s ease, color 0.2s ease;
-        }
-
-        .add-basket-btn:hover {
-            background: #6b1a2e;
-            color: #ffffff;
-            opacity: 1;
-        }
-
-        .darkmode .add-basket-btn {
-            background: #9b2d52;
-        } 
-
-        
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             padding: 0;
         }
+
+.filter-form input,
+.filter-form select {
+    border-radius: 10px;
+    padding: 12px;
+    width: 100%;
+    margin-bottom: 0;
+}
 
         .top-filter-bar {
             position: fixed;
@@ -166,38 +152,6 @@ require_once('../../database/db_connect.php');
             align-items: center;
         }
 
-        .box-container {
-            padding: 10px 40px 40px;
-        }
-
-        .box {
-            background: #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            height: 480px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        }
-
-        .box img {
-            width: 100%;
-            height: 240px;
-            object-fit: cover;
-        }
-
-        .box-text {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .price {
-            margin-top: auto;
-            font-weight: bold;
-        }
-
         /* DARK MODE */
         .darkmode body {
             background: #121212;
@@ -237,15 +191,6 @@ require_once('../../database/db_connect.php');
         }
 
         .darkmode .results-header {
-            color: #ffffff;
-        }
-
-        .darkmode .box {
-            background: #1e1e1e;
-            border: 1px solid #333;
-        }
-
-        .darkmode .box-text p {
             color: #ffffff;
         }
 
@@ -292,7 +237,7 @@ require_once('../../database/db_connect.php');
 
 <body class="info">
 
-<?php require_once('header.php'); ?>
+  <?php include('header.php'); ?>
 
 <div class="filter-overlay" id="filterOverlay"></div>
 
@@ -303,6 +248,7 @@ require_once('../../database/db_connect.php');
     <div class="filter-title">Filter & Sort Wines</div>
 
     <form method="GET" class="filter-form">
+
         <!-- remembers the search value after filtering -->
         <input type="hidden" name="search"
             value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
@@ -363,6 +309,50 @@ if (isset($_GET['reset'])) {
     }
 }
 
+$msg = "";
+$addedWineId = null;
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['add_to_basket'])) {
+
+    $wineId = intval($_GET['wineId']);
+    $qty = max(1, intval($_GET['quantity']));
+
+    $basketStmt = $conn->prepare("SELECT wineId, wineName, stock, active FROM wines WHERE wineId = ? LIMIT 1");
+    $basketStmt->bind_param("i", $wineId);
+    $basketStmt->execute();
+    $basketResult = $basketStmt->get_result();
+
+    if ($basketResult->num_rows > 0) {
+        $wine = $basketResult->fetch_assoc();
+
+        if (!$wine['active']) {
+            $msg = "This wine is not currently available.";
+        } else {
+            $stock = intval($wine['stock']);
+
+            if ($qty > $stock) {
+                $msg = "Only $stock left in stock.";
+            } else {
+                if (!isset($_SESSION['basket'])) {
+                    $_SESSION['basket'] = [];
+                }
+
+                $alreadyInBasket = $_SESSION['basket'][$wineId] ?? 0;
+
+                if ($alreadyInBasket + $qty > $stock) {
+                    $msg = "You already have $alreadyInBasket in your basket. Only $stock available.";
+                } else {
+                    $_SESSION['basket'][$wineId] = $alreadyInBasket + $qty;
+                    $msg = $qty . "x " . $wine['wineName'] . " added to basket!";
+                    $addedWineId = $wineId; 
+                }
+            }
+        }
+    }
+
+    $basketStmt->close();
+}
+
 $query = "SELECT * FROM wines WHERE 1=1";
 $params = [];
 $types = "";
@@ -416,7 +406,7 @@ if (!empty($_GET['sort'])) {
     }
 }
 
-// count filtered results before adding limit to search options
+// counting wines for pagination
 $countQuery = str_replace("SELECT *", "SELECT COUNT(*)", $query);
 $countStmt = $conn->prepare($countQuery);
 if (!empty($params)) $countStmt->bind_param($types, ...$params);
@@ -425,10 +415,10 @@ $countStmt->bind_result($totalWines);
 $countStmt->fetch();
 $countStmt->close();
 
-// add limit after count
+// add pagination limit
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-$offset = ($page - 1) * 10;
-$query .= " LIMIT 10 OFFSET ?";
+$offset = ($page - 1) * $perPage;
+$query .= " LIMIT $perPage OFFSET ?";
 $params[] = $offset;
 $types .= "i";
 
@@ -467,6 +457,8 @@ $result = $stat->get_result();
     </div>
 </div>
 
+
+
 <div class="box-container">
 <?php
 if ($result->num_rows > 0) {
@@ -486,7 +478,7 @@ if ($result->num_rows > 0) {
         echo "</div>";
         echo "</a>";
 
-        echo "<form method='POST' action='" . htmlspecialchars($_SERVER['REQUEST_URI']) . "' class='add-to-basket-form'>";
+        echo "<form method='GET' action='" . htmlspecialchars($_SERVER['REQUEST_URI']) . "' class='add-to-basket-form'>";
         echo "<input type='hidden' name='add_to_basket' value='1'>";
         echo "<input type='hidden' name='wineId' value='" . (int)$row['wineId'] . "'>";
         echo "<input type='hidden' name='quantity' value='1'>";
@@ -512,11 +504,12 @@ if ($result->num_rows > 0) {
 </div>
 
 
+
 <?php
 include 'pagination.php';
-
 // call pagination function
-renderPagination($totalWines, 10, $_GET);
+renderPagination($totalWines, $perPage, $_GET);
+
 
 $stat->close();
 $conn->close();
@@ -546,19 +539,24 @@ $conn->close();
         overlay.classList.remove("active");
     });
 
-    document.addEventListener("DOMContentLoaded", function () {
-    const addedButton = document.querySelector(".add-basket-btn.added-temp");
+	
+	document.addEventListener("DOMContentLoaded", function () {
+    	const addedButton = document.querySelector(".add-basket-btn.added-temp");
 
-    if (addedButton) {
-        setTimeout(() => {
-            addedButton.innerHTML = "<i class='fa fa-basket-shopping'></i> Add to Basket";
-            addedButton.classList.remove("added-temp");
-        }, 1500);
-    }
-});
+    	if (addedButton) {
+        	setTimeout(() => {
+            	addedButton.innerHTML = "<i class='fa fa-basket-shopping'></i> Add to Basket";
+            	addedButton.classList.remove("added-temp");
+        	}, 1500);
+    	}
+	});
+
+
+
+
 </script>
-
 <?php include 'footer.php'; ?>
+<script src="chatbot.js"></script>
 
 </body>
 </html>

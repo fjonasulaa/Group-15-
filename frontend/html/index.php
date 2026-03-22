@@ -28,6 +28,7 @@ $reviews = $conn->query($reviewSQL);
   <title>Home | Wine Exchange</title>
   <link rel="icon" href="../../images/icon.png" type="image/x-icon">
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/searchStyles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -651,43 +652,47 @@ $reviews = $conn->query($reviewSQL);
       </div>
     </section>
 
-    <!-- RECENTLY VIEWED -->
-    <?php if (!empty($_SESSION['recently_viewed'])): ?>
-    <section class="recently-viewed fade-in">
-        <div class="reviews-header">
-            <h1 class="section-label">RECENTLY VIEWED</h1>
-            <span class="section-divider"></span>
+                <!-- RECENTLY VIEWED -->
+<?php if (!empty($_SESSION['recently_viewed'])): ?>
+<section class="recently-viewed fade-in">
+    <div class="reviews-header">
+        <h1 class="section-label">RECENTLY VIEWED</h1>
+        <span class="section-divider"></span>
+    </div>
+    <div class="rv-track">
+        <?php
+        $viewed = array_reverse($_SESSION['recently_viewed']);
+        foreach ($viewed as $wineId):
+            $stmt = $conn->prepare("SELECT wineId, wineName, price, imageUrl, category FROM wines WHERE wineId = ? AND active = TRUE");
+            $stmt->bind_param("i", $wineId);
+            $stmt->execute();
+            $wine = $stmt->get_result()->fetch_assoc();
+            if (!$wine) continue;
+        ?>
+        <div class="box-link">
+            <div class="box">
+                <a class="card-main-link" href="wineinfo.php?id=<?= $wine['wineId'] ?>">
+                    <img src="../../images/<?= htmlspecialchars($wine['imageUrl']) ?>" alt="<?= htmlspecialchars($wine['wineName']) ?>">
+                    <div class="box-text">
+                        <p><strong><?= htmlspecialchars($wine['wineName']) ?></strong></p>
+                        <p><?= htmlspecialchars($wine['category']) ?></p>
+                        <p class="price">£<?= number_format($wine['price'], 2) ?></p>
+                    </div>
+                </a>
+                <form method="GET" action="<?= htmlspecialchars($_SERVER['REQUEST_URI']) ?>" class="add-to-basket-form">
+                    <input type="hidden" name="add_to_basket" value="1">
+                    <input type="hidden" name="wineId" value="<?= (int)$wine['wineId'] ?>">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="add-basket-btn">
+                        <i class="fa fa-basket-shopping"></i> Add to Basket
+                    </button>
+                </form>
+            </div>
         </div>
-
-        <div class="rv-track">
-            <?php
-            // newest wine viewed to oldest
-            $viewed = array_reverse($_SESSION['recently_viewed']);
-
-            // load wine card for every recently viewwed wine
-            foreach ($viewed as $wineId):
-                $stmt = $conn->prepare("SELECT wineId, wineName, price, imageUrl, category FROM wines WHERE wineId = ? AND active = TRUE");
-                $stmt->bind_param("i", $wineId);
-                $stmt->execute();
-                $wine = $stmt->get_result()->fetch_assoc();
-                if (!$wine) continue;
-            ?>
-
-            <!-- card -->
-              <a href="wineinfo.php?id=<?= $wine['wineId'] ?>" class="recent-box-link">
-                  <div class="recent-box">
-                      <img src="../../images/<?= htmlspecialchars($wine['imageUrl']) ?>" alt="<?= htmlspecialchars($wine['wineName']) ?>">
-                      <div class="recent-box-text">
-                          <p><strong><?= htmlspecialchars($wine['wineName']) ?></strong></p>
-                          <p><?= htmlspecialchars($wine['category']) ?></p>
-                          <p>£<?= number_format($wine['price'], 2) ?></p>
-                      </div>
-                  </div>
-              </a>
-            <?php endforeach; ?>
-        </div>
-    </section>
-    <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+</section>
+<?php endif; ?>
 
     <!-- REVIEWS -->
     <section class="reviews">
