@@ -321,9 +321,25 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
                         <i class="fas fa-heart"></i> Add to Wishlist
                     </button>
 
-                    <button type="button" class="button share-button" onclick="shareWine()">
-                        <i class="fa-solid fa-share"></i> Copy Link
+                    <button type="button" class="button share-button" id="share-btn">
+                        <i class="fa-solid fa-share"></i> Share
                     </button>
+
+                    <div id="share-popover">
+                        <p>Share this wine</p>
+                        <a id="share-whatsapp" href="#" target="_blank">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a id="share-twitter" href="#" target="_blank">
+                            <i class="fa-brands fa-x-twitter"></i> X (Twitter)
+                        </a>
+                        <a id="share-email" href="#">
+                            <i class="fa-solid fa-envelope"></i> Email
+                        </a>
+                        <button type="button" id="share-copy">
+                            <i class="fa-solid fa-copy"></i> <span id="share-copy-label">Copy link</span>
+                        </button>
+                    </div>
                 </form>
             </div>
 
@@ -674,22 +690,6 @@ document.querySelectorAll('.review-card').forEach(card => {
         card.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
     });
 });
-
-// add to clipboard
-function shareWine() {
-    navigator.clipboard.writeText(window.location.href).then(function() {
-        var btn = document.querySelector('.share-button');
-        var original = btn.innerHTML;
-        btn.innerHTML = '<i class="fa-solid fa-share"></i> Copied!';
-        btn.style.background = '#27ae60';
-        btn.style.color = 'white';
-        setTimeout(function() {
-            btn.innerHTML = original;
-            btn.style.background = '';
-            btn.style.color = '';
-        }, 2000);
-    });
-}
     
 document.addEventListener("DOMContentLoaded", () => {
     const basketBtn = document.querySelector(".basket-button.added");
@@ -720,6 +720,10 @@ if (qtyInput) {
 }
     
 </script>
+
+<!-- Share wine code -->
+<span id="share-wine-title" data-name="<?= htmlspecialchars($wine['wineName']) ?>"></span>
+<script src="share.js"></script>
 
 </body>
 </html>
