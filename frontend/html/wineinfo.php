@@ -1,11 +1,33 @@
 <style>
 
+.ca-share {
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 50% !important;
+  border: 2px solid #6B0F1A !important;
+  background: #ffffff !important;
+  color: #6B0F1A !important;
+  font-size: 16px !important;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease;
+  padding: 0 !important;
+}
+
+.ca-share:hover {
+  background: #6B0F1A !important;
+  color: #ffffff !important;
+}
+
 .product-imgs {
     width: 100%;
     max-width: 500px; 
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+    position: relative
 }
 
 .img-display {
@@ -87,14 +109,15 @@
     border-radius: 0;
 }
 
+/* SHARE BUTTON AND POPOVER */
  #share-btn { position: relative; }
 
         #share-popover {
             display: none;
             position: absolute;
-            bottom: calc(100% + 10px);
-            left: 50%;
-            transform: translateX(-50%);
+            top: calc(100% + 10px);
+            left: -150px;
+            transform: none;
             background: #fff;
             border: 1px solid #e0d6d0;
             border-radius: 10px;
@@ -276,6 +299,29 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
     <div class="info-card">
 
         <div class="product-imgs">
+                <!-- Share button and popover -->
+                <div style="position:absolute; top:10px; right:10px; z-index:50;">
+                    <button type="button" class="ca-share" id="share-btn">
+                        <i class="fa-solid fa-share-from-square"></i>
+                    </button>
+
+                    <div id="share-popover">
+                        <p>Share this wine</p>
+                        <a id="share-whatsapp" href="#" target="_blank">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a id="share-twitter" href="#" target="_blank">
+                            <i class="fa-brands fa-x-twitter"></i> X (Twitter)
+                        </a>
+                        <a id="share-email" href="#">
+                            <i class="fa-solid fa-envelope"></i> Email
+                        </a>
+                        <button type="button" id="share-copy">
+                            <i class="fa-solid fa-copy"></i> <span id="share-copy-label">Copy link</span>
+                        </button>
+                    </div>
+                </div>
+
             <div class="img-display">
                 <div class="image-showcase">
                     <img src="../../images/<?php echo htmlspecialchars($wine['imageUrl']); ?>" alt="wine 1">
@@ -385,28 +431,6 @@ $reviewJustSubmitted = isset($_GET['review']) && $_GET['review'] === "success";
                         data-image="<?php echo htmlspecialchars($mainImage); ?>">
                         <i class="fas fa-heart"></i> Add to Wishlist
                     </button>
-
-                    <div style="position:relative;">
-                        <button type="button" class="button share-button" id="share-btn">
-                            <i class="fa-solid fa-share"></i> Share
-                        </button>
-
-                        <div id="share-popover">
-                            <p>Share this wine</p>
-                            <a id="share-whatsapp" href="#" target="_blank">
-                                <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                            </a>
-                            <a id="share-twitter" href="#" target="_blank">
-                                <i class="fa-brands fa-x-twitter"></i> X (Twitter)
-                            </a>
-                            <a id="share-email" href="#">
-                                <i class="fa-solid fa-envelope"></i> Email
-                            </a>
-                            <button type="button" id="share-copy">
-                                <i class="fa-solid fa-copy"></i> <span id="share-copy-label">Copy link</span>
-                            </button>
-                        </div>
-                    </div>
                 </form>
             </div>
 
