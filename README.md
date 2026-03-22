@@ -12,20 +12,25 @@ An e-commerce website which allows users to buy and review wines.
 Currently hosted on: https://cs2team15.cs2410-web01pvm.aston.ac.uk
 
 Features:
-- Index page
-- Wine Catalogue
-- Basket Feature
-- Wishlist
-- Product Reviews
-- User Registration
-- Account Dashboard
-- Edit/Delete Acoount
-- Admin Roles
-- Guest Checkout
-- Age Verification
-- Stock Management
-- Gift Finder Quiz
-- Dark Mode
+- INDEX PAGE
+- CHATBOT
+- FOOTER
+- ABOUT US
+- SEARCH PAGE/WINE PAGE
+- WINE INFO
+- FIND A GIFT
+- CONTACT US
+- SEARCH FUNCTION
+- LOGIN PAGE
+- SIGN UP PAGE
+- FORGOT YOUR PASSWORD
+- ACCOUNT PAGE
+- BASKET
+- CHECKOUT
+- ADMIN PAGE
+- INVENTORY PAGE
+- NEW WINE PAGE
+- EDIT WINE
 
 Tech Stack:
 - HTML/CSS/JS
@@ -116,6 +121,7 @@ CHECKOUT PAGE:
 - if a user is not logged in (checking out as a customer) then they are required to enter all of their details.
 - if the user is logged in then all thats required is their payment type (apple pay or credit/debit).
 - after successfully completing their purchase they are given a message box confirming their order.
+
 ADMIN PAGE:
 - if a user is logged in as an admin they can access this page.
 - they can filter through all the current users (admin, adminpending and customer).
