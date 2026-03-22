@@ -208,6 +208,10 @@
             box-sizing: border-box;
         }
 
+        .sidebar {
+        font-size: 14px;
+        }
+
     </style>
 </head>
 
