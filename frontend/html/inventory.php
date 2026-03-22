@@ -257,6 +257,15 @@
     box-sizing: border-box;
 }
 
+.darkmode .modal {
+    background: #2b2b2b;
+    color: #fff;
+}
+
+.darkmode .modal .close-btn {
+    color: #fff !important;
+}
+
 </style>
 
 </head>
