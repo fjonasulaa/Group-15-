@@ -176,21 +176,6 @@ if (isset($_GET['page'])) {
             if ($action === 'remove') {
                 $wineId = intval($_POST['wineId']);
 
-                
-                if ($action === 'remove' && !isset($_POST['confirm'])) {
-                    echo "
-                        <h3>Confirm deletion</h3>
-                        <p>Are you sure you want to delete wine ID: {$wineId}?</p>
-                        <form method='POST' action='redirect.php?page=inventory'>
-                            <input type='hidden' name='wineId' value='{$wineId}'>
-                            <input type='hidden' name='action' value='remove'>
-                            <input type='hidden' name='confirm' value='yes'>
-                            <button type='submit'>Yes, delete it</button>
-                        </form>
-                        <a href='inventory.php'>Cancel</a>
-                    ";
-                    exit;
-                }
                 if ($action === 'remove' && isset($_POST['confirm']) && $_POST['confirm'] === 'yes') {
                     //delete wine
                 $sql = "UPDATE wines SET active = FALSE WHERE wineId = ?;";
