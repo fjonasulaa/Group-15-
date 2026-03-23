@@ -16,15 +16,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $surname     = trim($_POST['surname']);
     $addressLine = trim($_POST['addressLine']);
     $postcode    = trim($_POST['postcode']);
+    $phoneNumber = trim($_POST['phoneNumber']);
     $email       = trim($_POST['email']);
     $dateOfBirth = trim($_POST['dateOfBirth']);
 
     $update = $conn->prepare("
         UPDATE customer
-        SET firstName = ?, surname = ?, addressLine = ?, postcode = ?, email = ?, dateOfBirth = ?
+        SET firstName = ?, surname = ?, addressLine = ?, postcode = ?, phoneNumber = ?, email = ?, dateOfBirth = ?
         WHERE customerID = ?
     ");
-    $update->bind_param("ssssssi", $firstName, $surname, $addressLine, $postcode, $email, $dateOfBirth, $cid);
+    $update->bind_param("sssssssi", $firstName, $surname, $addressLine, $postcode, $phoneNumber, $email, $dateOfBirth, $cid);
     $update->execute();
 
     header("Location: account.php?updated=1");
@@ -974,24 +975,30 @@ if ($result && $row = $result->fetch_assoc()) {
                         </div>
 
                         <div class="detail-box detail-box-wide">
+                            <span class="detail-label">Email</span>
+                            <span class="detail-value"><?= htmlspecialchars($user['email']); ?></span>
+                        </div>
+
+                        <div class="detail-box">
                             <span class="detail-label">Address</span>
-                            <span class="detail-value"><?= htmlspecialchars($user['addressLine']); ?></span>
+                            <span class="detail-value"><?= htmlspecialchars($user['addressLine'] ?? ''); ?></span>
                         </div>
 
                         <div class="detail-box">
                             <span class="detail-label">Postcode</span>
-                            <span class="detail-value"><?= htmlspecialchars($user['postcode']); ?></span>
+                            <span class="detail-value"><?= htmlspecialchars($user['postcode'] ?? ''); ?></span>
+                        </div>
+
+                        <div class="detail-box">
+                            <span class="detail-label">Phone Number</span>
+                            <span class="detail-value"><?= htmlspecialchars($user['phoneNumber'] ?? ''); ?></span>
                         </div>
 
                         <div class="detail-box">
                             <span class="detail-label">Date of Birth</span>
-                            <span class="detail-value"><?= htmlspecialchars($user['dateOfBirth']); ?></span>
+                            <span class="detail-value"><?= htmlspecialchars($user['dateOfBirth'] ?? ''); ?></span>
                         </div>
 
-                        <div class="detail-box detail-box-wide">
-                            <span class="detail-label">Email</span>
-                            <span class="detail-value"><?= htmlspecialchars($user['email']); ?></span>
-                        </div>
                     </div>
                 </div>
 
@@ -1133,6 +1140,10 @@ if ($result && $row = $result->fetch_assoc()) {
                 <input type="text" id="surname" name="surname"
                        value="<?= htmlspecialchars($user['surname']); ?>" required>
 
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email"
+                       value="<?= htmlspecialchars($user['email']); ?>" required>
+
                 <label for="addressLine">Address</label>
                 <input type="text" id="addressLine" name="addressLine"
                        value="<?= htmlspecialchars($user['addressLine']); ?>" required>
@@ -1141,14 +1152,14 @@ if ($result && $row = $result->fetch_assoc()) {
                 <input type="text" id="postcode" name="postcode"
                        value="<?= htmlspecialchars($user['postcode']); ?>" required>
 
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email"
-                       value="<?= htmlspecialchars($user['email']); ?>" required>
+                <label for="phoneNumber">Phone Number</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber"
+                       value="<?= htmlspecialchars($user['phoneNumber']); ?>" required>
 
                 <label for="dateOfBirth">Date of Birth</label>
                 <input type="date" id="dateOfBirth" name="dateOfBirth"
                        value="<?= htmlspecialchars($user['dateOfBirth']); ?>" required>
-
+            
                 <button type="submit">Save Changes</button>
             </form>
         </div>
