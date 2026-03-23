@@ -680,13 +680,21 @@ function updateBasketBadge(n) {
   });
 
   // icon buttons (account + basket)
+  // account page highlighted if user is on admin page too
   document.querySelectorAll('.wishlist-nav-button').forEach(function(btn) {
       var href = btn.getAttribute('onclick');
       if (!href) return;
       var match = href.match(/location\.href='([^']+)'/);
       if (!match) return;
       var btnPage = match[1].split('/').pop();
-      if (currentPage === btnPage) {
+
+      var isAccountBtn = btnPage === 'account.php' || btnPage === 'admin.php';
+      var isCurrentAccountPage = currentPage === 'account.php' || currentPage === 'admin.php';
+
+      var isBasketBtn = btnPage === 'basket.php';
+      var isCurrentBasketPage = currentPage === 'basket.php' || currentPage === 'checkout.php';
+
+      if ((isAccountBtn && isCurrentAccountPage) || (isBasketBtn && isCurrentBasketPage) || currentPage === btnPage) {
           btn.style.background = 'rgba(255,255,255,0.12)';
           btn.style.borderColor = 'rgba(255,255,255,0.18)';
       }
