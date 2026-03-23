@@ -610,7 +610,7 @@ body {
 <!-- Delete modal -->
 <div class="modal-backdrop" id="deleteWineModal">
     <div class="modal">
-        <button class="close-btn" onclick="closeDeleteModal()">&#times;</button>
+        <button class="close-btn" onclick="closeDeleteModal()">&times;</button>
         <h2>Delete Wine</h2>
         <p class="delete-warning">⚠ This action is permanent and cannot be undone.</p>
         <p style="text-align:center; margin-bottom:8px; font-size:14px;">
