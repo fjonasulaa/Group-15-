@@ -224,6 +224,23 @@
         font-size: 14px;
         }
 
+        .filterBtn {
+            background: #7b1e3a;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 2px solid #7b1e3a;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            line-height: 1;
+            height: 42px;
+        }
+
     </style>
 </head>
 
@@ -417,11 +434,6 @@
                 <!-- returns -->
                 <div class="tabcontent" id="returns" style="display:none;">
                     <h1 class="center-title">RETURN REQUESTS</h1>
-                    <form method="get" style="margin-bottom: 15px;">
-                        <label for="filterReturnUser">Filter by Customer ID:</label>
-                        <input type="number" name="filterReturnUser" id="filterReturnUser" value="<?= isset($_GET['filterReturnUser']) ? (int)$_GET['filterReturnUser'] : '' ?>">
-                        <button type="submit">Filter</button>
-                    </form>
                     <div class="transaction-table">
                         <div class="transaction-header">
                             <span>REFUND ID</span>
@@ -432,6 +444,12 @@
                             <span>ACTION</span>
                         </div>
 
+                        <?php
+                        $returns = array_filter($returns, function($r) use ($user) {
+                            return (int)$r['customerId'] === (int)$user['customerID'];
+                        });
+                        ?>
+
                         <?php if (count($returns) === 0): ?>
                             <div class="transaction-row">
                                 <span>—</span>
@@ -441,14 +459,7 @@
                                 <span>—</span>
                                 <span>—</span>
                             </div>
-                        <?php else: 
-                            if (isset($_GET['filterReturnUser']) && is_numeric($_GET['filterReturnUser'])) {
-                                $filterId = (int)$_GET['filterReturnUser'];
-                                $returns = array_filter($returns, function($r) use ($filterId) {
-                                return (int)$r['customerId'] === $filterId;
-                            });
-                        }?>
-                            
+                        <?php else: ?>
                             <?php foreach ($returns as $r): ?>
                                 <form method="post" class="transaction-row">
                                     <input type="hidden" name="refundId" value="<?= $r['refundId'] ?>">
